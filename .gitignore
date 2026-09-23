@@ -1,0 +1,138 @@
+# ==========================================
+# CodeIgniter Framework (admin & website)
+# ==========================================
+# Cache files (keep index.html and .gitkeep)
+**/application/cache/*
+!**/application/cache/index.html
+!**/application/cache/.gitkeep
+
+# Log files (keep index.html and .gitkeep)
+**/application/logs/*
+!**/application/logs/index.html
+!**/application/logs/.gitkeep
+
+# Ensure htaccess inside application directories is preserved
+!**/application/*/.htaccess
+
+# CodeIgniter user guide build artifacts
+**/user_guide_src/build/*
+**/user_guide_src/cilexer/build/*
+**/user_guide_src/cilexer/dist/*
+**/user_guide_src/cilexer/pycilexer.egg-info/*
+
+# CodeIgniter test mocks & outputs
+**/tests/mocks/database/ci_test.sqlite
+**/tests/tests/
+**/tests/results/
+
+# ==========================================
+# User Uploads / Media Assets
+# ==========================================
+**/uploads/*
+!**/uploads/index.html
+!**/uploads/.gitkeep
+**/user_uploads/*
+!**/user_uploads/index.html
+!**/user_uploads/.gitkeep
+
+# ==========================================
+# Dependencies
+# ==========================================
+# Composer
+/vendor/
+**/vendor/
+composer.phar
+composer.lock
+
+# Node / NPM (if front-end tooling is used)
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==========================================
+# Environment & Sensitive Config
+# ==========================================
+.env
+.env.*
+!.env.example
+*.local.php
+config.local.php
+database.local.php
+
+# ==========================================
+# Logs, Temp & Backup Files
+# ==========================================
+*.log
+error_log
+php_errors.log
+xdebug.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.phpunit.result.cache
+
+# Database backups & exports (uncomment if you want local dumps ignored)
+# *.sql
+*.sql.gz
+*.sqlite
+
+# ==========================================
+# IDE & Code Editor Files
+# ==========================================
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains / PhpStorm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# NetBeans
+nbproject/
+**/nbproject/
+
+# Eclipse
+.buildpath
+.project
+.settings/
+
+# ==========================================
+# Operating System Files
+# ==========================================
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+.directory
