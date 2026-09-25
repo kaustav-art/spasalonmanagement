@@ -206,8 +206,8 @@
                         <div class="col-6">
                             <label class="form-label small fw-bold">Template</label>
                             <select class="form-select" name="template">
-                                <option value="template1" selected>Template 1 (Glamr)</option>
-                                <option value="template2">Template 2 (Pureglow)</option>
+                                <option value="template1" selected>Template 1</option>
+                                <option value="template2">Template 2</option>
                             </select>
                         </div>
                         <div class="col-6">

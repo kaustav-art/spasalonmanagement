@@ -79,8 +79,8 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold">Active Public Website Template</label>
                         <select class="form-select" name="template">
-                            <option value="template1" <?= $active_template === 'template1' ? 'selected' : '' ?>>Template 1: Glamr (Luxury Salon &amp; Spa)</option>
-                            <option value="template2" <?= $active_template === 'template2' ? 'selected' : '' ?>>Template 2: Pureglow (Organic Holistic Spa)</option>
+                            <option value="template1" <?= $active_template === 'template1' ? 'selected' : '' ?>>Template 1 (Luxury Salon &amp; Spa)</option>
+                            <option value="template2" <?= $active_template === 'template2' ? 'selected' : '' ?>>Template 2 (Organic Holistic Spa)</option>
                         </select>
                     </div>
 

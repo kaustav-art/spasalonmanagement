@@ -93,7 +93,7 @@
                 </div>
                 <h4 class="fw-bold text-white mb-2"><?= htmlspecialchars($business_name) ?></h4>
                 <p class="text-light text-opacity-75 small mb-3">
-                    Active Template: <strong class="text-warning"><?= $active_template === 'template1' ? 'Template 1 (Glamr Salon)' : 'Template 2 (Pureglow Spa)' ?></strong> &bull; 
+                    Active Template: <strong class="text-warning"><?= $active_template === 'template1' ? 'Template 1' : 'Template 2' ?></strong> &bull; 
                     Active Layout: <strong class="text-warning">Layout <?= $active_layout ?></strong> &bull;
                     Database: <strong class="text-info">spasalon_db</strong>
                 </p>

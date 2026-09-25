@@ -31,7 +31,7 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
                         <span class="text-muted">Bundled Template Sets:</span>
-                        <span>Template 1 (Glamr) + Template 2 (Pureglow)</span>
+                        <span>Template 1 + Template 2</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
                         <span class="text-muted">Dynamic Injectors:</span>

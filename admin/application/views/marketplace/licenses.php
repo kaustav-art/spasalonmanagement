@@ -97,8 +97,8 @@
                         <div class="col-6">
                             <label class="form-label fw-semibold">Default Theme</label>
                             <select name="template" class="form-select">
-                                <option value="template1">Template 1 (Glamr)</option>
-                                <option value="template2">Template 2 (Pureglow)</option>
+                                <option value="template1">Template 1</option>
+                                <option value="template2">Template 2</option>
                             </select>
                         </div>
                         <div class="col-6">

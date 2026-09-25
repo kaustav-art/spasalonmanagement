@@ -110,7 +110,7 @@ $salon_features = isset($plans['SALON']) && $plans['SALON']->features ? json_dec
     'POS Checkout & 80mm Thermal Receipts',
     'Inventory & Consumables Tracking',
     'Customer CRM & VIP Loyalty Tiers',
-    'Template 1 (Glamr) & Template 2 (Pureglow) Included',
+    'Template 1 & Template 2 Included',
     '3 Homepage Layouts with Instant Switcher',
     'Full Source Code & No Monthly Fees'
 );
@@ -125,7 +125,7 @@ $spa_features = isset($plans['SPA']) && $plans['SPA']->features ? json_decode($p
     'Automated Double-Booking Conflict Prevention',
     'Multi-Session Treatment Packages & Passes',
     'POS Checkout & Detailed Customer Invoices',
-    'Template 1 (Glamr) & Template 2 (Pureglow) Included',
+    'Template 1 & Template 2 Included',
     '3 Homepage Layouts with Instant Switcher',
     'Full Source Code & Self-Hosted License'
 );
@@ -140,7 +140,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
     'Combo Packages (Hair + Facial + Massage)',
     'POS with Multi-Payment (Cash, Card, UPI, ACH)',
     'Financial P&L Statement & Expense Drawer',
-    'Template 1 (Glamr) + Template 2 (Pureglow) Included',
+    'Template 1 + Template 2 Included',
     'All 6 Homepage Variations & Live Customizer',
     'Lifetime Self-Hosted License & Unlimited Upgrades'
 );
@@ -245,74 +245,135 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         }
 
         /* Hero Section */
-        .hero-section {
-            background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
-            color: #ffffff;
-            padding: 6.5rem 0 5rem;
+        /* Hero Carousel Slider */
+        .hero-slider-section {
             position: relative;
+            background: #0f172a;
+            color: #ffffff;
             overflow: hidden;
         }
-        .hero-section::before {
-            content: '';
+        .hero-slide-item {
+            min-height: 580px;
+            height: 72vh;
+            max-height: 720px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .hero-slide-overlay {
             position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(194, 153, 88, 0.15) 0%, rgba(194, 153, 88, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.82) 48%, rgba(15, 23, 42, 0.52) 80%, rgba(15, 23, 42, 0.32) 100%);
+            z-index: 1;
+        }
+        .hero-slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 2.5rem 0;
         }
         .hero-badge {
-            background: rgba(194, 153, 88, 0.15);
-            border: 1px solid rgba(194, 153, 88, 0.35);
+            background: rgba(194, 153, 88, 0.2);
+            border: 1px solid rgba(194, 153, 88, 0.45);
             color: #f7d794;
-            padding: 0.4rem 1.1rem;
+            padding: 0.45rem 1.2rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.5px;
             display: inline-block;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
         .hero-title {
+            font-family: 'Playfair Display', serif;
             font-size: 3.5rem;
             font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
+            line-height: 1.18;
+            margin-bottom: 1.25rem;
+            color: #ffffff;
         }
         .hero-title span {
             color: var(--primary);
             font-style: italic;
         }
         .hero-lead {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            max-width: 650px;
-            line-height: 1.6;
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            max-width: 680px;
+            line-height: 1.65;
             margin-bottom: 2rem;
         }
-        .pill-feature {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #e2e8f0;
-            border-radius: 50px;
-            padding: 0.45rem 1rem;
-            font-size: 0.85rem;
-            font-weight: 500;
+        .hero-carousel-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #ffffff;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            margin: 0.3rem 0.2rem;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+        }
+        .hero-carousel-nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            transform: scale(1.08);
+        }
+        .carousel-control-prev, .carousel-control-next {
+            width: 65px;
+            opacity: 0.85;
+            z-index: 5;
+        }
+        .carousel-control-prev:hover, .carousel-control-next:hover {
+            opacity: 1;
+        }
+        .carousel-indicators [data-bs-target] {
+            width: 32px;
+            height: 5px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border: none;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .carousel-indicators .active {
+            width: 52px;
+            background-color: var(--primary);
+        }
+        @media (max-width: 991px) {
+            .hero-slide-item {
+                min-height: 520px;
+                height: auto;
+                padding: 4.5rem 0;
+            }
+            .hero-title {
+                font-size: 2.6rem;
+            }
+            .hero-lead {
+                font-size: 1.05rem;
+            }
+            .carousel-control-prev, .carousel-control-next {
+                display: none;
+            }
+        }
+        @media (max-width: 575px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-lead {
+                font-size: 0.95rem;
+            }
         }
 
-        /* Demo Quick Access Bar */
-        .demo-bar {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            padding: 1.25rem 0;
-        }
 
         /* Cards & Components */
         .card-custom {
@@ -437,36 +498,94 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             color: #ffffff !important;
         }
 
-        /* Template Showcase Card */
+        /* Template Showcase Card Styles */
         .template-card {
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             background: #ffffff;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
         .template-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-8px);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
+        }
+        .browser-mockup-bar {
+            background: #0f172a;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .browser-mockup-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .browser-mockup-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .browser-mockup-dot.dot-red { background: #ef4444; }
+        .browser-mockup-dot.dot-yellow { background: #f59e0b; }
+        .browser-mockup-dot.dot-green { background: #10b981; }
+        .browser-mockup-url {
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            font-family: monospace;
+            font-size: 0.72rem;
+            padding: 4px 14px;
+            border-radius: 50px;
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .template-preview-frame {
-            height: 240px;
+            height: 250px;
             background-size: cover;
-            background-position: top center;
+            background-position: center top;
             position: relative;
-            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .template-card:hover .template-preview-frame {
+            background-position: center center;
+        }
+        .template-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
         }
         .template-tag {
-            position: absolute;
-            top: 15px;
-            right: 15px;
             background: rgba(15, 23, 42, 0.85);
             color: #ffffff;
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 0.3rem 0.8rem;
+            padding: 0.35rem 0.85rem;
             border-radius: 50px;
             backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .layout-pill-btn {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        .layout-pill-btn:hover {
+            transform: translateY(-2px);
         }
 
         /* Super Admin Banner */
@@ -640,6 +759,231 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             color: #94a3b8;
             font-size: 0.85rem;
         }
+
+        /* Stats Ribbon */
+        .stats-ribbon {
+            background: #0f172a;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.2rem 0;
+            color: #ffffff;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem 1rem;
+        }
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+        .stat-label {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* Modern Feature Cards */
+        .feature-card-modern {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 2.25rem 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: relative;
+        }
+        .feature-card-modern:hover {
+            transform: translateY(-8px);
+            border-color: #cbd5e1;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.09);
+        }
+        .feature-icon-wrapper {
+            width: 58px;
+            height: 58px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(194, 153, 88, 0.12);
+            color: #b4853b;
+            border: 1px solid rgba(194, 153, 88, 0.25);
+            transition: all 0.3s ease;
+        }
+        .feature-card-modern:hover .feature-icon-wrapper {
+            background: #c29958;
+            color: #ffffff;
+            transform: scale(1.06);
+        }
+        .feature-checklist {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .feature-checklist li {
+            font-size: 0.86rem;
+            color: #475569;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .feature-checklist li:last-child {
+            margin-bottom: 0;
+        }
+        .feature-checklist i {
+            color: #10b981;
+            margin-right: 8px;
+            margin-top: 3px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        /* 4-Step Workflow */
+        .step-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 2rem;
+            height: 100%;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+        .step-card:hover {
+            transform: translateY(-6px);
+            border-color: #cbd5e1;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+        }
+        .step-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            font-family: 'Playfair Display', serif;
+            color: rgba(194, 153, 88, 0.3);
+            line-height: 1;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        .step-card:hover .step-number {
+            color: var(--primary);
+        }
+
+        /* Comparison Table / Box */
+        .compare-box {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+        }
+        .compare-table th {
+            background: #0f172a;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 1.25rem 1.5rem;
+            font-size: 0.95rem;
+        }
+        .compare-table td {
+            padding: 1.15rem 1.5rem;
+            vertical-align: middle;
+            font-size: 0.92rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 2.25rem 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+            border-color: #cbd5e1;
+        }
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .testimonial-quote {
+            font-style: italic;
+            color: #334155;
+            font-size: 0.96rem;
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .testimonial-author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0f172a;
+            color: #fbbf24;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        /* FAQ Accordion */
+        .faq-accordion .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 14px !important;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: all 0.25s ease;
+        }
+        .faq-accordion .accordion-item:hover {
+            border-color: #cbd5e1;
+        }
+        .faq-accordion .accordion-button {
+            font-weight: 700;
+            color: #0f172a;
+            padding: 1.25rem 1.5rem;
+            background: #ffffff;
+            font-size: 1.02rem;
+            box-shadow: none;
+        }
+        .faq-accordion .accordion-button:not(.collapsed) {
+            color: #b4853b;
+            background: #fdfaf4;
+        }
+        .faq-accordion .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(194, 153, 88, 0.25);
+        }
+        .faq-accordion .accordion-body {
+            padding: 1rem 1.5rem 1.5rem;
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            background: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -661,15 +1005,16 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#editions">Editions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#templates">Multi-Templates</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#demos">Live Demos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pricing">Purchase Script</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#templates">Templates</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#workflow">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="superadmin/" target="_blank"><i class="fa fa-shield-alt text-warning me-1"></i>Super Admin</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-2">
-                    <a href="admin/auth/login" target="_blank" class="btn btn-outline-light btn-sm px-3 rounded-pill">
-                        <i class="fa fa-lock me-1"></i> Salon Admin
+                    <a href="admin/dashboard" target="_blank" class="btn btn-gold btn-sm px-3 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
+                        <i class="fa-solid fa-gauge-high me-1"></i> Admin Panel
                     </a>
                     <a href="<?= htmlspecialchars(site_setting('landing_header_cta_link', '#pricing')) ?>" class="btn btn-gold btn-sm px-4 rounded-pill">
                         <?= htmlspecialchars(site_setting('landing_header_cta_text', 'Buy Script Now')) ?>
@@ -679,227 +1024,273 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section" <?php if (!empty($hero_bg_url)): ?>style="background-image: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.94)), url('<?= htmlspecialchars($hero_bg_url) ?>'); background-size: cover; background-position: center;"<?php endif; ?>>
-        <div class="container position-relative">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <div class="hero-badge">
-                        <i class="fa fa-award me-1"></i> <?= htmlspecialchars(site_setting('landing_hero_badge', 'SELF-HOSTED COMMERCIAL PHP SCRIPT • MULTI-TEMPLATE')) ?>
-                    </div>
-                    <?php
-                        $hero_title = site_setting('landing_hero_title', 'The Complete Salon & Spa Management Script');
-                        $hero_hl = site_setting('landing_hero_title_highlight', 'Salon & Spa');
-                        if (!empty($hero_hl) && stripos($hero_title, $hero_hl) !== false) {
-                            $escaped_title = htmlspecialchars($hero_title);
-                            $escaped_hl = htmlspecialchars($hero_hl);
-                            $rendered_title = preg_replace('/' . preg_quote($escaped_hl, '/') . '/i', '<span>$0</span>', $escaped_title, 1);
-                        } else {
-                            $rendered_title = htmlspecialchars($hero_title);
-                        }
-                    ?>
-                    <h1 class="hero-title">
-                        <?= $rendered_title ?>
-                    </h1>
-                    <p class="hero-lead">
-                        <?= htmlspecialchars(site_setting('landing_hero_lead', 'An all-in-one software package tailored for modern hair salons, beauty parlors, nail bars, luxury spas, and wellness clinics. Choose from 3 scalable editions, toggle between 2 world-class website themes with 6 homepage layouts, and manage everything effortlessly.')) ?>
-                    </p>
-                    
-                    <div class="mb-4">
-                        <?php
-                        $hero_pills = site_lines('landing_hero_pills', array(
-                            'One-Time Payment • No Subscriptions',
-                            'Template 1 (Glamr) & Template 2 (Pureglow)',
-                            'Double-Booking Conflict Prevention',
-                            'POS & 80mm Thermal Receipt Generator',
-                            'Stylist / Therapist Commission Engine',
-                            'Dedicated Super Admin Portal'
-                        ));
-                        foreach ($hero_pills as $hp): ?>
-                            <span class="pill-feature"><i class="fa fa-check text-warning"></i> <?= htmlspecialchars($hp) ?></span>
-                        <?php endforeach; ?>
-                    </div>
+    <!-- Hero Slider Section -->
+    <section id="home" class="hero-slider-section">
+        <div id="heroBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators mb-4">
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
 
-                    <div class="d-flex flex-wrap gap-3 pt-2">
-                        <a href="#pricing" class="btn btn-gold btn-lg px-4">
-                            <i class="fa fa-shopping-cart me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_primary', 'View Purchase Cards')) ?>
-                        </a>
-                        <a href="#demos" class="btn btn-outline-light btn-lg px-4">
-                            <i class="fa fa-desktop me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_secondary', 'Explore Live Demos')) ?>
-                        </a>
-                        <a href="superadmin/" target="_blank" class="btn btn-outline-warning btn-lg px-4">
-                            <i class="fa fa-crown me-2"></i> Super Admin Portal
-                        </a>
+            <!-- Carousel Slides -->
+            <div class="carousel-inner">
+                <!-- Slide 1: Unified Salon & Spa Platform -->
+                <?php
+                    $slide1_bg = !empty($hero_bg_url) ? $hero_bg_url : 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg';
+                    $hero_title = site_setting('landing_hero_title', 'The Complete Salon & Spa Management Script');
+                    $hero_hl = site_setting('landing_hero_title_highlight', 'Salon & Spa');
+                    if (!empty($hero_hl) && stripos($hero_title, $hero_hl) !== false) {
+                        $escaped_title = htmlspecialchars($hero_title);
+                        $escaped_hl = htmlspecialchars($hero_hl);
+                        $rendered_title = preg_replace('/' . preg_quote($escaped_hl, '/') . '/i', '<span>$0</span>', $escaped_title, 1);
+                    } else {
+                        $rendered_title = htmlspecialchars($hero_title);
+                    }
+                ?>
+                <div class="carousel-item active">
+                    <div class="hero-slide-item" style="background-image: url('<?= htmlspecialchars($slide1_bg) ?>');">
+                        <div class="hero-slide-overlay"></div>
+                        <div class="container position-relative">
+                            <div class="hero-slide-content">
+                                <span class="hero-badge">
+                                    <i class="fa fa-award me-1"></i> <?= htmlspecialchars(site_setting('landing_hero_badge', 'SELF-HOSTED COMMERCIAL PHP SCRIPT • MULTI-TEMPLATE')) ?>
+                                </span>
+                                <h1 class="hero-title">
+                                    <?= $rendered_title ?>
+                                </h1>
+                                <p class="hero-lead">
+                                    <?= htmlspecialchars(site_setting('landing_hero_lead', 'An all-in-one software package tailored for modern hair salons, beauty parlors, nail bars, luxury spas, and wellness clinics. Choose from 3 scalable editions, toggle between world-class website themes, and manage everything effortlessly.')) ?>
+                                </p>
+                                <div class="d-flex flex-wrap align-items-center gap-3">
+                                    <a href="#pricing" class="btn btn-gold btn-lg px-4 rounded-pill">
+                                        <i class="fa fa-shopping-cart me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_primary', 'View Purchase Cards')) ?>
+                                    </a>
+                                    <a href="#demos" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                                        <i class="fa fa-desktop me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_secondary', 'Explore Live Demos')) ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 text-center mt-5 mt-lg-0">
-                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(10px);">
-                        <div class="d-inline-flex p-3 rounded-circle mb-3" style="background: rgba(194, 153, 88, 0.2);">
-                            <i class="fa fa-gem fa-2x text-warning"></i>
+                <!-- Slide 2: Salon Edition & POS Checkout -->
+                <div class="carousel-item">
+                    <div class="hero-slide-item" style="background-image: url('website/assets/template1/images/banner-slider-img/demo1-slide-2.jpg');">
+                        <div class="hero-slide-overlay"></div>
+                        <div class="container position-relative">
+                            <div class="hero-slide-content">
+                                <span class="hero-badge">
+                                    <i class="fa-solid fa-scissors me-1 text-warning"></i> SALON & BEAUTY PARLOR EDITION
+                                </span>
+                                <h1 class="hero-title">
+                                    Stylist Rosters, Chair Bookings & <span>Express POS Checkout</span>
+                                </h1>
+                                <p class="hero-lead">
+                                    Fast walk-in queues, stylist workstation allocations, service bundles, and 80mm thermal receipt printing with automated commission calculations.
+                                </p>
+                                <div class="d-flex flex-wrap align-items-center gap-3">
+                                    <a href="admin/dashboard" target="_blank" class="btn btn-gold btn-lg px-4 rounded-pill">
+                                        <i class="fa-solid fa-gauge-high me-2"></i> Open Admin Portal
+                                    </a>
+                                    <a href="#editions" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                                        <i class="fa-solid fa-layer-group me-2"></i> Compare Editions
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="text-white mb-2 font-serif"><?= htmlspecialchars(site_setting('landing_hero_card_title', 'Ready to Deploy')) ?></h4>
-                        <p class="text-light small mb-4"><?= htmlspecialchars(site_setting('landing_hero_card_desc', 'Select your edition, customize your initial template & layout, download the clean .ZIP package, or launch your live instance instantly.')) ?></p>
-                        
-                        <div class="text-start bg-dark p-3 rounded-3 mb-3 border border-secondary">
-                            <div class="small text-muted mb-1"><i class="fa fa-server me-1"></i> System Architecture</div>
-                            <?php
-                            $hero_specs = site_lines('landing_hero_specs', array(
-                                'PHP 7.4 - 8.2+ (CodeIgniter 3.1.13)',
-                                'MariaDB / MySQL 5.7+ Database',
-                                'Bootstrap 5 & jQuery 3.6 Frontend',
-                                '100% Open & Unencrypted Source Code'
-                            ));
-                            foreach ($hero_specs as $hs): ?>
-                                <div class="fw-bold text-light small">• <?= htmlspecialchars($hs) ?></div>
-                            <?php endforeach; ?>
-                        </div>
+                    </div>
+                </div>
 
-                        <a href="#pricing" class="btn btn-warning w-100 fw-bold">Select Edition & Buy</a>
+                <!-- Slide 3: Spa Modules & Conflict-Free Calendar -->
+                <div class="carousel-item">
+                    <div class="hero-slide-item" style="background-image: url('website/assets/template1/images/banner-slider-img/demo1-slide-3.jpg');">
+                        <div class="hero-slide-overlay"></div>
+                        <div class="container position-relative">
+                            <div class="hero-slide-content">
+                                <span class="hero-badge">
+                                    <i class="fa-solid fa-spa me-1 text-warning"></i> LUXURY SPA & WELLNESS RETREAT
+                                </span>
+                                <h1 class="hero-title">
+                                    Treatment Rooms & <span>Conflict-Free Booking Engine</span>
+                                </h1>
+                                <p class="hero-lead">
+                                    Dedicated room conflict detection prevents overlapping appointments for massage therapy, sauna, hydrotherapy suites, and specialist staff schedules.
+                                </p>
+                                <div class="d-flex flex-wrap align-items-center gap-3">
+                                    <a href="#pricing" class="btn btn-gold btn-lg px-4 rounded-pill">
+                                        <i class="fa-solid fa-gem me-2"></i> Get Started Today
+                                    </a>
+                                    <a href="#demos" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                                        <i class="fa-solid fa-play me-2"></i> Try Live Demos
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="prev">
+                <span class="hero-carousel-nav-btn" aria-hidden="true">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="next">
+                <span class="hero-carousel-nav-btn" aria-hidden="true">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Quick Stats Ribbon -->
+    <section class="stats-ribbon">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">6 Layouts</div>
+                        <div class="stat-label">2 Luxury Templates Included</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Unencrypted Clean PHP Code</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">$0/mo</div>
+                        <div class="stat-label">Zero Monthly Subscriptions</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">80mm</div>
+                        <div class="stat-label">Thermal POS Receipt Ready</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Quick Demo Bar -->
-    <div id="demos" class="demo-bar">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-3 text-center text-md-start mb-2 mb-md-0">
-                    <span class="badge bg-dark text-warning px-3 py-2 text-uppercase fw-bold">
-                        <i class="fa fa-play-circle me-1"></i> Live Demos
-                    </span>
-                    <span class="ms-2 small text-muted fw-semibold">Try before you buy:</span>
-                </div>
-                <div class="col-md-9 text-center text-md-end">
-                    <div class="btn-group me-2 mb-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle fw-semibold" data-bs-toggle="dropdown">
-                            <i class="fa fa-cut me-1 text-warning"></i> Template 1 (Glamr)
-                        </button>
-                        <ul class="dropdown-menu shadow">
-                            <li><h6 class="dropdown-header text-uppercase small">Homepage Variations</h6></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template1&preview_layout=1" target="_blank"><i class="fa fa-home me-2"></i> Layout 1: Luxury Salon</a></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template1&preview_layout=2" target="_blank"><i class="fa fa-spa me-2"></i> Layout 2: Modern Hair Studio</a></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template1&preview_layout=3" target="_blank"><i class="fa fa-gem me-2"></i> Layout 3: Chic Boutique</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="btn-group me-2 mb-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle fw-semibold" data-bs-toggle="dropdown">
-                            <i class="fa fa-leaf me-1 text-success"></i> Template 2 (Pureglow)
-                        </button>
-                        <ul class="dropdown-menu shadow">
-                            <li><h6 class="dropdown-header text-uppercase small">Homepage Variations</h6></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template2&preview_layout=1" target="_blank"><i class="fa fa-feather me-2 text-success"></i> Layout 1: Sanctuary Day Spa</a></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template2&preview_layout=2" target="_blank"><i class="fa fa-heart me-2 text-success"></i> Layout 2: Holistic Wellness</a></li>
-                            <li><a class="dropdown-item" href="website/?preview_tpl=template2&preview_layout=3" target="_blank"><i class="fa fa-water me-2 text-success"></i> Layout 3: Massage Clinic</a></li>
-                        </ul>
-                    </div>
-
-                    <a href="admin/dashboard" target="_blank" class="btn btn-primary btn-sm fw-semibold mb-2 me-2" title="Demo Login: admin@spasalon.com / admin123">
-                        <i class="fa fa-tachometer-alt me-1"></i> Admin Portal Demo
-                    </a>
-
-                    <a href="superadmin/" target="_blank" class="btn btn-dark btn-sm fw-semibold mb-2">
-                        <i class="fa-solid fa-shield-halved me-1 text-warning"></i> Super Admin Portal
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Editions Overview -->
-    <section id="editions" class="py-5 bg-light">
+    <!-- Core Operational Modules & Features -->
+    <div id="overview"></div>
+    <section id="features" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center max-w-700 mx-auto mb-5">
-                <span class="text-warning fw-bold text-uppercase small tracking-wide"><?php echo htmlspecialchars(site_setting('landing_editions_badge', 'Designed For Every Business Size')); ?></span>
-                <h2 class="display-6 fw-bold mt-2"><?php echo htmlspecialchars(site_setting('landing_editions_title', 'Tailored Modules for Salon, Spa, or Both')); ?></h2>
-                <p class="text-muted"><?php echo htmlspecialchars(site_setting('landing_editions_subtitle', 'Whether you run a fast-paced walk-in hair salon, an exclusive appointment-only day spa, or a massive unified wellness resort, our script is pre-built to fit your exact workflow.')); ?></p>
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">ENTERPRISE SALON &amp; SPA CAPABILITIES</span>
+                <h2 class="display-6 fw-bold mt-2">Everything You Need to Run &amp; Scale Your Business</h2>
+                <p class="text-muted">A comprehensive, battle-tested system engineered for daily front-desk speed, staff commission automation, and client delight.</p>
             </div>
 
             <div class="row g-4">
-                <!-- Salon Edition Card -->
-                <div class="col-lg-4">
-                    <div class="card-custom p-4 h-100">
-                        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background: #fef3c7;">
-                            <i class="fa fa-cut fa-2x text-warning"></i>
+                <!-- Module 1: Appointment & Booking Engine -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-calendar-check"></i>
                         </div>
-                        <span class="badge badge-salon mb-2">SALON EDITION</span>
-                        <h4 class="fw-bold mb-3 font-serif"><?php echo htmlspecialchars(site_setting('landing_salon_title', 'Salon Management')); ?></h4>
-                        <p class="text-muted small mb-4"><?php echo htmlspecialchars(site_setting('landing_salon_desc', 'Streamlined for hair studios, nail salons, beauty bars, and barbershops needing chair turnover and stylist commission tracking.')); ?></p>
-                        <ul class="list-unstyled small mb-4">
-                            <?php foreach (site_lines('landing_salon_bullets', [
-                                'Stylist & Barber Roster with Skill Tags',
-                                'Walk-in Queue Manager & Waiting Chairs',
-                                'Automated Stylist Commission Ledger',
-                                'POS Register with 80mm Thermal Receipts',
-                                'Shampoo, Hair Color & Consumables Stock'
-                            ]) as $bullet): ?>
-                                <li class="mb-2"><i class="fa fa-check text-warning me-2"></i> <?php echo htmlspecialchars($bullet); ?></li>
-                            <?php endforeach; ?>
+                        <h4 class="fw-bold mb-2 font-serif">Smart Booking Engine</h4>
+                        <p class="text-muted small mb-3">Eliminate missed calls and double-bookings with 24/7 client online scheduling and real-time calendar synchronization.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>Automated room &amp; stylist conflict detection</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Buffer times between chemical treatments &amp; massages</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Automated SMS &amp; Email confirmations</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Multi-service selection in single booking flow</span></li>
                         </ul>
-                        <div class="mt-auto">
-                            <button type="button" class="btn btn-outline-dark w-100 fw-bold buy-now-btn" data-plan="SALON" data-name="Salon Management Script" data-price="<?php echo number_format($salon_price, 2); ?>" data-price-display="<?php echo htmlspecialchars(format_site_price($salon_price)); ?>">
-                                Purchase Salon Script (<?php echo htmlspecialchars(format_site_price($salon_price)); ?>)
-                            </button>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Spa Edition Card -->
-                <div class="col-lg-4">
-                    <div class="card-custom p-4 h-100">
-                        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background: #d1fae5;">
-                            <i class="fa fa-spa fa-2x text-success"></i>
+                <!-- Module 2: High-Speed POS Register -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-cash-register"></i>
                         </div>
-                        <span class="badge badge-spa mb-2">SPA WELLNESS EDITION</span>
-                        <h4 class="fw-bold mb-3 font-serif"><?php echo htmlspecialchars(site_setting('landing_spa_title', 'Spa Wellness Script')); ?></h4>
-                        <p class="text-muted small mb-4"><?php echo htmlspecialchars(site_setting('landing_spa_desc', 'Engineered for day spas, wellness resorts, massage centers, and skin clinics managing private suites and certified therapists.')); ?></p>
-                        <ul class="list-unstyled small mb-4">
-                            <?php foreach (site_lines('landing_spa_bullets', [
-                                'Private Treatment Suites & Room Scheduling',
-                                'Automated Double-Booking Conflict Engine',
-                                'Licensed Therapist & Masseur Roster',
-                                'Multi-Session Wellness Packages & Passes',
-                                'Essential Oils & Organic Product Inventory'
-                            ]) as $bullet): ?>
-                                <li class="mb-2"><i class="fa fa-check text-success me-2"></i> <?php echo htmlspecialchars($bullet); ?></li>
-                            <?php endforeach; ?>
+                        <h4 class="fw-bold mb-2 font-serif">High-Speed POS Register</h4>
+                        <p class="text-muted small mb-3">Designed for lightning-fast walk-in checkouts, split tenders, and instant thermal receipt printing at your reception desk.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>Standard 80mm &amp; 58mm thermal receipt printing</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Split payments: Cash, Card, Wallets &amp; Tips</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Walk-in queue manager &amp; waiting chair tracking</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Promotional coupon codes &amp; custom tax rates</span></li>
                         </ul>
-                        <div class="mt-auto">
-                            <button type="button" class="btn btn-outline-dark w-100 fw-bold buy-now-btn" data-plan="SPA" data-name="Spa Wellness Script" data-price="<?php echo number_format($spa_price, 2); ?>" data-price-display="<?php echo htmlspecialchars(format_site_price($spa_price)); ?>">
-                                Purchase Spa Script (<?php echo htmlspecialchars(format_site_price($spa_price)); ?>)
-                            </button>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Unified Edition Card -->
-                <div class="col-lg-4">
-                    <div class="card-custom p-4 h-100" style="border: 2px solid var(--primary); background: #fffdfa;">
-                        <div class="d-inline-flex p-3 rounded-3 mb-3" style="background: rgba(194,153,88,0.15);">
-                            <i class="fa fa-gem fa-2x text-warning"></i>
+                <!-- Module 3: Stylists, Therapists & Commission -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-user-tie"></i>
                         </div>
-                        <span class="badge badge-unified mb-2">UNIFIED ENTERPRISE</span>
-                        <h4 class="fw-bold mb-3 font-serif"><?php echo htmlspecialchars(site_setting('landing_unified_title', 'Salon & Spa Unified')); ?></h4>
-                        <p class="text-muted small mb-4"><?php echo htmlspecialchars(site_setting('landing_unified_desc', 'The ultimate flagship edition combining all salon and spa modules into a single synchronized operational platform.')); ?></p>
-                        <ul class="list-unstyled small mb-4">
-                            <?php foreach (site_lines('landing_unified_bullets', [
-                                '100% of Salon + 100% of Spa Features',
-                                'Combined Stylist & Therapist Unified Roster',
-                                'Cross-Service Combo Packages (Hair + Massage)',
-                                'Private Suite + Hair Styling Station Sync',
-                                'Comprehensive Financial P&L Ledger'
-                            ]) as $bullet): ?>
-                                <li class="mb-2"><i class="fa fa-check text-warning me-2"></i> <?php echo htmlspecialchars($bullet); ?></li>
-                            <?php endforeach; ?>
+                        <h4 class="fw-bold mb-2 font-serif">Staff &amp; Commission Ledger</h4>
+                        <p class="text-muted small mb-3">Empower stylists and therapists with transparent shift rosters, chairs, treatment suites, and automatic commission payouts.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>Automated tier-based commission calculations</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Stylist chair &amp; private spa suite allocations</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Staff shift rosters, working hours &amp; days off</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Individual staff performance scorecards</span></li>
                         </ul>
-                        <div class="mt-auto">
-                            <button type="button" class="btn btn-gold w-100 fw-bold buy-now-btn" data-plan="SALON_SPA" data-name="Salon & Spa Complete Edition" data-price="<?php echo number_format($unified_price, 2); ?>" data-price-display="<?php echo htmlspecialchars(format_site_price($unified_price)); ?>">
-                                Purchase Complete (<?php echo htmlspecialchars(format_site_price($unified_price)); ?>)
-                            </button>
+                    </div>
+                </div>
+
+                <!-- Module 4: Consumables & Retail Inventory -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-boxes-stacked"></i>
                         </div>
+                        <h4 class="fw-bold mb-2 font-serif">Dual-Track Inventory</h4>
+                        <p class="text-muted small mb-3">Keep total control over backbar professional supplies (hair dye, oils, shampoos) and front-desk retail products.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>Separate tracking: Backbar usage vs Retail sale</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Automatic low-stock alerts &amp; re-order warnings</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Vendor purchase orders &amp; supplier directory</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Barcode scanner compatible SKU search</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 5: Memberships, Packages & Loyalty -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-gem"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2 font-serif">Memberships &amp; Loyalty</h4>
+                        <p class="text-muted small mb-3">Boost recurring revenue with prepaid multi-session treatment passes, client loyalty rewards, and digital gift cards.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>Multi-session spa packages (e.g. 5x Massage Pass)</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Loyalty points earned on every dollar spent</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Gift card balance tracking &amp; redemption</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Client past treatment notes &amp; allergy records</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 6: Executive Financial Ledgers -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card-modern">
+                        <div class="feature-icon-wrapper">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2 font-serif">Executive Financial Ledgers</h4>
+                        <p class="text-muted small mb-3">Actionable visual dashboards and exportable financial reports giving you clarity on profit margins, staff, and services.</p>
+                        <ul class="feature-checklist">
+                            <li><i class="fa-solid fa-check"></i> <span>End-of-day register drawer reconciliation (Z-Report)</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Revenue breakdown by Hair, Spa, Nails &amp; Retail</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Top-grossing services &amp; client retention metrics</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>1-Click export to CSV, Microsoft Excel, and PDF</span></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -907,86 +1298,84 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
     </section>
 
     <!-- Multi-Template Showcase -->
+    <div id="demos"></div>
     <section id="templates" class="py-5">
         <div class="container py-4">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="text-warning fw-bold text-uppercase small tracking-wide"><?php echo htmlspecialchars(site_setting('landing_templates_badge', 'Multi-Theme Architecture')); ?></span>
                 <h2 class="display-6 fw-bold mt-2"><?php echo htmlspecialchars(site_setting('landing_templates_title', 'Two World-Class Templates Included')); ?></h2>
                 <p class="text-muted"><?php echo htmlspecialchars(site_setting('landing_templates_subtitle', 'No need to purchase extra themes. Both premium templates with 6 total homepage layouts are bundled directly into the script package!')); ?></p>
+
             </div>
 
             <div class="row g-4">
-                <!-- Template 1: Glamr -->
+                <!-- Template 1 Interactive Card -->
                 <div class="col-lg-6">
                     <div class="template-card">
-                        <div class="template-preview-frame" style="background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; color: white;">
-                            <div class="text-center p-4">
-                                <i class="fa fa-crown fa-3x text-warning mb-2"></i>
-                                <h3 class="font-serif">TEMPLATE 1: <?php echo htmlspecialchars(strtoupper(site_setting('landing_tpl1_title', 'Glamr'))); ?></h3>
-                                <p class="text-warning small mb-0 font-monospace"><?php echo htmlspecialchars(site_setting('landing_tpl1_subtitle', 'Luxury Chic • Rose Gold & Champagne Aesthetic')); ?></p>
+                        <div class="bg-dark p-3 border-bottom d-flex align-items-center justify-content-between">
+                            <span class="text-white fw-bold"><i class="fa-solid fa-crown text-warning me-1"></i> Template 1</span>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-dark text-white tpl1-tab-btn px-2 active border-secondary" id="tpl1_tab_1" onclick="switchCardLayout('tpl1', 1, 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg', 'Layout 1: Luxury Salon', 'website/?preview_tpl=template1&preview_layout=1')">Layout 1</button>
+                                <button type="button" class="btn btn-outline-secondary text-light tpl1-tab-btn px-2" id="tpl1_tab_2" onclick="switchCardLayout('tpl1', 2, 'website/assets/template1/images/banner-slider-img/demo2-slide-1.jpg', 'Layout 2: Modern Studio', 'website/?preview_tpl=template1&preview_layout=2')">Layout 2</button>
+                                <button type="button" class="btn btn-outline-secondary text-light tpl1-tab-btn px-2" id="tpl1_tab_3" onclick="switchCardLayout('tpl1', 3, 'website/assets/template1/images/banner-slider-img/demo3-slide-1.jpg', 'Layout 3: Chic Boutique', 'website/?preview_tpl=template1&preview_layout=3')">Layout 3</button>
                             </div>
-                            <span class="template-tag"><?php echo htmlspecialchars(site_setting('landing_tpl1_tag', '3 Layouts Built-In')); ?></span>
                         </div>
-                        <div class="p-4">
-                            <h4 class="fw-bold mb-2 font-serif"><?php echo htmlspecialchars(site_setting('landing_tpl1_title', 'Glamr Luxury Salon & Spa Theme')); ?></h4>
-                            <p class="text-muted small mb-3"><?php echo htmlspecialchars(site_setting('landing_tpl1_desc', 'Tailored for high-end fashion salons, celebrity stylists, and trendy urban day spas. Features bold editorial typography, elegant service pricing tables, and stylish team galleries.')); ?></p>
-                            
-                            <div class="bg-light p-3 rounded-3 mb-4">
-                                <div class="small fw-bold text-dark mb-2">Preview Homepage Layouts:</div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <a href="website/?preview_tpl=template1&preview_layout=1" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1"></i> Layout 1: Luxury Salon
-                                    </a>
-                                    <a href="website/?preview_tpl=template1&preview_layout=2" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1"></i> Layout 2: Modern Studio
-                                    </a>
-                                    <a href="website/?preview_tpl=template1&preview_layout=3" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1"></i> Layout 3: Chic Boutique
-                                    </a>
+                        <div id="tpl1_preview_img" class="template-preview-frame" style="background-image: url('website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg');">
+                            <div class="template-preview-overlay justify-content-end">
+                                <div class="text-white">
+                                    <h5 class="mb-0 fw-bold" id="tpl1_preview_title">Layout 1: Luxury Salon</h5>
+                                    <small class="text-white-50">Click tabs above to switch layout thumbnail</small>
                                 </div>
                             </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="fw-bold mb-2 font-serif">Template 1</h4>
+                            <p class="text-muted small mb-3">Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts.</p>
 
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span class="badge bg-dark text-light"><i class="fa fa-mobile-alt me-1"></i> 100% Responsive</span>
-                                <span class="badge bg-success-subtle text-success fw-bold"><i class="fa fa-check me-1"></i> Included in All Editions</span>
+                            <a id="tpl1_demo_btn" href="website/?preview_tpl=template1&preview_layout=1" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
+                            </a>
+
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Stylist Portfolios</span>
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Salon Pricing Menus</span>
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Booking Wizard</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Template 2: Pureglow -->
+                <!-- Template 2 Interactive Card -->
                 <div class="col-lg-6">
                     <div class="template-card">
-                        <div class="template-preview-frame" style="background: linear-gradient(135deg, #064e3b, #047857); display: flex; align-items: center; justify-content: center; color: white;">
-                            <div class="text-center p-4">
-                                <i class="fa fa-leaf fa-3x text-light mb-2"></i>
-                                <h3 class="font-serif">TEMPLATE 2: <?php echo htmlspecialchars(strtoupper(site_setting('landing_tpl2_title', 'Pureglow'))); ?></h3>
-                                <p class="text-light small mb-0 font-monospace"><?php echo htmlspecialchars(site_setting('landing_tpl2_subtitle', 'Organic Botanical • Zen & Holistic Aesthetic')); ?></p>
+                        <div class="bg-dark p-3 border-bottom d-flex align-items-center justify-content-between">
+                            <span class="text-white fw-bold"><i class="fa-solid fa-leaf text-success me-1"></i> Template 2</span>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-dark text-white tpl2-tab-btn px-2 active border-secondary" id="tpl2_tab_1" onclick="switchCardLayout('tpl2', 1, 'website/assets/template2/images/backgrounds/banner-v2-bg.jpg', 'Layout 1: Sanctuary Day Spa', 'website/?preview_tpl=template2&preview_layout=1')">Layout 1</button>
+                                <button type="button" class="btn btn-outline-secondary text-light tpl2-tab-btn px-2" id="tpl2_tab_2" onclick="switchCardLayout('tpl2', 2, 'website/assets/template2/images/backgrounds/appointment-v2-bg.jpg', 'Layout 2: Holistic Wellness', 'website/?preview_tpl=template2&preview_layout=2')">Layout 2</button>
+                                <button type="button" class="btn btn-outline-secondary text-light tpl2-tab-btn px-2" id="tpl2_tab_3" onclick="switchCardLayout('tpl2', 3, 'website/assets/template2/images/backgrounds/discount-v1-bg.jpg', 'Layout 3: Massage Clinic', 'website/?preview_tpl=template2&preview_layout=3')">Layout 3</button>
                             </div>
-                            <span class="template-tag"><?php echo htmlspecialchars(site_setting('landing_tpl2_tag', '3 Layouts Built-In')); ?></span>
                         </div>
-                        <div class="p-4">
-                            <h4 class="fw-bold mb-2 font-serif"><?php echo htmlspecialchars(site_setting('landing_tpl2_title', 'Pureglow Wellness & Day Spa Theme')); ?></h4>
-                            <p class="text-muted small mb-3"><?php echo htmlspecialchars(site_setting('landing_tpl2_desc', 'Crafted for tranquil wellness retreats, holistic massage therapies, and ayurvedic day spas. Features botanical color schemes, double-booking protected booking wizard, and therapist profiles.')); ?></p>
-                            
-                            <div class="bg-light p-3 rounded-3 mb-4">
-                                <div class="small fw-bold text-dark mb-2">Preview Homepage Layouts:</div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <a href="website/?preview_tpl=template2&preview_layout=1" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1 text-success"></i> Layout 1: Sanctuary Spa
-                                    </a>
-                                    <a href="website/?preview_tpl=template2&preview_layout=2" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1 text-success"></i> Layout 2: Holistic Wellness
-                                    </a>
-                                    <a href="website/?preview_tpl=template2&preview_layout=3" target="_blank" class="btn btn-sm btn-outline-dark">
-                                        <i class="fa fa-external-link-alt me-1 text-success"></i> Layout 3: Massage Clinic
-                                    </a>
+                        <div id="tpl2_preview_img" class="template-preview-frame" style="background-image: url('website/assets/template2/images/backgrounds/banner-v2-bg.jpg');">
+                            <div class="template-preview-overlay justify-content-end">
+                                <div class="text-white">
+                                    <h5 class="mb-0 fw-bold" id="tpl2_preview_title">Layout 1: Sanctuary Day Spa</h5>
+                                    <small class="text-white-50">Click tabs above to switch layout thumbnail</small>
                                 </div>
                             </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="fw-bold mb-2 font-serif">Template 2</h4>
+                            <p class="text-muted small mb-3">Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.</p>
 
-                            <div class="d-flex align-items-center justify-content-between">
-                                <span class="badge bg-dark text-light"><i class="fa fa-mobile-alt me-1"></i> 100% Responsive</span>
-                                <span class="badge bg-success-subtle text-success fw-bold"><i class="fa fa-check me-1"></i> Included in All Editions</span>
+                            <a id="tpl2_demo_btn" href="website/?preview_tpl=template2&preview_layout=1" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
+                            </a>
+
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Private Room Showcase</span>
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Therapist Rosters</span>
+                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Multi-Session Passes</span>
                             </div>
                         </div>
                     </div>
@@ -995,29 +1384,113 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         </div>
     </section>
 
+    <!-- 4-Step Quick Launch Workflow -->
+    <section id="workflow" class="py-5 bg-light border-top">
+        <div class="container py-4">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">FAST ONBOARDING</span>
+                <h2 class="display-6 fw-bold mt-2">Launch Your Platform in 4 Simple Steps</h2>
+                <p class="text-muted">No complicated DevOps or months of setup. Deploy on your domain and begin taking bookings in minutes.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <h5 class="fw-bold font-serif mb-2">One-Click Setup</h5>
+                        <p class="text-muted small mb-0">Upload to your hosting (cPanel, Plesk, VPS, or localhost). The automated database installer configures tables in 60 seconds.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <h5 class="fw-bold font-serif mb-2">Choose Template</h5>
+                        <p class="text-muted small mb-0">Select Template 1 (Luxury Salon) or Template 2 (Sanctuary Spa). Upload your logo and set your brand color palette.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <h5 class="fw-bold font-serif mb-2">Add Staff &amp; Services</h5>
+                        <p class="text-muted small mb-0">Set up your stylists, massage therapists, service prices, treatment durations, and commission percentages.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="step-card">
+                        <div class="step-number">04</div>
+                        <h5 class="fw-bold font-serif mb-2">Start Booking &amp; Billing</h5>
+                        <p class="text-muted small mb-0">Share your 24/7 online booking link with clients, check in walk-in appointments, and print instant thermal POS receipts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Self-Hosted vs Cloud SaaS Comparison -->
+    <section id="comparison" class="py-5">
+        <div class="container py-4">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">WHY SELF-HOSTED WINS</span>
+                <h2 class="display-6 fw-bold mt-2">Own Your Platform, Ditch the Monthly Subscription</h2>
+                <p class="text-muted">Compare how our self-hosted script stacks up against expensive cloud SaaS subscriptions like Mindbody, Fresha, or Zenoti.</p>
+            </div>
+
+            <div class="compare-box table-responsive">
+                <table class="table compare-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Core Capability / Benefit</th>
+                            <th style="width: 30%;" class="text-warning"><i class="fa-solid fa-crown me-1"></i> Our Self-Hosted Script</th>
+                            <th style="width: 30%;" class="text-muted">Traditional Cloud SaaS (Fresha/Mindbody)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pricing Model</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> One-Time Fee (Lifetime Access)</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> $150 – $400+ every single month</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client Data Ownership</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> 100% Private on Your Own Server</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> Locked on third-party cloud servers</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Online Booking Surcharges</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> 0% Commission (Keep 100% Revenue)</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> Up to 20% commission on client bookings</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Full Source Code Access</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> 100% Unencrypted PHP &amp; MVC</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> No code access (Closed proprietary)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>White-Label &amp; Custom Domain</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> Your Domain, Your Logo, Your Brand</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> Co-branded with SaaS marketplace logos</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware &amp; POS Receipts</strong></td>
+                            <td><span class="badge bg-success-subtle text-success border border-success px-3 py-1 rounded-pill"><i class="fa-solid fa-check me-1"></i> Universal 80mm/58mm Thermal Printers</span></td>
+                            <td><span class="text-danger fw-semibold"><i class="fa-solid fa-xmark me-1"></i> Expensive proprietary hardware required</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <!-- Super Admin & Dynamic Pricing Cards Section -->
+    <div id="editions"></div>
     <section id="pricing" class="py-5 bg-light">
         <div class="container py-4">
-            <div class="text-center max-w-700 mx-auto mb-4">
+            <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="badge bg-dark text-warning px-3 py-2 text-uppercase fw-bold mb-2">
                     <i class="fa fa-shield-alt me-1"></i> Super Admin Controlled Pricing
                 </span>
                 <h2 class="display-6 fw-bold mt-2">Commercial Purchase Cards</h2>
                 <p class="text-muted">Purchase a commercial license for your salon, spa, or combined venture. Prices, original strike-through prices, badges, and features are dynamically loaded from the database and manageable in the Super Admin Panel.</p>
-            </div>
-
-            <!-- Super Admin Notice Banner -->
-            <div class="alert alert-info border-0 shadow-sm rounded-4 d-flex align-items-center justify-content-between mb-5 p-3">
-                <div class="d-flex align-items-center">
-                    <i class="fa fa-info-circle fa-2x text-primary me-3"></i>
-                    <div>
-                        <strong class="d-block text-dark">Super Admin Marketplace Active</strong>
-                        <span class="small text-muted">You can edit these purchase card prices, original prices, badges, and features anytime inside the Super Admin Portal at <code>superadmin/?page=plans</code>.</span>
-                    </div>
-                </div>
-                <a href="superadmin/?page=plans" target="_blank" class="btn btn-sm btn-outline-primary fw-bold text-nowrap ms-3">
-                    <i class="fa fa-cog me-1"></i> Edit Cards in Super Admin
-                </a>
             </div>
 
             <!-- The 3 Dynamic Purchase Cards -->
@@ -1189,6 +1662,180 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         </div>
     </section>
 
+    <!-- Testimonials / Client Stories -->
+    <section id="reviews" class="py-5 bg-light border-top">
+        <div class="container py-4">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">VERIFIED OPERATOR REVIEWS</span>
+                <h2 class="display-6 fw-bold mt-2">Loved by Hair Studios &amp; Luxury Wellness Spas</h2>
+                <p class="text-muted">See how salon owners and spa directors streamlined operations and boosted repeat bookings.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-quote">
+                            "Our 8 hair stylists love the commission ledger. Front-desk checkout time dropped by over 50% with the thermal POS register. The best investment we made this year."
+                        </p>
+                        <div class="d-flex align-items-center mt-auto">
+                            <div class="testimonial-author-avatar">MV</div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">Marcus Vance</h6>
+                                <small class="text-muted">Director, Elite Hair Atelier</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-quote">
+                            "The double-booking room prevention engine in Template 2 is a lifesaver for our 6 therapy suites. It paid for itself in the first week by saving us from booking clashes."
+                        </p>
+                        <div class="d-flex align-items-center mt-auto">
+                            <div class="testimonial-author-avatar" style="color: #10b981;">ER</div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">Elena Rostova</h6>
+                                <small class="text-muted">Managing Partner, Serenity Day Spa</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-quote">
+                            "We dropped Mindbody and saved over $3,200 annually. Having our customer data and client histories safe on our own private cPanel server is priceless."
+                        </p>
+                        <div class="d-flex align-items-center mt-auto">
+                            <div class="testimonial-author-avatar" style="color: #6366f1;">DC</div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">David Chen</h6>
+                                <small class="text-muted">Founder, Apex Barber &amp; Grooming Lounge</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequently Asked Questions -->
+    <section id="faq" class="py-5">
+        <div class="container py-4">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <span class="text-warning fw-bold text-uppercase small tracking-wide">COMMON QUESTIONS</span>
+                <h2 class="display-6 fw-bold mt-2">Frequently Asked Questions</h2>
+                <p class="text-muted">Have questions before purchasing? Here are straightforward answers about licenses, installation, and capabilities.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+                                    <i class="fa-solid fa-circle-question text-warning me-2"></i> Is this a one-time purchase or a monthly subscription?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    This is a <strong>100% one-time payment</strong> for a lifetime commercial license. You never pay monthly subscription fees, per-booking commissions, or per-staff member charges. Once purchased, you own and host the script forever.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                                    <i class="fa-solid fa-server text-warning me-2"></i> What hosting or server specifications are required?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The script runs on standard, budget-friendly hosting with PHP 7.4 through PHP 8.2+ and MySQL or MariaDB. It is fully compatible with shared cPanel hosting, Plesk, VPS, dedicated servers, or local stacks like XAMPP, WAMP, and Laragon.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                                    <i class="fa-solid fa-code text-warning me-2"></i> Do I receive the full unencrypted PHP source code?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, 100% of the source code is completely unencrypted and clean (CodeIgniter MVC framework). There are no IonCube loaders or obfuscated files. You can freely customize the design, database models, business logic, or integrate third-party APIs.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+                                    <i class="fa-solid fa-print text-warning me-2"></i> Does the POS support thermal printers and barcode scanners?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes. The Point of Sale (POS) checkout module supports universal 80mm and 58mm thermal receipt printers via USB or network, automatic cash drawer kicking, and standard USB/Bluetooth handheld barcode scanners for retail inventory.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse5" aria-expanded="false" aria-controls="faqCollapse5">
+                                    <i class="fa-solid fa-palette text-warning me-2"></i> Can I switch between Template 1 and Template 2 anytime?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse5" class="accordion-collapse collapse" aria-labelledby="faqHeading5" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Both Template 1 (Luxury Salon &amp; Hair Studio) and Template 2 (Sanctuary Day Spa &amp; Wellness) with all 6 homepage layout variations are included in the package. You can switch your active website theme with 1 click in the Admin Panel.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faqHeading6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse6" aria-expanded="false" aria-controls="faqCollapse6">
+                                    <i class="fa-solid fa-shield-halved text-warning me-2"></i> What is the Super Admin Portal used for?
+                                </button>
+                            </h2>
+                            <div id="faqCollapse6" class="accordion-collapse collapse" aria-labelledby="faqHeading6" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The Super Admin Portal gives you master vendor control: you can customize purchase card prices and badges, review orders, generate commercial license keys, control download quotas, and manage client instances.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer-main">
         <div class="container">
@@ -1229,18 +1876,20 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4">
-                    <h6 class="footer-heading">Script Editions</h6>
+                    <h6 class="footer-heading">Quick Links</h6>
                     <ul class="footer-links">
-                        <li><a href="#pricing"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Salon Management</a></li>
-                        <li><a href="#pricing"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Spa Wellness Script</a></li>
-                        <li><a href="#pricing"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Unified Edition</a></li>
+                        <li><a href="#features"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Core Features</a></li>
+                        <li><a href="#templates"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Templates</a></li>
+                        <li><a href="#workflow"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>How It Works</a></li>
+                        <li><a href="#pricing"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Pricing Plans</a></li>
+                        <li><a href="#faq"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <h6 class="footer-heading">Templates</h6>
                     <ul class="footer-links">
-                        <li><a href="website/?preview_tpl=template1&preview_layout=1" target="_blank"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Template 1 (Glamr)</a></li>
-                        <li><a href="website/?preview_tpl=template2&preview_layout=1" target="_blank"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Template 2 (Pureglow)</a></li>
+                        <li><a href="website/?preview_tpl=template1&preview_layout=1" target="_blank"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Template 1</a></li>
+                        <li><a href="website/?preview_tpl=template2&preview_layout=1" target="_blank"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Template 2</a></li>
                         <li><a href="superadmin/" target="_blank"><i class="fa-solid fa-angle-right me-2 text-warning opacity-75 small"></i>Super Admin Portal</a></li>
                     </ul>
                 </div>
@@ -1344,7 +1993,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <div class="col-md-6">
                                 <div class="tpl-radio-card active" data-tpl="template1">
                                     <input type="radio" name="chosen_tpl" value="template1" checked>
-                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-crown text-warning me-1"></i> Template 1 (Glamr)</div>
+                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-crown text-warning me-1"></i> Template 1</div>
                                     <small class="text-muted d-block mt-1">High-fashion luxury aesthetics, gold/champagne accents, stylish service list & team showcase.</small>
                                 </div>
                             </div>
@@ -1353,7 +2002,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <div class="col-md-6">
                                 <div class="tpl-radio-card" data-tpl="template2">
                                     <input type="radio" name="chosen_tpl" value="template2">
-                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-leaf text-success me-1"></i> Template 2 (Pureglow)</div>
+                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-leaf text-success me-1"></i> Template 2</div>
                                     <small class="text-muted d-block mt-1">Botanical zen wellness theme, calming earthy tones, relaxation treatment packages & booking wizard.</small>
                                 </div>
                             </div>
@@ -1412,7 +2061,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </div>
                             <div class="d-flex justify-content-between py-1 border-bottom small">
                                 <span class="text-muted">Pre-Configured Template:</span>
-                                <strong id="checkoutTplText">Template 1 (Glamr) - Layout 1</strong>
+                                <strong id="checkoutTplText">Template 1 - Layout 1</strong>
                             </div>
                             <div class="d-flex justify-content-between py-2 small">
                                 <span class="fw-bold">Total Amount Due:</span>
@@ -1569,6 +2218,21 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
         // Modal elements
         const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+
+        // Initialize all Bootstrap dropdowns
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function(el) {
+            new bootstrap.Dropdown(el);
+        });
+
+        // Initialize Hero Banner Carousel
+        const heroCarousel = document.getElementById('heroBannerCarousel');
+        if (heroCarousel) {
+            new bootstrap.Carousel(heroCarousel, {
+                interval: 5000,
+                ride: 'carousel'
+            });
+        }
+
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');
         const step3 = document.getElementById('step3');
@@ -1631,7 +2295,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 const layoutRadio = document.querySelector('input[name="chosen_layout"]:checked');
                 selectedLayout = layoutRadio ? layoutRadio.value : '1';
 
-                const tplName = (selectedTemplate === 'template1') ? 'Template 1 (Glamr)' : 'Template 2 (Pureglow)';
+                const tplName = (selectedTemplate === 'template1') ? 'Template 1' : 'Template 2';
 
                 document.getElementById('checkoutPlanText').textContent = selectedPlanName;
                 document.getElementById('checkoutBusinessText').textContent = business;
@@ -1716,6 +2380,27 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 alertBox.classList.remove('d-none');
             });
         });
+
+        // Interactive Tab Switcher for Template Layouts
+        function switchCardLayout(tpl, layoutNum, imgUrl, titleText, demoUrl) {
+            const imgEl = document.getElementById(tpl + '_preview_img');
+            const titleEl = document.getElementById(tpl + '_preview_title');
+            const demoBtn = document.getElementById(tpl + '_demo_btn');
+
+            if (imgEl) imgEl.style.backgroundImage = `url('${imgUrl}')`;
+            if (titleEl) titleEl.textContent = titleText;
+            if (demoBtn) demoBtn.href = demoUrl;
+
+            document.querySelectorAll(`.${tpl}-tab-btn`).forEach(b => {
+                b.classList.remove('btn-dark', 'text-white', 'active', 'border-secondary');
+                b.classList.add('btn-outline-secondary', 'text-light');
+            });
+            const clickedBtn = document.getElementById(`${tpl}_tab_${layoutNum}`);
+            if (clickedBtn) {
+                clickedBtn.classList.remove('btn-outline-secondary', 'text-light');
+                clickedBtn.classList.add('btn-dark', 'text-white', 'active', 'border-secondary');
+            }
+        }
     </script>
 </body>
 </html>

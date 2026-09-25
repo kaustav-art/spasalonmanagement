@@ -39,7 +39,7 @@
     <div class="col-lg-10">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-4 border-bottom text-center">
-                <h5 class="fw-bold mb-1"><?= get_setting('business_name', 'Glamr & Pureglow Salon & Spa') ?></h5>
+                <h5 class="fw-bold mb-1"><?= get_setting('business_name', 'Luxe Salon & Spa') ?></h5>
                 <h6 class="text-muted mb-0">Statement of Profit and Loss (<?= date('M d, Y', strtotime($from)) ?> &ndash; <?= date('M d, Y', strtotime($to)) ?>)</h6>
             </div>
             <div class="card-body p-4">

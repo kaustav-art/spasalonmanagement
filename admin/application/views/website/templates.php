@@ -12,13 +12,13 @@
 
 <form action="<?= admin_url('website/templates') ?>" method="POST">
     <div class="row g-4 mb-4">
-        <!-- Template 1: Glamr -->
+        <!-- Template 1 -->
         <div class="col-lg-6">
             <div class="card h-100 shadow-sm border-2 <?= ($current_template === 'template1') ? 'border-primary ring-2' : 'border-light' ?>">
                 <div class="card-header bg-white d-flex align-items-center justify-content-between py-3 border-bottom">
                     <div>
                         <span class="badge bg-primary text-white me-2">Theme 01</span>
-                        <h5 class="d-inline fw-bold mb-0">Glamr &bull; Luxury Salon & Beauty Theme</h5>
+                        <h5 class="d-inline fw-bold mb-0">Template 1 &bull; Luxury Salon & Beauty Theme</h5>
                     </div>
                     <?php if ($current_template === 'template1'): ?>
                         <span class="badge bg-success px-3 py-2"><i class="fa-solid fa-circle-check me-1"></i> Currently Active</span>
@@ -71,20 +71,20 @@
 
                     <div class="d-grid">
                         <button type="button" class="btn <?= ($current_template === 'template1') ? 'btn-primary' : 'btn-outline-primary' ?>" onclick="activateTheme('template1')">
-                            <i class="fa-solid fa-check me-1"></i> Activate Template 1 (Glamr)
+                            <i class="fa-solid fa-check me-1"></i> Activate Template 1
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Template 2: Pureglow -->
+        <!-- Template 2 -->
         <div class="col-lg-6">
             <div class="card h-100 shadow-sm border-2 <?= ($current_template === 'template2') ? 'border-primary ring-2' : 'border-light' ?>">
                 <div class="card-header bg-white d-flex align-items-center justify-content-between py-3 border-bottom">
                     <div>
                         <span class="badge bg-success text-white me-2">Theme 02</span>
-                        <h5 class="d-inline fw-bold mb-0">Pureglow &bull; Day Spa & Holistic Retreat Theme</h5>
+                        <h5 class="d-inline fw-bold mb-0">Template 2 &bull; Day Spa & Holistic Retreat Theme</h5>
                     </div>
                     <?php if ($current_template === 'template2'): ?>
                         <span class="badge bg-success px-3 py-2"><i class="fa-solid fa-circle-check me-1"></i> Currently Active</span>
@@ -137,7 +137,7 @@
 
                     <div class="d-grid">
                         <button type="button" class="btn <?= ($current_template === 'template2') ? 'btn-success' : 'btn-outline-success' ?>" onclick="activateTheme('template2')">
-                            <i class="fa-solid fa-check me-1"></i> Activate Template 2 (Pureglow)
+                            <i class="fa-solid fa-check me-1"></i> Activate Template 2
                         </button>
                     </div>
                 </div>

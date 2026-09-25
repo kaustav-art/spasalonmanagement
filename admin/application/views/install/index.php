@@ -128,8 +128,8 @@
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Active Website Theme</label>
                             <select name="active_template" class="form-select">
-                                <option value="template1" selected>Template 1 - Glamr (Luxury Gold & Dark/Light)</option>
-                                <option value="template2">Template 2 - Pureglow (Modern Wellness & Organic)</option>
+                                <option value="template1" selected>Template 1 (Luxury Gold & Dark/Light)</option>
+                                <option value="template2">Template 2 (Modern Wellness & Organic)</option>
                             </select>
                         </div>
                         <div class="col-md-6">

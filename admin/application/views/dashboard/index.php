@@ -311,7 +311,7 @@
                         <span class="fz-12px text-muted fw-medium d-block">Active Website Template</span>
                         <div class="d-flex align-items-center gap-2">
                             <h4 class="h6 mb-0 fw-semibold text-dark">
-                                <?= (get_active_template() === 'template1') ? 'Glamr (Template 1)' : 'Pureglow (Template 2)' ?>
+                                <?= (get_active_template() === 'template1') ? 'Template 1' : 'Template 2' ?>
                             </h4>
                             <span class="badge badge-label-info rounded-pill fz-11px">Layout <?= get_active_home_layout() ?> of 3</span>
                         </div>
