@@ -1,0 +1,1235 @@
+{
+    "index.html": {
+        "controller": "Dashboard",
+        "action": "index",
+        "route": "dashboard",
+        "view": "pages\/dashboard\/ecommerce",
+        "menu": "dashboard",
+        "sub": "ecommerce",
+        "title": "Ecommerce Dashboard | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/vendor\/libs\/apexcharts\/apexcharts.js",
+            "assets\/js\/dashboard\/dashboard-ecommerce.js"
+        ]
+    },
+    "dashboard-academy.html": {
+        "controller": "Dashboard",
+        "action": "academy",
+        "route": "dashboard\/academy",
+        "view": "pages\/dashboard\/academy",
+        "menu": "dashboard",
+        "sub": "academy",
+        "title": "Dashboard Academy | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/vendor\/libs\/apexcharts\/apexcharts.js",
+            "assets\/js\/dashboard\/dashboard-academy.js"
+        ]
+    },
+    "dashboard-analytics.html": {
+        "controller": "Dashboard",
+        "action": "analytics",
+        "route": "dashboard\/analytics",
+        "view": "pages\/dashboard\/analytics",
+        "menu": "dashboard",
+        "sub": "analytics",
+        "title": "Dashboard Analytics | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/vendor\/libs\/apexcharts\/apexcharts.js",
+            "assets\/js\/dashboard\/dashboard-analytics.js"
+        ]
+    },
+    "dashboard-crm.html": {
+        "controller": "Dashboard",
+        "action": "crm",
+        "route": "dashboard\/crm",
+        "view": "pages\/dashboard\/crm",
+        "menu": "dashboard",
+        "sub": "crm",
+        "title": "Dashboard CRM | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/vendor\/libs\/apexcharts\/apexcharts.js",
+            "assets\/js\/dashboard\/dashboard-crm.js"
+        ]
+    },
+    "dashboard-hrm.html": {
+        "controller": "Dashboard",
+        "action": "hrm",
+        "route": "dashboard\/hrm",
+        "view": "pages\/dashboard\/hrm",
+        "menu": "dashboard",
+        "sub": "hrm",
+        "title": "Dashboard HRM | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/vendor\/libs\/apexcharts\/apexcharts.js",
+            "assets\/js\/dashboard\/dashboard-hrm.js"
+        ]
+    },
+    "app-chat.html": {
+        "controller": "Apps",
+        "action": "chat",
+        "route": "apps\/chat",
+        "view": "pages\/apps\/chat",
+        "menu": "chat",
+        "sub": "",
+        "title": "Chat App | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/chat.js"
+        ]
+    },
+    "app-pos.html": {
+        "controller": "Apps",
+        "action": "pos",
+        "route": "apps\/pos",
+        "view": "pages\/apps\/pos",
+        "menu": "pos",
+        "sub": "",
+        "title": "POS App | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/select2\/select2.css"
+        ],
+        "extra_js": [
+            "assets\/vendor\/libs\/select2\/select2.js",
+            "assets\/js\/pages\/pos.js"
+        ]
+    },
+    "ecommerce-product-list.html": {
+        "controller": "Ecommerce",
+        "action": "product_list",
+        "route": "ecommerce\/products",
+        "view": "pages\/ecommerce\/product_list",
+        "menu": "ecommerce",
+        "sub": "product_list",
+        "title": "Product List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-product-add.html": {
+        "controller": "Ecommerce",
+        "action": "product_add",
+        "route": "ecommerce\/product_add",
+        "view": "pages\/ecommerce\/product_add",
+        "menu": "ecommerce",
+        "sub": "product_add",
+        "title": "Create Product | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/quill\/quill.html",
+            "assets\/vendor\/libs\/quill\/quill-bubble.html",
+            "assets\/vendor\/libs\/quill\/quill-snow.html"
+        ],
+        "extra_js": [
+            "assets\/js\/pages\/ecommerce.js",
+            "assets\/vendor\/libs\/quill\/quill-2.js",
+            "assets\/js\/pages\/form-editor.js"
+        ]
+    },
+    "ecommerce-product-edit.html": {
+        "controller": "Ecommerce",
+        "action": "product_edit",
+        "route": "ecommerce\/product_edit",
+        "view": "pages\/ecommerce\/product_edit",
+        "menu": "ecommerce",
+        "sub": "product_edit",
+        "title": "Edit Product | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/quill\/quill.html",
+            "assets\/vendor\/libs\/quill\/quill-bubble.html",
+            "assets\/vendor\/libs\/quill\/quill-snow.html"
+        ],
+        "extra_js": [
+            "assets\/js\/pages\/ecommerce.js",
+            "assets\/vendor\/libs\/quill\/quill-2.js",
+            "assets\/js\/pages\/form-editor.js"
+        ]
+    },
+    "ecommerce-product-cat-list.html": {
+        "controller": "Ecommerce",
+        "action": "product_cat_list",
+        "route": "ecommerce\/categories",
+        "view": "pages\/ecommerce\/product_cat_list",
+        "menu": "ecommerce",
+        "sub": "product_cat_list",
+        "title": "Category List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-product-cat-add.html": {
+        "controller": "Ecommerce",
+        "action": "product_cat_add",
+        "route": "ecommerce\/category_add",
+        "view": "pages\/ecommerce\/product_cat_add",
+        "menu": "ecommerce",
+        "sub": "product_cat_add",
+        "title": "Create Category | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "<script>\n        \/\/ JavaScript: Multi-image uploader with uploader always col-lg-3\n        document.addEventListener('DOMContentLoaded', () => {\n            const fileInput = document.getElementById('product-gallery-uploader-input');\n            const galleryRow = document.getElementById('product-gallery-row');\n            const uploaderCol = document.getElementById('product-gallery-uploader-col');\n\n            \/\/ Keep track of images: { file: File|null, url: string, existing: boolean, existingId: string|null }\n            let uploadedFiles = [];\n\n            \/\/ Ensure uploader column always has the required classes\n            function enforceUploaderColClass() {\n                uploaderCol.className = 'col-lg-3 col-md-4 col-sm-6 col-12';\n            }\n\n            \/\/ Revoke blob URL (if any) to free memory\n            function revokeIfBlob(item) {\n                if (item && item.file && item.url && item.url.startsWith('blob:')) {\n                    try {\n                        URL.revokeObjectURL(item.url);\n                    } catch (e) {\n                        \/* ignore *\/ }\n                }\n            }\n\n            \/\/ Load any existing images that are present in the DOM on page load\n            (function loadExistingFromDOM() {\n                const singles = Array.from(galleryRow.querySelectorAll('.product-gallery-single'));\n                singles.forEach(single => {\n                    \/\/ Skip if this single is inside uploader col (it shouldn't be)\n                    if (single.closest('#product-gallery-uploader-col')) return;\n\n                    const img = single.querySelector('img');\n                    if (!img) return;\n                    const existingId = single.dataset.existingId ?? null;\n                    uploadedFiles.push({\n                        file: null,\n                        url: img.src,\n                        existing: true,\n                        existingId\n                    });\n                });\n            })();\n\n            \/\/ Render gallery: remove all non-uploader children and insert previews\n            function renderGallery() {\n                \/\/ Remove all children except uploaderCol\n                Array.from(galleryRow.children).forEach(child => {\n                    if (child !== uploaderCol) child.remove();\n                });\n\n                \/\/ Insert items before uploaderCol\n                uploadedFiles.forEach((item, i) => {\n                    const col = document.createElement('div');\n                    col.className = 'col-lg-3 col-md-4 col-sm-6 col-12';\n\n                    const dataExistingAttr = (item.existing && item.existingId) ? `data-existing-id=\"${item.existingId}\"` : '';\n\n                    col.innerHTML = `\n        <div class=\"product-gallery-single position-relative\" ${dataExistingAttr}>\n          <button type=\"button\" class=\"product-gallery-remove-btn\" data-index=\"${i}\" aria-label=\"Remove image\">\n            <svg width=\"10\" height=\"11\" viewBox=\"0 0 10 11\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n              <path d=\"M9 1.98608L1 9.98608\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n              <path d=\"M1 1.98608L9 9.98608\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n            <\/svg>\n          <\/button>\n          <img class=\"img-fluid\" src=\"${item.url}\" alt=\"preview-${i}\">\n        <\/div>\n      `;\n                    galleryRow.insertBefore(col, uploaderCol);\n                });\n\n                enforceUploaderColClass();\n            }\n\n            \/\/ Delegated remove handler (works for dynamically created buttons)\n            galleryRow.addEventListener('click', (e) => {\n                const btn = e.target.closest('.product-gallery-remove-btn');\n                if (!btn) return;\n                const idx = Number(btn.dataset.index);\n                if (Number.isNaN(idx)) return;\n\n                const removed = uploadedFiles.splice(idx, 1)[0];\n                revokeIfBlob(removed);\n                renderGallery();\n            });\n\n            \/\/ Handle new file selection\n            fileInput.addEventListener('change', (e) => {\n                const files = Array.from(e.target.files || []);\n                if (!files.length) return;\n\n                files.forEach(file => {\n                    const url = URL.createObjectURL(file);\n                    uploadedFiles.push({\n                        file,\n                        url,\n                        existing: false,\n                        existingId: null\n                    });\n                });\n\n                \/\/ Reset input so same files can be chosen again if needed\n                fileInput.value = '';\n                renderGallery();\n            });\n\n            \/\/ Utility: build FormData for submission (new files as 'images[]', existing IDs as 'existing_images[]')\n            function buildFormData() {\n                const fd = new FormData();\n                uploadedFiles.forEach(it => {\n                    if (it.file) {\n                        fd.append('images[]', it.file);\n                    } else if (it.existing && it.existingId) {\n                        fd.append('existing_images[]', it.existingId);\n                    } else if (it.existing) {\n                        fd.append('existing_images_urls[]', it.url);\n                    }\n                });\n                return fd;\n            }\n\n            \/\/ Cleanup blob URLs on unload\n            window.addEventListener('beforeunload', () => {\n                uploadedFiles.forEach(revokeIfBlob);\n            });\n\n            \/\/ initial render & enforcement\n            renderGallery();\n\n            \/\/ expose for debugging (optional)\n            window._productGallery = {\n                uploadedFiles,\n                buildFormData\n            };\n        });\n    <\/script>"
+        ]
+    },
+    "ecommerce-product-cat-edit.html": {
+        "controller": "Ecommerce",
+        "action": "product_cat_edit",
+        "route": "ecommerce\/category_edit",
+        "view": "pages\/ecommerce\/product_cat_edit",
+        "menu": "ecommerce",
+        "sub": "product_cat_edit",
+        "title": "Edit Category | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "<script>\n        \/\/ JavaScript: Multi-image uploader with uploader always col-lg-3\n        document.addEventListener('DOMContentLoaded', () => {\n            const fileInput = document.getElementById('product-gallery-uploader-input');\n            const galleryRow = document.getElementById('product-gallery-row');\n            const uploaderCol = document.getElementById('product-gallery-uploader-col');\n\n            \/\/ Keep track of images: { file: File|null, url: string, existing: boolean, existingId: string|null }\n            let uploadedFiles = [];\n\n            \/\/ Ensure uploader column always has the required classes\n            function enforceUploaderColClass() {\n                uploaderCol.className = 'col-lg-3 col-md-4 col-sm-6 col-12';\n            }\n\n            \/\/ Revoke blob URL (if any) to free memory\n            function revokeIfBlob(item) {\n                if (item && item.file && item.url && item.url.startsWith('blob:')) {\n                    try {\n                        URL.revokeObjectURL(item.url);\n                    } catch (e) {\n                        \/* ignore *\/ }\n                }\n            }\n\n            \/\/ Load any existing images that are present in the DOM on page load\n            (function loadExistingFromDOM() {\n                const singles = Array.from(galleryRow.querySelectorAll('.product-gallery-single'));\n                singles.forEach(single => {\n                    \/\/ Skip if this single is inside uploader col (it shouldn't be)\n                    if (single.closest('#product-gallery-uploader-col')) return;\n\n                    const img = single.querySelector('img');\n                    if (!img) return;\n                    const existingId = single.dataset.existingId ?? null;\n                    uploadedFiles.push({\n                        file: null,\n                        url: img.src,\n                        existing: true,\n                        existingId\n                    });\n                });\n            })();\n\n            \/\/ Render gallery: remove all non-uploader children and insert previews\n            function renderGallery() {\n                \/\/ Remove all children except uploaderCol\n                Array.from(galleryRow.children).forEach(child => {\n                    if (child !== uploaderCol) child.remove();\n                });\n\n                \/\/ Insert items before uploaderCol\n                uploadedFiles.forEach((item, i) => {\n                    const col = document.createElement('div');\n                    col.className = 'col-lg-3 col-md-4 col-sm-6 col-12';\n\n                    const dataExistingAttr = (item.existing && item.existingId) ? `data-existing-id=\"${item.existingId}\"` : '';\n\n                    col.innerHTML = `\n        <div class=\"product-gallery-single position-relative\" ${dataExistingAttr}>\n          <button type=\"button\" class=\"product-gallery-remove-btn\" data-index=\"${i}\" aria-label=\"Remove image\">\n            <svg width=\"10\" height=\"11\" viewBox=\"0 0 10 11\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n              <path d=\"M9 1.98608L1 9.98608\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n              <path d=\"M1 1.98608L9 9.98608\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\/>\n            <\/svg>\n          <\/button>\n          <img class=\"img-fluid\" src=\"${item.url}\" alt=\"preview-${i}\">\n        <\/div>\n      `;\n                    galleryRow.insertBefore(col, uploaderCol);\n                });\n\n                enforceUploaderColClass();\n            }\n\n            \/\/ Delegated remove handler (works for dynamically created buttons)\n            galleryRow.addEventListener('click', (e) => {\n                const btn = e.target.closest('.product-gallery-remove-btn');\n                if (!btn) return;\n                const idx = Number(btn.dataset.index);\n                if (Number.isNaN(idx)) return;\n\n                const removed = uploadedFiles.splice(idx, 1)[0];\n                revokeIfBlob(removed);\n                renderGallery();\n            });\n\n            \/\/ Handle new file selection\n            fileInput.addEventListener('change', (e) => {\n                const files = Array.from(e.target.files || []);\n                if (!files.length) return;\n\n                files.forEach(file => {\n                    const url = URL.createObjectURL(file);\n                    uploadedFiles.push({\n                        file,\n                        url,\n                        existing: false,\n                        existingId: null\n                    });\n                });\n\n                \/\/ Reset input so same files can be chosen again if needed\n                fileInput.value = '';\n                renderGallery();\n            });\n\n            \/\/ Utility: build FormData for submission (new files as 'images[]', existing IDs as 'existing_images[]')\n            function buildFormData() {\n                const fd = new FormData();\n                uploadedFiles.forEach(it => {\n                    if (it.file) {\n                        fd.append('images[]', it.file);\n                    } else if (it.existing && it.existingId) {\n                        fd.append('existing_images[]', it.existingId);\n                    } else if (it.existing) {\n                        fd.append('existing_images_urls[]', it.url);\n                    }\n                });\n                return fd;\n            }\n\n            \/\/ Cleanup blob URLs on unload\n            window.addEventListener('beforeunload', () => {\n                uploadedFiles.forEach(revokeIfBlob);\n            });\n\n            \/\/ initial render & enforcement\n            renderGallery();\n\n            \/\/ expose for debugging (optional)\n            window._productGallery = {\n                uploadedFiles,\n                buildFormData\n            };\n        });\n    <\/script>"
+        ]
+    },
+    "ecommerce-coupon-list.html": {
+        "controller": "Ecommerce",
+        "action": "coupon_list",
+        "route": "ecommerce\/coupons",
+        "view": "pages\/ecommerce\/coupon_list",
+        "menu": "ecommerce",
+        "sub": "coupon_list",
+        "title": "Coupon List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-coupon-history.html": {
+        "controller": "Ecommerce",
+        "action": "coupon_history",
+        "route": "ecommerce\/coupon_history",
+        "view": "pages\/ecommerce\/coupon_history",
+        "menu": "ecommerce",
+        "sub": "coupon_history",
+        "title": "Coupon History | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-order-list.html": {
+        "controller": "Ecommerce",
+        "action": "order_list",
+        "route": "ecommerce\/orders",
+        "view": "pages\/ecommerce\/order_list",
+        "menu": "ecommerce",
+        "sub": "order_list",
+        "title": "Order List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-order-details.html": {
+        "controller": "Ecommerce",
+        "action": "order_details",
+        "route": "ecommerce\/order_details",
+        "view": "pages\/ecommerce\/order_details",
+        "menu": "ecommerce",
+        "sub": "order_details",
+        "title": "Order Details | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-customer-list.html": {
+        "controller": "Ecommerce",
+        "action": "customer_list",
+        "route": "ecommerce\/customers",
+        "view": "pages\/ecommerce\/customer_list",
+        "menu": "ecommerce",
+        "sub": "customer_list",
+        "title": "Customer List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-customer-details-general.html": {
+        "controller": "Ecommerce",
+        "action": "customer_details_general",
+        "route": "ecommerce\/customer_details_general",
+        "view": "pages\/ecommerce\/customer_details_general",
+        "menu": "ecommerce",
+        "sub": "customer_details_general",
+        "title": "Customer Details General | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-customer-details-security.html": {
+        "controller": "Ecommerce",
+        "action": "customer_details_security",
+        "route": "ecommerce\/customer_details_security",
+        "view": "pages\/ecommerce\/customer_details_security",
+        "menu": "ecommerce",
+        "sub": "customer_details_security",
+        "title": "Customer Details Security | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-customer-details-payments.html": {
+        "controller": "Ecommerce",
+        "action": "customer_details_payments",
+        "route": "ecommerce\/customer_details_payments",
+        "view": "pages\/ecommerce\/customer_details_payments",
+        "menu": "ecommerce",
+        "sub": "customer_details_payments",
+        "title": "Customer Details Payments | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-customer-details-address.html": {
+        "controller": "Ecommerce",
+        "action": "customer_details_address",
+        "route": "ecommerce\/customer_details_address",
+        "view": "pages\/ecommerce\/customer_details_address",
+        "menu": "ecommerce",
+        "sub": "customer_details_address",
+        "title": "Customer Details Address | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-customer-details-notifications.html": {
+        "controller": "Ecommerce",
+        "action": "customer_details_notifications",
+        "route": "ecommerce\/customer_details_notifications",
+        "view": "pages\/ecommerce\/customer_details_notifications",
+        "menu": "ecommerce",
+        "sub": "customer_details_notifications",
+        "title": "Customer Details Notifications | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "ecommerce-review-list.html": {
+        "controller": "Ecommerce",
+        "action": "review_list",
+        "route": "ecommerce\/reviews",
+        "view": "pages\/ecommerce\/review_list",
+        "menu": "ecommerce",
+        "sub": "review_list",
+        "title": "Review List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-settings-general.html": {
+        "controller": "Ecommerce",
+        "action": "settings_general",
+        "route": "ecommerce\/settings_general",
+        "view": "pages\/ecommerce\/settings_general",
+        "menu": "ecommerce",
+        "sub": "settings_general",
+        "title": "Ecommerce Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-settings-payments.html": {
+        "controller": "Ecommerce",
+        "action": "settings_payments",
+        "route": "ecommerce\/settings_payments",
+        "view": "pages\/ecommerce\/settings_payments",
+        "menu": "ecommerce",
+        "sub": "settings_payments",
+        "title": "Payments Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-settings-shippings.html": {
+        "controller": "Ecommerce",
+        "action": "settings_shippings",
+        "route": "ecommerce\/settings_shippings",
+        "view": "pages\/ecommerce\/settings_shippings",
+        "menu": "ecommerce",
+        "sub": "settings_shippings",
+        "title": "Shipping Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "ecommerce-settings-notifications.html": {
+        "controller": "Ecommerce",
+        "action": "settings_notifications",
+        "route": "ecommerce\/settings_notifications",
+        "view": "pages\/ecommerce\/settings_notifications",
+        "menu": "ecommerce",
+        "sub": "settings_notifications",
+        "title": "Notifications Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "lms-course-list.html": {
+        "controller": "Lms",
+        "action": "course_list",
+        "route": "lms\/courses",
+        "view": "pages\/lms\/course_list",
+        "menu": "lms",
+        "sub": "course_list",
+        "title": "Course List - LMS | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "lms-course-grid.html": {
+        "controller": "Lms",
+        "action": "course_grid",
+        "route": "lms\/course_grid",
+        "view": "pages\/lms\/course_grid",
+        "menu": "lms",
+        "sub": "course_grid",
+        "title": "Course Grid - LMS | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/lms.js"
+        ]
+    },
+    "lms-course-details.html": {
+        "controller": "Lms",
+        "action": "course_details",
+        "route": "lms\/course_details",
+        "view": "pages\/lms\/course_details",
+        "menu": "lms",
+        "sub": "course_details",
+        "title": "Course Details - LMS | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/plyr\/plyr.html"
+        ],
+        "extra_js": [
+            "assets\/vendor\/libs\/plyr\/plyr-2.js",
+            "assets\/js\/pages\/extended-ui-plyr.js",
+            "assets\/js\/pages\/lms.js"
+        ]
+    },
+    "lms-course-add.html": {
+        "controller": "Lms",
+        "action": "course_add",
+        "route": "lms\/course_add",
+        "view": "pages\/lms\/course_add",
+        "menu": "lms",
+        "sub": "course_add",
+        "title": "Course Create - LMS | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/tagify\/tagify.html",
+            "assets\/vendor\/libs\/quill\/quill.html",
+            "assets\/vendor\/libs\/quill\/quill-bubble.html",
+            "assets\/vendor\/libs\/quill\/quill-snow.html"
+        ],
+        "extra_js": [
+            "assets\/js\/tinymce\/js\/tinymce\/tinymce.min.js",
+            "assets\/vendor\/libs\/tagify\/tagify-2.js",
+            "assets\/vendor\/libs\/sortable\/sortable.js",
+            "assets\/vendor\/libs\/quill\/quill-2.js",
+            "assets\/js\/pages\/form-editor.js",
+            "assets\/js\/pages\/lms.js"
+        ]
+    },
+    "lms-course-edit.html": {
+        "controller": "Lms",
+        "action": "course_edit",
+        "route": "lms\/course_edit",
+        "view": "pages\/lms\/course_edit",
+        "menu": "lms",
+        "sub": "course_edit",
+        "title": "Course Edit - LMS | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/tagify\/tagify.html",
+            "assets\/vendor\/libs\/quill\/quill.html",
+            "assets\/vendor\/libs\/quill\/quill-bubble.html",
+            "assets\/vendor\/libs\/quill\/quill-snow.html"
+        ],
+        "extra_js": [
+            "assets\/js\/tinymce\/js\/tinymce\/tinymce.min.js",
+            "assets\/vendor\/libs\/tagify\/tagify-2.js",
+            "assets\/vendor\/libs\/sortable\/sortable.js",
+            "assets\/vendor\/libs\/quill\/quill-2.js",
+            "assets\/js\/pages\/form-editor.js",
+            "assets\/js\/pages\/lms.js"
+        ]
+    },
+    "users-list.html": {
+        "controller": "Users",
+        "action": "index",
+        "route": "users",
+        "view": "pages\/users\/list",
+        "menu": "users",
+        "sub": "users_list",
+        "title": "Users List | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "users-add.html": {
+        "controller": "Users",
+        "action": "add",
+        "route": "users\/add",
+        "view": "pages\/users\/add",
+        "menu": "users",
+        "sub": "users_add",
+        "title": "User Create | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "users-view.html": {
+        "controller": "Users",
+        "action": "view_user",
+        "route": "users\/view",
+        "view": "pages\/users\/view",
+        "menu": "users",
+        "sub": "users_view",
+        "title": "User View | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile.html": {
+        "controller": "Users",
+        "action": "profile",
+        "route": "profile",
+        "view": "pages\/users\/profile",
+        "menu": "user_profile",
+        "sub": "profile",
+        "title": "User - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile-projects.html": {
+        "controller": "Users",
+        "action": "profile_projects",
+        "route": "profile\/projects",
+        "view": "pages\/users\/profile_projects",
+        "menu": "user_profile",
+        "sub": "profile_projects",
+        "title": "User Projects - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile-team.html": {
+        "controller": "Users",
+        "action": "profile_team",
+        "route": "profile\/team",
+        "view": "pages\/users\/profile_team",
+        "menu": "user_profile",
+        "sub": "profile_team",
+        "title": "User Team - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile-connections.html": {
+        "controller": "Users",
+        "action": "profile_connections",
+        "route": "profile\/connections",
+        "view": "pages\/users\/profile_connections",
+        "menu": "user_profile",
+        "sub": "profile_connections",
+        "title": "User Connections - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile-followers.html": {
+        "controller": "Users",
+        "action": "profile_followers",
+        "route": "profile\/followers",
+        "view": "pages\/users\/profile_followers",
+        "menu": "user_profile",
+        "sub": "profile_followers",
+        "title": "User Followers - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-profile-activity.html": {
+        "controller": "Users",
+        "action": "profile_activity",
+        "route": "profile\/activity",
+        "view": "pages\/users\/profile_activity",
+        "menu": "user_profile",
+        "sub": "profile_activity",
+        "title": "User Activity - Profile | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-settings.html": {
+        "controller": "Users",
+        "action": "settings",
+        "route": "settings",
+        "view": "pages\/users\/settings",
+        "menu": "account",
+        "sub": "settings",
+        "title": "User - Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-settings-billing.html": {
+        "controller": "Users",
+        "action": "settings_billing",
+        "route": "settings\/billing",
+        "view": "pages\/users\/settings_billing",
+        "menu": "account",
+        "sub": "settings_billing",
+        "title": "User Billing - Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/sweetalert2\/sweetalert2.css"
+        ],
+        "extra_js": [
+            "assets\/vendor\/libs\/sweetalert2\/sweetalert2.js",
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-settings-connection.html": {
+        "controller": "Users",
+        "action": "settings_connection",
+        "route": "settings\/connection",
+        "view": "pages\/users\/settings_connection",
+        "menu": "account",
+        "sub": "settings_connection",
+        "title": "User Connections - Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/sweetalert2\/sweetalert2.css"
+        ],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "user-settings-notification.html": {
+        "controller": "Users",
+        "action": "settings_notification",
+        "route": "settings\/notification",
+        "view": "pages\/users\/settings_notification",
+        "menu": "account",
+        "sub": "settings_notification",
+        "title": "User Notifications - Settings | Conca - Bootstrap Admin Template",
+        "extra_css": [
+            "assets\/vendor\/libs\/sweetalert2\/sweetalert2.css"
+        ],
+        "extra_js": [
+            "assets\/js\/pages\/profile.js"
+        ]
+    },
+    "auth-login-basic.html": {
+        "controller": "Auth",
+        "action": "login_basic",
+        "route": "auth\/login_basic",
+        "view": "pages\/auth\/login_basic",
+        "menu": "auth",
+        "sub": "login_basic",
+        "title": "Login Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-login-cover.html": {
+        "controller": "Auth",
+        "action": "login_cover",
+        "route": "auth\/login_cover",
+        "view": "pages\/auth\/login_cover",
+        "menu": "auth",
+        "sub": "login_cover",
+        "title": "Login Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-register-basic.html": {
+        "controller": "Auth",
+        "action": "register_basic",
+        "route": "auth\/register_basic",
+        "view": "pages\/auth\/register_basic",
+        "menu": "auth",
+        "sub": "register_basic",
+        "title": "Register Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-register-cover.html": {
+        "controller": "Auth",
+        "action": "register_cover",
+        "route": "auth\/register_cover",
+        "view": "pages\/auth\/register_cover",
+        "menu": "auth",
+        "sub": "register_cover",
+        "title": "Register Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-forgot-password-basic.html": {
+        "controller": "Auth",
+        "action": "forgot_password_basic",
+        "route": "auth\/forgot_password_basic",
+        "view": "pages\/auth\/forgot_password_basic",
+        "menu": "auth",
+        "sub": "forgot_password_basic",
+        "title": "Forgot Password Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-forgot-password-cover.html": {
+        "controller": "Auth",
+        "action": "forgot_password_cover",
+        "route": "auth\/forgot_password_cover",
+        "view": "pages\/auth\/forgot_password_cover",
+        "menu": "auth",
+        "sub": "forgot_password_cover",
+        "title": "Forgot Password Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-reset-password-basic.html": {
+        "controller": "Auth",
+        "action": "reset_password_basic",
+        "route": "auth\/reset_password_basic",
+        "view": "pages\/auth\/reset_password_basic",
+        "menu": "auth",
+        "sub": "reset_password_basic",
+        "title": "Reset Password Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-reset-password-cover.html": {
+        "controller": "Auth",
+        "action": "reset_password_cover",
+        "route": "auth\/reset_password_cover",
+        "view": "pages\/auth\/reset_password_cover",
+        "menu": "auth",
+        "sub": "reset_password_cover",
+        "title": "Reset Password Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-two-step-basic.html": {
+        "controller": "Auth",
+        "action": "two_step_basic",
+        "route": "auth\/two_step_basic",
+        "view": "pages\/auth\/two_step_basic",
+        "menu": "auth",
+        "sub": "two_step_basic",
+        "title": "Two Step Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/auth.js"
+        ]
+    },
+    "auth-two-step-cover.html": {
+        "controller": "Auth",
+        "action": "two_step_cover",
+        "route": "auth\/two_step_cover",
+        "view": "pages\/auth\/two_step_cover",
+        "menu": "auth",
+        "sub": "two_step_cover",
+        "title": "Two Step Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": [
+            "assets\/js\/pages\/auth.js"
+        ]
+    },
+    "auth-verify-mail-basic.html": {
+        "controller": "Auth",
+        "action": "verify_mail_basic",
+        "route": "auth\/verify_mail_basic",
+        "view": "pages\/auth\/verify_mail_basic",
+        "menu": "auth",
+        "sub": "verify_mail_basic",
+        "title": "Verify Mail Basic | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "auth-verify-mail-cover.html": {
+        "controller": "Auth",
+        "action": "verify_mail_cover",
+        "route": "auth\/verify_mail_cover",
+        "view": "pages\/auth\/verify_mail_cover",
+        "menu": "auth",
+        "sub": "verify_mail_cover",
+        "title": "Verify Mail Cover | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "error-404.html": {
+        "controller": "Errors",
+        "action": "error_404",
+        "route": "errors\/error_404",
+        "view": "pages\/errors\/error_404",
+        "menu": "errors",
+        "sub": "error_404",
+        "title": "Error 404 | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "error-500.html": {
+        "controller": "Errors",
+        "action": "error_500",
+        "route": "errors\/error_500",
+        "view": "pages\/errors\/error_500",
+        "menu": "errors",
+        "sub": "error_500",
+        "title": "Error 500 | Conca - Bootstrap Admin Template",
+        "extra_css": [],
+        "extra_js": []
+    },
+    "coupon-list.html": {
+        "controller": "Ecommerce",
+        "action": "coupon_list",
+        "route": "ecommerce\/coupon_list_alias",
+        "view": "pages\/ecommerce\/coupon_list",
+        "menu": "ecommerce",
+        "sub": "coupon_list",
+        "title": "Coupon List | Conca - Bootstrap Admin Template"
+    },
+    "chart-apex-area.html": {
+        "controller": "Components",
+        "action": "chart_apex_area",
+        "route": "components\/chart_apex_area",
+        "view": "pages\/components\/chart_apex_area",
+        "menu": "components",
+        "sub": "chart_apex_area",
+        "title": "Chart Apex Area | Conca Admin"
+    },
+    "chart-apex-bar.html": {
+        "controller": "Components",
+        "action": "chart_apex_bar",
+        "route": "components\/chart_apex_bar",
+        "view": "pages\/components\/chart_apex_bar",
+        "menu": "components",
+        "sub": "chart_apex_bar",
+        "title": "Chart Apex Bar | Conca Admin"
+    },
+    "chart-apex-column.html": {
+        "controller": "Components",
+        "action": "chart_apex_column",
+        "route": "components\/chart_apex_column",
+        "view": "pages\/components\/chart_apex_column",
+        "menu": "components",
+        "sub": "chart_apex_column",
+        "title": "Chart Apex Column | Conca Admin"
+    },
+    "chart-apex-line.html": {
+        "controller": "Components",
+        "action": "chart_apex_line",
+        "route": "components\/chart_apex_line",
+        "view": "pages\/components\/chart_apex_line",
+        "menu": "components",
+        "sub": "chart_apex_line",
+        "title": "Chart Apex Line | Conca Admin"
+    },
+    "chart-apex-mixed.html": {
+        "controller": "Components",
+        "action": "chart_apex_mixed",
+        "route": "components\/chart_apex_mixed",
+        "view": "pages\/components\/chart_apex_mixed",
+        "menu": "components",
+        "sub": "chart_apex_mixed",
+        "title": "Chart Apex Mixed | Conca Admin"
+    },
+    "chart-apex-pie.html": {
+        "controller": "Components",
+        "action": "chart_apex_pie",
+        "route": "components\/chart_apex_pie",
+        "view": "pages\/components\/chart_apex_pie",
+        "menu": "components",
+        "sub": "chart_apex_pie",
+        "title": "Chart Apex Pie | Conca Admin"
+    },
+    "chart-apex-polar.html": {
+        "controller": "Components",
+        "action": "chart_apex_polar",
+        "route": "components\/chart_apex_polar",
+        "view": "pages\/components\/chart_apex_polar",
+        "menu": "components",
+        "sub": "chart_apex_polar",
+        "title": "Chart Apex Polar | Conca Admin"
+    },
+    "extended-ui-avatar.html": {
+        "controller": "Components",
+        "action": "extended_ui_avatar",
+        "route": "components\/extended_ui_avatar",
+        "view": "pages\/components\/extended_ui_avatar",
+        "menu": "components",
+        "sub": "extended_ui_avatar",
+        "title": "Extended Ui Avatar | Conca Admin"
+    },
+    "extended-ui-blockui.html": {
+        "controller": "Components",
+        "action": "extended_ui_blockui",
+        "route": "components\/extended_ui_blockui",
+        "view": "pages\/components\/extended_ui_blockui",
+        "menu": "components",
+        "sub": "extended_ui_blockui",
+        "title": "Extended Ui Blockui | Conca Admin"
+    },
+    "extended-ui-media-player.html": {
+        "controller": "Components",
+        "action": "extended_ui_media_player",
+        "route": "components\/extended_ui_media_player",
+        "view": "pages\/components\/extended_ui_media_player",
+        "menu": "components",
+        "sub": "extended_ui_media_player",
+        "title": "Extended Ui Media Player | Conca Admin"
+    },
+    "extended-ui-perfect-scrollbar.html": {
+        "controller": "Components",
+        "action": "extended_ui_perfect_scrollbar",
+        "route": "components\/extended_ui_perfect_scrollbar",
+        "view": "pages\/components\/extended_ui_perfect_scrollbar",
+        "menu": "components",
+        "sub": "extended_ui_perfect_scrollbar",
+        "title": "Extended Ui Perfect Scrollbar | Conca Admin"
+    },
+    "extended-ui-select2.html": {
+        "controller": "Components",
+        "action": "extended_ui_select2",
+        "route": "components\/extended_ui_select2",
+        "view": "pages\/components\/extended_ui_select2",
+        "menu": "components",
+        "sub": "extended_ui_select2",
+        "title": "Extended Ui Select2 | Conca Admin"
+    },
+    "extended-ui-sortable.html": {
+        "controller": "Components",
+        "action": "extended_ui_sortable",
+        "route": "components\/extended_ui_sortable",
+        "view": "pages\/components\/extended_ui_sortable",
+        "menu": "components",
+        "sub": "extended_ui_sortable",
+        "title": "Extended Ui Sortable | Conca Admin"
+    },
+    "extended-ui-sweetalert2.html": {
+        "controller": "Components",
+        "action": "extended_ui_sweetalert2",
+        "route": "components\/extended_ui_sweetalert2",
+        "view": "pages\/components\/extended_ui_sweetalert2",
+        "menu": "components",
+        "sub": "extended_ui_sweetalert2",
+        "title": "Extended Ui Sweetalert2 | Conca Admin"
+    },
+    "extended-ui-tagify.html": {
+        "controller": "Components",
+        "action": "extended_ui_tagify",
+        "route": "components\/extended_ui_tagify",
+        "view": "pages\/components\/extended_ui_tagify",
+        "menu": "components",
+        "sub": "extended_ui_tagify",
+        "title": "Extended Ui Tagify | Conca Admin"
+    },
+    "extended-ui-timeline.html": {
+        "controller": "Components",
+        "action": "extended_ui_timeline",
+        "route": "components\/extended_ui_timeline",
+        "view": "pages\/components\/extended_ui_timeline",
+        "menu": "components",
+        "sub": "extended_ui_timeline",
+        "title": "Extended Ui Timeline | Conca Admin"
+    },
+    "extended-ui-toastr.html": {
+        "controller": "Components",
+        "action": "extended_ui_toastr",
+        "route": "components\/extended_ui_toastr",
+        "view": "pages\/components\/extended_ui_toastr",
+        "menu": "components",
+        "sub": "extended_ui_toastr",
+        "title": "Extended Ui Toastr | Conca Admin"
+    },
+    "form-checkbox-radio.html": {
+        "controller": "Components",
+        "action": "form_checkbox_radio",
+        "route": "components\/form_checkbox_radio",
+        "view": "pages\/components\/form_checkbox_radio",
+        "menu": "components",
+        "sub": "form_checkbox_radio",
+        "title": "Form Checkbox Radio | Conca Admin"
+    },
+    "form-editors.html": {
+        "controller": "Components",
+        "action": "form_editors",
+        "route": "components\/form_editors",
+        "view": "pages\/components\/form_editors",
+        "menu": "components",
+        "sub": "form_editors",
+        "title": "Form Editors | Conca Admin"
+    },
+    "form-file-upload.html": {
+        "controller": "Components",
+        "action": "form_file_upload",
+        "route": "components\/form_file_upload",
+        "view": "pages\/components\/form_file_upload",
+        "menu": "components",
+        "sub": "form_file_upload",
+        "title": "Form File Upload | Conca Admin"
+    },
+    "form-group.html": {
+        "controller": "Components",
+        "action": "form_group",
+        "route": "components\/form_group",
+        "view": "pages\/components\/form_group",
+        "menu": "components",
+        "sub": "form_group",
+        "title": "Form Group | Conca Admin"
+    },
+    "form-input-basic.html": {
+        "controller": "Components",
+        "action": "form_input_basic",
+        "route": "components\/form_input_basic",
+        "view": "pages\/components\/form_input_basic",
+        "menu": "components",
+        "sub": "form_input_basic",
+        "title": "Form Input Basic | Conca Admin"
+    },
+    "form-layout.html": {
+        "controller": "Components",
+        "action": "form_layout",
+        "route": "components\/form_layout",
+        "view": "pages\/components\/form_layout",
+        "menu": "components",
+        "sub": "form_layout",
+        "title": "Form Layout | Conca Admin"
+    },
+    "form-miscellaneous.html": {
+        "controller": "Components",
+        "action": "form_miscellaneous",
+        "route": "components\/form_miscellaneous",
+        "view": "pages\/components\/form_miscellaneous",
+        "menu": "components",
+        "sub": "form_miscellaneous",
+        "title": "Form Miscellaneous | Conca Admin"
+    },
+    "form-pickers.html": {
+        "controller": "Components",
+        "action": "form_pickers",
+        "route": "components\/form_pickers",
+        "view": "pages\/components\/form_pickers",
+        "menu": "components",
+        "sub": "form_pickers",
+        "title": "Form Pickers | Conca Admin"
+    },
+    "form-wizard.html": {
+        "controller": "Components",
+        "action": "form_wizard",
+        "route": "components\/form_wizard",
+        "view": "pages\/components\/form_wizard",
+        "menu": "components",
+        "sub": "form_wizard",
+        "title": "Form Wizard | Conca Admin"
+    },
+    "map-leaflet.html": {
+        "controller": "Components",
+        "action": "map_leaflet",
+        "route": "components\/map_leaflet",
+        "view": "pages\/components\/map_leaflet",
+        "menu": "components",
+        "sub": "map_leaflet",
+        "title": "Map Leaflet | Conca Admin"
+    },
+    "map-vector.html": {
+        "controller": "Components",
+        "action": "map_vector",
+        "route": "components\/map_vector",
+        "view": "pages\/components\/map_vector",
+        "menu": "components",
+        "sub": "map_vector",
+        "title": "Map Vector | Conca Admin"
+    },
+    "tables-basic.html": {
+        "controller": "Components",
+        "action": "tables_basic",
+        "route": "components\/tables_basic",
+        "view": "pages\/components\/tables_basic",
+        "menu": "components",
+        "sub": "tables_basic",
+        "title": "Tables Basic | Conca Admin"
+    },
+    "tables-datatable-basic.html": {
+        "controller": "Components",
+        "action": "tables_datatable_basic",
+        "route": "components\/tables_datatable_basic",
+        "view": "pages\/components\/tables_datatable_basic",
+        "menu": "components",
+        "sub": "tables_datatable_basic",
+        "title": "Tables Datatable Basic | Conca Admin"
+    },
+    "ui-accordion.html": {
+        "controller": "Components",
+        "action": "ui_accordion",
+        "route": "components\/ui_accordion",
+        "view": "pages\/components\/ui_accordion",
+        "menu": "components",
+        "sub": "ui_accordion",
+        "title": "Ui Accordion | Conca Admin"
+    },
+    "ui-alerts.html": {
+        "controller": "Components",
+        "action": "ui_alerts",
+        "route": "components\/ui_alerts",
+        "view": "pages\/components\/ui_alerts",
+        "menu": "components",
+        "sub": "ui_alerts",
+        "title": "Ui Alerts | Conca Admin"
+    },
+    "ui-badges.html": {
+        "controller": "Components",
+        "action": "ui_badges",
+        "route": "components\/ui_badges",
+        "view": "pages\/components\/ui_badges",
+        "menu": "components",
+        "sub": "ui_badges",
+        "title": "Ui Badges | Conca Admin"
+    },
+    "ui-buttons.html": {
+        "controller": "Components",
+        "action": "ui_buttons",
+        "route": "components\/ui_buttons",
+        "view": "pages\/components\/ui_buttons",
+        "menu": "components",
+        "sub": "ui_buttons",
+        "title": "Ui Buttons | Conca Admin"
+    },
+    "ui-carousel.html": {
+        "controller": "Components",
+        "action": "ui_carousel",
+        "route": "components\/ui_carousel",
+        "view": "pages\/components\/ui_carousel",
+        "menu": "components",
+        "sub": "ui_carousel",
+        "title": "Ui Carousel | Conca Admin"
+    },
+    "ui-collapse.html": {
+        "controller": "Components",
+        "action": "ui_collapse",
+        "route": "components\/ui_collapse",
+        "view": "pages\/components\/ui_collapse",
+        "menu": "components",
+        "sub": "ui_collapse",
+        "title": "Ui Collapse | Conca Admin"
+    },
+    "ui-dropdown.html": {
+        "controller": "Components",
+        "action": "ui_dropdown",
+        "route": "components\/ui_dropdown",
+        "view": "pages\/components\/ui_dropdown",
+        "menu": "components",
+        "sub": "ui_dropdown",
+        "title": "Ui Dropdown | Conca Admin"
+    },
+    "ui-list.html": {
+        "controller": "Components",
+        "action": "ui_list",
+        "route": "components\/ui_list",
+        "view": "pages\/components\/ui_list",
+        "menu": "components",
+        "sub": "ui_list",
+        "title": "Ui List | Conca Admin"
+    },
+    "ui-modal.html": {
+        "controller": "Components",
+        "action": "ui_modal",
+        "route": "components\/ui_modal",
+        "view": "pages\/components\/ui_modal",
+        "menu": "components",
+        "sub": "ui_modal",
+        "title": "Ui Modal | Conca Admin"
+    },
+    "ui-navbar.html": {
+        "controller": "Components",
+        "action": "ui_navbar",
+        "route": "components\/ui_navbar",
+        "view": "pages\/components\/ui_navbar",
+        "menu": "components",
+        "sub": "ui_navbar",
+        "title": "Ui Navbar | Conca Admin"
+    },
+    "ui-navs-tabs.html": {
+        "controller": "Components",
+        "action": "ui_navs_tabs",
+        "route": "components\/ui_navs_tabs",
+        "view": "pages\/components\/ui_navs_tabs",
+        "menu": "components",
+        "sub": "ui_navs_tabs",
+        "title": "Ui Navs Tabs | Conca Admin"
+    },
+    "ui-offcanvas.html": {
+        "controller": "Components",
+        "action": "ui_offcanvas",
+        "route": "components\/ui_offcanvas",
+        "view": "pages\/components\/ui_offcanvas",
+        "menu": "components",
+        "sub": "ui_offcanvas",
+        "title": "Ui Offcanvas | Conca Admin"
+    },
+    "ui-pagination.html": {
+        "controller": "Components",
+        "action": "ui_pagination",
+        "route": "components\/ui_pagination",
+        "view": "pages\/components\/ui_pagination",
+        "menu": "components",
+        "sub": "ui_pagination",
+        "title": "Ui Pagination | Conca Admin"
+    },
+    "ui-placeholder.html": {
+        "controller": "Components",
+        "action": "ui_placeholder",
+        "route": "components\/ui_placeholder",
+        "view": "pages\/components\/ui_placeholder",
+        "menu": "components",
+        "sub": "ui_placeholder",
+        "title": "Ui Placeholder | Conca Admin"
+    },
+    "ui-popover.html": {
+        "controller": "Components",
+        "action": "ui_popover",
+        "route": "components\/ui_popover",
+        "view": "pages\/components\/ui_popover",
+        "menu": "components",
+        "sub": "ui_popover",
+        "title": "Ui Popover | Conca Admin"
+    },
+    "ui-progress.html": {
+        "controller": "Components",
+        "action": "ui_progress",
+        "route": "components\/ui_progress",
+        "view": "pages\/components\/ui_progress",
+        "menu": "components",
+        "sub": "ui_progress",
+        "title": "Ui Progress | Conca Admin"
+    },
+    "ui-spinner.html": {
+        "controller": "Components",
+        "action": "ui_spinner",
+        "route": "components\/ui_spinner",
+        "view": "pages\/components\/ui_spinner",
+        "menu": "components",
+        "sub": "ui_spinner",
+        "title": "Ui Spinner | Conca Admin"
+    },
+    "ui-toast.html": {
+        "controller": "Components",
+        "action": "ui_toast",
+        "route": "components\/ui_toast",
+        "view": "pages\/components\/ui_toast",
+        "menu": "components",
+        "sub": "ui_toast",
+        "title": "Ui Toast | Conca Admin"
+    },
+    "ui-tooltip.html": {
+        "controller": "Components",
+        "action": "ui_tooltip",
+        "route": "components\/ui_tooltip",
+        "view": "pages\/components\/ui_tooltip",
+        "menu": "components",
+        "sub": "ui_tooltip",
+        "title": "Ui Tooltip | Conca Admin"
+    }
+}
