@@ -15,6 +15,6 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="<?= superadmin_asset('vendor/libs/sweetalert2/sweetalert2.css') ?>">
     <!-- Super Admin Custom Style -->
-    <link rel="stylesheet" href="<?= superadmin_asset('css/superadmin.css') ?>?v=1.2">
+    <link rel="stylesheet" href="<?= superadmin_asset('css/superadmin.css') ?>?v=1.3">
 </head>
 <body class="sa-body dark-theme" data-bs-theme="dark">

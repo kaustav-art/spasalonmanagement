@@ -128,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `marketplace_template_layouts` (
   `template_key` varchar(50) NOT NULL,
   `layout_number` int(11) NOT NULL DEFAULT 1,
   `layout_name` varchar(150) NOT NULL,
-  `short_desc` text DEFAULT NULL,
   `preview_image` varchar(255) DEFAULT NULL,
   `demo_url` varchar(255) DEFAULT NULL,
   `sort_order` int(11) NOT NULL DEFAULT 1,
@@ -144,13 +143,13 @@ INSERT INTO `marketplace_templates` (`id`, `template_key`, `name`, `badge`, `ico
 (2, 'template2', 'Template 2', 'Pureglow', 'fa-solid fa-leaf', 'Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.', '["Private Room Showcase", "Therapist Rosters", "Multi-Session Passes"]', 'website/?preview_tpl=template2&preview_layout=1', 2, 'active')
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `short_desc`=VALUES(`short_desc`);
 
-INSERT INTO `marketplace_template_layouts` (`id`, `template_id`, `template_key`, `layout_number`, `layout_name`, `short_desc`, `preview_image`, `demo_url`, `sort_order`, `status`) VALUES
-(1, 1, 'template1', 1, 'Layout 1: Luxury Salon', 'Classic Flagship high-fashion dark and gold palette with stylist highlights.', 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=1', 1, 'active'),
-(2, 1, 'template1', 2, 'Layout 2: Modern Studio', 'Contemporary haircutting and beauty salon studio layout with express booking.', 'website/assets/template1/images/banner-slider-img/demo2-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=2', 2, 'active'),
-(3, 1, 'template1', 3, 'Layout 3: Chic Boutique', 'High-end parlor and nail bar storefront with treatment catalogs.', 'website/assets/template1/images/banner-slider-img/demo3-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=3', 3, 'active'),
-(4, 2, 'template2', 1, 'Layout 1: Sanctuary Day Spa', 'Botanical oasis day spa with treatment suite occupancy schedule.', 'website/assets/template2/images/backgrounds/banner-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=1', 1, 'active'),
-(5, 2, 'template2', 2, 'Layout 2: Holistic Wellness', 'Mind-body wellness retreat layout with aromatherapies and hydrothermal baths.', 'website/assets/template2/images/backgrounds/appointment-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=2', 2, 'active'),
-(6, 2, 'template2', 3, 'Layout 3: Massage Clinic', 'Clinical physical therapy and deep tissue massage clinic scheduling.', 'website/assets/template2/images/backgrounds/discount-v1-bg.jpg', 'website/?preview_tpl=template2&preview_layout=3', 3, 'active')
-ON DUPLICATE KEY UPDATE `layout_name`=VALUES(`layout_name`), `short_desc`=VALUES(`short_desc`);
+INSERT INTO `marketplace_template_layouts` (`id`, `template_id`, `template_key`, `layout_number`, `layout_name`, `preview_image`, `demo_url`, `sort_order`, `status`) VALUES
+(1, 1, 'template1', 1, 'Layout 1: Luxury Salon', 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=1', 1, 'active'),
+(2, 1, 'template1', 2, 'Layout 2: Modern Studio', 'website/assets/template1/images/banner-slider-img/demo2-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=2', 2, 'active'),
+(3, 1, 'template1', 3, 'Layout 3: Chic Boutique', 'website/assets/template1/images/banner-slider-img/demo3-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=3', 3, 'active'),
+(4, 2, 'template2', 1, 'Layout 1: Sanctuary Day Spa', 'website/assets/template2/images/backgrounds/banner-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=1', 1, 'active'),
+(5, 2, 'template2', 2, 'Layout 2: Holistic Wellness', 'website/assets/template2/images/backgrounds/appointment-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=2', 2, 'active'),
+(6, 2, 'template2', 3, 'Layout 3: Massage Clinic', 'website/assets/template2/images/backgrounds/discount-v1-bg.jpg', 'website/?preview_tpl=template2&preview_layout=3', 3, 'active')
+ON DUPLICATE KEY UPDATE `layout_name`=VALUES(`layout_name`);
 
 

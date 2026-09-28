@@ -27,22 +27,6 @@ try {
     // Fallback if needed
 }
 
-// Fetch dynamic templates & layouts for Multi-Theme Architecture
-$templates = array();
-try {
-    if (isset($pdo)) {
-        $stmt_t = $pdo->query("SELECT * FROM marketplace_templates WHERE status = 'active' ORDER BY sort_order ASC, id ASC");
-        $templates = $stmt_t->fetchAll();
-        foreach ($templates as $t) {
-            $stmt_l = $pdo->prepare("SELECT * FROM marketplace_template_layouts WHERE template_id = ? AND status = 'active' ORDER BY sort_order ASC, layout_number ASC");
-            $stmt_l->execute(array($t->id));
-            $t->layouts = $stmt_l->fetchAll();
-        }
-    }
-} catch (Exception $e) {
-    // Fallback
-}
-
 // Fallback default image helper (using c:\Users\Codeulas\Downloads\no-immage.jpg copied to uploads/no-image.jpg)
 if (!function_exists('site_image_or_default')) {
     function site_image_or_default($url, $default = 'uploads/no-image.jpg') {
@@ -58,6 +42,28 @@ if (!function_exists('site_image_or_default')) {
         }
         return $default;
     }
+}
+
+// Fetch dynamic templates & layouts for Multi-Theme Architecture
+$templates = array();
+try {
+    if (isset($pdo)) {
+        $stmt_t = $pdo->query("SELECT * FROM marketplace_templates WHERE status = 'active' ORDER BY sort_order ASC, id ASC");
+        $templates = $stmt_t->fetchAll();
+        foreach ($templates as $t) {
+            $stmt_l = $pdo->prepare("SELECT * FROM marketplace_template_layouts WHERE template_id = ? AND status = 'active' ORDER BY sort_order ASC, layout_number ASC");
+            $stmt_l->execute(array($t->id));
+            $t->layouts = $stmt_l->fetchAll();
+            foreach ($t->layouts as $l) {
+                $l->preview_image = site_image_or_default($l->preview_image);
+                if (empty($l->demo_url)) {
+                    $l->demo_url = 'website/?preview_tpl=' . urlencode($t->template_key) . '&preview_layout=' . urlencode($l->layout_number);
+                }
+            }
+        }
+    }
+} catch (Exception $e) {
+    // Fallback
 }
 
 // Fetch all dynamic platform CMS, SEO, social, gateway, and currency settings
@@ -658,27 +664,179 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             box-shadow: 0 0 0 3px rgba(194, 153, 88, 0.2);
         }
 
-        /* Template Selector in Modal */
+        /* Modal dialog XL responsive max-width */
+        @media (min-width: 1200px) {
+            #checkoutModal .modal-xl,
+            #layoutPreviewModal .modal-xl {
+                max-width: 1240px;
+            }
+        }
+
+        /* Enhanced Template Selector Cards in Modal */
         .tpl-radio-card {
             border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.25rem;
+            border-radius: 14px;
+            padding: 1.25rem 1.4rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            background: #ffffff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .tpl-radio-card:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
+            border-color: var(--primary);
+            background: #fcfbf9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
         }
         .tpl-radio-card.active {
             border-color: var(--primary);
-            background: #fdfaf4;
+            background: #fffdf8;
+            box-shadow: 0 0 0 1.5px var(--primary), 0 12px 28px rgba(194, 153, 88, 0.16);
         }
-        .tpl-radio-card input[type="radio"] {
+        .tpl-icon-pill {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(194, 153, 88, 0.12);
+            color: var(--primary-dark);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .tpl-radio-card.active .tpl-icon-pill {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        .tpl-check-indicator {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+        .tpl-radio-card.active .tpl-check-indicator {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Homepage Layout Preview Cards in Wizard */
+        .layout-preview-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        .layout-preview-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+        }
+        .layout-preview-card.active {
+            border-color: var(--primary);
+            background: #fffdf9;
+            box-shadow: 0 0 0 1.5px var(--primary), 0 12px 30px rgba(194, 153, 88, 0.18);
+        }
+        .layout-img-container {
+            position: relative;
+            height: 185px;
+            background: #0f172a;
+            overflow: hidden;
+        }
+        .layout-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+        .layout-preview-card:hover .layout-img-container img {
+            transform: scale(1.04);
+        }
+        .layout-overlay {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            padding: 12px;
+            z-index: 2;
+        }
+        .layout-preview-card:hover .layout-overlay {
+            opacity: 1;
+        }
+        .layout-top-badges {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .layout-top-badges .badge {
+            pointer-events: auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        .layout-card-body {
+            padding: 1rem 1.15rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .layout-title {
+            font-size: 1rem;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .layout-desc {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            min-height: 2.5em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .layout-preview-card.active .layout-title {
+            color: var(--primary-dark);
+        }
+
+        /* Fullscreen Layout Quick-Preview Modal */
+        #layoutPreviewModal {
+            z-index: 1070 !important;
+        }
+        .layout-preview-backdrop {
+            z-index: 1065 !important;
         }
 
         /* Order Success Container */
@@ -1346,7 +1504,6 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                         $first_layout = !empty($layouts) ? $layouts[0] : null;
                         $first_img = $first_layout ? site_image_or_default($first_layout->preview_image) : 'uploads/no-image.jpg';
                         $first_title = $first_layout ? $first_layout->layout_name : ($tpl->name . ' - Layout 1');
-                        $first_desc = $first_layout ? $first_layout->short_desc : '';
                         $first_demo = $first_layout && !empty($first_layout->demo_url) ? $first_layout->demo_url : ($tpl->demo_url ?: ('website/?preview_tpl=' . $tpl->template_key . '&preview_layout=1'));
                         $col_class = count($templates) > 2 ? 'col-lg-4 col-md-6' : 'col-lg-6';
                     ?>
@@ -1363,7 +1520,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                                     <button type="button" 
                                                             class="btn <?= $l_idx === 0 ? 'btn-dark text-white active border-secondary' : 'btn-outline-secondary text-light' ?> <?= $tpl_slug ?>-tab-btn px-2" 
                                                             id="<?= $tpl_slug ?>_tab_<?= $l->layout_number ?>" 
-                                                            onclick="switchCardLayout('<?= $tpl_slug ?>', <?= $l->layout_number ?>, '<?= htmlspecialchars(site_image_or_default($l->preview_image)) ?>', '<?= htmlspecialchars(addslashes($l->layout_name)) ?>', '<?= htmlspecialchars(addslashes($l->demo_url ?: ('website/?preview_tpl=' . $tpl->template_key . '&preview_layout=' . $l->layout_number))) ?>', '<?= htmlspecialchars(addslashes($l->short_desc ?: '')) ?>')">
+                                                            onclick="switchCardLayout('<?= $tpl_slug ?>', <?= $l->layout_number ?>, '<?= htmlspecialchars(site_image_or_default($l->preview_image)) ?>', '<?= htmlspecialchars(addslashes($l->layout_name)) ?>', '<?= htmlspecialchars(addslashes($l->demo_url ?: ('website/?preview_tpl=' . $tpl->template_key . '&preview_layout=' . $l->layout_number))) ?>')">
                                                         Layout <?= $l->layout_number ?>
                                                     </button>
                                                 <?php endforeach; ?>
@@ -1389,11 +1546,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                                 <span class="badge bg-warning text-dark"><?= htmlspecialchars($tpl->badge) ?></span>
                                             <?php endif; ?>
                                         </div>
-                                        <p class="text-muted small mb-2"><?= htmlspecialchars($tpl->short_desc) ?></p>
-
-                                        <div class="p-2 rounded bg-light border small text-muted mb-3" id="<?= $tpl_slug ?>_layout_desc">
-                                            <?= htmlspecialchars($first_desc) ?: 'Select layout tabs above to view layout details.' ?>
-                                        </div>
+                                        <p class="text-muted small mb-3"><?= htmlspecialchars($tpl->short_desc) ?></p>
 
                                         <a id="<?= $tpl_slug ?>_demo_btn" href="<?= htmlspecialchars($first_demo) ?>" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
                                             <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
@@ -1955,7 +2108,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
     <!-- Interactive Purchase & Template Selection Modal -->
     <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 
                 <!-- Modal Header -->
@@ -2030,38 +2183,85 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
                     <!-- Step 2: Choose Template & Homepage Layout -->
                     <div id="step2" style="display: none;">
-                        <h6 class="fw-bold mb-3 font-serif"><i class="fa fa-palette text-warning me-2"></i> Select Initial Website Template:</h6>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div>
+                                <h6 class="fw-bold mb-0 font-serif fs-5">
+                                    <i class="fa fa-palette text-warning me-2"></i> 1. Choose Your Website Theme Template:
+                                </h6>
+                                <small class="text-muted">Select the core design aesthetic for your salon or spa brand. Each theme includes tailored styling, menus, and layouts.</small>
+                            </div>
+                            <span class="badge bg-warning bg-opacity-10 text-dark border border-warning border-opacity-25 px-3 py-1 font-monospace small">
+                                <i class="fa fa-sparkles text-warning me-1"></i> Multi-Theme Architecture
+                            </span>
+                        </div>
                         
                         <div class="row g-3 mb-4" id="modalTemplateCardsContainer">
                             <?php if (!empty($templates)): ?>
-                                <?php foreach ($templates as $t_idx => $t): ?>
-                                    <div class="<?= count($templates) > 2 ? 'col-md-4' : 'col-md-6' ?>">
+                                <?php foreach ($templates as $t_idx => $t): 
+                                    $t_layouts_count = !empty($t->layouts) ? count($t->layouts) : 0;
+                                    $t_features = !empty($t->features) ? (is_array($t->features) ? $t->features : json_decode($t->features, true)) : array();
+                                ?>
+                                    <div class="<?= count($templates) > 2 ? 'col-lg-4 col-md-6' : 'col-md-6' ?>">
                                         <div class="tpl-radio-card <?= $t_idx === 0 ? 'active' : '' ?>" data-tpl="<?= htmlspecialchars($t->template_key) ?>">
-                                            <input type="radio" name="chosen_tpl" value="<?= htmlspecialchars($t->template_key) ?>" <?= $t_idx === 0 ? 'checked' : '' ?>>
-                                            <div class="fw-bold text-dark font-serif">
-                                                <i class="<?= htmlspecialchars($t->icon ?: 'fa-solid fa-crown') ?> text-warning me-1"></i> <?= htmlspecialchars($t->name) ?>
+                                            <div class="d-flex align-items-start justify-content-between mb-2">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="tpl-icon-pill">
+                                                        <i class="<?= htmlspecialchars($t->icon ?: 'fa-solid fa-crown') ?>"></i>
+                                                    </span>
+                                                    <div>
+                                                        <h6 class="fw-bold text-dark font-serif mb-0 fs-6"><?= htmlspecialchars($t->name) ?></h6>
+                                                        <span class="badge bg-light text-dark border mt-1" style="font-size: 11px;">
+                                                            <i class="fa fa-layer-group text-warning me-1"></i><?= $t_layouts_count ?> Homepage Layouts Included
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="tpl-check-indicator" title="Selected Indicator">
+                                                    <i class="fa fa-check"></i>
+                                                </div>
+                                                <input type="radio" name="chosen_tpl" value="<?= htmlspecialchars($t->template_key) ?>" <?= $t_idx === 0 ? 'checked' : '' ?> class="d-none">
                                             </div>
-                                            <small class="text-muted d-block mt-1"><?= htmlspecialchars($t->short_desc) ?></small>
+                                            <p class="small text-muted mb-2 lh-sm"><?= htmlspecialchars($t->short_desc) ?></p>
+                                            <?php if (!empty($t_features)): ?>
+                                                <div class="d-flex flex-wrap gap-1 mt-2">
+                                                    <?php foreach (array_slice($t_features, 0, 3) as $feat): ?>
+                                                        <span class="badge bg-light text-secondary border fw-normal" style="font-size: 11px;"><i class="fa fa-check text-success me-1"></i><?= htmlspecialchars($feat) ?></span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
 
-                        <h6 class="fw-bold mb-3 font-serif"><i class="fa fa-th-large text-warning me-2"></i> Select Default Homepage Layout:</h6>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div>
+                                <h6 class="fw-bold mb-0 font-serif fs-5">
+                                    <i class="fa fa-th-large text-warning me-2"></i> 2. Choose Default Homepage Layout &amp; Preview:
+                                </h6>
+                                <small class="text-muted">Click any layout card to select it. Click <strong>Quick Preview</strong> to view full-size design or <strong>Live Demo</strong> to explore the live website.</small>
+                            </div>
+                            <div id="modalLayoutCountBadge" class="badge bg-dark text-white px-3 py-2 rounded-pill font-monospace small">
+                                <i class="fa fa-palette text-warning me-1"></i> 3 Layouts Available
+                            </div>
+                        </div>
+
                         <div class="row g-3 mb-4" id="modalLayoutsContainer">
                             <!-- Populated dynamically via JS for active template -->
                         </div>
 
-                        <div class="alert alert-light border small text-muted mb-4">
-                            <i class="fa fa-info-circle text-primary me-1"></i> You can switch between templates and layouts at any time from your Tenant Admin Panel.
+                        <div class="alert alert-light border small text-muted mb-4 d-flex align-items-center gap-2">
+                            <i class="fa fa-circle-info text-primary fa-lg"></i>
+                            <div>
+                                <strong>Complete Flexibility:</strong> All templates and layouts are bundled into your package. You can preview, test, and switch between any layout anytime directly from your Tenant Admin Panel after launch!
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-outline-secondary px-3" id="btnBackToStep1">
-                                <i class="fa fa-arrow-left me-1"></i> Back
+                        <div class="d-flex justify-content-between pt-2">
+                            <button type="button" class="btn btn-outline-secondary px-4 fw-semibold" id="btnBackToStep1">
+                                <i class="fa fa-arrow-left me-1"></i> Back to Customer Info
                             </button>
-                            <button type="button" class="btn btn-gold px-4 fw-bold" id="btnGoToStep3">
+                            <button type="button" class="btn btn-gold px-4 fw-bold shadow-sm" id="btnGoToStep3">
                                 Next: Payment Gateway <i class="fa fa-arrow-right ms-2"></i>
                             </button>
                         </div>
@@ -2349,6 +2549,45 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         </div>
     </div>
 
+    <!-- Layout Fullscreen Quick-Preview Modal -->
+    <div class="modal fade" id="layoutPreviewModal" tabindex="-1" aria-hidden="true" style="z-index: 1070;">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-dark text-white py-3 px-4 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-warning text-dark px-3 py-2 font-monospace fw-bold" id="previewModalBadge">Layout 1</span>
+                        <div>
+                            <h5 class="modal-title font-serif text-white mb-0" id="previewModalTitle">Layout Preview</h5>
+                            <small class="text-white-50" id="previewModalSubtitle">High-Resolution Website Homepage Preview</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a id="previewModalLiveBtn" href="#" target="_blank" class="btn btn-sm btn-gold fw-bold">
+                            <i class="fa fa-arrow-up-right-from-square me-1"></i> Open Live Interactive Site
+                        </a>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body p-0 bg-light text-center position-relative" style="min-height: 400px; max-height: 75vh; overflow-y: auto;">
+                    <div class="p-3">
+                        <img id="previewModalImg" src="" alt="Layout Preview" class="img-fluid rounded shadow-sm border" style="width: 100%; max-width: 1200px; margin: 0 auto; display: block;" onerror="this.src='uploads/no-image.jpg'">
+                    </div>
+                </div>
+                <div class="modal-footer bg-white px-4 py-3 d-flex align-items-center justify-content-between">
+                    <div class="text-muted small">
+                        <i class="fa fa-info-circle text-primary me-1"></i> You can change or customize your template &amp; layout anytime from your Salon Admin Panel.
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary px-3" data-bs-dismiss="modal">Close Preview</button>
+                        <button type="button" class="btn btn-gold px-4 fw-bold shadow-sm" id="btnSelectFromPreview">
+                            <i class="fa fa-check me-1"></i> Select This Layout &amp; Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 Bundle JS -->
     <script src="website/assets/template1/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -2407,6 +2646,53 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         // All Dynamic Templates & Layouts Data
         const allTemplatesData = <?= json_encode($templates) ?>;
 
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        let layoutPreviewModalInstance = null;
+        let currentPreviewLayoutNumber = '1';
+
+        function openLayoutPreviewModal(tplName, layoutName, imgSrc, demoUrl, layoutNum) {
+            currentPreviewLayoutNumber = String(layoutNum);
+            const badgeEl = document.getElementById('previewModalBadge');
+            const titleEl = document.getElementById('previewModalTitle');
+            const subEl = document.getElementById('previewModalSubtitle');
+            const imgEl = document.getElementById('previewModalImg');
+            const liveBtn = document.getElementById('previewModalLiveBtn');
+
+            if (badgeEl) badgeEl.textContent = 'Layout ' + layoutNum;
+            if (titleEl) titleEl.textContent = layoutName;
+            if (subEl) subEl.textContent = tplName + ' • Live Responsive Website Preview';
+            if (imgEl) {
+                imgEl.src = imgSrc || 'uploads/no-image.jpg';
+                imgEl.alt = layoutName;
+            }
+            if (liveBtn) liveBtn.href = demoUrl;
+
+            const modalEl = document.getElementById('layoutPreviewModal');
+            if (modalEl) {
+                if (!layoutPreviewModalInstance) {
+                    layoutPreviewModalInstance = new bootstrap.Modal(modalEl);
+                }
+                layoutPreviewModalInstance.show();
+
+                // Ensure backdrop doesn't dim over the preview modal
+                setTimeout(function() {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    if (backdrops.length > 1) {
+                        backdrops[backdrops.length - 1].classList.add('layout-preview-backdrop');
+                    }
+                }, 50);
+            }
+        }
+
         function renderModalLayouts(tplKey) {
             const container = document.getElementById('modalLayoutsContainer');
             if (!container || !allTemplatesData) return;
@@ -2418,17 +2704,78 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 return;
             }
 
+            // Update badge count
+            const countBadge = document.getElementById('modalLayoutCountBadge');
+            if (countBadge) {
+                countBadge.innerHTML = '<i class="fa fa-palette text-warning me-1"></i> ' + tpl.layouts.length + ' Layouts Available for ' + escapeHtml(tpl.name);
+            }
+
+            // Ensure selectedLayout exists in this template, otherwise default to first
+            const hasLayout = tpl.layouts.some(l => String(l.layout_number) === String(selectedLayout));
+            if (!hasLayout && tpl.layouts[0]) {
+                selectedLayout = String(tpl.layouts[0].layout_number);
+            }
+
             let html = '';
-            const colSize = tpl.layouts.length <= 3 ? Math.floor(12 / tpl.layouts.length) : 4;
+            const colClass = tpl.layouts.length <= 2 ? 'col-md-6 col-12' : (tpl.layouts.length === 3 ? 'col-lg-4 col-md-6 col-12' : 'col-lg-3 col-md-6 col-12');
+            
             tpl.layouts.forEach((l, idx) => {
-                const checked = (String(l.layout_number) === String(selectedLayout) || (idx === 0 && !selectedLayout)) ? 'checked' : '';
+                const isSelected = (String(l.layout_number) === String(selectedLayout) || (idx === 0 && !selectedLayout));
+                const checked = isSelected ? 'checked' : '';
+                const activeClass = isSelected ? 'active' : '';
+                const layoutImg = l.preview_image ? l.preview_image : 'uploads/no-image.jpg';
+                const layoutName = l.layout_name || ('Layout ' + l.layout_number);
+                const layoutDesc = l.short_desc || ('High-converting responsive homepage layout option ' + l.layout_number + ' customized for salon & spa bookings.');
+                const demoUrl = l.demo_url || ('website/?preview_tpl=' + encodeURIComponent(tpl.template_key) + '&preview_layout=' + encodeURIComponent(l.layout_number));
+                
+                // Escape attributes for inline JS
+                const safeTplName = escapeHtml(tpl.name).replace(/'/g, "\\'");
+                const safeLayoutName = escapeHtml(layoutName).replace(/'/g, "\\'");
+                const safeImg = escapeHtml(layoutImg).replace(/'/g, "\\'");
+                const safeDemo = escapeHtml(demoUrl).replace(/'/g, "\\'");
+
                 html += `
-                    <div class="col-${colSize}">
-                        <div class="form-check p-3 border rounded text-center position-relative h-100 d-flex flex-column justify-content-between">
-                            <div>
-                                <input class="form-check-input" type="radio" name="chosen_layout" id="layout_${l.layout_number}" value="${l.layout_number}" ${checked}>
-                                <label class="form-check-label fw-bold d-block mt-1" for="layout_${l.layout_number}">${l.layout_name || ('Layout ' + l.layout_number)}</label>
-                                <span class="small text-muted d-block mt-1" style="font-size: 11px;">${l.short_desc || ''}</span>
+                    <div class="${colClass}">
+                        <div class="layout-preview-card ${activeClass}" data-layout="${l.layout_number}">
+                            <!-- Thumbnail Frame with Hover Actions -->
+                            <div class="layout-img-container">
+                                <img src="${escapeHtml(layoutImg)}" alt="${escapeHtml(layoutName)}" loading="lazy" onerror="this.src='uploads/no-image.jpg'">
+                                <div class="layout-overlay">
+                                    <button type="button" class="btn btn-sm btn-light fw-bold shadow-sm btn-quick-preview" onclick="openLayoutPreviewModal('${safeTplName}', '${safeLayoutName}', '${safeImg}', '${safeDemo}', '${l.layout_number}'); event.stopPropagation();">
+                                        <i class="fa fa-eye me-1 text-primary"></i> Quick Preview
+                                    </button>
+                                    <a href="${escapeHtml(demoUrl)}" target="_blank" class="btn btn-sm btn-gold fw-bold shadow-sm" onclick="event.stopPropagation();">
+                                        <i class="fa fa-arrow-up-right-from-square me-1"></i> Live Demo
+                                    </a>
+                                </div>
+                                <div class="layout-top-badges">
+                                    <span class="badge bg-dark bg-opacity-75 text-white px-2 py-1">
+                                        <i class="fa fa-layer-group text-warning me-1"></i> Layout ${l.layout_number}
+                                    </span>
+                                    <span class="badge layout-status-badge ${isSelected ? 'bg-warning text-dark' : 'bg-dark bg-opacity-75 text-white'} px-2 py-1">
+                                        ${isSelected ? '<i class="fa fa-check-circle me-1"></i> Selected' : '<i class="fa fa-mouse-pointer me-1"></i> Click to Select'}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="layout-card-body">
+                                <div>
+                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                        <h6 class="fw-bold font-serif mb-0 layout-title">${escapeHtml(layoutName)}</h6>
+                                        <input class="form-check-input d-none" type="radio" name="chosen_layout" id="layout_${l.layout_number}" value="${l.layout_number}" ${checked}>
+                                    </div>
+                                    <p class="small text-muted mb-3 layout-desc">${escapeHtml(layoutDesc)}</p>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                                    <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 text-primary small fw-semibold btn-quick-preview" onclick="openLayoutPreviewModal('${safeTplName}', '${safeLayoutName}', '${safeImg}', '${safeDemo}', '${l.layout_number}'); event.stopPropagation();">
+                                        <i class="fa fa-search-plus me-1"></i> Zoom Preview
+                                    </button>
+                                    <a href="${escapeHtml(demoUrl)}" target="_blank" class="btn btn-sm btn-outline-secondary py-0 px-2 small" onclick="event.stopPropagation();">
+                                        <i class="fa fa-external-link-alt me-1"></i> Live Demo <i class="fa fa-chevron-right ms-1" style="font-size: 9px;"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2436,13 +2783,31 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             });
             container.innerHTML = html;
 
-            const activeChecked = container.querySelector('input[name="chosen_layout"]:checked');
-            selectedLayout = activeChecked ? activeChecked.value : (tpl.layouts[0] ? tpl.layouts[0].layout_number : '1');
-
-            container.querySelectorAll('input[name="chosen_layout"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.checked) selectedLayout = this.value;
+            // Bind card selection clicks
+            container.querySelectorAll('.layout-preview-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.btn-quick-preview') || e.target.closest('a')) return;
+                    const layoutNum = this.getAttribute('data-layout');
+                    selectLayoutByNumber(layoutNum);
                 });
+            });
+        }
+
+        function selectLayoutByNumber(layoutNum) {
+            selectedLayout = String(layoutNum);
+            const container = document.getElementById('modalLayoutsContainer');
+            if (!container) return;
+
+            container.querySelectorAll('.layout-preview-card').forEach(c => {
+                const isThis = c.getAttribute('data-layout') === selectedLayout;
+                c.classList.toggle('active', isThis);
+                const radio = c.querySelector('input[type="radio"]');
+                if (radio) radio.checked = isThis;
+                const badge = c.querySelector('.layout-status-badge');
+                if (badge) {
+                    badge.className = 'badge layout-status-badge ' + (isThis ? 'bg-warning text-dark' : 'bg-dark bg-opacity-75 text-white') + ' px-2 py-1';
+                    badge.innerHTML = isThis ? '<i class="fa fa-check-circle me-1"></i> Selected' : '<i class="fa fa-mouse-pointer me-1"></i> Click to Select';
+                }
             });
         }
 
@@ -2462,6 +2827,17 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             });
         }
         bindTemplateCardClicks();
+
+        // Select from Preview Modal button
+        const btnSelectFromPreview = document.getElementById('btnSelectFromPreview');
+        if (btnSelectFromPreview) {
+            btnSelectFromPreview.addEventListener('click', function() {
+                selectLayoutByNumber(currentPreviewLayoutNumber);
+                if (layoutPreviewModalInstance) {
+                    layoutPreviewModalInstance.hide();
+                }
+            });
+        }
 
         // Password toggle
         function togglePasswordVisibility(id, btn) {
@@ -2709,11 +3085,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         }
 
         // Interactive Tab Switcher for Template Layouts
-        function switchCardLayout(tpl, layoutNum, imgUrl, titleText, demoUrl, descText) {
+        function switchCardLayout(tpl, layoutNum, imgUrl, titleText, demoUrl) {
             const imgEl = document.getElementById(tpl + '_preview_img');
             const titleEl = document.getElementById(tpl + '_preview_title');
             const demoBtn = document.getElementById(tpl + '_demo_btn');
-            const descEl = document.getElementById(tpl + '_layout_desc');
 
             const fallbackImg = 'uploads/no-image.jpg';
             const finalImg = (imgUrl && imgUrl.trim() !== '') ? imgUrl : fallbackImg;
@@ -2721,7 +3096,6 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             if (imgEl) imgEl.style.backgroundImage = `url('${finalImg}')`;
             if (titleEl) titleEl.textContent = titleText;
             if (demoBtn) demoBtn.href = demoUrl;
-            if (descEl && descText) descEl.textContent = descText;
 
             document.querySelectorAll(`.${tpl}-tab-btn`).forEach(b => {
                 b.classList.remove('btn-dark', 'text-white', 'active', 'border-secondary');

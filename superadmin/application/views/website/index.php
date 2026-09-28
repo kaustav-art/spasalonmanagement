@@ -571,12 +571,15 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
                                     <?php foreach ($t->layouts as $l): ?>
                                         <div class="col-md-4 col-sm-6">
                                             <div class="card h-100 border-0 rounded-3 overflow-hidden shadow-sm" style="background: #080d19; border: 1px solid rgba(255,255,255,0.08) !important;">
-                                                <!-- Preview Image Box -->
-                                                <div class="position-relative" style="height: 160px; background: #000; overflow: hidden;">
+                                                <!-- Preview Image Box (Click to preview layout in XL modal) -->
+                                                <div class="position-relative layout-preview-thumb" 
+                                                     style="height: 165px; background: #000; overflow: hidden; cursor: pointer;"
+                                                     onclick="openLayoutPreviewModal(<?= htmlspecialchars(json_encode($l)) ?>, '<?= htmlspecialchars(addslashes($t->name)) ?>')"
+                                                     title="Click to preview layout">
                                                     <img src="<?= htmlspecialchars(fallback_image_url($l->preview_image)) ?>" 
                                                          alt="<?= htmlspecialchars($l->layout_name) ?>" 
-                                                         class="w-100 h-100" 
-                                                         style="object-fit: cover;"
+                                                         class="w-100 h-100 layout-thumb-img" 
+                                                         style="object-fit: cover; transition: transform 0.3s ease;"
                                                          onerror="this.onerror=null;this.src='<?= main_site_url('uploads/no-image.jpg') ?>';">
                                                     
                                                     <span class="position-absolute top-0 start-0 m-2 badge bg-dark bg-opacity-75 border border-secondary text-warning fw-bold">
@@ -585,32 +588,43 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
 
                                                     <?php if (empty($l->preview_image) || strpos($l->preview_image, 'no-image') !== false): ?>
                                                         <span class="position-absolute bottom-0 end-0 m-2 badge bg-warning text-dark small fw-bold">
-                                                            <i class="fa fa-image me-1"></i> Default Fallback Image
+                                                            <i class="fa fa-image me-1"></i> Default Fallback
                                                         </span>
                                                     <?php endif; ?>
+
+                                                    <!-- Hover Overlay -->
+                                                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center layout-thumb-overlay" 
+                                                         style="background: rgba(0,0,0,0.65); opacity: 0; transition: opacity 0.2s ease;">
+                                                        <span class="badge bg-warning text-dark fw-bold px-3 py-2 shadow">
+                                                            <i class="fa-solid fa-eye me-1"></i> Preview Layout
+                                                        </span>
+                                                    </div>
                                                 </div>
 
                                                 <div class="card-body p-3 d-flex flex-column justify-content-between">
                                                     <div>
-                                                        <h6 class="text-white fw-bold mb-1"><?= htmlspecialchars($l->layout_name) ?></h6>
-                                                        <p class="text-muted small mb-2" style="font-size: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                                            <?= htmlspecialchars($l->short_desc) ?: 'No layout description.' ?>
-                                                        </p>
+                                                        <h6 class="text-white fw-bold mb-0 text-truncate" title="<?= htmlspecialchars($l->layout_name) ?>"><?= htmlspecialchars($l->layout_name) ?></h6>
                                                     </div>
 
                                                     <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25 mt-2">
-                                                        <a href="<?= main_site_url($l->demo_url ?: ('website/?preview_tpl=' . $t->template_key . '&preview_layout=' . $l->layout_number)) ?>" target="_blank" class="btn btn-outline-light btn-sm">
-                                                            <i class="fa fa-arrow-up-right-from-square me-1"></i> Live Demo
-                                                        </a>
-                                                        <div class="btn-group btn-group-sm">
-                                                            <button type="button" class="btn btn-outline-warning" title="Edit Layout"
-                                                                    onclick="openEditLayoutModal(<?= htmlspecialchars(json_encode($l)) ?>, '<?= htmlspecialchars(addslashes($t->name)) ?>')">
-                                                                <i class="fa fa-pencil"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-outline-danger" title="Delete Layout"
-                                                                    onclick="deleteLayout(<?= (int)$l->id ?>)">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
+                                                        <button type="button" class="btn btn-outline-warning btn-sm fw-semibold" 
+                                                                onclick="openLayoutPreviewModal(<?= htmlspecialchars(json_encode($l)) ?>, '<?= htmlspecialchars(addslashes($t->name)) ?>')">
+                                                            <i class="fa-solid fa-eye me-1"></i> Preview
+                                                        </button>
+                                                        <div class="d-flex align-items-center gap-1">
+                                                            <a href="<?= main_site_url($l->demo_url ?: ('website/?preview_tpl=' . $t->template_key . '&preview_layout=' . $l->layout_number)) ?>" target="_blank" class="btn btn-outline-light btn-sm" title="Open live site in new window">
+                                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                            </a>
+                                                            <div class="btn-group btn-group-sm">
+                                                                <button type="button" class="btn btn-outline-warning" title="Edit Layout"
+                                                                        onclick="openEditLayoutModal(<?= htmlspecialchars(json_encode($l)) ?>, '<?= htmlspecialchars(addslashes($t->name)) ?>')">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </button>
+                                                                <button type="button" class="btn btn-outline-danger" title="Delete Layout"
+                                                                        onclick="deleteLayout(<?= (int)$l->id ?>)">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -641,56 +655,67 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
     </div>
 </div>
 
-<!-- Modal 1: Add / Edit Template -->
+<!-- Modal 1: Add / Edit Template (modal-xl) -->
 <div class="modal fade" id="modalTemplate" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4);">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4); box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
             <form action="<?= superadmin_url('website') ?>" method="post">
                 <input type="hidden" name="active_tab" value="themes">
                 <input type="hidden" name="theme_action" value="save_template">
                 <input type="hidden" name="template_id" id="modalTplId" value="0">
 
-                <div class="modal-header border-secondary border-opacity-25 bg-black bg-opacity-25">
+                <div class="modal-header border-secondary border-opacity-25 bg-black bg-opacity-25 py-3">
                     <h5 class="modal-title text-white font-serif" id="modalTplTitle">
                         <i class="fa-solid fa-palette text-warning me-2"></i> Add New Template
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-white small fw-bold">Template Code / Key <span class="text-danger">*</span></label>
-                            <input type="text" name="template_key" id="modalTplKey" class="form-control font-monospace" required placeholder="e.g. template1, template2, template3">
-                            <small class="text-muted" style="font-size: 11px;">Alphanumeric identifier used in code and folder paths.</small>
+                    <div class="row g-4">
+                        <!-- Left: Core Template Meta -->
+                        <div class="col-lg-6">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-white small fw-bold">Template Code / Key <span class="text-danger">*</span></label>
+                                    <input type="text" name="template_key" id="modalTplKey" class="form-control font-monospace" required placeholder="e.g. template1, template2, template3">
+                                    <small class="text-muted" style="font-size: 11px;">Alphanumeric identifier used in code and folder paths.</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-white small fw-bold">Template Display Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" id="modalTplName" class="form-control" required placeholder="e.g. Template 1 (Glamr)">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-white small fw-bold">Badge Text</label>
+                                    <input type="text" name="badge" id="modalTplBadge" class="form-control" placeholder="e.g. Glamr, Pureglow, Popular">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-white small fw-bold">Icon (FontAwesome)</label>
+                                    <input type="text" name="icon" id="modalTplIcon" class="form-control" placeholder="e.g. fa-solid fa-crown, fa-solid fa-leaf">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-white small fw-bold">Sort Order</label>
+                                    <input type="number" name="sort_order" id="modalTplSort" class="form-control" value="1" min="1">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-white small fw-bold">Template Display Name <span class="text-danger">*</span></label>
-                            <input type="text" name="name" id="modalTplName" class="form-control" required placeholder="e.g. Template 1 (Glamr)">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-white small fw-bold">Badge Text</label>
-                            <input type="text" name="badge" id="modalTplBadge" class="form-control" placeholder="e.g. Glamr, Pureglow, Popular">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-white small fw-bold">Icon (FontAwesome)</label>
-                            <input type="text" name="icon" id="modalTplIcon" class="form-control" placeholder="e.g. fa-solid fa-crown, fa-solid fa-leaf">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-white small fw-bold">Short Description <span class="text-danger">*</span></label>
-                            <textarea name="short_desc" id="modalTplDesc" class="form-control" rows="3" required placeholder="e.g. Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts."></textarea>
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label text-white small fw-bold">Feature Tags / Bullets</label>
-                            <input type="text" name="features" id="modalTplFeatures" class="form-control" placeholder="Stylist Portfolios, Salon Pricing Menus, Booking Wizard (comma-separated)">
-                            <small class="text-muted" style="font-size: 11px;">Separate multiple feature tags with commas.</small>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label text-white small fw-bold">Sort Order</label>
-                            <input type="number" name="sort_order" id="modalTplSort" class="form-control" value="1" min="1">
+
+                        <!-- Right: Descriptions & Features -->
+                        <div class="col-lg-6">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label text-white small fw-bold">Short Description <span class="text-danger">*</span></label>
+                                    <textarea name="short_desc" id="modalTplDesc" class="form-control" rows="3" required placeholder="e.g. Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-white small fw-bold">Feature Tags / Bullets</label>
+                                    <input type="text" name="features" id="modalTplFeatures" class="form-control" placeholder="Stylist Portfolios, Salon Pricing Menus, Booking Wizard (comma-separated)">
+                                    <small class="text-muted" style="font-size: 11px;">Separate multiple feature tags with commas.</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-secondary border-opacity-25 bg-black bg-opacity-25">
+                <div class="modal-footer border-secondary border-opacity-25 bg-black bg-opacity-25 py-3">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-gold fw-bold px-4">
                         <i class="fa-solid fa-check me-1"></i> Save Template
@@ -701,89 +726,173 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
     </div>
 </div>
 
-<!-- Modal 2: Add / Edit Layout -->
+<!-- Modal 2: Add / Edit Layout (modal-xl Studio) -->
 <div class="modal fade" id="modalLayout" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4);">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4); box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
             <form action="<?= superadmin_url('website') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="active_tab" value="themes">
                 <input type="hidden" name="theme_action" value="save_layout">
                 <input type="hidden" name="layout_id" id="modalLayoutId" value="0">
                 <input type="hidden" name="template_id" id="modalLayoutTplId" value="0">
 
-                <div class="modal-header border-secondary border-opacity-25 bg-black bg-opacity-25">
+                <div class="modal-header border-secondary border-opacity-25 bg-black bg-opacity-25 py-3">
                     <h5 class="modal-title text-white font-serif" id="modalLayoutHeader">
                         <i class="fa-solid fa-image text-warning me-2"></i> Add Layout to <span id="modalLayoutTplName" class="text-warning">Template 1</span>
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label text-white small fw-bold">Layout Number <span class="text-danger">*</span></label>
-                            <input type="number" name="layout_number" id="modalLayoutNum" class="form-control" required min="1" value="1">
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label text-white small fw-bold">Layout Name <span class="text-danger">*</span></label>
-                            <input type="text" name="layout_name" id="modalLayoutName" class="form-control" required placeholder="e.g. Layout 1: Luxury Salon">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-white small fw-bold">Layout Short Description <span class="text-danger">*</span></label>
-                            <textarea name="short_desc" id="modalLayoutDesc" class="form-control" rows="2" required placeholder="e.g. Classic Flagship high-fashion dark and gold palette with stylist highlights."></textarea>
-                        </div>
+                    <div class="row g-4">
+                        <!-- Left: Form Controls -->
+                        <div class="col-lg-6">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label text-white small fw-bold">Layout Number <span class="text-danger">*</span></label>
+                                    <input type="number" name="layout_number" id="modalLayoutNum" class="form-control" required min="1" value="1">
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label text-white small fw-bold">Layout Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="layout_name" id="modalLayoutName" class="form-control" required placeholder="e.g. Layout 1: Luxury Salon">
+                                </div>
 
-                        <!-- Layout Preview Image with Default Fallback -->
-                        <div class="col-12">
-                            <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);">
-                                <label class="form-label text-white small fw-bold mb-2">
-                                    <i class="fa-solid fa-photo-film text-warning me-1"></i> Layout Preview Image
-                                </label>
-                                
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-4 text-center">
-                                        <div class="rounded overflow-hidden border border-secondary p-1" style="background: #000; height: 110px;">
-                                            <img id="modalLayoutPreviewBox" 
-                                                 src="<?= main_site_url('uploads/no-image.jpg') ?>" 
-                                                 alt="Preview" 
-                                                 class="w-100 h-100" 
-                                                 style="object-fit: cover;"
-                                                 onerror="this.onerror=null;this.src='<?= main_site_url('uploads/no-image.jpg') ?>';">
-                                        </div>
-                                        <small class="text-muted d-block mt-1" style="font-size: 11px;" id="modalLayoutImgNotice">
-                                            Default image applied if empty
-                                        </small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="mb-2">
-                                            <label class="form-label text-light small mb-1">Upload Image File (PNG, JPG, WEBP)</label>
-                                            <input type="file" name="layout_preview_file" id="modalLayoutFileInput" class="form-control form-control-sm" accept="image/*" onchange="previewModalLayoutImage(this)">
-                                        </div>
-                                        <div>
-                                            <label class="form-label text-light small mb-1">Or Image URL / Relative Path</label>
-                                            <input type="text" name="preview_image_url" id="modalLayoutUrlInput" class="form-control form-control-sm" placeholder="e.g. website/assets/template1/... or uploads/..." oninput="updateModalLayoutUrl(this.value)">
-                                        </div>
-                                    </div>
+                                <div class="col-12">
+                                    <label class="form-label text-white small fw-bold mb-1">
+                                        <i class="fa-solid fa-cloud-arrow-up text-warning me-1"></i> Upload Image File (PNG, JPG, WEBP)
+                                    </label>
+                                    <input type="file" name="layout_preview_file" id="modalLayoutFileInput" class="form-control" accept="image/*" onchange="previewModalLayoutImage(this)">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label text-white small fw-bold mb-1">
+                                        <i class="fa-solid fa-link text-warning me-1"></i> Or Image URL / Relative Path
+                                    </label>
+                                    <input type="text" name="preview_image_url" id="modalLayoutUrlInput" class="form-control" placeholder="e.g. website/assets/template1/... or uploads/..." oninput="updateModalLayoutUrl(this.value)">
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label class="form-label text-white small fw-bold">Live Demo Preview URL</label>
+                                    <input type="text" name="demo_url" id="modalLayoutDemoUrl" class="form-control" placeholder="e.g. website/?preview_tpl=template1&preview_layout=1">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label text-white small fw-bold">Sort Order</label>
+                                    <input type="number" name="sort_order" id="modalLayoutSort" class="form-control" value="1" min="1">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-8">
-                            <label class="form-label text-white small fw-bold">Live Demo Preview URL</label>
-                            <input type="text" name="demo_url" id="modalLayoutDemoUrl" class="form-control" placeholder="e.g. website/?preview_tpl=template1&preview_layout=1">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label text-white small fw-bold">Sort Order</label>
-                            <input type="number" name="sort_order" id="modalLayoutSort" class="form-control" value="1" min="1">
+                        <!-- Right: Live Layout Preview Studio -->
+                        <div class="col-lg-6">
+                            <div class="p-3 rounded-3 h-100 d-flex flex-column" style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="text-white small fw-bold">
+                                        <i class="fa-solid fa-photo-film text-warning me-1"></i> Live Layout Image Preview
+                                    </span>
+                                    <span class="badge bg-dark border border-secondary text-warning" id="modalLayoutImgNotice">
+                                        Default image applied
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1 rounded-3 overflow-hidden border border-secondary d-flex align-items-center justify-content-center p-2 position-relative" style="background: #050811; min-height: 250px;">
+                                    <img id="modalLayoutPreviewBox" 
+                                         src="<?= main_site_url('uploads/no-image.jpg') ?>" 
+                                         alt="Layout Preview" 
+                                         class="w-100 h-100 rounded" 
+                                         style="object-fit: cover; max-height: 280px;"
+                                         onerror="this.onerror=null;this.src='<?= main_site_url('uploads/no-image.jpg') ?>';">
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <small class="text-muted" style="font-size: 11px;">
+                                        <i class="fa-solid fa-circle-info text-info me-1"></i> Instant real-time preview updates as you choose a file or type a URL.
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-secondary border-opacity-25 bg-black bg-opacity-25">
+                <div class="modal-footer border-secondary border-opacity-25 bg-black bg-opacity-25 py-3">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-gold fw-bold px-4">
                         <i class="fa-solid fa-check me-1"></i> Save Layout
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Layout Live & Responsive Preview (modal-xl) -->
+<div class="modal fade" id="modalPreviewLayout" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 94vw;">
+        <div class="modal-content" style="background: #0c1322; border: 1px solid rgba(194, 153, 88, 0.4); box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
+            <div class="modal-header border-secondary border-opacity-25 py-2 px-3 bg-black bg-opacity-50 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-warning text-dark fw-bold font-monospace px-2 py-1" id="pvTplBadge">TEMPLATE</span>
+                    <h5 class="modal-title text-white font-serif mb-0" id="pvLayoutTitle">
+                        <i class="fa-solid fa-eye text-warning me-2"></i><span id="pvLayoutName">Layout Preview</span>
+                    </h5>
+                    <span class="badge bg-dark border border-secondary text-warning" id="pvLayoutNumBadge">Layout 1</span>
+                </div>
+
+                <!-- Responsive Viewport & View Mode Switcher -->
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="btn-group btn-group-sm" role="group" id="pvDeviceGroup">
+                        <button type="button" class="btn btn-dark active text-warning border-secondary" id="pvBtnDesktop" onclick="setPreviewDevice('100%', this)" title="Desktop View (100%)">
+                            <i class="fa-solid fa-desktop me-1"></i> Desktop
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary text-light" id="pvBtnTablet" onclick="setPreviewDevice('768px', this)" title="Tablet View (768px)">
+                            <i class="fa-solid fa-tablet-screen-button me-1"></i> Tablet
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary text-light" id="pvBtnMobile" onclick="setPreviewDevice('375px', this)" title="Mobile View (375px)">
+                            <i class="fa-solid fa-mobile-screen-button me-1"></i> Mobile
+                        </button>
+                    </div>
+
+                    <!-- View Mode Toggle -->
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-warning active text-dark fw-semibold" id="pvModeLive" onclick="setPreviewMode('live')">
+                            <i class="fa-solid fa-globe me-1"></i> Live Site
+                        </button>
+                        <button type="button" class="btn btn-outline-warning" id="pvModeImage" onclick="setPreviewMode('image')">
+                            <i class="fa-solid fa-image me-1"></i> Image
+                        </button>
+                    </div>
+
+                    <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+
+            <div class="modal-body p-0 position-relative text-center d-flex align-items-center justify-content-center" style="background: #050811; min-height: 580px; height: 75vh; overflow: hidden;">
+                <!-- Loading Spinner for iframe -->
+                <div id="pvLoading" class="position-absolute top-50 start-50 translate-middle text-center text-warning" style="z-index: 5;">
+                    <div class="spinner-border text-warning mb-2" role="status"></div>
+                    <div class="small text-muted font-monospace">Loading Layout Preview...</div>
+                </div>
+
+                <!-- Live Iframe View Container -->
+                <div id="pvFrameWrapper" class="h-100 mx-auto" style="width: 100%; max-width: 100%; transition: width 0.3s ease;">
+                    <iframe id="pvIframe" src="" class="w-100 h-100 border-0" onload="document.getElementById('pvLoading').style.display='none';"></iframe>
+                </div>
+
+                <!-- Static Image View Container -->
+                <div id="pvImageWrapper" class="h-100 w-100 p-3 align-items-center justify-content-center overflow-auto" style="display: none;">
+                    <img id="pvImage" src="" alt="Layout Preview" class="img-fluid rounded shadow border border-secondary" style="max-height: 70vh; object-fit: contain;">
+                </div>
+            </div>
+
+            <div class="modal-footer border-secondary border-opacity-25 py-2 px-3 bg-black bg-opacity-50 d-flex justify-content-between align-items-center">
+                <div class="small text-muted font-monospace text-truncate" style="max-width: 50%;">
+                    <i class="fa-solid fa-link text-warning me-1"></i> <span id="pvDemoUrlText"></span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <a id="pvLaunchExternal" href="#" target="_blank" class="btn btn-outline-light btn-sm fw-semibold">
+                        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open in New Tab
+                    </a>
+                    <button type="button" class="btn btn-gold btn-sm fw-bold px-3" id="pvEditLayoutBtn">
+                        <i class="fa-solid fa-pencil me-1"></i> Edit This Layout
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -1051,7 +1160,6 @@ function openNewLayoutModal(tplId, tplKey, tplName, nextNum) {
     document.getElementById('modalLayoutTplId').value = tplId;
     document.getElementById('modalLayoutNum').value = nextNum || 1;
     document.getElementById('modalLayoutName').value = 'Layout ' + (nextNum || 1);
-    document.getElementById('modalLayoutDesc').value = '';
     document.getElementById('modalLayoutFileInput').value = '';
     document.getElementById('modalLayoutUrlInput').value = '';
     document.getElementById('modalLayoutDemoUrl').value = 'website/?preview_tpl=' + tplKey + '&preview_layout=' + (nextNum || 1);
@@ -1069,7 +1177,6 @@ function openEditLayoutModal(layout, tplName) {
     document.getElementById('modalLayoutTplId').value = layout.template_id;
     document.getElementById('modalLayoutNum').value = layout.layout_number || 1;
     document.getElementById('modalLayoutName').value = layout.layout_name || '';
-    document.getElementById('modalLayoutDesc').value = layout.short_desc || '';
     document.getElementById('modalLayoutFileInput').value = '';
     document.getElementById('modalLayoutUrlInput').value = layout.preview_image || '';
     document.getElementById('modalLayoutDemoUrl').value = layout.demo_url || '';
@@ -1120,5 +1227,125 @@ function deleteTemplate(templateId) {
         document.getElementById('deleteTemplateId').value = templateId;
         document.getElementById('deleteTemplateForm').submit();
     }
+}
+
+// Layout Live & Responsive Preview Modal Functions
+const mainSiteRoot = '<?= rtrim(main_site_url(), "/") . "/" ?>';
+
+function resolveMainUrl(path) {
+    if (!path || path.trim() === '') return '';
+    if (path.indexOf('http://') === 0 || path.indexOf('https://') === 0) {
+        return path;
+    }
+    return mainSiteRoot + path.replace(/^\//, '');
+}
+
+function openLayoutPreviewModal(layout, tplName) {
+    document.getElementById('pvTplBadge').textContent = tplName || 'TEMPLATE';
+    document.getElementById('pvLayoutName').textContent = layout.layout_name || ('Layout ' + (layout.layout_number || 1));
+    document.getElementById('pvLayoutNumBadge').textContent = 'Layout ' + (layout.layout_number || 1);
+
+    // Compute live preview URL
+    let demoUrl = layout.demo_url;
+    if (!demoUrl || demoUrl.trim() === '') {
+        demoUrl = 'website/?preview_tpl=' + (layout.template_key || '') + '&preview_layout=' + (layout.layout_number || 1);
+    }
+    const fullDemoUrl = resolveMainUrl(demoUrl);
+    document.getElementById('pvDemoUrlText').textContent = fullDemoUrl;
+    document.getElementById('pvLaunchExternal').href = fullDemoUrl;
+
+    // Loading indicator & Iframe
+    const spinner = document.getElementById('pvLoading');
+    if (spinner) spinner.style.display = 'block';
+    const iframe = document.getElementById('pvIframe');
+    if (iframe) iframe.src = fullDemoUrl;
+
+    // Image preview
+    let imgUrl = layout.preview_image;
+    const fullImgUrl = (imgUrl && imgUrl.trim() !== '') ? resolveMainUrl(imgUrl) : defaultNoImage;
+    const pvImg = document.getElementById('pvImage');
+    if (pvImg) pvImg.src = fullImgUrl;
+
+    // Configure "Edit This Layout" button
+    const editBtn = document.getElementById('pvEditLayoutBtn');
+    if (editBtn) {
+        editBtn.onclick = function() {
+            const previewModal = bootstrap.Modal.getInstance(document.getElementById('modalPreviewLayout'));
+            if (previewModal) previewModal.hide();
+            openEditLayoutModal(layout, tplName);
+        };
+    }
+
+    // Reset device switcher to desktop (100%)
+    setPreviewDevice('100%', document.getElementById('pvBtnDesktop'));
+
+    // Reset view mode to live site
+    setPreviewMode('live');
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('modalPreviewLayout'));
+    modal.show();
+}
+
+function setPreviewDevice(width, btn) {
+    const wrapper = document.getElementById('pvFrameWrapper');
+    if (wrapper) {
+        wrapper.style.width = width;
+    }
+    const group = document.getElementById('pvDeviceGroup');
+    if (group) {
+        const buttons = group.querySelectorAll('button');
+        buttons.forEach(function(b) {
+            b.classList.remove('active', 'btn-dark', 'text-warning');
+            b.classList.add('btn-outline-secondary', 'text-light');
+        });
+    }
+    if (btn) {
+        btn.classList.remove('btn-outline-secondary', 'text-light');
+        btn.classList.add('active', 'btn-dark', 'text-warning');
+    }
+}
+
+function setPreviewMode(mode) {
+    const frameWrap = document.getElementById('pvFrameWrapper');
+    const imgWrap = document.getElementById('pvImageWrapper');
+    const btnLive = document.getElementById('pvModeLive');
+    const btnImage = document.getElementById('pvModeImage');
+    const devGroup = document.getElementById('pvDeviceGroup');
+
+    if (mode === 'image') {
+        if (frameWrap) frameWrap.style.display = 'none';
+        if (imgWrap) imgWrap.style.display = 'flex';
+        if (btnImage) {
+            btnImage.classList.add('active', 'btn-warning', 'text-dark');
+            btnImage.classList.remove('btn-outline-warning');
+        }
+        if (btnLive) {
+            btnLive.classList.remove('active', 'btn-warning', 'text-dark');
+            btnLive.classList.add('btn-outline-warning');
+        }
+        if (devGroup) devGroup.style.display = 'none';
+    } else {
+        if (frameWrap) frameWrap.style.display = 'block';
+        if (imgWrap) imgWrap.style.display = 'none';
+        if (btnLive) {
+            btnLive.classList.add('active', 'btn-warning', 'text-dark');
+            btnLive.classList.remove('btn-outline-warning');
+        }
+        if (btnImage) {
+            btnImage.classList.remove('active', 'btn-warning', 'text-dark');
+            btnImage.classList.add('btn-outline-warning');
+        }
+        if (devGroup) devGroup.style.display = 'inline-flex';
+    }
+}
+
+// Clean up iframe when modal is closed to stop background media/scripts
+const modalPreviewEl = document.getElementById('modalPreviewLayout');
+if (modalPreviewEl) {
+    modalPreviewEl.addEventListener('hidden.bs.modal', function () {
+        const iframe = document.getElementById('pvIframe');
+        if (iframe) iframe.src = 'about:blank';
+    });
 }
 </script>
