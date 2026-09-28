@@ -57,7 +57,11 @@ class Tenants extends Superadmin_Controller {
             $data['tenant_sales_revenue'] = $inv_row && $inv_row->grand_total ? (float)$inv_row->grand_total : 0.00;
         }
 
-        $this->render('tenants/index', $data, 'Tenant Salon & Spa Management');
+        // Multi-Tenant SaaS Instances
+        $data['saas_tenants'] = $this->db->table_exists('saas_tenants') ? $this->db->order_by('id', 'DESC')->get('saas_tenants')->result() : array();
+        $data['total_saas_tenants'] = count($data['saas_tenants']);
+
+        $this->render('tenants/index', $data, 'SaaS Multi-Tenant Management');
     }
 
     /**
@@ -83,5 +87,51 @@ class Tenants extends Superadmin_Controller {
         }
 
         redirect(superadmin_url('tenants'));
+    }
+
+    /**
+     * Toggle Tenant Status (Active / Suspended)
+     */
+    public function toggle_status($id) {
+        $tenant = $this->db->where('id', (int)$id)->get('saas_tenants')->row();
+        if ($tenant) {
+            $new_status = ($tenant->status === 'active') ? 'suspended' : 'active';
+            $this->db->where('id', (int)$id)->update('saas_tenants', array('status' => $new_status));
+            $this->session->set_flashdata('success', 'Tenant ' . $tenant->domain . ' status changed to ' . ucfirst($new_status));
+        }
+        redirect(superadmin_url('tenants'));
+    }
+
+    /**
+     * Delete SaaS Tenant Instance
+     */
+    public function delete_tenant($id) {
+        $tenant = $this->db->where('id', (int)$id)->get('saas_tenants')->row();
+        if ($tenant) {
+            // Drop tenant database
+            if (!empty($tenant->db_name)) {
+                $this->db->query("DROP DATABASE IF EXISTS `" . $this->db->escape_str($tenant->db_name) . "`");
+            }
+
+            // Remove folder if exists
+            $folder_path = FCPATH . '../' . $tenant->domain;
+            if (is_dir($folder_path)) {
+                $this->delete_directory_recursive($folder_path);
+            }
+
+            $this->db->where('id', (int)$id)->delete('saas_tenants');
+            $this->session->set_flashdata('success', 'Tenant ' . $tenant->domain . ' deleted successfully.');
+        }
+        redirect(superadmin_url('tenants'));
+    }
+
+    private function delete_directory_recursive($dir) {
+        if (!is_dir($dir)) return;
+        $files = array_diff(scandir($dir), array('.', '..'));
+        foreach ($files as $file) {
+            $path = $dir . DIRECTORY_SEPARATOR . $file;
+            is_dir($path) ? $this->delete_directory_recursive($path) : @unlink($path);
+        }
+        @rmdir($dir);
     }
 }

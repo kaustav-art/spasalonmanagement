@@ -72,6 +72,85 @@ INSERT INTO `marketplace_orders` (`id`, `order_number`, `customer_name`, `custom
 (1, 'ORD-2026-8812', 'Michael Vance', 'michael.v@example.com', '+1 (555) 723-9988', 'Vance Luxury Hair & Spa', 3, 'SALON_SPA', 'template1', 1, 89.00, 'card', 'paid', 'LIC-SALONSPA-7A9B-2026-X199', 'dl_token_8812_sample', 2)
 ON DUPLICATE KEY UPDATE `id`=`id`;
 
+CREATE TABLE IF NOT EXISTS `saas_tenants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `domain` varchar(255) NOT NULL,
+  `folder_name` varchar(255) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `company_email` varchar(150) NOT NULL,
+  `company_phone` varchar(50) DEFAULT NULL,
+  `company_address` text DEFAULT NULL,
+  `plan_code` enum('SALON','SPA','SALON_SPA') NOT NULL DEFAULT 'SALON_SPA',
+  `template` varchar(50) NOT NULL DEFAULT 'template1',
+  `layout` int(11) NOT NULL DEFAULT 1,
+  `currency_symbol` varchar(10) NOT NULL DEFAULT '$',
+  `logo_path` varchar(255) DEFAULT NULL,
+  `favicon_path` varchar(255) DEFAULT NULL,
+  `db_name` varchar(100) NOT NULL,
+  `admin_email` varchar(150) NOT NULL,
+  `website_url` varchar(255) DEFAULT NULL,
+  `admin_url` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive','suspended') NOT NULL DEFAULT 'active',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `domain` (`domain`),
+  KEY `order_id` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT INTO `marketplace_licenses` (`id`, `license_key`, `order_id`, `customer_email`, `plan_code`, `template`, `layout`, `status`) VALUES
 (1, 'LIC-SALONSPA-7A9B-2026-X199', 1, 'michael.v@example.com', 'SALON_SPA', 'template1', 1, 'active')
 ON DUPLICATE KEY UPDATE `id`=`id`;
+
+-- --------------------------------------------------------
+-- Dynamic Multi-Theme & Layout Architecture Tables
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `marketplace_templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_key` varchar(50) NOT NULL UNIQUE,
+  `name` varchar(150) NOT NULL,
+  `badge` varchar(50) DEFAULT NULL,
+  `icon` varchar(50) DEFAULT 'fa-solid fa-crown',
+  `short_desc` text DEFAULT NULL,
+  `features` text DEFAULT NULL,
+  `demo_url` varchar(255) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 1,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `marketplace_template_layouts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) NOT NULL,
+  `template_key` varchar(50) NOT NULL,
+  `layout_number` int(11) NOT NULL DEFAULT 1,
+  `layout_name` varchar(150) NOT NULL,
+  `short_desc` text DEFAULT NULL,
+  `preview_image` varchar(255) DEFAULT NULL,
+  `demo_url` varchar(255) DEFAULT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 1,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `template_id` (`template_id`),
+  KEY `template_key` (`template_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `marketplace_templates` (`id`, `template_key`, `name`, `badge`, `icon`, `short_desc`, `features`, `demo_url`, `sort_order`, `status`) VALUES
+(1, 'template1', 'Template 1', 'Glamr', 'fa-solid fa-crown', 'Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts.', '["Stylist Portfolios", "Salon Pricing Menus", "Booking Wizard"]', 'website/?preview_tpl=template1&preview_layout=1', 1, 'active'),
+(2, 'template2', 'Template 2', 'Pureglow', 'fa-solid fa-leaf', 'Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.', '["Private Room Showcase", "Therapist Rosters", "Multi-Session Passes"]', 'website/?preview_tpl=template2&preview_layout=1', 2, 'active')
+ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `short_desc`=VALUES(`short_desc`);
+
+INSERT INTO `marketplace_template_layouts` (`id`, `template_id`, `template_key`, `layout_number`, `layout_name`, `short_desc`, `preview_image`, `demo_url`, `sort_order`, `status`) VALUES
+(1, 1, 'template1', 1, 'Layout 1: Luxury Salon', 'Classic Flagship high-fashion dark and gold palette with stylist highlights.', 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=1', 1, 'active'),
+(2, 1, 'template1', 2, 'Layout 2: Modern Studio', 'Contemporary haircutting and beauty salon studio layout with express booking.', 'website/assets/template1/images/banner-slider-img/demo2-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=2', 2, 'active'),
+(3, 1, 'template1', 3, 'Layout 3: Chic Boutique', 'High-end parlor and nail bar storefront with treatment catalogs.', 'website/assets/template1/images/banner-slider-img/demo3-slide-1.jpg', 'website/?preview_tpl=template1&preview_layout=3', 3, 'active'),
+(4, 2, 'template2', 1, 'Layout 1: Sanctuary Day Spa', 'Botanical oasis day spa with treatment suite occupancy schedule.', 'website/assets/template2/images/backgrounds/banner-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=1', 1, 'active'),
+(5, 2, 'template2', 2, 'Layout 2: Holistic Wellness', 'Mind-body wellness retreat layout with aromatherapies and hydrothermal baths.', 'website/assets/template2/images/backgrounds/appointment-v2-bg.jpg', 'website/?preview_tpl=template2&preview_layout=2', 2, 'active'),
+(6, 2, 'template2', 3, 'Layout 3: Massage Clinic', 'Clinical physical therapy and deep tissue massage clinic scheduling.', 'website/assets/template2/images/backgrounds/discount-v1-bg.jpg', 'website/?preview_tpl=template2&preview_layout=3', 3, 'active')
+ON DUPLICATE KEY UPDATE `layout_name`=VALUES(`layout_name`), `short_desc`=VALUES(`short_desc`);
+
+

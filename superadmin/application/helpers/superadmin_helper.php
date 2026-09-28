@@ -152,3 +152,23 @@ if (!function_exists('plan_badge')) {
         }
     }
 }
+
+if (!function_exists('fallback_image_url')) {
+    function fallback_image_url($url = '') {
+        $root_url = rtrim(main_site_url(), '/') . '/';
+        $default_img = $root_url . 'uploads/no-image.jpg';
+        if (empty($url)) {
+            return $default_img;
+        }
+        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+            return $url;
+        }
+        $rel = ltrim($url, '/\\');
+        $root_path = dirname(FCPATH) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
+        if (file_exists($root_path)) {
+            return $root_url . $rel;
+        }
+        return $default_img;
+    }
+}
+

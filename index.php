@@ -27,6 +27,39 @@ try {
     // Fallback if needed
 }
 
+// Fetch dynamic templates & layouts for Multi-Theme Architecture
+$templates = array();
+try {
+    if (isset($pdo)) {
+        $stmt_t = $pdo->query("SELECT * FROM marketplace_templates WHERE status = 'active' ORDER BY sort_order ASC, id ASC");
+        $templates = $stmt_t->fetchAll();
+        foreach ($templates as $t) {
+            $stmt_l = $pdo->prepare("SELECT * FROM marketplace_template_layouts WHERE template_id = ? AND status = 'active' ORDER BY sort_order ASC, layout_number ASC");
+            $stmt_l->execute(array($t->id));
+            $t->layouts = $stmt_l->fetchAll();
+        }
+    }
+} catch (Exception $e) {
+    // Fallback
+}
+
+// Fallback default image helper (using c:\Users\Codeulas\Downloads\no-immage.jpg copied to uploads/no-image.jpg)
+if (!function_exists('site_image_or_default')) {
+    function site_image_or_default($url, $default = 'uploads/no-image.jpg') {
+        if (empty($url)) {
+            return $default;
+        }
+        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+            return $url;
+        }
+        $clean = ltrim($url, '/\\');
+        if (file_exists(__DIR__ . '/' . $clean)) {
+            return $clean;
+        }
+        return $default;
+    }
+}
+
 // Fetch all dynamic platform CMS, SEO, social, gateway, and currency settings
 $settings = array();
 try {
@@ -1008,16 +1041,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#templates">Templates</a></li>
                     <li class="nav-item"><a class="nav-link" href="#workflow">How It Works</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">SaaS Plans</a></li>
                     <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link" href="superadmin/" target="_blank"><i class="fa fa-shield-alt text-warning me-1"></i>Super Admin</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-2">
-                    <a href="admin/dashboard" target="_blank" class="btn btn-gold btn-sm px-3 rounded-pill fw-semibold shadow-sm d-inline-flex align-items-center">
-                        <i class="fa-solid fa-gauge-high me-1"></i> Admin Panel
-                    </a>
-                    <a href="<?= htmlspecialchars(site_setting('landing_header_cta_link', '#pricing')) ?>" class="btn btn-gold btn-sm px-4 rounded-pill">
-                        <?= htmlspecialchars(site_setting('landing_header_cta_text', 'Buy Script Now')) ?>
+                    <a href="#pricing" class="btn btn-gold btn-sm px-4 rounded-pill">
+                        <i class="fa-solid fa-gem me-1"></i> Get Started
                     </a>
                 </div>
             </div>
@@ -1055,20 +1085,20 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                         <div class="container position-relative">
                             <div class="hero-slide-content">
                                 <span class="hero-badge">
-                                    <i class="fa fa-award me-1"></i> <?= htmlspecialchars(site_setting('landing_hero_badge', 'SELF-HOSTED COMMERCIAL PHP SCRIPT • MULTI-TEMPLATE')) ?>
+                                    <i class="fa fa-cloud me-1"></i> <?= htmlspecialchars(site_setting('landing_hero_badge', 'MULTI-TENANT SALON & SPA SAAS CLOUD PLATFORM')) ?>
                                 </span>
                                 <h1 class="hero-title">
                                     <?= $rendered_title ?>
                                 </h1>
                                 <p class="hero-lead">
-                                    <?= htmlspecialchars(site_setting('landing_hero_lead', 'An all-in-one software package tailored for modern hair salons, beauty parlors, nail bars, luxury spas, and wellness clinics. Choose from 3 scalable editions, toggle between world-class website themes, and manage everything effortlessly.')) ?>
+                                    <?= htmlspecialchars(site_setting('landing_hero_lead', 'Empower your salon or spa with instant cloud multi-tenancy. Choose from Salon Edition, Spa Wellness Edition, or Salon & Spa Complete, process payments securely, and launch via our automated Project Setup Wizard with custom domain folder provisioning.')) ?>
                                 </p>
                                 <div class="d-flex flex-wrap align-items-center gap-3">
                                     <a href="#pricing" class="btn btn-gold btn-lg px-4 rounded-pill">
-                                        <i class="fa fa-shopping-cart me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_primary', 'View Purchase Cards')) ?>
+                                        <i class="fa-solid fa-gem me-2"></i> Get Started
                                     </a>
-                                    <a href="#demos" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-                                        <i class="fa fa-desktop me-2"></i> <?= htmlspecialchars(site_setting('landing_hero_cta_secondary', 'Explore Live Demos')) ?>
+                                    <a href="#features" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                                        <i class="fa-solid fa-layer-group me-2"></i> Explore Features
                                     </a>
                                 </div>
                             </div>
@@ -1309,77 +1339,81 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             </div>
 
             <div class="row g-4">
-                <!-- Template 1 Interactive Card -->
-                <div class="col-lg-6">
-                    <div class="template-card">
-                        <div class="bg-dark p-3 border-bottom d-flex align-items-center justify-content-between">
-                            <span class="text-white fw-bold"><i class="fa-solid fa-crown text-warning me-1"></i> Template 1</span>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-dark text-white tpl1-tab-btn px-2 active border-secondary" id="tpl1_tab_1" onclick="switchCardLayout('tpl1', 1, 'website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg', 'Layout 1: Luxury Salon', 'website/?preview_tpl=template1&preview_layout=1')">Layout 1</button>
-                                <button type="button" class="btn btn-outline-secondary text-light tpl1-tab-btn px-2" id="tpl1_tab_2" onclick="switchCardLayout('tpl1', 2, 'website/assets/template1/images/banner-slider-img/demo2-slide-1.jpg', 'Layout 2: Modern Studio', 'website/?preview_tpl=template1&preview_layout=2')">Layout 2</button>
-                                <button type="button" class="btn btn-outline-secondary text-light tpl1-tab-btn px-2" id="tpl1_tab_3" onclick="switchCardLayout('tpl1', 3, 'website/assets/template1/images/banner-slider-img/demo3-slide-1.jpg', 'Layout 3: Chic Boutique', 'website/?preview_tpl=template1&preview_layout=3')">Layout 3</button>
-                            </div>
-                        </div>
-                        <div id="tpl1_preview_img" class="template-preview-frame" style="background-image: url('website/assets/template1/images/banner-slider-img/demo1-slide-1.jpg');">
-                            <div class="template-preview-overlay justify-content-end">
-                                <div class="text-white">
-                                    <h5 class="mb-0 fw-bold" id="tpl1_preview_title">Layout 1: Luxury Salon</h5>
-                                    <small class="text-white-50">Click tabs above to switch layout thumbnail</small>
+                <?php if (!empty($templates)): ?>
+                    <?php foreach ($templates as $tpl_idx => $tpl): 
+                        $tpl_slug = preg_replace('/[^a-zA-Z0-9_]/', '', $tpl->template_key);
+                        $layouts = !empty($tpl->layouts) ? $tpl->layouts : array();
+                        $first_layout = !empty($layouts) ? $layouts[0] : null;
+                        $first_img = $first_layout ? site_image_or_default($first_layout->preview_image) : 'uploads/no-image.jpg';
+                        $first_title = $first_layout ? $first_layout->layout_name : ($tpl->name . ' - Layout 1');
+                        $first_desc = $first_layout ? $first_layout->short_desc : '';
+                        $first_demo = $first_layout && !empty($first_layout->demo_url) ? $first_layout->demo_url : ($tpl->demo_url ?: ('website/?preview_tpl=' . $tpl->template_key . '&preview_layout=1'));
+                        $col_class = count($templates) > 2 ? 'col-lg-4 col-md-6' : 'col-lg-6';
+                    ?>
+                        <div class="<?= $col_class ?>">
+                            <div class="template-card h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="bg-dark p-3 border-bottom d-flex align-items-center justify-content-between">
+                                        <span class="text-white fw-bold">
+                                            <i class="<?= htmlspecialchars($tpl->icon ?: 'fa-solid fa-crown') ?> text-warning me-1"></i> <?= htmlspecialchars($tpl->name) ?>
+                                        </span>
+                                        <?php if (!empty($layouts) && count($layouts) > 1): ?>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <?php foreach ($layouts as $l_idx => $l): ?>
+                                                    <button type="button" 
+                                                            class="btn <?= $l_idx === 0 ? 'btn-dark text-white active border-secondary' : 'btn-outline-secondary text-light' ?> <?= $tpl_slug ?>-tab-btn px-2" 
+                                                            id="<?= $tpl_slug ?>_tab_<?= $l->layout_number ?>" 
+                                                            onclick="switchCardLayout('<?= $tpl_slug ?>', <?= $l->layout_number ?>, '<?= htmlspecialchars(site_image_or_default($l->preview_image)) ?>', '<?= htmlspecialchars(addslashes($l->layout_name)) ?>', '<?= htmlspecialchars(addslashes($l->demo_url ?: ('website/?preview_tpl=' . $tpl->template_key . '&preview_layout=' . $l->layout_number))) ?>', '<?= htmlspecialchars(addslashes($l->short_desc ?: '')) ?>')">
+                                                        Layout <?= $l->layout_number ?>
+                                                    </button>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div id="<?= $tpl_slug ?>_preview_img" class="template-preview-frame" style="background-image: url('<?= htmlspecialchars($first_img) ?>');">
+                                        <div class="template-preview-overlay justify-content-end">
+                                            <div class="text-white">
+                                                <h5 class="mb-0 fw-bold" id="<?= $tpl_slug ?>_preview_title"><?= htmlspecialchars($first_title) ?></h5>
+                                                <?php if (count($layouts) > 1): ?>
+                                                    <small class="text-white-50">Click tabs above to switch layout thumbnail</small>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <h4 class="fw-bold mb-0 font-serif"><?= htmlspecialchars($tpl->name) ?></h4>
+                                            <?php if (!empty($tpl->badge)): ?>
+                                                <span class="badge bg-warning text-dark"><?= htmlspecialchars($tpl->badge) ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <p class="text-muted small mb-2"><?= htmlspecialchars($tpl->short_desc) ?></p>
+
+                                        <div class="p-2 rounded bg-light border small text-muted mb-3" id="<?= $tpl_slug ?>_layout_desc">
+                                            <?= htmlspecialchars($first_desc) ?: 'Select layout tabs above to view layout details.' ?>
+                                        </div>
+
+                                        <a id="<?= $tpl_slug ?>_demo_btn" href="<?= htmlspecialchars($first_demo) ?>" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
+                                        </a>
+
+                                        <?php 
+                                            $tpl_features = !empty($tpl->features) ? json_decode($tpl->features, true) : array();
+                                            if (!empty($tpl_features)): ?>
+                                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                                    <?php foreach ($tpl_features as $tf): ?>
+                                                        <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> <?= htmlspecialchars($tf) ?></span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-4">
-                            <h4 class="fw-bold mb-2 font-serif">Template 1</h4>
-                            <p class="text-muted small mb-3">Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts.</p>
-
-                            <a id="tpl1_demo_btn" href="website/?preview_tpl=template1&preview_layout=1" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
-                            </a>
-
-                            <div class="d-flex flex-wrap gap-2 mb-2">
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Stylist Portfolios</span>
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Salon Pricing Menus</span>
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Booking Wizard</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Template 2 Interactive Card -->
-                <div class="col-lg-6">
-                    <div class="template-card">
-                        <div class="bg-dark p-3 border-bottom d-flex align-items-center justify-content-between">
-                            <span class="text-white fw-bold"><i class="fa-solid fa-leaf text-success me-1"></i> Template 2</span>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-dark text-white tpl2-tab-btn px-2 active border-secondary" id="tpl2_tab_1" onclick="switchCardLayout('tpl2', 1, 'website/assets/template2/images/backgrounds/banner-v2-bg.jpg', 'Layout 1: Sanctuary Day Spa', 'website/?preview_tpl=template2&preview_layout=1')">Layout 1</button>
-                                <button type="button" class="btn btn-outline-secondary text-light tpl2-tab-btn px-2" id="tpl2_tab_2" onclick="switchCardLayout('tpl2', 2, 'website/assets/template2/images/backgrounds/appointment-v2-bg.jpg', 'Layout 2: Holistic Wellness', 'website/?preview_tpl=template2&preview_layout=2')">Layout 2</button>
-                                <button type="button" class="btn btn-outline-secondary text-light tpl2-tab-btn px-2" id="tpl2_tab_3" onclick="switchCardLayout('tpl2', 3, 'website/assets/template2/images/backgrounds/discount-v1-bg.jpg', 'Layout 3: Massage Clinic', 'website/?preview_tpl=template2&preview_layout=3')">Layout 3</button>
-                            </div>
-                        </div>
-                        <div id="tpl2_preview_img" class="template-preview-frame" style="background-image: url('website/assets/template2/images/backgrounds/banner-v2-bg.jpg');">
-                            <div class="template-preview-overlay justify-content-end">
-                                <div class="text-white">
-                                    <h5 class="mb-0 fw-bold" id="tpl2_preview_title">Layout 1: Sanctuary Day Spa</h5>
-                                    <small class="text-white-50">Click tabs above to switch layout thumbnail</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h4 class="fw-bold mb-2 font-serif">Template 2</h4>
-                            <p class="text-muted small mb-3">Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.</p>
-
-                            <a id="tpl2_demo_btn" href="website/?preview_tpl=template2&preview_layout=1" target="_blank" class="btn btn-gold w-100 fw-bold py-2 shadow-sm d-inline-flex align-items-center justify-content-center gap-2 mb-3">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Demo
-                            </a>
-
-                            <div class="d-flex flex-wrap gap-2 mb-2">
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Private Room Showcase</span>
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Therapist Rosters</span>
-                                <span class="badge bg-light text-dark border"><i class="fa fa-check text-success me-1"></i> Multi-Session Passes</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -1487,10 +1521,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         <div class="container py-4">
             <div class="text-center max-w-700 mx-auto mb-5">
                 <span class="badge bg-dark text-warning px-3 py-2 text-uppercase fw-bold mb-2">
-                    <i class="fa fa-shield-alt me-1"></i> Super Admin Controlled Pricing
+                    <i class="fa fa-cloud me-1"></i> Multi-Tenant SaaS Subscriptions
                 </span>
-                <h2 class="display-6 fw-bold mt-2">Commercial Purchase Cards</h2>
-                <p class="text-muted">Purchase a commercial license for your salon, spa, or combined venture. Prices, original strike-through prices, badges, and features are dynamically loaded from the database and manageable in the Super Admin Panel.</p>
+                <h2 class="display-6 fw-bold mt-2">Cloud SaaS Subscription Plans</h2>
+                <p class="text-muted">Select an edition for your salon, spa, or enterprise chain. Each plan features automatic tenant folder provisioning (e.g. <code>www.example.com</code>), separate database, custom branding, and responsive online booking website.</p>
             </div>
 
             <!-- The 3 Dynamic Purchase Cards -->
@@ -1507,7 +1541,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <?php echo htmlspecialchars(format_site_price($salon_price)); ?>
                                 <span class="price-orig"><?php echo htmlspecialchars(format_site_price($salon_orig)); ?></span>
                             </div>
-                            <span class="badge bg-light text-muted border">One-Time Fee • Lifetime Script</span>
+                            <span class="badge bg-light text-muted border">SaaS Cloud • Automated Provisioning</span>
                         </div>
                         <div class="pricing-body">
                             <ul class="feature-list">
@@ -1517,10 +1551,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </ul>
                             <button type="button" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SALON" 
-                                    data-name="Salon Management Script" 
+                                    data-name="Salon Edition (SaaS)" 
                                     data-price="<?php echo number_format($salon_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($salon_price)); ?>">
-                                <i class="fa fa-shopping-cart me-2"></i> Purchase Salon Edition
+                                <i class="fa fa-rocket me-2"></i> Choose Salon Edition
                             </button>
                         </div>
                     </div>
@@ -1537,7 +1571,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <?php echo htmlspecialchars(format_site_price($spa_price)); ?>
                                 <span class="price-orig"><?php echo htmlspecialchars(format_site_price($spa_orig)); ?></span>
                             </div>
-                            <span class="badge bg-light text-muted border">One-Time Fee • Lifetime Script</span>
+                            <span class="badge bg-light text-muted border">SaaS Cloud • Automated Provisioning</span>
                         </div>
                         <div class="pricing-body">
                             <ul class="feature-list">
@@ -1547,10 +1581,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </ul>
                             <button type="button" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SPA" 
-                                    data-name="Spa Wellness Management Script" 
+                                    data-name="Spa Wellness Edition (SaaS)" 
                                     data-price="<?php echo number_format($spa_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($spa_price)); ?>">
-                                <i class="fa fa-shopping-cart me-2"></i> Purchase Spa Edition
+                                <i class="fa fa-rocket me-2"></i> Choose Spa Edition
                             </button>
                         </div>
                     </div>
@@ -1570,7 +1604,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <?php echo htmlspecialchars(format_site_price($unified_price)); ?>
                                 <span class="price-orig"><?php echo htmlspecialchars(format_site_price($unified_orig)); ?></span>
                             </div>
-                            <span class="badge bg-warning-subtle text-dark border border-warning fw-bold">Best Value • All Modules Unlocked</span>
+                            <span class="badge bg-warning-subtle text-dark border border-warning fw-bold">Best Value • Complete Cloud SaaS</span>
                         </div>
                         <div class="pricing-body">
                             <ul class="feature-list">
@@ -1580,10 +1614,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </ul>
                             <button type="button" class="btn btn-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SALON_SPA" 
-                                    data-name="Salon &amp; Spa Complete Edition" 
+                                    data-name="Salon &amp; Spa Complete (SaaS)" 
                                     data-price="<?php echo number_format($unified_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($unified_price)); ?>">
-                                <i class="fa fa-gem me-2"></i> Buy Complete Edition (<?php echo htmlspecialchars(format_site_price($unified_price)); ?>)
+                                <i class="fa fa-gem me-2"></i> Deploy Complete Edition (<?php echo htmlspecialchars(format_site_price($unified_price)); ?>)
                             </button>
                         </div>
                     </div>
@@ -1928,9 +1962,9 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 <div class="modal-header">
                     <div>
                         <h5 class="modal-title font-serif text-white mb-0" id="modalTitle">
-                            <i class="fa fa-shopping-bag text-warning me-2"></i> Purchase Script & Choose Template
+                            <i class="fa fa-gem text-warning me-2"></i> SaaS Subscription &amp; Project Setup Wizard
                         </h5>
-                        <small class="text-muted" id="modalSubtitle">Step 1: Customer Registration & Business Setup</small>
+                        <small class="text-muted" id="modalSubtitle">Step 1 of 4: Customer Registration &amp; Plan Confirmation</small>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -1940,7 +1974,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                     
                     <!-- Progress Bar -->
                     <div class="progress mb-4" style="height: 6px;">
-                        <div id="checkoutProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 33%;"></div>
+                        <div id="checkoutProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 25%;"></div>
                     </div>
 
                     <!-- Step 1: Customer Registration & Salon Details -->
@@ -1948,11 +1982,11 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                         <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                             <div>
                                 <span class="small text-muted text-uppercase fw-bold">Selected Edition:</span>
-                                <h6 class="fw-bold text-dark mb-0 font-serif" id="summaryPlanName">Salon & Spa Complete Edition</h6>
+                                <h6 class="fw-bold text-dark mb-0 font-serif" id="summaryPlanName">Salon &amp; Spa Complete (SaaS)</h6>
                             </div>
                             <div class="text-end">
-                                <span class="small text-muted text-uppercase fw-bold">One-Time Price:</span>
-                                <h5 class="fw-bold text-warning mb-0" id="summaryPlanPrice">$89.00</h5>
+                                <span class="small text-muted text-uppercase fw-bold">Subscription Rate:</span>
+                                <h5 class="fw-bold text-warning mb-0" id="summaryPlanPrice"><?php echo htmlspecialchars(format_site_price($unified_price)); ?></h5>
                             </div>
                         </div>
 
@@ -1960,26 +1994,36 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold">Full Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="custName" required placeholder="e.g. Sarah Jenkins">
+                                    <input type="text" class="form-control" id="custName" required placeholder="e.g. Sarah Jenkins" value="">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold">Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="custEmail" required placeholder="e.g. sarah@myelegancesalon.com">
+                                    <input type="email" class="form-control" id="custEmail" required placeholder="e.g. sarah@myelegancesalon.com" value="">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Admin Account Password <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="custPassword" required placeholder="Choose a password" value="">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('custPassword', this)">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-muted" style="font-size: 11px;">You will use this to log in to your dedicated salon admin panel.</small>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold">Phone Number</label>
-                                    <input type="text" class="form-control" id="custPhone" placeholder="e.g. +1 (555) 234-5678">
+                                    <input type="text" class="form-control" id="custPhone" placeholder="e.g. +1 (555) 234-5678" value="">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="form-label small fw-bold">Salon / Spa Business Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="custBusiness" required placeholder="e.g. Belleza Luxury Salon & Spa">
+                                    <input type="text" class="form-control" id="custBusiness" required placeholder="e.g. Belleza Luxury Salon &amp; Spa" value="">
                                 </div>
                             </div>
                         </form>
 
                         <div class="text-end mt-4">
                             <button type="button" class="btn btn-gold px-4 fw-bold" id="btnGoToStep2">
-                                Next: Choose Template & Layout <i class="fa fa-arrow-right ms-2"></i>
+                                Next: Choose Template &amp; Layout <i class="fa fa-arrow-right ms-2"></i>
                             </button>
                         </div>
                     </div>
@@ -1988,53 +2032,29 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                     <div id="step2" style="display: none;">
                         <h6 class="fw-bold mb-3 font-serif"><i class="fa fa-palette text-warning me-2"></i> Select Initial Website Template:</h6>
                         
-                        <div class="row g-3 mb-4">
-                            <!-- Template 1 Option -->
-                            <div class="col-md-6">
-                                <div class="tpl-radio-card active" data-tpl="template1">
-                                    <input type="radio" name="chosen_tpl" value="template1" checked>
-                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-crown text-warning me-1"></i> Template 1</div>
-                                    <small class="text-muted d-block mt-1">High-fashion luxury aesthetics, gold/champagne accents, stylish service list & team showcase.</small>
-                                </div>
-                            </div>
-
-                            <!-- Template 2 Option -->
-                            <div class="col-md-6">
-                                <div class="tpl-radio-card" data-tpl="template2">
-                                    <input type="radio" name="chosen_tpl" value="template2">
-                                    <div class="fw-bold text-dark font-serif"><i class="fa fa-leaf text-success me-1"></i> Template 2</div>
-                                    <small class="text-muted d-block mt-1">Botanical zen wellness theme, calming earthy tones, relaxation treatment packages & booking wizard.</small>
-                                </div>
-                            </div>
+                        <div class="row g-3 mb-4" id="modalTemplateCardsContainer">
+                            <?php if (!empty($templates)): ?>
+                                <?php foreach ($templates as $t_idx => $t): ?>
+                                    <div class="<?= count($templates) > 2 ? 'col-md-4' : 'col-md-6' ?>">
+                                        <div class="tpl-radio-card <?= $t_idx === 0 ? 'active' : '' ?>" data-tpl="<?= htmlspecialchars($t->template_key) ?>">
+                                            <input type="radio" name="chosen_tpl" value="<?= htmlspecialchars($t->template_key) ?>" <?= $t_idx === 0 ? 'checked' : '' ?>>
+                                            <div class="fw-bold text-dark font-serif">
+                                                <i class="<?= htmlspecialchars($t->icon ?: 'fa-solid fa-crown') ?> text-warning me-1"></i> <?= htmlspecialchars($t->name) ?>
+                                            </div>
+                                            <small class="text-muted d-block mt-1"><?= htmlspecialchars($t->short_desc) ?></small>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
 
                         <h6 class="fw-bold mb-3 font-serif"><i class="fa fa-th-large text-warning me-2"></i> Select Default Homepage Layout:</h6>
-                        <div class="row g-3 mb-4">
-                            <div class="col-4">
-                                <div class="form-check p-3 border rounded text-center">
-                                    <input class="form-check-input" type="radio" name="chosen_layout" id="layout1" value="1" checked>
-                                    <label class="form-check-label fw-bold d-block mt-1" for="layout1">Layout 1</label>
-                                    <span class="small text-muted d-block">Classic Flagship</span>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-check p-3 border rounded text-center">
-                                    <input class="form-check-input" type="radio" name="chosen_layout" id="layout2" value="2">
-                                    <label class="form-check-label fw-bold d-block mt-1" for="layout2">Layout 2</label>
-                                    <span class="small text-muted d-block">Modern Studio</span>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-check p-3 border rounded text-center">
-                                    <input class="form-check-input" type="radio" name="chosen_layout" id="layout3" value="3">
-                                    <label class="form-check-label fw-bold d-block mt-1" for="layout3">Layout 3</label>
-                                    <span class="small text-muted d-block">Chic Boutique</span>
-                                </div>
-                            </div>
+                        <div class="row g-3 mb-4" id="modalLayoutsContainer">
+                            <!-- Populated dynamically via JS for active template -->
                         </div>
 
                         <div class="alert alert-light border small text-muted mb-4">
-                            <i class="fa fa-info-circle text-primary me-1"></i> Both templates and all 6 layouts are permanently included in your script. You can switch between them at any time in your Admin Settings.
+                            <i class="fa fa-info-circle text-primary me-1"></i> You can switch between templates and layouts at any time from your Tenant Admin Panel.
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -2042,18 +2062,18 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <i class="fa fa-arrow-left me-1"></i> Back
                             </button>
                             <button type="button" class="btn btn-gold px-4 fw-bold" id="btnGoToStep3">
-                                Next: Simulated Checkout <i class="fa fa-arrow-right ms-2"></i>
+                                Next: Payment Gateway <i class="fa fa-arrow-right ms-2"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 3: Simulated Checkout & Order Submission -->
+                    <!-- Step 3: Checkout & Payment Submission -->
                     <div id="step3" style="display: none;">
                         <div class="card p-3 mb-4 border-0" style="background: #f8fafc;">
-                            <h6 class="fw-bold mb-3 font-serif">Order Summary</h6>
+                            <h6 class="fw-bold mb-3 font-serif">Subscription Summary</h6>
                             <div class="d-flex justify-content-between py-1 border-bottom small">
                                 <span class="text-muted">Software Edition:</span>
-                                <strong id="checkoutPlanText">Salon &amp; Spa Complete Edition</strong>
+                                <strong id="checkoutPlanText">Salon &amp; Spa Complete (SaaS)</strong>
                             </div>
                             <div class="d-flex justify-content-between py-1 border-bottom small">
                                 <span class="text-muted">Business Name:</span>
@@ -2064,12 +2084,12 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <strong id="checkoutTplText">Template 1 - Layout 1</strong>
                             </div>
                             <div class="d-flex justify-content-between py-2 small">
-                                <span class="fw-bold">Total Amount Due:</span>
+                                <span class="fw-bold">Total Subscription Rate:</span>
                                 <strong class="fs-5 text-warning" id="checkoutAmountText">$89.00</strong>
                             </div>
                         </div>
 
-                        <!-- Single Active Payment Gateway Card -->
+                        <!-- Active Payment Gateway Card -->
                         <?php if ($active_payment_gateway === 'stripe'): ?>
                             <div class="p-3 rounded border mb-4 bg-white shadow-sm">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
@@ -2085,16 +2105,16 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                         <label class="form-label small fw-bold text-dark">Card Number</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light"><i class="fa-regular fa-credit-card"></i></span>
-                                            <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardNum" placeholder="4242 •••• •••• 4242" value="4242 •••• •••• 4242">
+                                            <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardNum" placeholder="4242 •••• •••• 4242" value="">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label small fw-bold text-dark">Expiry Date</label>
-                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardExp" placeholder="MM / YY" value="12/28">
+                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardExp" placeholder="MM / YY" value="">
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label small fw-bold text-dark">CVC Code</label>
-                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardCvc" placeholder="CVC" value="888">
+                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardCvc" placeholder="CVC" value="">
                                     </div>
                                 </div>
                             </div>
@@ -2131,11 +2151,11 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-laptop-code text-warning fa-lg me-2"></i>
-                                        <span class="fw-bold text-dark">Simulated Instant Checkout (Sandbox / Demo)</span>
+                                        <span class="fw-bold text-dark">Simulated Instant Payment (Sandbox / Demo)</span>
                                     </div>
                                     <span class="badge bg-warning text-dark small">Sandbox Mode</span>
                                 </div>
-                                <p class="small text-muted mb-0">No live credit card charge. Submitting will register the commercial license in the Super Admin system and provide your download link.</p>
+                                <p class="small text-muted mb-0">Submitting will process payment and immediately advance to the Project Setup Wizard.</p>
                             </div>
                         <?php endif; ?>
 
@@ -2147,57 +2167,181 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </button>
                             <button type="button" class="btn btn-success btn-lg px-4 fw-bold" id="btnSubmitOrder">
                                 <span id="spinnerBtn" class="spinner-border spinner-border-sm me-2 d-none"></span>
-                                <?php if ($active_payment_gateway === 'stripe'): ?>
-                                    <i class="fa-brands fa-stripe me-1"></i> Pay with Stripe &amp; Generate License
-                                <?php elseif ($active_payment_gateway === 'razorpay'): ?>
-                                    <i class="fa-solid fa-bolt me-1"></i> Pay with Razorpay &amp; Generate License
-                                <?php elseif ($active_payment_gateway === 'payu'): ?>
-                                    <i class="fa-solid fa-money-bill-wave me-1"></i> Pay with PayU &amp; Generate License
-                                <?php else: ?>
-                                    <i class="fa fa-check-circle me-1"></i> Complete Purchase &amp; Generate License
-                                <?php endif; ?>
+                                <i class="fa fa-lock me-1"></i> Pay &amp; Proceed to Project Setup Wizard <i class="fa fa-arrow-right ms-1"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Step 4: Purchase Successful & Fulfillment Hub -->
+                    <!-- Step 4: Project Setup Wizard (Company Info, Logo, Favicon, Domain) -->
                     <div id="step4" style="display: none;">
-                        <div class="order-success-box mb-4">
-                            <div class="d-inline-flex p-3 rounded-circle bg-white shadow-sm mb-3">
-                                <i class="fa fa-check-circle fa-3x text-success"></i>
-                            </div>
-                            <h4 class="fw-bold text-success font-serif mb-1">Congratulations! Purchase Completed!</h4>
-                            <p class="text-muted small mb-3">Your commercial license has been officially generated and registered in the Super Admin system.</p>
-                            
-                            <div class="small text-muted fw-bold">YOUR COMMERCIAL LICENSE KEY:</div>
-                            <div class="license-code-box" id="resLicenseKey">LIC-SALON_SPA-XXXX-2026-X123</div>
-                            <div class="small text-muted mb-2">Order Reference: <strong id="resOrderNumber">ORD-2026-0000</strong></div>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <a id="btnDownloadZip" href="#" class="btn btn-primary w-100 py-3 fw-bold shadow-sm">
-                                    <i class="fa fa-download fa-lg me-2"></i> Download Full Script (.zip)
-                                </a>
-                                <small class="text-muted d-block text-center mt-1">Pre-packaged with chosen template &amp; database</small>
-                            </div>
-                            <div class="col-md-6">
-                                <a id="btnLaunchInstance" href="#" class="btn btn-success w-100 py-3 fw-bold shadow-sm" target="_blank">
-                                    <i class="fa fa-rocket fa-lg me-2"></i> Launch Configured Instance
-                                </a>
-                                <small class="text-muted d-block text-center mt-1">Applies chosen template &amp; opens live website</small>
+                        <div class="alert alert-success d-flex align-items-center mb-4 py-2 px-3 rounded-3">
+                            <i class="fa fa-check-circle fa-2x me-3 text-success"></i>
+                            <div>
+                                <strong class="d-block">Payment Confirmed!</strong>
+                                <small>Order reference: <span id="wizOrderRef" class="fw-bold">ORD-2026-0000</span>. Please complete your Project Setup Wizard below.</small>
                             </div>
                         </div>
 
-                        <div class="border-top pt-3 mt-4 text-center">
-                            <a href="superadmin/?page=orders" target="_blank" class="btn btn-sm btn-outline-dark me-2">
-                                <i class="fa fa-shield-alt text-warning me-1"></i> View Order in Super Admin
-                            </a>
-                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                                Close Window
+                        <form id="modalSetupForm" enctype="multipart/form-data">
+                            <input type="hidden" id="wizOrderNum" name="order_number" value="">
+                            <input type="hidden" id="wizOrderToken" name="token" value="">
+                            <input type="hidden" id="wizPlanCode" name="plan_code" value="SALON_SPA">
+                            <input type="hidden" id="wizTemplate" name="chosen_template" value="template1">
+                            <input type="hidden" id="wizLayout" name="chosen_layout" value="1">
+                            <input type="hidden" id="wizAdminEmail" name="admin_email" value="">
+                            <input type="hidden" id="wizAdminPass" name="admin_password" value="">
+                            <input type="hidden" id="wizAdminName" name="admin_name" value="">
+
+                            <!-- Company Information -->
+                            <h6 class="fw-bold text-dark font-serif mb-3">
+                                <i class="fa fa-building text-warning me-2"></i> 1. Company Information
+                            </h6>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Company / Salon Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="company_name" id="wizCompanyName" required placeholder="e.g. Elegance Hair &amp; Spa Lounge">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Company Tagline</label>
+                                    <input type="text" class="form-control" name="tagline" id="wizTagline" placeholder="e.g. Luxury Hair Styling &amp; Rejuvenating Spa Treatments" value="">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Official Company Email</label>
+                                    <input type="email" class="form-control" name="company_email" id="wizCompanyEmail" placeholder="contact@yoursalon.com" required value="">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Official Phone Number</label>
+                                    <input type="text" class="form-control" name="company_phone" id="wizCompanyPhone" placeholder="+1 (555) 234-5678" value="">
+                                </div>
+                                <div class="col-md-8">
+                                    <label class="form-label small fw-bold">Salon Physical Address</label>
+                                    <input type="text" class="form-control" name="company_address" id="wizAddress" placeholder="Street Address, City, State, ZIP" value="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Currency Symbol</label>
+                                    <select class="form-select" name="currency_symbol" id="wizCurrency">
+                                        <option value="$">$ (USD / CAD / AUD)</option>
+                                        <option value="€">€ (EUR)</option>
+                                        <option value="£">£ (GBP)</option>
+                                        <option value="₹">₹ (INR)</option>
+                                        <option value="AED ">AED (UAE Dirham)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Branding Assets (Logo & Favicon) -->
+                            <h6 class="fw-bold text-dark font-serif mb-3">
+                                <i class="fa fa-palette text-warning me-2"></i> 2. Company Logo &amp; Favicon
+                            </h6>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Company Logo <small class="text-muted">(PNG, JPG, SVG, WebP)</small></label>
+                                    <input type="file" class="form-control form-control-sm" name="company_logo" id="wizLogoInput" accept="image/*" onchange="previewModalUpload(this, 'wizLogoPreview')">
+                                    <div class="mt-2 text-center p-2 border rounded bg-light" id="wizLogoPreviewBox" style="display: none;">
+                                        <img id="wizLogoPreview" src="" alt="Logo" style="max-height: 48px; max-width: 100%;">
+                                    </div>
+                                    <small class="text-muted" style="font-size: 11px;">Default luxury logo is used if skipped.</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Browser Favicon <small class="text-muted">(ICO, PNG, WebP)</small></label>
+                                    <input type="file" class="form-control form-control-sm" name="favicon" id="wizFavInput" accept=".ico,image/png,image/x-icon" onchange="previewModalUpload(this, 'wizFavPreview')">
+                                    <div class="mt-2 text-center p-2 border rounded bg-light" id="wizFavPreviewBox" style="display: none;">
+                                        <img id="wizFavPreview" src="" alt="Favicon" style="max-height: 32px; max-width: 32px;">
+                                    </div>
+                                    <small class="text-muted" style="font-size: 11px;">Default luxury favicon is used if skipped.</small>
+                                </div>
+                            </div>
+
+                            <!-- Domain & Folder Name -->
+                            <h6 class="fw-bold text-dark font-serif mb-2">
+                                <i class="fa fa-globe text-warning me-2"></i> 3. Domain &amp; Directory Setup
+                            </h6>
+                            <div class="p-3 rounded border mb-4 bg-light">
+                                <label class="form-label small fw-bold">Your Custom Domain / Subdomain / Folder Name <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">https://</span>
+                                    <input type="text" class="form-control font-monospace fw-bold" name="domain" id="wizDomain" value="" required placeholder="e.g. www.example.com" onkeyup="updateFolderNotice(this.value)">
+                                </div>
+                                <div class="alert alert-primary py-2 px-3 small border-0 mt-3 mb-0">
+                                    <i class="fa fa-folder-plus text-primary me-1"></i> When you click Deploy, a dedicated server folder named <code id="wizFolderNotice">your-domain.com</code> will be created, and all client website and admin files will be copied there with an isolated tenant database.
+                                </div>
+                            </div>
+
+                            <div id="wizAlert" class="alert alert-danger d-none small"></div>
+
+                            <button type="button" class="btn btn-gold btn-lg fw-bold w-100 py-3 shadow" id="btnRunDeploy">
+                                <i class="fa fa-rocket me-2"></i> Deploy My Salon SaaS Instance Now
                             </button>
+                            <a id="linkFullscreenWizard" href="setup_wizard.php" target="_blank" class="btn btn-sm btn-link text-muted mt-2 d-block text-center text-decoration-none">
+                                <i class="fa fa-expand me-1"></i> Or continue in Fullscreen Setup Wizard
+                            </a>
+                        </form>
+                    </div>
+
+                    <!-- Step 5: Provisioning Progress & Completion Hub -->
+                    <div id="step5" style="display: none;">
+                        
+                        <!-- Deployment In Progress Animation -->
+                        <div id="modalDeployProgress">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-warning mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+                                <h5 class="fw-bold font-serif mb-1">Provisioning Your SaaS Instance...</h5>
+                                <p class="text-muted small mb-4">Creating server folder, copying website &amp; admin files, and configuring isolated database.</p>
+                            </div>
+                            <div class="p-3 rounded bg-light border mb-3 small">
+                                <div class="mb-2" id="mWizStep1"><i class="fa fa-spinner fa-spin text-warning me-2"></i> Creating folder <strong id="mLogFolder">www.example.com</strong>...</div>
+                                <div class="mb-2 text-muted" id="mWizStep2"><i class="fa fa-circle-notch me-2"></i> Copying frontend website files...</div>
+                                <div class="mb-2 text-muted" id="mWizStep3"><i class="fa fa-circle-notch me-2"></i> Deploying dedicated salon admin panel...</div>
+                                <div class="mb-2 text-muted" id="mWizStep4"><i class="fa fa-circle-notch me-2"></i> Applying company logo &amp; favicon...</div>
+                                <div class="mb-2 text-muted" id="mWizStep5"><i class="fa fa-circle-notch me-2"></i> Provisioning tenant database &amp; admin user...</div>
+                            </div>
                         </div>
+
+                        <!-- Deployment Success Box -->
+                        <div id="modalDeploySuccess" style="display: none;">
+                            <div class="order-success-box mb-4">
+                                <div class="d-inline-flex p-3 rounded-circle bg-white shadow-sm mb-3">
+                                    <i class="fa fa-check-circle fa-3x text-success"></i>
+                                </div>
+                                <h4 class="fw-bold text-success font-serif mb-1">Congratulations! Instance Is Live!</h4>
+                                <p class="text-muted small mb-3">Your dedicated salon folder has been created, files copied, and database provisioned successfully.</p>
+                                
+                                <div class="p-3 bg-light rounded text-start small font-monospace mb-3 border">
+                                    <div class="row g-2">
+                                        <div class="col-sm-6"><strong>Domain:</strong> <span id="mResDomain" class="text-primary">www.example.com</span></div>
+                                        <div class="col-sm-6"><strong>Server Folder:</strong> <span id="mResFolder" class="text-dark">www.example.com</span></div>
+                                        <div class="col-sm-6"><strong>Admin Email:</strong> <span id="mResAdminEmail" class="text-dark">admin@example.com</span></div>
+                                        <div class="col-sm-6"><strong>Password:</strong> <span id="mResAdminPass" class="text-warning fw-bold">Salon@2026!</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <a id="btnModalVisitSite" href="#" target="_blank" class="btn btn-outline-primary w-100 py-3 fw-bold shadow-sm">
+                                        <i class="fa fa-globe fa-lg me-2"></i> Visit Client Website
+                                    </a>
+                                    <small class="text-muted d-block text-center mt-1 font-monospace" id="mResSiteUrl">/www.example.com/</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <a id="btnModalVisitAdmin" href="#" target="_blank" class="btn btn-gold w-100 py-3 fw-bold shadow-sm">
+                                        <i class="fa fa-rocket fa-lg me-2"></i> Open Salon Admin Panel
+                                    </a>
+                                    <small class="text-muted d-block text-center mt-1 font-monospace" id="mResAdminUrl">/www.example.com/admin/</small>
+                                </div>
+                            </div>
+
+                            <div class="border-top pt-3 text-center">
+                                <a href="superadmin/?page=tenants" target="_blank" class="btn btn-sm btn-outline-dark me-2">
+                                    <i class="fa fa-shield-alt text-warning me-1"></i> View in Super Admin Hub
+                                </a>
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                                    Close Window
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -2210,11 +2354,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
     <script>
         // State variables
         let selectedPlan = 'SALON_SPA';
-        let selectedPlanName = 'Salon & Spa Complete Edition';
+        let selectedPlanName = 'Salon & Spa Complete (SaaS)';
         let selectedPrice = '89.00';
         let selectedPriceDisplay = '<?php echo htmlspecialchars(format_site_price($unified_price)); ?>';
         let selectedTemplate = 'template1';
         let selectedLayout = '1';
+        let activeOrderNumber = '';
+        let activeOrderToken = '';
 
         // Modal elements
         const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
@@ -2237,6 +2383,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         const step2 = document.getElementById('step2');
         const step3 = document.getElementById('step3');
         const step4 = document.getElementById('step4');
+        const step5 = document.getElementById('step5');
         const modalSubtitle = document.getElementById('modalSubtitle');
         const checkoutProgressBar = document.getElementById('checkoutProgressBar');
 
@@ -2244,7 +2391,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         document.querySelectorAll('.buy-now-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 selectedPlan = this.getAttribute('data-plan') || 'SALON_SPA';
-                selectedPlanName = this.getAttribute('data-name') || 'Salon & Spa Complete Edition';
+                selectedPlanName = this.getAttribute('data-name') || 'Salon & Spa Complete (SaaS)';
                 selectedPrice = this.getAttribute('data-price') || '89.00';
                 selectedPriceDisplay = this.getAttribute('data-price-display') || ('$' + selectedPrice);
 
@@ -2257,18 +2404,95 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             });
         });
 
-        // Template Radio Card Click
-        document.querySelectorAll('.tpl-radio-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.tpl-radio-card').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-                const radio = this.querySelector('input[type="radio"]');
-                if (radio) {
-                    radio.checked = true;
-                    selectedTemplate = radio.value;
-                }
+        // All Dynamic Templates & Layouts Data
+        const allTemplatesData = <?= json_encode($templates) ?>;
+
+        function renderModalLayouts(tplKey) {
+            const container = document.getElementById('modalLayoutsContainer');
+            if (!container || !allTemplatesData) return;
+
+            const tpl = allTemplatesData.find(t => t.template_key === tplKey) || allTemplatesData[0];
+            if (!tpl || !tpl.layouts || tpl.layouts.length === 0) {
+                container.innerHTML = '<div class="col-12"><div class="p-3 border rounded text-center small text-muted">Layout 1 (Default)</div></div>';
+                selectedLayout = '1';
+                return;
+            }
+
+            let html = '';
+            const colSize = tpl.layouts.length <= 3 ? Math.floor(12 / tpl.layouts.length) : 4;
+            tpl.layouts.forEach((l, idx) => {
+                const checked = (String(l.layout_number) === String(selectedLayout) || (idx === 0 && !selectedLayout)) ? 'checked' : '';
+                html += `
+                    <div class="col-${colSize}">
+                        <div class="form-check p-3 border rounded text-center position-relative h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <input class="form-check-input" type="radio" name="chosen_layout" id="layout_${l.layout_number}" value="${l.layout_number}" ${checked}>
+                                <label class="form-check-label fw-bold d-block mt-1" for="layout_${l.layout_number}">${l.layout_name || ('Layout ' + l.layout_number)}</label>
+                                <span class="small text-muted d-block mt-1" style="font-size: 11px;">${l.short_desc || ''}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
-        });
+            container.innerHTML = html;
+
+            const activeChecked = container.querySelector('input[name="chosen_layout"]:checked');
+            selectedLayout = activeChecked ? activeChecked.value : (tpl.layouts[0] ? tpl.layouts[0].layout_number : '1');
+
+            container.querySelectorAll('input[name="chosen_layout"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) selectedLayout = this.value;
+                });
+            });
+        }
+
+        // Template Radio Card Click
+        function bindTemplateCardClicks() {
+            document.querySelectorAll('.tpl-radio-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.tpl-radio-card').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        selectedTemplate = radio.value;
+                        renderModalLayouts(selectedTemplate);
+                    }
+                });
+            });
+        }
+        bindTemplateCardClicks();
+
+        // Password toggle
+        function togglePasswordVisibility(id, btn) {
+            const el = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (el.type === 'password') {
+                el.type = 'text';
+                icon.className = 'fa fa-eye-slash';
+            } else {
+                el.type = 'password';
+                icon.className = 'fa fa-eye';
+            }
+        }
+
+        function updateFolderNotice(val) {
+            val = val.trim().replace(/^https?:\/\//i, '').replace(/[\/\\]/g, '').toLowerCase();
+            if (!val) val = 'your-domain.com';
+            document.getElementById('wizFolderNotice').textContent = val;
+        }
+
+        function previewModalUpload(input, imgId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    img.parentElement.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         // Step Navigation
         function goToStep(step) {
@@ -2276,34 +2500,54 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             step2.style.display = 'none';
             step3.style.display = 'none';
             step4.style.display = 'none';
+            if (step5) step5.style.display = 'none';
 
             if (step === 1) {
                 step1.style.display = 'block';
-                modalSubtitle.textContent = 'Step 1 of 3: Buyer Registration & Business Setup';
-                checkoutProgressBar.style.width = '33%';
+                modalSubtitle.textContent = 'Step 1 of 4: Customer Registration & Plan Confirmation';
+                checkoutProgressBar.style.width = '25%';
             } else if (step === 2) {
                 step2.style.display = 'block';
-                modalSubtitle.textContent = 'Step 2 of 3: Select Your Initial Template & Homepage Layout';
-                checkoutProgressBar.style.width = '66%';
+                modalSubtitle.textContent = 'Step 2 of 4: Select Your Initial Template & Homepage Layout';
+                checkoutProgressBar.style.width = '50%';
+                renderModalLayouts(selectedTemplate);
             } else if (step === 3) {
                 step3.style.display = 'block';
-                modalSubtitle.textContent = 'Step 3 of 3: Payment & License Generation';
-                checkoutProgressBar.style.width = '100%';
+                modalSubtitle.textContent = 'Step 3 of 4: Payment Gateway Checkout';
+                checkoutProgressBar.style.width = '75%';
 
                 // Populate Step 3 summaries
                 const business = document.getElementById('custBusiness').value || 'My Salon & Spa';
                 const layoutRadio = document.querySelector('input[name="chosen_layout"]:checked');
-                selectedLayout = layoutRadio ? layoutRadio.value : '1';
+                selectedLayout = layoutRadio ? layoutRadio.value : (selectedLayout || '1');
 
-                const tplName = (selectedTemplate === 'template1') ? 'Template 1' : 'Template 2';
+                const curTpl = allTemplatesData.find(t => t.template_key === selectedTemplate);
+                const curTplName = curTpl ? curTpl.name : selectedTemplate;
+                const curLayout = curTpl && curTpl.layouts ? curTpl.layouts.find(l => String(l.layout_number) === String(selectedLayout)) : null;
+                const curLayoutName = curLayout ? curLayout.layout_name : ('Layout ' + selectedLayout);
 
                 document.getElementById('checkoutPlanText').textContent = selectedPlanName;
                 document.getElementById('checkoutBusinessText').textContent = business;
-                document.getElementById('checkoutTplText').textContent = tplName + ' - Layout ' + selectedLayout;
+                document.getElementById('checkoutTplText').textContent = curTplName + ' - ' + curLayoutName;
                 document.getElementById('checkoutAmountText').textContent = selectedPriceDisplay;
             } else if (step === 4) {
                 step4.style.display = 'block';
-                modalSubtitle.textContent = 'Fulfillment Complete: License Generated & Ready to Run';
+                modalSubtitle.textContent = 'Step 4 of 4: Project Setup Wizard (Company Info, Logo & Domain)';
+                checkoutProgressBar.style.width = '90%';
+
+                // Populate wizard from registration
+                document.getElementById('wizCompanyName').value = document.getElementById('custBusiness').value.trim();
+                document.getElementById('wizCompanyEmail').value = document.getElementById('custEmail').value.trim();
+                document.getElementById('wizCompanyPhone').value = document.getElementById('custPhone').value.trim();
+                document.getElementById('wizAdminEmail').value = document.getElementById('custEmail').value.trim();
+                document.getElementById('wizAdminPass').value = document.getElementById('custPassword').value.trim();
+                document.getElementById('wizAdminName').value = document.getElementById('custName').value.trim();
+                document.getElementById('wizPlanCode').value = selectedPlan;
+                document.getElementById('wizTemplate').value = selectedTemplate;
+                document.getElementById('wizLayout').value = selectedLayout;
+            } else if (step === 5) {
+                step5.style.display = 'block';
+                modalSubtitle.textContent = 'Instance Provisioning & Live Hub';
                 checkoutProgressBar.style.width = '100%';
             }
         }
@@ -2325,7 +2569,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         document.getElementById('btnGoToStep3').addEventListener('click', () => goToStep(3));
         document.getElementById('btnBackToStep2').addEventListener('click', () => goToStep(2));
 
-        // Submit Order via AJAX
+        // Submit Order & Payment via AJAX
         document.getElementById('btnSubmitOrder').addEventListener('click', function() {
             const btn = this;
             const spinner = document.getElementById('spinnerBtn');
@@ -2337,6 +2581,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
             const name = document.getElementById('custName').value.trim();
             const email = document.getElementById('custEmail').value.trim();
+            const password = document.getElementById('custPassword').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const business = document.getElementById('custBusiness').value.trim();
             const layoutRadio = document.querySelector('input[name="chosen_layout"]:checked');
@@ -2346,6 +2591,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             formData.append('plan_code', selectedPlan);
             formData.append('name', name);
             formData.append('email', email);
+            formData.append('password', password);
             formData.append('phone', phone);
             formData.append('business_name', business);
             formData.append('chosen_template', selectedTemplate);
@@ -2361,11 +2607,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 spinner.classList.add('d-none');
 
                 if (data.status === 'success') {
-                    // Populate success step
-                    document.getElementById('resLicenseKey').textContent = data.license_key;
-                    document.getElementById('resOrderNumber').textContent = data.order_number;
-                    document.getElementById('btnDownloadZip').setAttribute('href', data.download_url);
-                    document.getElementById('btnLaunchInstance').setAttribute('href', data.launch_url);
+                    activeOrderNumber = data.order_number;
+                    activeOrderToken = data.token;
+
+                    document.getElementById('wizOrderRef').textContent = data.order_number;
+                    document.getElementById('wizOrderNum').value = data.order_number;
+                    document.getElementById('wizOrderToken').value = data.token;
+                    document.getElementById('linkFullscreenWizard').href = data.setup_wizard_url;
 
                     goToStep(4);
                 } else {
@@ -2381,15 +2629,99 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             });
         });
 
+        // Run Deployment from Modal Setup Wizard
+        document.getElementById('btnRunDeploy').addEventListener('click', function() {
+            const domainVal = document.getElementById('wizDomain').value.trim();
+            const alertBox = document.getElementById('wizAlert');
+            alertBox.classList.add('d-none');
+
+            if (!domainVal) {
+                alertBox.textContent = 'Please enter your domain or folder name (e.g. www.example.com).';
+                alertBox.classList.remove('d-none');
+                return;
+            }
+
+            goToStep(5);
+
+            const form = document.getElementById('modalSetupForm');
+            const formData = new FormData(form);
+
+            const s1 = document.getElementById('mWizStep1');
+            const s2 = document.getElementById('mWizStep2');
+            const s3 = document.getElementById('mWizStep3');
+            const s4 = document.getElementById('mWizStep4');
+            const s5 = document.getElementById('mWizStep5');
+            document.getElementById('mLogFolder').textContent = domainVal;
+
+            setTimeout(() => { markModalStepDone(s1); markModalStepRunning(s2); }, 300);
+            setTimeout(() => { markModalStepDone(s2); markModalStepRunning(s3); }, 700);
+
+            fetch('provision_engine.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    markModalStepDone(s3);
+                    markModalStepDone(s4);
+                    markModalStepDone(s5);
+
+                    setTimeout(() => {
+                        document.getElementById('modalDeployProgress').style.display = 'none';
+                        document.getElementById('modalDeploySuccess').style.display = 'block';
+
+                        document.getElementById('mResDomain').textContent = data.domain;
+                        document.getElementById('mResFolder').textContent = data.folder_name;
+                        document.getElementById('mResAdminEmail').textContent = data.admin_email;
+                        document.getElementById('mResAdminPass').textContent = data.admin_password;
+
+                        document.getElementById('btnModalVisitSite').href = data.website_url;
+                        document.getElementById('btnModalVisitAdmin').href = data.admin_url;
+                        document.getElementById('mResSiteUrl').textContent = data.website_url;
+                        document.getElementById('mResAdminUrl').textContent = data.admin_url;
+                    }, 500);
+                } else {
+                    document.getElementById('step5').style.display = 'none';
+                    goToStep(4);
+                    alertBox.textContent = data.message || 'Provisioning failed. Please check inputs and retry.';
+                    alertBox.classList.remove('d-none');
+                }
+            })
+            .catch(err => {
+                document.getElementById('step5').style.display = 'none';
+                goToStep(4);
+                alertBox.textContent = 'Server communication error: ' + err.message;
+                alertBox.classList.remove('d-none');
+            });
+        });
+
+        function markModalStepRunning(el) {
+            if (!el) return;
+            el.className = 'mb-2 text-warning fw-semibold';
+            el.querySelector('i').className = 'fa fa-spinner fa-spin text-warning me-2';
+        }
+
+        function markModalStepDone(el) {
+            if (!el) return;
+            el.className = 'mb-2 text-success';
+            el.querySelector('i').className = 'fa fa-check text-success me-2';
+        }
+
         // Interactive Tab Switcher for Template Layouts
-        function switchCardLayout(tpl, layoutNum, imgUrl, titleText, demoUrl) {
+        function switchCardLayout(tpl, layoutNum, imgUrl, titleText, demoUrl, descText) {
             const imgEl = document.getElementById(tpl + '_preview_img');
             const titleEl = document.getElementById(tpl + '_preview_title');
             const demoBtn = document.getElementById(tpl + '_demo_btn');
+            const descEl = document.getElementById(tpl + '_layout_desc');
 
-            if (imgEl) imgEl.style.backgroundImage = `url('${imgUrl}')`;
+            const fallbackImg = 'uploads/no-image.jpg';
+            const finalImg = (imgUrl && imgUrl.trim() !== '') ? imgUrl : fallbackImg;
+
+            if (imgEl) imgEl.style.backgroundImage = `url('${finalImg}')`;
             if (titleEl) titleEl.textContent = titleText;
             if (demoBtn) demoBtn.href = demoUrl;
+            if (descEl && descText) descEl.textContent = descText;
 
             document.querySelectorAll(`.${tpl}-tab-btn`).forEach(b => {
                 b.classList.remove('btn-dark', 'text-white', 'active', 'border-secondary');
@@ -2401,6 +2733,19 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 clickedBtn.classList.add('btn-dark', 'text-white', 'active', 'border-secondary');
             }
         }
+
+        // Universal fallback for any broken or missing image on the website (using c:\Users\Codeulas\Downloads\no-immage.jpg)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('img').forEach(function(img) {
+                img.addEventListener('error', function() {
+                    this.onerror = null;
+                    this.src = 'uploads/no-image.jpg';
+                });
+                if (!img.getAttribute('src') || img.getAttribute('src').trim() === '') {
+                    img.src = 'uploads/no-image.jpg';
+                }
+            });
+        });
     </script>
 </body>
 </html>

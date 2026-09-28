@@ -31,12 +31,12 @@ $fmt_curr = function($amt) use ($sym, $pos) {
     <!-- Navigation Tabs -->
     <ul class="nav nav-pills gap-2 mb-4 p-2 rounded-3 border border-secondary border-opacity-25" style="background: #0c1322;">
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'admins' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabAdmins" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'admins' ? 'active' : '' ?>" href="#tabAdmins" data-bs-toggle="pill">
                 <i class="fa-solid fa-user-shield me-1"></i> Platform Administrators &amp; Staff (<?= count($users) ?>)
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'customers' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabCustomers" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'customers' ? 'active' : '' ?>" href="#tabCustomers" data-bs-toggle="pill">
                 <i class="fa-solid fa-users me-1"></i> Customer &amp; Client Accounts (<?= count($customers) ?>)
             </a>
         </li>

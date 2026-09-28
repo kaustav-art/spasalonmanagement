@@ -576,3 +576,40 @@ select option {
         padding: 0 1.25rem;
     }
 }
+
+/* Navigation Tabs & Pills - Custom Active Accent (#f79009) */
+.nav-pills .nav-link {
+    color: #cbd5e1 !important;
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.55rem 1.15rem;
+    transition: all 0.18s ease-in-out;
+}
+.nav-pills .nav-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff !important;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: #f79009 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(247, 144, 9, 0.35) !important;
+}
+.nav-pills .nav-link.active i,
+.nav-pills .show > .nav-link i {
+    color: #ffffff !important;
+}
+
+/* Extra small buttons and button group styling */
+.btn-xs {
+    padding: 0.22rem 0.55rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1.25 !important;
+    border-radius: 4px;
+}
+.btn-group-sm > .btn-xs,
+.btn-group > .btn-xs {
+    padding: 0.22rem 0.55rem !important;
+    font-size: 0.75rem !important;
+}

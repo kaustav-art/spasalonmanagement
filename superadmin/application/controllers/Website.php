@@ -13,11 +13,160 @@ class Website extends Superadmin_Controller {
             $active_tab = $this->input->post('active_tab', TRUE);
             if (!$active_tab) $active_tab = 'hero';
 
-            // Ensure upload destination in root application directory exists
+            $theme_action = $this->input->post('theme_action', TRUE);
+
             $root_dir = realpath(FCPATH . '../') ? realpath(FCPATH . '../') . DIRECTORY_SEPARATOR : dirname(FCPATH) . DIRECTORY_SEPARATOR;
             $upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'branding' . DIRECTORY_SEPARATOR;
+            $templates_upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+
             if (!is_dir($upload_dir)) {
                 @mkdir($upload_dir, 0755, true);
+            }
+            if (!is_dir($templates_upload_dir)) {
+                @mkdir($templates_upload_dir, 0755, true);
+            }
+
+            // Handle Multi-Theme Architecture Actions
+            if ($active_tab === 'themes' && !empty($theme_action)) {
+                if ($theme_action === 'save_template') {
+                    $template_id = (int)$this->input->post('template_id');
+                    $tpl_key = strtolower(trim(preg_replace('/[^a-zA-Z0-9_]/', '', $this->input->post('template_key'))));
+                    if (!$tpl_key) $tpl_key = 'template_' . time();
+                    
+                    $features_raw = trim($this->input->post('features'));
+                    $features_arr = array();
+                    if ($features_raw !== '') {
+                        $lines = preg_split('/\r\n|\r|\n|,/', $features_raw);
+                        foreach ($lines as $ln) {
+                            $ln = trim($ln);
+                            if ($ln !== '') $features_arr[] = $ln;
+                        }
+                    }
+
+                    $tpl_data = array(
+                        'template_key' => $tpl_key,
+                        'name' => trim($this->input->post('name')),
+                        'badge' => trim($this->input->post('badge')),
+                        'icon' => trim($this->input->post('icon', TRUE)) ?: 'fa-solid fa-crown',
+                        'short_desc' => trim($this->input->post('short_desc')),
+                        'features' => !empty($features_arr) ? json_encode($features_arr) : NULL,
+                        'demo_url' => trim($this->input->post('demo_url')),
+                        'sort_order' => (int)$this->input->post('sort_order', TRUE) ?: 1,
+                        'status' => $this->input->post('status') === 'inactive' ? 'inactive' : 'active'
+                    );
+
+                    if ($template_id > 0) {
+                        $this->db->where('id', $template_id)->update('marketplace_templates', $tpl_data);
+                        $this->session->set_flashdata('success', 'Template updated successfully!');
+                    } else {
+                        $this->db->insert('marketplace_templates', $tpl_data);
+                        $template_id = $this->db->insert_id();
+
+                        // Automatically initialize Layout 1 with fallback image
+                        $this->db->insert('marketplace_template_layouts', array(
+                            'template_id' => $template_id,
+                            'template_key' => $tpl_key,
+                            'layout_number' => 1,
+                            'layout_name' => 'Layout 1: ' . $tpl_data['name'],
+                            'short_desc' => 'Initial layout for ' . $tpl_data['name'],
+                            'preview_image' => 'uploads/no-image.jpg',
+                            'demo_url' => 'website/?preview_tpl=' . $tpl_key . '&preview_layout=1',
+                            'sort_order' => 1,
+                            'status' => 'active'
+                        ));
+                        $this->session->set_flashdata('success', 'Template created successfully with Layout 1!');
+                    }
+                    redirect(superadmin_url('website?tab=themes'));
+                    return;
+                }
+
+                if ($theme_action === 'delete_template') {
+                    $template_id = (int)$this->input->post('template_id');
+                    if ($template_id > 0) {
+                        $this->db->where('template_id', $template_id)->delete('marketplace_template_layouts');
+                        $this->db->where('id', $template_id)->delete('marketplace_templates');
+                        $this->session->set_flashdata('success', 'Template and all its layouts deleted successfully.');
+                    }
+                    redirect(superadmin_url('website?tab=themes'));
+                    return;
+                }
+
+                if ($theme_action === 'save_layout') {
+                    $layout_id = (int)$this->input->post('layout_id');
+                    $template_id = (int)$this->input->post('template_id');
+                    $parent_tpl = $this->db->where('id', $template_id)->get('marketplace_templates')->row();
+                    $tpl_key = $parent_tpl ? $parent_tpl->template_key : 'template1';
+
+                    $preview_image = trim($this->input->post('preview_image_url'));
+
+                    // Handle Layout Preview Image File Upload
+                    if (!empty($_FILES['layout_preview_file']['name']) && $_FILES['layout_preview_file']['error'] === UPLOAD_ERR_OK) {
+                        $ext = strtolower(pathinfo($_FILES['layout_preview_file']['name'], PATHINFO_EXTENSION));
+                        $allowed = array('jpg', 'jpeg', 'png', 'gif', 'svg', 'webp');
+                        if (in_array($ext, $allowed)) {
+                            $new_name = 'layout_' . $tpl_key . '_' . time() . '_' . rand(100, 999) . '.' . $ext;
+                            $target_path = $templates_upload_dir . $new_name;
+                            if (move_uploaded_file($_FILES['layout_preview_file']['tmp_name'], $target_path)) {
+                                $preview_image = 'uploads/templates/' . $new_name;
+                            }
+                        }
+                    }
+
+                    // Fallback to default image if empty or not provided
+                    if (empty($preview_image)) {
+                        $preview_image = 'uploads/no-image.jpg';
+                    }
+
+                    $layout_number = (int)$this->input->post('layout_number') ?: 1;
+                    $layout_name = trim($this->input->post('layout_name')) ?: ('Layout ' . $layout_number);
+                    $demo_url = trim($this->input->post('demo_url')) ?: ('website/?preview_tpl=' . $tpl_key . '&preview_layout=' . $layout_number);
+
+                    $layout_data = array(
+                        'template_id' => $template_id,
+                        'template_key' => $tpl_key,
+                        'layout_number' => $layout_number,
+                        'layout_name' => $layout_name,
+                        'short_desc' => trim($this->input->post('short_desc')),
+                        'preview_image' => $preview_image,
+                        'demo_url' => $demo_url,
+                        'sort_order' => (int)$this->input->post('sort_order') ?: $layout_number,
+                        'status' => $this->input->post('status') === 'inactive' ? 'inactive' : 'active'
+                    );
+
+                    if ($layout_id > 0) {
+                        $this->db->where('id', $layout_id)->update('marketplace_template_layouts', $layout_data);
+                        $this->session->set_flashdata('success', 'Layout updated successfully!');
+                    } else {
+                        $this->db->insert('marketplace_template_layouts', $layout_data);
+                        $this->session->set_flashdata('success', 'Layout added successfully!');
+                    }
+                    redirect(superadmin_url('website?tab=themes'));
+                    return;
+                }
+
+                if ($theme_action === 'delete_layout') {
+                    $layout_id = (int)$this->input->post('layout_id');
+                    if ($layout_id > 0) {
+                        $this->db->where('id', $layout_id)->delete('marketplace_template_layouts');
+                        $this->session->set_flashdata('success', 'Layout deleted successfully.');
+                    }
+                    redirect(superadmin_url('website?tab=themes'));
+                    return;
+                }
+
+                if ($theme_action === 'save_theme_section') {
+                    $badge = trim($this->input->post('landing_templates_badge'));
+                    $title = trim($this->input->post('landing_templates_title'));
+                    $subtitle = trim($this->input->post('landing_templates_subtitle'));
+
+                    if ($badge !== '') set_setting('landing_templates_badge', $badge, 'landing');
+                    if ($title !== '') set_setting('landing_templates_title', $title, 'landing');
+                    if ($subtitle !== '') set_setting('landing_templates_subtitle', $subtitle, 'landing');
+
+                    $this->session->set_flashdata('success', 'Multi-Theme Architecture headers updated successfully!');
+                    redirect(superadmin_url('website?tab=themes'));
+                    return;
+                }
             }
 
             // Handle File Uploads (Hero BG, Logo, Favicon)
@@ -133,10 +282,19 @@ class Website extends Superadmin_Controller {
             $settings[$row->setting_key] = $row->setting_value;
         }
 
-        // Get pricing plans count
-        $data['plans'] = $this->db->order_by('sort_order', 'ASC')->get('marketplace_plans')->result();
+        $data = array();
         $data['settings'] = $settings;
         $data['active_tab'] = $this->input->get('tab', TRUE) ? $this->input->get('tab', TRUE) : 'hero';
+
+        // Load dynamic templates and layouts
+        $templates = array();
+        if ($this->db->table_exists('marketplace_templates')) {
+            $templates = $this->db->order_by('sort_order', 'ASC')->order_by('id', 'ASC')->get('marketplace_templates')->result();
+            foreach ($templates as $t) {
+                $t->layouts = $this->db->where('template_id', $t->id)->order_by('sort_order', 'ASC')->order_by('layout_number', 'ASC')->get('marketplace_template_layouts')->result();
+            }
+        }
+        $data['templates'] = $templates;
 
         $this->render('website/index', $data, 'Product Website CMS Management');
     }

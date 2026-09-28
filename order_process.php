@@ -35,6 +35,7 @@ if (!in_array($plan_code, array('SALON', 'SPA', 'SALON_SPA'))) {
 
 $name = isset($_POST['name']) ? trim($_POST['name']) : '';
 $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
 $business_name = isset($_POST['business_name']) && !empty($_POST['business_name']) ? trim($_POST['business_name']) : 'My Salon & Spa';
 $chosen_template = isset($_POST['chosen_template']) && in_array($_POST['chosen_template'], array('template1', 'template2')) ? $_POST['chosen_template'] : 'template1';
@@ -152,20 +153,27 @@ if (isset($settings['smtp_status']) && $settings['smtp_status'] === 'enabled') {
     $email_sent = true;
 }
 
+$setup_wizard_url = 'setup_wizard.php?order=' . urlencode($order_number) . '&token=' . urlencode($download_token);
+
 echo json_encode(array(
     'status' => 'success',
     'order_number' => $order_number,
+    'token' => $download_token,
     'license_key' => $license_key,
     'plan_name' => $plan_name,
     'plan_code' => $plan_code,
+    'customer_name' => $name,
+    'customer_email' => $email,
+    'customer_phone' => $phone,
+    'business_name' => $business_name,
     'amount' => $formatted_amount,
     'payment_method' => strtoupper($payment_method),
     'chosen_template' => ($chosen_template === 'template1' ? 'Template 1 (Glamr)' : 'Template 2 (Pureglow)'),
     'chosen_layout' => 'Layout ' . $chosen_layout,
-    'business_name' => $business_name,
     'download_url' => $download_url,
     'launch_url' => $launch_url,
+    'setup_wizard_url' => $setup_wizard_url,
     'email_sent' => $email_sent,
-    'message' => 'Thank you for your purchase! Your commercial license has been generated.'
+    'message' => 'Payment successful! Proceeding to Project Setup Wizard.'
 ));
 exit;

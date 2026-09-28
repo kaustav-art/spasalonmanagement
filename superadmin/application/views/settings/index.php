@@ -29,28 +29,28 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
     <!-- Navigation Tabs -->
     <ul class="nav nav-pills gap-2 mb-4 p-2 rounded-3 border border-secondary border-opacity-25" style="background: #0c1322;">
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'currency' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabCurrency" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'currency' ? 'active' : '' ?>" href="#tabCurrency" data-bs-toggle="pill">
                 <i class="fa-solid fa-coins me-1"></i> Dynamic Currency &amp; General
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'gateways' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabGateways" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'gateways' ? 'active' : '' ?>" href="#tabGateways" data-bs-toggle="pill">
                 <i class="fa-solid fa-credit-card me-1"></i> Payment Gateways
                 <span class="badge bg-dark border border-warning text-warning ms-1 font-monospace"><?= strtoupper($act_gw) ?></span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'smtp' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabSmtp" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'smtp' ? 'active' : '' ?>" href="#tabSmtp" data-bs-toggle="pill">
                 <i class="fa-solid fa-envelope me-1"></i> SMTP Email Gateway
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'oauth' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabOauth" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'oauth' ? 'active' : '' ?>" href="#tabOauth" data-bs-toggle="pill">
                 <i class="fa-brands fa-google me-1"></i> Google OAuth
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'system' ? 'active bg-warning text-dark fw-bold' : 'text-light' ?>" href="#tabSystem" data-bs-toggle="pill">
+            <a class="nav-link <?= $curr_tab === 'system' ? 'active' : '' ?>" href="#tabSystem" data-bs-toggle="pill">
                 <i class="fa-solid fa-server me-1"></i> Diagnostics &amp; Backups
             </a>
         </li>
