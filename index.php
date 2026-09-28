@@ -750,12 +750,12 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         .layout-preview-card:hover {
             border-color: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
         }
         .layout-preview-card.active {
             border-color: var(--primary);
             background: #fffdf9;
-            box-shadow: 0 0 0 1.5px var(--primary), 0 12px 30px rgba(194, 153, 88, 0.18);
+            box-shadow: 0 0 0 1.5px var(--primary), 0 12px 28px rgba(194, 153, 88, 0.18);
         }
         .layout-img-container {
             position: relative;
@@ -768,28 +768,11 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             height: 100%;
             object-fit: cover;
             object-position: top center;
-            transition: transform 0.4s ease;
+            transition: transform 0.35s ease;
             display: block;
         }
         .layout-preview-card:hover .layout-img-container img {
             transform: scale(1.04);
-        }
-        .layout-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.72);
-            backdrop-filter: blur(2px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-            padding: 12px;
-            z-index: 2;
-        }
-        .layout-preview-card:hover .layout-overlay {
-            opacity: 1;
         }
         .layout-top-badges {
             position: absolute;
@@ -804,8 +787,9 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         }
         .layout-top-badges .badge {
             pointer-events: auto;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
         }
+
         .layout-card-body {
             padding: 1rem 1.15rem;
             flex-grow: 1;
@@ -826,12 +810,39 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            margin-bottom: 0.75rem;
         }
         .layout-preview-card.active .layout-title {
             color: var(--primary-dark);
         }
+        .btn-card-zoom {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-card-zoom:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        .layout-preview-card.active .btn-card-zoom {
+            background: #fff8ec;
+            border-color: rgba(194, 153, 88, 0.4);
+            color: var(--primary-dark);
+        }
 
-        /* Fullscreen Layout Quick-Preview Modal */
+        /* Fullscreen Layout Zoom-Preview Modal */
         #layoutPreviewModal {
             z-index: 1070 !important;
         }
@@ -2237,9 +2248,9 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                             <div>
                                 <h6 class="fw-bold mb-0 font-serif fs-5">
-                                    <i class="fa fa-th-large text-warning me-2"></i> 2. Choose Default Homepage Layout &amp; Preview:
+                                    <i class="fa fa-th-large text-warning me-2"></i> 2. Choose Default Homepage Layout:
                                 </h6>
-                                <small class="text-muted">Click any layout card to select it. Click <strong>Quick Preview</strong> to view full-size design or <strong>Live Demo</strong> to explore the live website.</small>
+                                <small class="text-muted">Click any layout card to select it, or click <strong>Zoom Preview</strong> to view the full layout design.</small>
                             </div>
                             <div id="modalLayoutCountBadge" class="badge bg-dark text-white px-3 py-2 rounded-pill font-monospace small">
                                 <i class="fa fa-palette text-warning me-1"></i> 3 Layouts Available
@@ -2250,12 +2261,6 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <!-- Populated dynamically via JS for active template -->
                         </div>
 
-                        <div class="alert alert-light border small text-muted mb-4 d-flex align-items-center gap-2">
-                            <i class="fa fa-circle-info text-primary fa-lg"></i>
-                            <div>
-                                <strong>Complete Flexibility:</strong> All templates and layouts are bundled into your package. You can preview, test, and switch between any layout anytime directly from your Tenant Admin Panel after launch!
-                            </div>
-                        </div>
 
                         <div class="d-flex justify-content-between pt-2">
                             <button type="button" class="btn btn-outline-secondary px-4 fw-semibold" id="btnBackToStep1">
@@ -2561,12 +2566,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <small class="text-white-50" id="previewModalSubtitle">High-Resolution Website Homepage Preview</small>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <a id="previewModalLiveBtn" href="#" target="_blank" class="btn btn-sm btn-gold fw-bold">
-                            <i class="fa fa-arrow-up-right-from-square me-1"></i> Open Live Interactive Site
-                        </a>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0 bg-light text-center position-relative" style="min-height: 400px; max-height: 75vh; overflow-y: auto;">
                     <div class="p-3">
@@ -2659,22 +2659,20 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         let layoutPreviewModalInstance = null;
         let currentPreviewLayoutNumber = '1';
 
-        function openLayoutPreviewModal(tplName, layoutName, imgSrc, demoUrl, layoutNum) {
+        function openLayoutPreviewModal(tplName, layoutName, imgSrc, layoutNum) {
             currentPreviewLayoutNumber = String(layoutNum);
             const badgeEl = document.getElementById('previewModalBadge');
             const titleEl = document.getElementById('previewModalTitle');
             const subEl = document.getElementById('previewModalSubtitle');
             const imgEl = document.getElementById('previewModalImg');
-            const liveBtn = document.getElementById('previewModalLiveBtn');
 
             if (badgeEl) badgeEl.textContent = 'Layout ' + layoutNum;
             if (titleEl) titleEl.textContent = layoutName;
-            if (subEl) subEl.textContent = tplName + ' • Live Responsive Website Preview';
+            if (subEl) subEl.textContent = tplName + ' • Zoom Layout Preview';
             if (imgEl) {
                 imgEl.src = imgSrc || 'uploads/no-image.jpg';
                 imgEl.alt = layoutName;
             }
-            if (liveBtn) liveBtn.href = demoUrl;
 
             const modalEl = document.getElementById('layoutPreviewModal');
             if (modalEl) {
@@ -2726,28 +2724,18 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 const layoutImg = l.preview_image ? l.preview_image : 'uploads/no-image.jpg';
                 const layoutName = l.layout_name || ('Layout ' + l.layout_number);
                 const layoutDesc = l.short_desc || ('High-converting responsive homepage layout option ' + l.layout_number + ' customized for salon & spa bookings.');
-                const demoUrl = l.demo_url || ('website/?preview_tpl=' + encodeURIComponent(tpl.template_key) + '&preview_layout=' + encodeURIComponent(l.layout_number));
                 
                 // Escape attributes for inline JS
                 const safeTplName = escapeHtml(tpl.name).replace(/'/g, "\\'");
                 const safeLayoutName = escapeHtml(layoutName).replace(/'/g, "\\'");
                 const safeImg = escapeHtml(layoutImg).replace(/'/g, "\\'");
-                const safeDemo = escapeHtml(demoUrl).replace(/'/g, "\\'");
 
                 html += `
                     <div class="${colClass}">
                         <div class="layout-preview-card ${activeClass}" data-layout="${l.layout_number}">
-                            <!-- Thumbnail Frame with Hover Actions -->
+                            <!-- Thumbnail Frame with Zoom Preview Action -->
                             <div class="layout-img-container">
                                 <img src="${escapeHtml(layoutImg)}" alt="${escapeHtml(layoutName)}" loading="lazy" onerror="this.src='uploads/no-image.jpg'">
-                                <div class="layout-overlay">
-                                    <button type="button" class="btn btn-sm btn-light fw-bold shadow-sm btn-quick-preview" onclick="openLayoutPreviewModal('${safeTplName}', '${safeLayoutName}', '${safeImg}', '${safeDemo}', '${l.layout_number}'); event.stopPropagation();">
-                                        <i class="fa fa-eye me-1 text-primary"></i> Quick Preview
-                                    </button>
-                                    <a href="${escapeHtml(demoUrl)}" target="_blank" class="btn btn-sm btn-gold fw-bold shadow-sm" onclick="event.stopPropagation();">
-                                        <i class="fa fa-arrow-up-right-from-square me-1"></i> Live Demo
-                                    </a>
-                                </div>
                                 <div class="layout-top-badges">
                                     <span class="badge bg-dark bg-opacity-75 text-white px-2 py-1">
                                         <i class="fa fa-layer-group text-warning me-1"></i> Layout ${l.layout_number}
@@ -2765,16 +2753,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                         <h6 class="fw-bold font-serif mb-0 layout-title">${escapeHtml(layoutName)}</h6>
                                         <input class="form-check-input d-none" type="radio" name="chosen_layout" id="layout_${l.layout_number}" value="${l.layout_number}" ${checked}>
                                     </div>
-                                    <p class="small text-muted mb-3 layout-desc">${escapeHtml(layoutDesc)}</p>
+                                    <p class="small text-muted layout-desc">${escapeHtml(layoutDesc)}</p>
                                 </div>
 
-                                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
-                                    <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 text-primary small fw-semibold btn-quick-preview" onclick="openLayoutPreviewModal('${safeTplName}', '${safeLayoutName}', '${safeImg}', '${safeDemo}', '${l.layout_number}'); event.stopPropagation();">
-                                        <i class="fa fa-search-plus me-1"></i> Zoom Preview
+                                <div class="pt-2 border-top">
+                                    <button type="button" class="btn btn-card-zoom btn-zoom-preview" onclick="openLayoutPreviewModal('${safeTplName}', '${safeLayoutName}', '${safeImg}', '${l.layout_number}'); event.stopPropagation();">
+                                        <i class="fa fa-search-plus text-warning me-1"></i> Zoom Preview
                                     </button>
-                                    <a href="${escapeHtml(demoUrl)}" target="_blank" class="btn btn-sm btn-outline-secondary py-0 px-2 small" onclick="event.stopPropagation();">
-                                        <i class="fa fa-external-link-alt me-1"></i> Live Demo <i class="fa fa-chevron-right ms-1" style="font-size: 9px;"></i>
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -2786,7 +2771,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             // Bind card selection clicks
             container.querySelectorAll('.layout-preview-card').forEach(card => {
                 card.addEventListener('click', function(e) {
-                    if (e.target.closest('.btn-quick-preview') || e.target.closest('a')) return;
+                    if (e.target.closest('.btn-zoom-preview')) return;
                     const layoutNum = this.getAttribute('data-layout');
                     selectLayoutByNumber(layoutNum);
                 });
