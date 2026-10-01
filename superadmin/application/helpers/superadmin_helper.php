@@ -172,3 +172,52 @@ if (!function_exists('fallback_image_url')) {
     }
 }
 
+if (!function_exists('get_tpl_setting')) {
+    function get_tpl_setting($template_key, $layout_number, $section_key, $setting_key, $default = '') {
+        $CI =& get_instance();
+        static $tpl_cache = array();
+        $cache_key = "{$template_key}_{$layout_number}_{$section_key}_{$setting_key}";
+        if (isset($tpl_cache[$cache_key])) {
+            return $tpl_cache[$cache_key];
+        }
+        $row = $CI->db->where('template_key', $template_key)
+                      ->where('layout_number', $layout_number)
+                      ->where('section_key', $section_key)
+                      ->where('setting_key', $setting_key)
+                      ->get('template_layout_settings')
+                      ->row();
+        if ($row && $row->setting_value !== null && $row->setting_value !== '') {
+            $tpl_cache[$cache_key] = $row->setting_value;
+            return $row->setting_value;
+        }
+        return $default;
+    }
+}
+
+if (!function_exists('set_tpl_setting')) {
+    function set_tpl_setting($template_key, $layout_number, $section_key, $setting_key, $value) {
+        $CI =& get_instance();
+        $exists = $CI->db->where('template_key', $template_key)
+                         ->where('layout_number', $layout_number)
+                         ->where('section_key', $section_key)
+                         ->where('setting_key', $setting_key)
+                         ->count_all_results('template_layout_settings');
+        if ($exists > 0) {
+            $CI->db->where('template_key', $template_key)
+                   ->where('layout_number', $layout_number)
+                   ->where('section_key', $section_key)
+                   ->where('setting_key', $setting_key)
+                   ->update('template_layout_settings', array('setting_value' => $value));
+        } else {
+            $CI->db->insert('template_layout_settings', array(
+                'template_key' => $template_key,
+                'layout_number' => $layout_number,
+                'section_key' => $section_key,
+                'setting_key' => $setting_key,
+                'setting_value' => $value
+            ));
+        }
+        return true;
+    }
+}
+

@@ -14,7 +14,7 @@ class Superadmin_Controller extends CI_Controller {
         // Handle URL fallback like ?page=plans or ?page=orders
         $page_query = $this->input->get('page', TRUE);
         if (!empty($page_query)) {
-            $allowed_pages = array('website', 'plans', 'orders', 'licenses', 'tenants', 'users', 'settings', 'packages', 'dashboard');
+            $allowed_pages = array('website', 'layouts', 'plans', 'orders', 'licenses', 'tenants', 'users', 'settings', 'packages', 'dashboard');
             if (in_array(strtolower($page_query), $allowed_pages)) {
                 redirect(superadmin_url(strtolower($page_query)));
                 exit;

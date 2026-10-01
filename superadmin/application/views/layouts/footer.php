@@ -17,16 +17,12 @@
 </div><!-- /sa-main -->
 
 <!-- Core Scripts -->
-<script src="<?= superadmin_asset('vendor/libs/jquery/jquery.js') ?>"></script>
 <script>
     if (typeof jQuery === 'undefined') {
-        document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
+        document.write('<script src="<?= superadmin_asset("vendor/libs/jquery/jquery.js") ?>"><\/script>');
     }
-</script>
-<script src="<?= superadmin_asset('js/bootstrap.bundle.min.js') ?>"></script>
-<script>
     if (typeof bootstrap === 'undefined') {
-        document.write('<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><\/script>');
+        document.write('<script src="<?= superadmin_asset("js/bootstrap.bundle.min.js") ?>"><\/script>');
     }
 </script>
 <script src="<?= superadmin_asset('vendor/libs/sweetalert2/sweetalert2.js') ?>"></script>

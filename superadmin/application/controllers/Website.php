@@ -9,6 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Website extends Superadmin_Controller {
 
     public function index() {
+        if ($this->input->get('tab') === 'themes') {
+            redirect(superadmin_url('layouts?tab=architecture'));
+            return;
+        }
+
         if ($this->input->method() === 'post') {
             $active_tab = $this->input->post('active_tab', TRUE);
             if (!$active_tab) $active_tab = 'hero';

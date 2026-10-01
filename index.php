@@ -138,6 +138,45 @@ $stripe_publishable_key = site_setting('gateway_stripe_publishable_key', '');
 $razorpay_key_id = site_setting('gateway_razorpay_key_id', '');
 $payu_merchant_key = site_setting('gateway_payu_merchant_key', '');
 
+// Check for returned order from official payment gateways (Stripe Hosted Checkout / PayU Hosted Portal)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$returned_order_success = isset($_GET['order_success']) ? trim($_GET['order_success']) : '';
+$returned_token = isset($_GET['token']) ? trim($_GET['token']) : '';
+$returned_order_info = null;
+if (!empty($returned_order_success)) {
+    if (isset($_SESSION['completed_order_' . $returned_order_success])) {
+        $returned_order_info = $_SESSION['completed_order_' . $returned_order_success];
+    } else {
+        try {
+            if (isset($pdo)) {
+                $stmt_ro = $pdo->prepare("SELECT * FROM marketplace_orders WHERE order_number = ? LIMIT 1");
+                $stmt_ro->execute(array($returned_order_success));
+                $ro_row = $stmt_ro->fetch();
+                if ($ro_row) {
+                    $returned_order_info = array(
+                        'order_number' => $ro_row->order_number,
+                        'token' => $ro_row->download_token,
+                        'company_name' => $ro_row->business_name,
+                        'company_email' => $ro_row->customer_email,
+                        'company_phone' => $ro_row->customer_phone,
+                        'plan_code' => $ro_row->plan_code,
+                        'template' => $ro_row->chosen_template,
+                        'layout' => $ro_row->chosen_layout,
+                        'admin_name' => $ro_row->customer_name,
+                        'admin_email' => $ro_row->customer_email,
+                        'admin_password' => ''
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            // Ignore
+        }
+    }
+}
+$payment_cancelled = isset($_GET['payment_cancelled']) && $_GET['payment_cancelled'] == '1';
+
 // Default fallback pricing if database record is missing
 $salon_price = isset($plans['SALON']) ? (float)$plans['SALON']->price : 49.00;
 $salon_orig = isset($plans['SALON']) ? (float)$plans['SALON']->original_price : 79.00;
@@ -2294,50 +2333,48 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </div>
                         </div>
 
-                        <!-- Active Payment Gateway Card -->
+                        <!-- Active Payment Gateway Official Card -->
                         <?php if ($active_payment_gateway === 'stripe'): ?>
                             <div class="p-3 rounded border mb-4 bg-white shadow-sm">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-brands fa-stripe fa-2x text-primary me-2"></i>
-                                        <span class="fw-bold text-dark">Stripe Secured Checkout</span>
+                                        <div>
+                                            <span class="fw-bold text-dark d-block">Stripe Official Hosted Checkout</span>
+                                            <small class="text-muted">Direct dispatch to checkout.stripe.com</small>
+                                        </div>
                                     </div>
                                     <span class="badge bg-success small"><i class="fa-solid fa-lock me-1"></i> Active Gateway</span>
                                 </div>
-                                <p class="small text-muted mb-3">Credit card transactions are processed securely through Stripe PCI-compliant gateway.</p>
-                                <div class="row g-2">
-                                    <div class="col-12">
-                                        <label class="form-label small fw-bold text-dark">Card Number</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light"><i class="fa-regular fa-credit-card"></i></span>
-                                            <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardNum" placeholder="4242 •••• •••• 4242" value="">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small fw-bold text-dark">Expiry Date</label>
-                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardExp" placeholder="MM / YY" value="">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label small fw-bold text-dark">CVC Code</label>
-                                        <input type="text" class="form-control form-control-sm font-monospace" id="stripeCardCvc" placeholder="CVC" value="">
-                                    </div>
+                                <p class="small text-muted mb-3">You will be securely redirected to <strong>Stripe's Official Hosted Payment Page</strong> to complete your order. All credit/debit card numbers are entered strictly on Stripe's PCI-DSS Level 1 certified servers. We never handle or store your sensitive card details.</p>
+                                <div class="d-flex flex-wrap gap-2 align-items-center pt-2 border-top">
+                                    <span class="small text-muted me-2"><i class="fa-solid fa-shield-halved text-success me-1"></i> Supported via Stripe:</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-brands fa-cc-visa text-primary me-1"></i> Visa</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-brands fa-cc-mastercard text-danger me-1"></i> Mastercard</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-brands fa-cc-amex text-info me-1"></i> Amex</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-brands fa-apple text-dark me-1"></i> Apple Pay</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-brands fa-google text-success me-1"></i> Google Pay</span>
                                 </div>
                             </div>
                         <?php elseif ($active_payment_gateway === 'razorpay'): ?>
                             <div class="p-3 rounded border mb-4 bg-white shadow-sm">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-bolt fa-lg text-info me-2"></i>
-                                        <span class="fw-bold text-dark">Razorpay Instant Gateway</span>
+                                        <i class="fa-solid fa-bolt fa-lg text-primary me-2"></i>
+                                        <div>
+                                            <span class="fw-bold text-dark d-block">Razorpay Official Standard Checkout</span>
+                                            <small class="text-muted">Powered by checkout.razorpay.com</small>
+                                        </div>
                                     </div>
                                     <span class="badge bg-success small"><i class="fa-solid fa-lock me-1"></i> Active Gateway</span>
                                 </div>
-                                <p class="small text-muted mb-2">Accepting UPI (Google Pay, PhonePe, Paytm), Debit/Credit Cards, and NetBanking via Razorpay.</p>
-                                <div class="d-flex gap-2">
-                                    <span class="badge bg-light text-dark border">UPI</span>
-                                    <span class="badge bg-light text-dark border">Cards</span>
-                                    <span class="badge bg-light text-dark border">NetBanking</span>
-                                    <span class="badge bg-light text-dark border">Wallets</span>
+                                <p class="small text-muted mb-3">Clicking below will open the <strong>Official Razorpay Checkout Dialog</strong> to finalize payment with instant verification.</p>
+                                <div class="d-flex flex-wrap gap-2 align-items-center pt-2 border-top">
+                                    <span class="small text-muted me-2"><i class="fa-solid fa-shield-halved text-success me-1"></i> Supported:</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-solid fa-mobile-screen-button text-success me-1"></i> Instant UPI (GPay / PhonePe / Paytm)</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-regular fa-credit-card text-primary me-1"></i> All Debit &amp; Credit Cards</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-solid fa-building-columns text-info me-1"></i> NetBanking (50+ Banks)</span>
+                                    <span class="badge bg-light text-dark border"><i class="fa-solid fa-wallet text-warning me-1"></i> Digital Wallets</span>
                                 </div>
                             </div>
                         <?php elseif ($active_payment_gateway === 'payu'): ?>
@@ -2345,22 +2382,35 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-money-bill-wave fa-lg text-success me-2"></i>
-                                        <span class="fw-bold text-dark">PayU Money / Biz Gateway</span>
+                                        <div>
+                                            <span class="fw-bold text-dark d-block">PayU Official Hosted Portal</span>
+                                            <small class="text-muted">Direct dispatch to secure.payu.in</small>
+                                        </div>
                                     </div>
                                     <span class="badge bg-success small"><i class="fa-solid fa-lock me-1"></i> Active Gateway</span>
                                 </div>
-                                <p class="small text-muted mb-0">Encrypted merchant transaction through PayU payment processing network.</p>
+                                <p class="small text-muted mb-3">You will be securely redirected to the <strong>Official PayU Merchant Payment Gateway</strong> to complete your checkout with 256-bit SSL encryption.</p>
+                                <div class="d-flex flex-wrap gap-2 align-items-center pt-2 border-top">
+                                    <span class="small text-muted me-2"><i class="fa-solid fa-shield-halved text-success me-1"></i> Supported:</span>
+                                    <span class="badge bg-light text-dark border">Credit / Debit Cards</span>
+                                    <span class="badge bg-light text-dark border">NetBanking</span>
+                                    <span class="badge bg-light text-dark border">UPI &amp; QR</span>
+                                    <span class="badge bg-light text-dark border">Wallets</span>
+                                </div>
                             </div>
                         <?php else: ?>
                             <div class="p-3 rounded border mb-4 bg-white shadow-sm">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-laptop-code text-warning fa-lg me-2"></i>
-                                        <span class="fw-bold text-dark">Simulated Instant Payment (Sandbox / Demo)</span>
+                                        <div>
+                                            <span class="fw-bold text-dark d-block">Simulated Instant Payment (Sandbox / Demo)</span>
+                                            <small class="text-muted">Testing environment</small>
+                                        </div>
                                     </div>
-                                    <span class="badge bg-warning text-dark small">Sandbox Mode</span>
+                                    <span class="badge bg-warning text-dark small"><i class="fa-solid fa-flask me-1"></i> Sandbox Active</span>
                                 </div>
-                                <p class="small text-muted mb-0">Submitting will process payment and immediately advance to the Project Setup Wizard.</p>
+                                <p class="small text-muted mb-0">Submitting will simulate instant successful payment and immediately advance to the Project Setup Wizard.</p>
                             </div>
                         <?php endif; ?>
 
@@ -2372,7 +2422,15 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </button>
                             <button type="button" class="btn btn-success btn-lg px-4 fw-bold" id="btnSubmitOrder">
                                 <span id="spinnerBtn" class="spinner-border spinner-border-sm me-2 d-none"></span>
-                                <i class="fa fa-lock me-1"></i> Pay &amp; Proceed to Project Setup Wizard <i class="fa fa-arrow-right ms-1"></i>
+                                <?php if ($active_payment_gateway === 'stripe'): ?>
+                                    <i class="fa-brands fa-stripe fa-lg me-1"></i> Proceed to Stripe Official Checkout <i class="fa fa-arrow-right ms-1"></i>
+                                <?php elseif ($active_payment_gateway === 'razorpay'): ?>
+                                    <i class="fa-solid fa-bolt me-1"></i> Pay with Razorpay Official Checkout <i class="fa fa-arrow-right ms-1"></i>
+                                <?php elseif ($active_payment_gateway === 'payu'): ?>
+                                    <i class="fa-solid fa-money-bill-wave me-1"></i> Proceed to PayU Official Portal <i class="fa fa-arrow-right ms-1"></i>
+                                <?php else: ?>
+                                    <i class="fa fa-lock me-1"></i> Complete Order &amp; Launch Setup Wizard <i class="fa fa-arrow-right ms-1"></i>
+                                <?php endif; ?>
                             </button>
                         </div>
                     </div>
@@ -2590,6 +2648,8 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="website/assets/template1/js/bootstrap.bundle.min.js"></script>
+    <!-- Official Razorpay Standard Checkout SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         // State variables
         let selectedPlan = 'SALON_SPA';
@@ -2930,15 +2990,15 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         document.getElementById('btnGoToStep3').addEventListener('click', () => goToStep(3));
         document.getElementById('btnBackToStep2').addEventListener('click', () => goToStep(2));
 
-        // Submit Order & Payment via AJAX
-        document.getElementById('btnSubmitOrder').addEventListener('click', function() {
-            const btn = this;
+        // Finalize order record in system after gateway approval
+        function completeOrderSubmission(transactionId, gatewayName) {
+            const btn = document.getElementById('btnSubmitOrder');
             const spinner = document.getElementById('spinnerBtn');
             const alertBox = document.getElementById('checkoutAlert');
-            
-            alertBox.classList.add('d-none');
+
             btn.disabled = true;
             spinner.classList.remove('d-none');
+            alertBox.classList.add('d-none');
 
             const name = document.getElementById('custName').value.trim();
             const email = document.getElementById('custEmail').value.trim();
@@ -2957,6 +3017,8 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             formData.append('business_name', business);
             formData.append('chosen_template', selectedTemplate);
             formData.append('chosen_layout', layout);
+            formData.append('payment_gateway', gatewayName || '<?php echo $active_payment_gateway; ?>');
+            formData.append('transaction_id', transactionId || ('TXN-' + Date.now()));
 
             fetch('order_process.php', {
                 method: 'POST',
@@ -2978,14 +3040,165 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
 
                     goToStep(4);
                 } else {
-                    alertBox.textContent = data.message || 'An error occurred during order processing.';
+                    alertBox.textContent = data.message || 'An error occurred during order confirmation.';
                     alertBox.classList.remove('d-none');
                 }
             })
             .catch(err => {
                 btn.disabled = false;
                 spinner.classList.add('d-none');
-                alertBox.textContent = 'Network or server error. Please try again.';
+                alertBox.textContent = 'Order confirmation network error. Please try again.';
+                alertBox.classList.remove('d-none');
+            });
+        }
+
+        // Direct sandbox trigger
+        function simulateSandboxOrder() {
+            completeOrderSubmission('SANDBOX-' + Date.now(), 'offline');
+        }
+
+        // Submit Order & Route to Active Payment Gateway's Official Page/Checkout
+        document.getElementById('btnSubmitOrder').addEventListener('click', function() {
+            const btn = this;
+            const spinner = document.getElementById('spinnerBtn');
+            const alertBox = document.getElementById('checkoutAlert');
+            
+            alertBox.classList.add('d-none');
+            alertBox.innerHTML = '';
+            btn.disabled = true;
+            spinner.classList.remove('d-none');
+
+            const name = document.getElementById('custName').value.trim();
+            const email = document.getElementById('custEmail').value.trim();
+            const password = document.getElementById('custPassword').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const business = document.getElementById('custBusiness').value.trim();
+            const layoutRadio = document.querySelector('input[name="chosen_layout"]:checked');
+            const layout = layoutRadio ? layoutRadio.value : (selectedLayout || '1');
+
+            if (!name || !email || !password) {
+                btn.disabled = false;
+                spinner.classList.add('d-none');
+                alertBox.textContent = 'Please fill out all registration fields in Step 1 before proceeding.';
+                alertBox.classList.remove('d-none');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('plan_code', selectedPlan);
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('phone', phone);
+            formData.append('business_name', business);
+            formData.append('chosen_template', selectedTemplate);
+            formData.append('chosen_layout', layout);
+
+            fetch('create_payment.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                // 1. STRIPE OFFICIAL REDIRECT (checkout.stripe.com)
+                if (data.status === 'redirect' && data.redirect_url) {
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Redirecting to Stripe Official Checkout...';
+                    window.location.href = data.redirect_url;
+                    return;
+                }
+
+                // 2. RAZORPAY OFFICIAL STANDARD CHECKOUT MODAL
+                if (data.status === 'razorpay_checkout') {
+                    btn.disabled = false;
+                    spinner.classList.add('d-none');
+
+                    if (typeof Razorpay === 'undefined') {
+                        alertBox.textContent = 'Razorpay official checkout script is still loading. Please check your internet connection and try again.';
+                        alertBox.classList.remove('d-none');
+                        return;
+                    }
+
+                    const rzpOptions = {
+                        key: data.key_id,
+                        amount: data.amount,
+                        currency: data.currency,
+                        name: data.business_name || 'Salon & Spa Platform',
+                        description: data.plan_name,
+                        image: 'uploads/logo-preview.png',
+                        prefill: {
+                            name: data.customer_name,
+                            email: data.customer_email,
+                            contact: data.customer_phone
+                        },
+                        theme: {
+                            color: '#D4AF37'
+                        },
+                        handler: function(response) {
+                            // Official Razorpay success callback
+                            completeOrderSubmission(response.razorpay_payment_id, 'razorpay');
+                        },
+                        modal: {
+                            ondismiss: function() {
+                                btn.disabled = false;
+                                spinner.classList.add('d-none');
+                            }
+                        }
+                    };
+
+                    try {
+                        const rzp = new Razorpay(rzpOptions);
+                        rzp.on('payment.failed', function(resp) {
+                            alertBox.textContent = 'Razorpay payment was not completed: ' + (resp.error ? resp.error.description : 'Payment failed');
+                            alertBox.classList.remove('d-none');
+                        });
+                        rzp.open();
+                    } catch (e) {
+                        alertBox.innerHTML = 'Razorpay SDK Error: ' + escapeHtml(e.message) + '<br><button type="button" class="btn btn-sm btn-outline-warning mt-2" onclick="simulateSandboxOrder()"><i class="fa fa-flask me-1"></i> Continue in Sandbox / Demo Mode</button>';
+                        alertBox.classList.remove('d-none');
+                    }
+                    return;
+                }
+
+                // 3. PAYU OFFICIAL HOSTED PORTAL REDIRECT
+                if (data.status === 'payu_form') {
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Redirecting to PayU Official Portal...';
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = data.action;
+                    form.style.display = 'none';
+
+                    for (const [key, value] of Object.entries(data.fields)) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = key;
+                        hiddenInput.value = value;
+                        form.appendChild(hiddenInput);
+                    }
+                    document.body.appendChild(form);
+                    form.submit();
+                    return;
+                }
+
+                // 4. SANDBOX / OFFLINE INSTANT PROCESSING
+                if (data.status === 'sandbox_direct') {
+                    completeOrderSubmission('SANDBOX-' + Date.now(), 'offline');
+                    return;
+                }
+
+                // Error handling from gateway dispatch
+                btn.disabled = false;
+                spinner.classList.add('d-none');
+                let errHtml = escapeHtml(data.message || 'Payment initiation failed.');
+                if (data.is_sample_key) {
+                    errHtml += '<div class="mt-2"><button type="button" class="btn btn-sm btn-outline-warning" onclick="simulateSandboxOrder()"><i class="fa fa-flask me-1"></i> Simulate Payment in Sandbox Mode</button></div>';
+                }
+                alertBox.innerHTML = errHtml;
+                alertBox.classList.remove('d-none');
+            })
+            .catch(err => {
+                btn.disabled = false;
+                spinner.classList.add('d-none');
+                alertBox.innerHTML = 'Gateway communication error: ' + escapeHtml(err.message) + '<div class="mt-2"><button type="button" class="btn btn-sm btn-outline-warning" onclick="simulateSandboxOrder()"><i class="fa fa-flask me-1"></i> Simulate Payment in Sandbox Mode</button></div>';
                 alertBox.classList.remove('d-none');
             });
         });
@@ -3105,6 +3318,47 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                 }
             });
         });
+
+        // Auto-resume Project Setup Wizard when returning from official gateway (Stripe / PayU)
+        <?php if (!empty($returned_order_info)): ?>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const modalEl = document.getElementById('checkoutModal');
+                const modalInst = bootstrap.Modal.getOrCreateInstance(modalEl);
+                
+                selectedPlan = <?php echo json_encode($returned_order_info['plan_code']); ?>;
+                selectedTemplate = <?php echo json_encode($returned_order_info['template']); ?>;
+                selectedLayout = <?php echo json_encode(strval($returned_order_info['layout'])); ?>;
+                activeOrderNumber = <?php echo json_encode($returned_order_info['order_number']); ?>;
+                activeOrderToken = <?php echo json_encode($returned_order_info['token']); ?>;
+
+                document.getElementById('wizOrderRef').textContent = activeOrderNumber;
+                document.getElementById('wizOrderNum').value = activeOrderNumber;
+                document.getElementById('wizOrderToken').value = activeOrderToken;
+                document.getElementById('wizPlanCode').value = selectedPlan;
+                document.getElementById('wizTemplate').value = selectedTemplate;
+                document.getElementById('wizLayout').value = selectedLayout;
+
+                document.getElementById('wizCompanyName').value = <?php echo json_encode($returned_order_info['company_name']); ?>;
+                document.getElementById('wizCompanyEmail').value = <?php echo json_encode($returned_order_info['company_email']); ?>;
+                document.getElementById('wizCompanyPhone').value = <?php echo json_encode($returned_order_info['company_phone']); ?>;
+                document.getElementById('wizAdminName').value = <?php echo json_encode($returned_order_info['admin_name']); ?>;
+                document.getElementById('wizAdminEmail').value = <?php echo json_encode($returned_order_info['admin_email']); ?>;
+                <?php if (!empty($returned_order_info['admin_password'])): ?>
+                document.getElementById('wizAdminPass').value = <?php echo json_encode($returned_order_info['admin_password']); ?>;
+                <?php endif; ?>
+
+                goToStep(4);
+                modalInst.show();
+            }, 300);
+        });
+        <?php elseif ($payment_cancelled): ?>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                alert('Payment process was cancelled on the official payment gateway page. You can retry checkout anytime.');
+            }, 300);
+        });
+        <?php endif; ?>
     </script>
 </body>
 </html>

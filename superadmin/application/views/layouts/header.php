@@ -16,5 +16,8 @@
     <link rel="stylesheet" href="<?= superadmin_asset('vendor/libs/sweetalert2/sweetalert2.css') ?>">
     <!-- Super Admin Custom Style -->
     <link rel="stylesheet" href="<?= superadmin_asset('css/superadmin.css') ?>?v=1.3">
+    <!-- Core JS in Head to guarantee availability for all view components and plugins -->
+    <script src="<?= superadmin_asset('vendor/libs/jquery/jquery.js') ?>"></script>
+    <script src="<?= superadmin_asset('js/bootstrap.bundle.min.js') ?>"></script>
 </head>
 <body class="sa-body dark-theme" data-bs-theme="dark">

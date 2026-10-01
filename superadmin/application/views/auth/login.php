@@ -152,7 +152,7 @@
                 <label class="form-label" for="email">Super Admin Email</label>
                 <div class="input-group">
                     <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-envelope"></i></span>
-                    <input type="email" class="form-control" id="email" name="email" value="admin@spasalon.com" required autofocus>
+                    <input type="email" class="form-control" id="email" name="email" value="superadmin@spasalon.com" required autofocus>
                 </div>
             </div>
 
@@ -172,10 +172,7 @@
             <div class="text-center pt-2 border-top border-secondary border-opacity-25 mt-3">
                 <span class="text-secondary small d-block mb-2">Default Master Credentials:</span>
                 <div class="d-flex justify-content-center gap-2">
-                    <button type="button" class="btn btn-sm btn-outline-warning text-nowrap" onclick="fillCreds('admin@spasalon.com')">
-                        admin@spasalon.com
-                    </button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary text-nowrap" onclick="fillCreds('superadmin@spasalon.com')">
+                    <button type="button" class="btn btn-sm btn-outline-warning text-nowrap" onclick="fillCreds('superadmin@spasalon.com')">
                         superadmin@spasalon.com
                     </button>
                 </div>

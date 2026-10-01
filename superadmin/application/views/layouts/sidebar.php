@@ -60,6 +60,12 @@ $act_c = isset($active_controller) ? $active_controller : 'dashboard';
                 <span>Product Website CMS</span>
             </a>
         </li>
+        <li class="sa-menu-item <?= $act_c === 'layouts' ? 'active' : '' ?>">
+            <a href="<?= superadmin_url('layouts') ?>" class="sa-menu-link">
+                <i class="fa-solid fa-palette text-success"></i>
+                <span>Configure Layouts</span>
+            </a>
+        </li>
         <li class="sa-menu-item <?= $act_c === 'tenants' ? 'active' : '' ?>">
             <a href="<?= superadmin_url('tenants') ?>" class="sa-menu-link">
                 <i class="fa-solid fa-store"></i>

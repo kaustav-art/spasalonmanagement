@@ -69,6 +69,54 @@ class Home extends Website_Controller {
                                    ->where('(valid_until IS NULL OR valid_until >= CURDATE())', NULL, FALSE)
                                    ->get('offers')->result();
 
+        // Template 2 dynamic showcase content
+        if ($this->template === 'template2') {
+            $data['tpl_hero_banners'] = $this->db->where('template_key', 'template2')
+                                                 ->where('layout_number', $this->home_layout)
+                                                 ->where('status', 'active')
+                                                 ->order_by('sort_order', 'ASC')
+                                                 ->get('template_hero_banners')
+                                                 ->result();
+            if (empty($data['tpl_hero_banners'])) {
+                $data['tpl_hero_banners'] = $this->db->where('template_key', 'template2')
+                                                     ->where('layout_number', 1)
+                                                     ->where('status', 'active')
+                                                     ->order_by('sort_order', 'ASC')
+                                                     ->get('template_hero_banners')
+                                                     ->result();
+            }
+
+            $data['tpl_featured_items'] = $this->db->where('template_key', 'template2')
+                                                    ->where('status', 'active')
+                                                    ->order_by('sort_order', 'ASC')
+                                                    ->get('template_featured_items')
+                                                    ->result();
+
+            $data['tpl_services'] = $this->db->where('template_key', 'template2')
+                                             ->where('status', 'active')
+                                             ->order_by('sort_order', 'ASC')
+                                             ->get('template_services')
+                                             ->result();
+
+            $data['tpl_testimonials'] = $this->db->where('template_key', 'template2')
+                                                  ->where('status', 'active')
+                                                  ->order_by('sort_order', 'ASC')
+                                                  ->get('template_testimonials')
+                                                  ->result();
+
+            $data['tpl_faqs'] = $this->db->where('template_key', 'template2')
+                                         ->where('status', 'active')
+                                         ->order_by('sort_order', 'ASC')
+                                         ->get('template_faqs')
+                                         ->result();
+
+            $data['tpl_blogs'] = $this->db->where('template_key', 'template2')
+                                          ->where('status', 'active')
+                                          ->order_by('sort_order', 'ASC')
+                                          ->get('template_blogs')
+                                          ->result();
+        }
+
         // Render layout 1, 2, or 3
         $layout_view = 'home' . $this->home_layout;
         $this->render($layout_view, $data, 'Home');
@@ -188,5 +236,110 @@ class Home extends Website_Controller {
         }
 
         $this->render('contact', array(), 'Contact Us & Location');
+    }
+
+    /**
+     * Service Detail Page (Modeled after template2/cleansing-facial.html, without search)
+     */
+    public function service_detail($slug_or_id = '') {
+        if (!$slug_or_id) {
+            $slug_or_id = $this->input->get('slug', TRUE) ?: $this->input->get('id', TRUE);
+        }
+
+        $service = null;
+        if (is_numeric($slug_or_id)) {
+            $service = $this->db->where('id', (int)$slug_or_id)->get('template_services')->row();
+        } elseif (!empty($slug_or_id)) {
+            $service = $this->db->where('slug', $slug_or_id)->get('template_services')->row();
+        }
+
+        // Fallback to first active service if not found
+        if (!$service) {
+            $service = $this->db->where('template_key', 'template2')
+                                ->where('status', 'active')
+                                ->order_by('sort_order', 'ASC')
+                                ->limit(1)
+                                ->get('template_services')
+                                ->row();
+        }
+
+        $data['service'] = $service;
+        $data['all_services'] = $this->db->where('template_key', 'template2')
+                                         ->where('status', 'active')
+                                         ->order_by('sort_order', 'ASC')
+                                         ->get('template_services')
+                                         ->result();
+
+        $data['faqs'] = $this->db->where('template_key', 'template2')
+                                 ->where('status', 'active')
+                                 ->order_by('sort_order', 'ASC')
+                                 ->get('template_faqs')
+                                 ->result();
+
+        $page_title = $service ? $service->title : 'Service Detail';
+        $data['page_title'] = $page_title;
+        $data['asset_url'] = base_url('assets/' . $this->template . '/');
+        $data['active_template'] = $this->template;
+        $data['active_home_layout'] = $this->home_layout;
+
+        if ($this->template === 'template2') {
+            $this->load->view('template2/service_detail', $data);
+        } else {
+            $this->render('service_detail', $data, $page_title);
+        }
+    }
+
+    /**
+     * Blog Detail Page (Modeled after template2/blog-details.html, without search)
+     */
+    public function blog_detail($slug_or_id = '') {
+        if (!$slug_or_id) {
+            $slug_or_id = $this->input->get('slug', TRUE) ?: $this->input->get('id', TRUE);
+        }
+
+        $blog = null;
+        if (is_numeric($slug_or_id)) {
+            $blog = $this->db->where('id', (int)$slug_or_id)->get('template_blogs')->row();
+        } elseif (!empty($slug_or_id)) {
+            $blog = $this->db->where('slug', $slug_or_id)->get('template_blogs')->row();
+        }
+
+        // Fallback to first active blog if not found
+        if (!$blog) {
+            $blog = $this->db->where('template_key', 'template2')
+                             ->where('status', 'active')
+                             ->order_by('sort_order', 'ASC')
+                             ->limit(1)
+                             ->get('template_blogs')
+                             ->row();
+        }
+
+        $data['blog'] = $blog;
+        $data['recent_blogs'] = $this->db->where('template_key', 'template2')
+                                         ->where('status', 'active')
+                                         ->order_by('published_date', 'DESC')
+                                         ->limit(5)
+                                         ->get('template_blogs')
+                                         ->result();
+
+        $data['categories'] = array(
+            'Skincare Essentials',
+            'Natural Skincare',
+            'Sensitive Skin Care',
+            'Acne & Blemish Care',
+            'Hydration & Moisturizing'
+        );
+
+        $page_title = $blog ? $blog->title : 'Blog Detail';
+        $data['page_title'] = $page_title;
+        $data['asset_url'] = base_url('assets/' . $this->template . '/');
+        $data['active_template'] = $this->template;
+        $data['active_home_layout'] = $this->home_layout;
+
+        if ($this->template === 'template2') {
+            $this->load->view('template2/blog_detail', $data);
+        } else {
+            $this->render('blog_detail', $data, $page_title);
+        }
     }
 }

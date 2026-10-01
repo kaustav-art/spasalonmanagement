@@ -78,14 +78,14 @@
 
 
 
-  // Main Slider One
+  // Main Slider One (Layout 1)
   if ($(".main-slider__carousel").length > 0) {
     const MainSliderCarousel = new Swiper('.main-slider__carousel', {
       "slidesPerView": 1,
       "spaceBetween": 0,
       "effect": 'fade',
-      "speed": 600,
-      "loop": true,
+      "speed": 1000,
+      "loop": $(".main-slider__carousel .swiper-slide").length > 1,
       "pagination": {
         "el": "#main-slider-pagination",
         "type": "bullets",
@@ -97,7 +97,8 @@
         "prevEl": "#main-slider__swiper-button-prev"
       },
       "autoplay": {
-        "delay": 80000000
+        "delay": 5000,
+        "disableOnInteraction": false
       },
       "breakpoints": {
         "0": {
@@ -129,6 +130,81 @@
           "slidesPerView": 1
         }
       },
+    });
+  }
+
+  // Main Slider Layout 2 (Matches Layout 1 sliding style)
+  if ($(".main-slider-layout2__carousel").length > 0) {
+    const MainSliderLayout2Carousel = new Swiper('.main-slider-layout2__carousel', {
+      "slidesPerView": 1,
+      "spaceBetween": 0,
+      "effect": 'fade',
+      "speed": 1000,
+      "loop": $(".main-slider-layout2__carousel .swiper-slide").length > 1,
+      "pagination": {
+        "el": "#main-slider-layout2-pagination",
+        "type": "bullets",
+        "clickable": true
+      },
+      "autoplay": {
+        "delay": 5000,
+        "disableOnInteraction": false
+      },
+      "breakpoints": {
+        "0": { "spaceBetween": 0, "slidesPerView": 1 },
+        "375": { "spaceBetween": 0, "slidesPerView": 1 },
+        "575": { "spaceBetween": 0, "slidesPerView": 1 },
+        "768": { "spaceBetween": 0, "slidesPerView": 1 },
+        "992": { "spaceBetween": 0, "slidesPerView": 1 },
+        "1200": { "spaceBetween": 0, "slidesPerView": 1 },
+        "1320": { "spaceBetween": 0, "slidesPerView": 1 }
+      }
+    });
+  }
+
+  // Fallback for banner-one carousel if used anywhere
+  if ($(".banner-one__carousel").length > 0) {
+    const BannerOneCarousel = new Swiper('.banner-one__carousel', {
+      "slidesPerView": 1,
+      "spaceBetween": 0,
+      "effect": 'fade',
+      "fadeEffect": {
+        "crossFade": true
+      },
+      "speed": 1000,
+      "loop": $(".banner-one__carousel .swiper-slide").length > 1,
+      "pagination": {
+        "el": "#banner-one-pagination",
+        "type": "bullets",
+        "clickable": true
+      },
+      "autoplay": {
+        "delay": 5000,
+        "disableOnInteraction": false
+      }
+    });
+  }
+
+  // Main Slider Layout 3 (Banner Two Carousel)
+  if ($(".banner-two__carousel").length > 0) {
+    const BannerTwoCarousel = new Swiper('.banner-two__carousel', {
+      "slidesPerView": 1,
+      "spaceBetween": 0,
+      "effect": 'fade',
+      "fadeEffect": {
+        "crossFade": true
+      },
+      "speed": 1000,
+      "loop": $(".banner-two__carousel .swiper-slide").length > 1,
+      "pagination": {
+        "el": "#banner-two-pagination",
+        "type": "bullets",
+        "clickable": true
+      },
+      "autoplay": {
+        "delay": 5000,
+        "disableOnInteraction": false
+      }
     });
   }
 

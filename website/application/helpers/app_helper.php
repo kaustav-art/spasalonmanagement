@@ -137,7 +137,12 @@ if (!function_exists('admin_asset')) {
 if (!function_exists('template_asset')) {
     function template_asset($path = '', $template = null) {
         if (!$template) {
-            $template = get_active_template();
+            $CI =& get_instance();
+            if (isset($CI->template) && !empty($CI->template)) {
+                $template = $CI->template;
+            } else {
+                $template = get_active_template();
+            }
         }
         return website_url('assets/' . $template . '/' . ltrim($path, '/'));
     }
@@ -190,3 +195,57 @@ if (!function_exists('format_custom_time')) {
         return date($format, strtotime($time));
     }
 }
+
+if (!function_exists('root_url')) {
+    function root_url($uri = '') {
+        $b = rtrim(base_url(), '/');
+        if (substr($b, -8) === '/website') {
+            $root = substr($b, 0, -8);
+        } else {
+            $root = $b;
+        }
+        return rtrim($root, '/') . '/' . ltrim($uri, '/');
+    }
+}
+
+if (!function_exists('get_tpl_setting')) {
+    function get_tpl_setting($template_key, $layout_number, $section_key, $setting_key, $default = '') {
+        $CI =& get_instance();
+        static $tpl_cache = array();
+        $cache_key = "{$template_key}_{$layout_number}_{$section_key}_{$setting_key}";
+        if (isset($tpl_cache[$cache_key])) {
+            return $tpl_cache[$cache_key];
+        }
+        $row = $CI->db->where('template_key', $template_key)
+                      ->where('layout_number', $layout_number)
+                      ->where('section_key', $section_key)
+                      ->where('setting_key', $setting_key)
+                      ->get('template_layout_settings')
+                      ->row();
+        if ($row && $row->setting_value !== null && $row->setting_value !== '') {
+            $tpl_cache[$cache_key] = $row->setting_value;
+            return $row->setting_value;
+        }
+        return $default;
+    }
+}
+
+if (!function_exists('fallback_image_url')) {
+    function fallback_image_url($url = '', $default_rel = 'assets/template2/images/resources/main-slider-img-1-1.png') {
+        if (empty($url)) {
+            $url = $default_rel;
+        }
+        if (empty($url)) {
+            return '';
+        }
+        if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+            return $url;
+        }
+        $rel = ltrim($url, '/\\');
+        if (strpos($rel, 'uploads/') === 0) {
+            return root_url($rel);
+        }
+        return website_url($rel);
+    }
+}
+

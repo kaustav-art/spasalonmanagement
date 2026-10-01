@@ -30,6 +30,12 @@ class Auth extends CI_Controller {
                 return;
             }
 
+            if (strtolower($email) === 'admin@spasalon.com') {
+                $this->session->set_flashdata('error', 'admin@spasalon.com is reserved for Salon Admin. Please use superadmin@spasalon.com.');
+                redirect(superadmin_url('auth/login'));
+                return;
+            }
+
             // Must be Administrator role (role_id = 1)
             $user = $this->db->select('u.*, r.role_name')
                              ->from('users u')

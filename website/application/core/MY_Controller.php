@@ -51,6 +51,13 @@ class Website_Controller extends CI_Controller {
         $data['youtube_url'] = get_setting('youtube_url', '#');
         $data['footer_about'] = get_setting('footer_about', 'Experience world-class hair styling, beauty therapies, and restorative holistic spa treatments.');
 
+        // For complete standalone homepage layouts in template1 and template2
+        if (in_array($this->template, array('template1', 'template2')) && in_array($view, array('home1', 'home2', 'home3'))) {
+            $data['asset_url'] = base_url('assets/' . $this->template . '/');
+            $this->load->view($this->template . '/' . $view, $data);
+            return;
+        }
+
         // Render the inner view
         $target_view = $this->template . '/' . $view;
         $data['content'] = $this->load->view($target_view, $data, TRUE);
