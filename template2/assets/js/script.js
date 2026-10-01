@@ -185,7 +185,7 @@
     });
   }
 
-  // Main Slider Layout 3 (Banner Two Carousel)
+  // Main Slider Layout 3 (Cinematic Animated Multi-Slide Carousel)
   if ($(".banner-two__carousel").length > 0) {
     const BannerTwoCarousel = new Swiper('.banner-two__carousel', {
       "slidesPerView": 1,
@@ -200,6 +200,10 @@
         "el": "#banner-two-pagination",
         "type": "bullets",
         "clickable": true
+      },
+      "navigation": {
+        "nextEl": "#banner-three-next",
+        "prevEl": "#banner-three-prev"
       },
       "autoplay": {
         "delay": 5000,

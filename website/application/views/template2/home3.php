@@ -332,8 +332,8 @@ $blog_desc = get_tpl_setting('template2', 3, 'blog_header', 'desc', 'Our skin tr
             <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
         </div><!-- /.stricky-header -->
 
-        <!--Banner Two Start (Layout 3)-->
-        <section class="banner-two" style="padding: 0;">
+        <!--Banner Two Start (Layout 3 - Cinematic Animated Multi-Slide Carousel)-->
+        <section class="banner-two banner-layout3-animated">
             <div class="banner-two__shape1" style="pointer-events: none;"><img src="<?= $asset_url ?>images/shapes/banner-v2-shape1.png" alt=""></div>
             <div class="banner-two__shape2 float-bob-y" style="pointer-events: none;"><img src="<?= $asset_url ?>images/shapes/banner-v2-shape-2.png" alt=""></div>
             <div class="swiper-container banner-two__carousel">
@@ -346,47 +346,24 @@ $blog_desc = get_tpl_setting('template2', 3, 'blog_header', 'desc', 'Our skin tr
                             $slide_btn_text = !empty($slide->button_text) ? $slide->button_text : $hero_btn_text;
                             $slide_btn_url = !empty($slide->button_url) ? $slide->button_url : $hero_btn_url;
                             $slide_bg = !empty($slide->background_image) ? fallback_image_url($slide->background_image, 'assets/template2/images/backgrounds/banner-v2-bg.jpg') : (!empty($slide->image) ? fallback_image_url($slide->image, 'assets/template2/images/backgrounds/banner-v2-bg.jpg') : ($asset_url . 'images/backgrounds/banner-v2-bg.jpg'));
+                            $slide_img = !empty($slide->image) ? fallback_image_url($slide->image, 'assets/template2/images/resources/about-v3-img1.jpg') : ($asset_url . 'images/resources/about-v3-img1.jpg');
                         ?>
-                            <div class="swiper-slide" style="position: relative; padding: 195px 0 194px; min-height: 600px;">
+                            <div class="swiper-slide">
                                 <div class="banner-two__bg" style="background-image: url(<?= htmlspecialchars($slide_bg) ?>);"></div>
                                 <div class="container">
-                                    <div class="banner-two__inner">
-                                        <div class="row">
-                                            <div class="col-xl-7">
-                                                <div class="banner-two__content-box">
-                                                    <p class="banner-two__sub-title"><?= htmlspecialchars($slide_badge) ?></p>
-                                                    <h2 class="banner-two__title" style="max-width: 800px;"><?= nl2br(strip_tags($slide_title, '<br><br/><span><strong><em><b><i>')) ?></h2>
-                                                    <p class="banner-two__text" style="max-width: 800px;"><?= nl2br(htmlspecialchars($slide_desc)) ?></p>
-                                                    <div class="banner-two__btn-and-trusted-client">
-                                                        <div class="banner-two__btn-box">
-                                                            <a class="thm-btn" href="<?= website_url($slide_btn_url) ?>"><?= htmlspecialchars($slide_btn_text) ?>
-                                                                <span class="fas fa-arrow-right"></span>
-                                                            </a>
-                                                        </div>
-                                                        <div class="banner-two__trusted-client">
-                                                            <ul class="banner-two__trusted-client-list">
-                                                                <li>
-                                                                    <div class="img-box">
-                                                                        <img src="<?= $asset_url ?>images/resources/banner-one-trusted-client-img-1-1.jpg" alt="trusted-client-img">
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="img-box">
-                                                                        <img src="<?= $asset_url ?>images/resources/banner-one-trusted-client-img-1-2.jpg" alt="trusted-client-img">
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="img-box">
-                                                                        <img src="<?= $asset_url ?>images/resources/banner-one-trusted-client-img-1-3.jpg" alt="trusted-client-img">
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                            <div class="banner-two__trusted-client-content">
-                                                                <p class="banner-two__trusted-client-content-title">Trusted by Clients</p>
-                                                                <p class="banner-two__trusted-client-content-review">4.8 (15k Reviews)</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-xl-8 col-lg-9">
+                                            <div class="banner-two__content-box">
+                                                <div class="banner-three__badge-box">
+                                                    <span class="banner-three__badge-dot"></span>
+                                                    <span class="banner-three__badge-text"><?= htmlspecialchars($slide_badge) ?></span>
+                                                </div>
+                                                <h2 class="banner-three__title" style="max-width: 800px;"><?= nl2br(strip_tags($slide_title, '<br><br/><span><strong><em><b><i>')) ?></h2>
+                                                <p class="banner-three__text" style="max-width: 800px;"><?= nl2br(htmlspecialchars($slide_desc)) ?></p>
+                                                <div class="banner-three__btn-box">
+                                                    <a class="thm-btn" href="<?= website_url($slide_btn_url) ?>"><?= htmlspecialchars($slide_btn_text) ?>
+                                                        <span class="fas fa-arrow-right"></span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -396,6 +373,12 @@ $blog_desc = get_tpl_setting('template2', 3, 'blog_header', 'desc', 'Our skin tr
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+
+                <!-- Circular Glass Navigation Arrows -->
+                <div class="banner-three__nav-prev" id="banner-three-prev"><i class="fal fa-arrow-left"></i></div>
+                <div class="banner-three__nav-next" id="banner-three-next"><i class="fal fa-arrow-right"></i></div>
+
+                <!-- Pagination Bullets -->
                 <div class="swiper-pagination" id="banner-two-pagination"></div>
             </div>
         </section>
