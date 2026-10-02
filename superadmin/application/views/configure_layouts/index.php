@@ -15,38 +15,342 @@ $layout_names = array(
 <!-- Summernote Lite CSS for Rich Text Editors -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <style>
-/* Custom Dark Styling for Summernote */
+/* ============================================================
+   Executive Dark Gold Theme for Summernote WYSIWYG Editor
+   ============================================================ */
 .note-editor.note-frame {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #0d1527;
+    border: 1px solid rgba(194, 153, 88, 0.35) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    background-color: #080d19 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
+.note-editor.note-frame.focus {
+    border-color: #c29958 !important;
+    box-shadow: 0 0 0 3px rgba(194, 153, 88, 0.25) !important;
+}
+
+/* Toolbar */
 .note-editor.note-frame .note-toolbar {
+    background-color: #0c1322 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 8px 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+}
+.note-editor.note-frame .note-toolbar .note-btn-group {
+    margin-right: 4px !important;
+    margin-bottom: 4px !important;
+}
+
+/* Toolbar Buttons */
+.note-btn {
     background-color: #111a2e !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.note-btn:hover,
+.note-btn:focus {
+    background-color: rgba(194, 153, 88, 0.2) !important;
+    color: #fbbf24 !important;
+    border-color: #c29958 !important;
+    outline: none !important;
+}
+.note-btn.active,
+.note-btn:active {
+    background-color: #c29958 !important;
+    color: #0c1322 !important;
+    border-color: #c29958 !important;
+    font-weight: 700 !important;
+}
+.note-btn .note-icon-caret {
+    border-top-color: currentColor !important;
+}
+
+/* Dropdown Menus (Style, Font, Paragraph, Table, Color) */
+.note-dropdown-menu,
+.note-editor .dropdown-menu {
+    background-color: #111a2e !important;
+    border: 1px solid rgba(194, 153, 88, 0.35) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+    padding: 6px 0 !important;
+    z-index: 1065 !important;
+}
+.note-dropdown-menu a,
+.note-dropdown-menu .dropdown-item,
+.note-dropdown-item {
+    color: #cbd5e1 !important;
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+    display: block !important;
+    text-decoration: none !important;
+    background: transparent !important;
+}
+.note-dropdown-menu a:hover,
+.note-dropdown-menu a:focus,
+.note-dropdown-menu .dropdown-item:hover,
+.note-dropdown-menu .dropdown-item:focus,
+.note-dropdown-item:hover {
+    background-color: rgba(194, 153, 88, 0.2) !important;
+    color: #fbbf24 !important;
+}
+.note-dropdown-menu h1,
+.note-dropdown-menu h2,
+.note-dropdown-menu h3,
+.note-dropdown-menu h4,
+.note-dropdown-menu h5,
+.note-dropdown-menu h6,
+.note-dropdown-menu p,
+.note-dropdown-menu pre,
+.note-dropdown-menu blockquote {
+    color: #f1f5f9 !important;
+    margin: 0 !important;
+}
+.note-dropdown-menu .note-check {
+    display: none !important;
+}
+
+/* Color Palette Dropdown */
+.note-color .note-dropdown-menu {
+    min-width: 330px !important;
+    padding: 12px !important;
+}
+.note-color-palette {
+    padding: 4px !important;
+}
+.note-color-reset,
+.note-color-select {
+    background-color: #080d19 !important;
+    color: #cbd5e1 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    margin-bottom: 6px !important;
+    cursor: pointer !important;
+}
+.note-color-reset:hover,
+.note-color-select:hover {
+    background-color: rgba(194, 153, 88, 0.2) !important;
+    color: #fbbf24 !important;
+}
+.note-palette-title {
+    color: #94a3b8 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    margin: 6px 0 !important;
+    padding-bottom: 4px !important;
 }
-.note-editor.note-frame .note-statusbar {
-    background-color: #111a2e !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+/* Table Dimension Picker */
+.note-dimension-picker-mousecatcher {
+    background-color: transparent !important;
 }
+.note-dimension-picker-unhighlighted {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: #080d19 !important;
+}
+.note-dimension-picker-highlighted {
+    border: 1px solid #c29958 !important;
+    background-color: rgba(194, 153, 88, 0.35) !important;
+}
+
+/* Editable Area */
 .note-editor.note-frame .note-editing-area {
-    background: #080d19 !important;
+    background-color: #080d19 !important;
     color: #f1f5f9 !important;
 }
 .note-editor.note-frame .note-editable {
-    color: #f8fafc !important;
-    background-color: #0c1322 !important;
+    color: #f1f5f9 !important;
+    background-color: #080d19 !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+    font-size: 15px !important;
+    line-height: 1.8 !important;
+    padding: 16px 20px !important;
+    min-height: 250px !important;
 }
-.note-btn {
-    background: rgba(255,255,255,0.06) !important;
-    color: #e2e8f0 !important;
-    border-color: rgba(255,255,255,0.1) !important;
+.note-editor.note-frame .note-editable p {
+    color: #cbd5e1 !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.8 !important;
 }
-.note-btn:hover {
-    background: rgba(194, 153, 88, 0.25) !important;
+.note-editor.note-frame .note-editable h1,
+.note-editor.note-frame .note-editable h2,
+.note-editor.note-frame .note-editable h3,
+.note-editor.note-frame .note-editable h4,
+.note-editor.note-frame .note-editable h5,
+.note-editor.note-frame .note-editable h6 {
+    color: #ffffff !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    font-weight: 700 !important;
+}
+.note-editor.note-frame .note-editable ul {
+    list-style-type: disc !important;
+    padding-left: 28px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 1.25rem !important;
+}
+.note-editor.note-frame .note-editable ol {
+    list-style-type: decimal !important;
+    padding-left: 28px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 1.25rem !important;
+}
+.note-editor.note-frame .note-editable li {
+    display: list-item !important;
+    color: #cbd5e1 !important;
+    margin-bottom: 6px !important;
+    line-height: 1.7 !important;
+}
+.note-editor.note-frame .note-editable blockquote {
+    border-left: 4px solid #c29958 !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    padding: 12px 18px !important;
+    margin: 1.25rem 0 !important;
+    font-style: italic !important;
+    color: #94a3b8 !important;
+    border-radius: 0 6px 6px 0 !important;
+}
+.note-editor.note-frame .note-editable a {
     color: #fbbf24 !important;
+    text-decoration: underline !important;
 }
+.note-editor.note-frame .note-editable table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1rem 0 !important;
+}
+.note-editor.note-frame .note-editable table td,
+.note-editor.note-frame .note-editable table th {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 8px 12px !important;
+    color: #e2e8f0 !important;
+}
+.note-editor.note-frame .note-placeholder {
+    color: #64748b !important;
+    padding: 16px 20px !important;
+    font-size: 14px !important;
+}
+
+/* Statusbar & Resizer */
+.note-editor.note-frame .note-statusbar {
+    background-color: #0c1322 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 4px 8px !important;
+}
+.note-editor.note-frame .note-statusbar .note-resizebar {
+    padding-top: 2px !important;
+}
+.note-editor.note-frame .note-statusbar .note-resizebar .note-icon-bar {
+    border-top: 1px solid rgba(194, 153, 88, 0.5) !important;
+    width: 24px !important;
+    margin: 1px auto !important;
+}
+
+/* Summernote Modals (Insert Link, Picture, Video, Help) */
+.note-modal .modal-dialog {
+    max-width: 500px !important;
+    margin: 1.75rem auto !important;
+}
+.note-modal .modal-content {
+    background-color: #111a2e !important;
+    border: 1px solid rgba(194, 153, 88, 0.4) !important;
+    border-radius: 12px !important;
+    color: #f1f5f9 !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7) !important;
+}
+.note-modal .modal-header {
+    background-color: #0c1322 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 14px 20px !important;
+}
+.note-modal .modal-title {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+.note-modal .close {
+    background: transparent !important;
+    border: 0 !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    opacity: 0.7 !important;
+}
+.note-modal .close:hover {
+    opacity: 1 !important;
+}
+.note-modal .modal-body {
+    background-color: #111a2e !important;
+    padding: 20px !important;
+    color: #cbd5e1 !important;
+}
+.note-modal .modal-body .form-group {
+    margin-bottom: 14px !important;
+}
+.note-modal .modal-body label {
+    color: #e2e8f0 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+}
+.note-modal .modal-body .form-control {
+    background-color: #080d19 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+}
+.note-modal .modal-body .form-control:focus {
+    border-color: #c29958 !important;
+    box-shadow: 0 0 0 3px rgba(194, 153, 88, 0.25) !important;
+}
+.note-modal .modal-footer {
+    background-color: #0c1322 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 12px 20px !important;
+}
+.note-modal .btn-primary {
+    background-color: #c29958 !important;
+    border-color: #c29958 !important;
+    color: #0c1322 !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+}
+.note-modal .btn-primary:hover {
+    background-color: #e5c388 !important;
+    border-color: #e5c388 !important;
+}
+
+/* Summernote Popovers & Tooltips */
+.note-popover,
+.note-popover .popover-content,
+.note-popover .popover-body {
+    background-color: #111a2e !important;
+    border: 1px solid rgba(194, 153, 88, 0.35) !important;
+    border-radius: 8px !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1065 !important;
+}
+
+/* Codeview Mode */
+.note-editor.note-frame .note-codable {
+    background-color: #060a12 !important;
+    color: #38bdf8 !important;
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+    border: none !important;
+    padding: 16px 20px !important;
+}
+
 .layout-preview-thumb:hover .layout-thumb-img {
     transform: scale(1.05);
 }
@@ -529,7 +833,7 @@ $layout_names = array(
                         <h5 class="text-white fw-bold mb-0">
                             <i class="fa-solid fa-table-cells text-warning me-2"></i>Featured Skincare Items
                         </h5>
-                        <p class="text-muted small mb-0">Each card contains thumbnail, title, short description, and static "Book Now" button.</p>
+                        <p class="text-muted small mb-0">Each card contains thumbnail, title, and short description.</p>
                     </div>
                     <button type="button" class="btn btn-gold btn-sm fw-bold px-3" data-bs-toggle="modal" data-bs-target="#modalFeaturedItem" onclick="openNewFeaturedModal()">
                         <i class="fa-solid fa-plus me-1"></i> Add Featured Item
@@ -552,10 +856,6 @@ $layout_names = array(
                                         <div class="card-body p-3 d-flex flex-column">
                                             <h6 class="text-white fw-bold mb-1"><?= htmlspecialchars($item->title) ?></h6>
                                             <p class="text-light text-opacity-75 small mb-3 flex-grow-1"><?= htmlspecialchars($item->short_desc) ?></p>
-                                            <div class="p-2 rounded mb-3" style="background: rgba(255,255,255,0.04);">
-                                                <span class="badge bg-warning text-dark fw-bold me-1"><i class="fa-solid fa-lock me-1"></i> Static Button:</span>
-                                                <span class="text-light small"><?= htmlspecialchars($item->button_text ?: 'Book Now') ?></span>
-                                            </div>
                                             <div class="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25">
                                                 <button type="button" class="btn btn-outline-light btn-sm fw-semibold" onclick="openEditFeaturedModal(<?= htmlspecialchars(json_encode($item)) ?>)">
                                                     <i class="fa-solid fa-pencil me-1"></i> Edit
@@ -627,10 +927,11 @@ $layout_names = array(
                                     <textarea name="about_desc" class="form-control" rows="4"><?= htmlspecialchars($about_desc) ?></textarea>
                                 </div>
                                 <div class="row g-3">
-                                    <div class="col-md-4">
+                                    <div class="<?= ($curr_layout === 2) ? 'col-md-4' : 'col-md-6' ?>">
                                         <label class="form-label text-white small fw-bold">Years of Experience</label>
                                         <input type="text" name="about_experience" class="form-control" value="<?= htmlspecialchars($about_exp) ?>" placeholder="27">
                                     </div>
+                                    <?php if ($curr_layout === 2): ?>
                                     <div class="col-md-4">
                                         <label class="form-label text-white small fw-bold">Author / Founder Name</label>
                                         <input type="text" name="about_author_name" class="form-control" value="<?= htmlspecialchars($about_author) ?>" placeholder="Emma Watson">
@@ -639,6 +940,7 @@ $layout_names = array(
                                         <label class="form-label text-white small fw-bold">Author Role / Designation</label>
                                         <input type="text" name="about_author_role" class="form-control" value="<?= htmlspecialchars($about_role) ?>" placeholder="Founder CEO">
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -1238,9 +1540,6 @@ $layout_names = array(
                         <label class="form-label text-white small fw-bold">Thumbnail Image</label>
                         <input type="file" name="thumbnail_file" class="form-control mb-1" accept="image/*">
                         <input type="text" name="thumbnail_url" id="featThumbnailUrl" class="form-control form-control-sm" placeholder="Or relative path / URL">
-                    </div>
-                    <div class="alert alert-dark border-secondary p-2 small text-warning mb-3">
-                        <i class="fa-solid fa-circle-info me-1"></i> Button is static: <strong>"Book Now"</strong> linking to booking portal.
                     </div>
                     <div class="row g-2">
                         <div class="col-6">

@@ -6,8 +6,7 @@ $service_price = isset($service) && $service ? $service->price : 85.00;
 $service_duration = isset($service) && $service ? $service->duration : '60 mins';
 $service_banner = isset($service) && !empty($service->banner_image) ? $service->banner_image : (isset($service) && !empty($service->thumbnail) ? $service->thumbnail : 'assets/template2/images/services/service-details-img4.jpg');
 
-$root_url = rtrim(base_url(), '/') . '/';
-$banner_src = strpos($service_banner, 'http') === 0 ? $service_banner : $root_url . ltrim($service_banner, '/');
+$banner_src = fallback_image_url($service_banner, 'assets/template2/images/services/service-details-img4.jpg');
 $home_url = website_url('?preview_tpl=template2&preview_layout=' . (isset($active_home_layout) ? $active_home_layout : 1));
 ?>
 <!DOCTYPE html>
@@ -47,6 +46,98 @@ $home_url = website_url('?preview_tpl=template2&preview_layout=' . (isset($activ
     <!-- template styles -->
     <link rel="stylesheet" href="<?= $asset_url ?>css/style.css" />
     <link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css" />
+
+    <style>
+        /* Service Rich Text Description Styling (Preserves exact WYSIWYG formatting) */
+        .service-rich-text {
+            line-height: 1.85;
+            color: var(--pureglow-gray, #6D6764);
+            font-size: 16px;
+        }
+        .service-rich-text p {
+            margin-top: 0 !important;
+            margin-bottom: 1.35rem !important;
+            line-height: 1.85 !important;
+            color: var(--pureglow-gray, #6D6764) !important;
+            font-size: 16px !important;
+        }
+        .service-rich-text h1,
+        .service-rich-text h2,
+        .service-rich-text h3,
+        .service-rich-text h4,
+        .service-rich-text h5,
+        .service-rich-text h6 {
+            font-family: var(--pureglow-font-two, 'Prata', serif) !important;
+            color: var(--pureglow-black, #1C1C1C) !important;
+            font-weight: 500 !important;
+            line-height: 1.35 !important;
+            margin-top: 2rem !important;
+            margin-bottom: 0.85rem !important;
+        }
+        .service-rich-text h1 { font-size: 36px !important; }
+        .service-rich-text h2 { font-size: 30px !important; }
+        .service-rich-text h3 { font-size: 26px !important; }
+        .service-rich-text h4 { font-size: 22px !important; }
+        .service-rich-text h5 { font-size: 19px !important; }
+        .service-rich-text h6 { font-size: 16px !important; }
+
+        .service-rich-text ul {
+            list-style-type: disc !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 1.5rem !important;
+            padding-left: 28px !important;
+        }
+        .service-rich-text ol {
+            list-style-type: decimal !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 1.5rem !important;
+            padding-left: 28px !important;
+        }
+        .service-rich-text li {
+            display: list-item !important;
+            margin-bottom: 8px !important;
+            line-height: 1.75 !important;
+            color: var(--pureglow-gray, #6D6764) !important;
+            padding-left: 4px !important;
+        }
+        .service-rich-text blockquote {
+            border-left: 4px solid var(--pureglow-base, #FD7E14) !important;
+            background: #FAF8F5 !important;
+            padding: 16px 22px !important;
+            margin: 1.5rem 0 !important;
+            font-style: italic !important;
+            border-radius: 0 8px 8px 0 !important;
+        }
+        .service-rich-text img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px !important;
+            margin: 1rem 0 !important;
+        }
+        .service-rich-text table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 1.5rem 0 !important;
+        }
+        .service-rich-text table th,
+        .service-rich-text table td {
+            border: 1px solid #e2e8f0 !important;
+            padding: 10px 14px !important;
+        }
+        .service-rich-text table th {
+            background-color: #f8fafc !important;
+            font-weight: 600 !important;
+        }
+        .service-rich-text b,
+        .service-rich-text strong {
+            font-weight: 700 !important;
+            color: var(--pureglow-black, #1C1C1C) !important;
+        }
+        .service-rich-text a {
+            color: var(--pureglow-base, #FD7E14) !important;
+            text-decoration: underline !important;
+        }
+    </style>
 </head>
 
 <body class="custom-cursor">
@@ -198,30 +289,9 @@ $home_url = website_url('?preview_tpl=template2&preview_layout=' . (isset($activ
                             </div>
 
                             <!-- Full Description (Rich Text Editor Content) -->
-                            <div class="service-details__content-text1 mb-4" style="line-height: 1.8;">
+                            <div class="service-details__description service-rich-text mb-4">
                                 <?= $service_desc ?>
                             </div>
-
-                            <!-- FAQ Accordion for this service -->
-                            <?php if (!empty($faqs)): ?>
-                                <div class="faq-one__left service-details__faq mt-5">
-                                    <h3 class="mb-3">Frequently Asked Questions</h3>
-                                    <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
-                                        <?php foreach ($faqs as $fidx => $fq): ?>
-                                            <div class="accrodion <?= $fidx === 0 ? 'active' : '' ?>">
-                                                <div class="accrodion-title">
-                                                    <h4><?= htmlspecialchars($fq->question) ?></h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p><?= nl2br(htmlspecialchars($fq->answer)) ?></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
                         </div>
                     </div>
 

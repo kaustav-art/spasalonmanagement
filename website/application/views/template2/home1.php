@@ -515,15 +515,6 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         <span class="fas fa-arrow-right"></span>
                                     </a>
                                 </div>
-                                <div class="about-one__author-box">
-                                    <div class="about-one__author-img">
-                                        <img src="<?= $asset_url ?>images/resources/about-one-author-img.jpg" alt="author-img">
-                                    </div>
-                                    <div class="about-one__author-contetn">
-                                        <h5><?= htmlspecialchars($about_author_name) ?></h5>
-                                        <p><?= htmlspecialchars($about_author_role) ?></p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -351,15 +351,18 @@ class Layouts extends Superadmin_Controller {
                 $title = trim($this->input->post('about_title'));
                 $desc = trim($this->input->post('about_desc'));
                 $exp = trim($this->input->post('about_experience'));
-                $author = trim($this->input->post('about_author_name'));
-                $role = trim($this->input->post('about_author_role'));
-
                 set_tpl_setting('template2', $active_layout, 'about', 'about_tagline', $tagline);
                 set_tpl_setting('template2', $active_layout, 'about', 'about_title', $title);
                 set_tpl_setting('template2', $active_layout, 'about', 'about_desc', $desc);
                 set_tpl_setting('template2', $active_layout, 'about', 'about_experience', $exp);
-                set_tpl_setting('template2', $active_layout, 'about', 'about_author_name', $author);
-                set_tpl_setting('template2', $active_layout, 'about', 'about_author_role', $role);
+                if ($this->input->post('about_author_name') !== NULL) {
+                    $author = trim($this->input->post('about_author_name'));
+                    set_tpl_setting('template2', $active_layout, 'about', 'about_author_name', $author);
+                }
+                if ($this->input->post('about_author_role') !== NULL) {
+                    $role = trim($this->input->post('about_author_role'));
+                    set_tpl_setting('template2', $active_layout, 'about', 'about_author_role', $role);
+                }
 
                 $img1 = $handle_file_upload('about_image_1_file', 't2_about1_l' . $active_layout);
                 if ($img1) {
@@ -401,7 +404,7 @@ class Layouts extends Superadmin_Controller {
                 }
                 $icon = trim($this->input->post('icon')) ?: 'icon-botox';
                 $short_desc = trim($this->input->post('short_desc'));
-                $description = $this->input->post('description'); // HTML rich text from Summernote
+                $description = $this->input->post('description', FALSE); // HTML rich text from Summernote (preserve raw HTML formatting)
                 $price = (float)$this->input->post('price');
                 $duration = trim($this->input->post('duration')) ?: '60 mins';
                 $sort_order = (int)$this->input->post('sort_order') ?: 0;

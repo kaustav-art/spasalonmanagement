@@ -333,7 +333,7 @@ $blog_desc = get_tpl_setting('template2', 3, 'blog_header', 'desc', 'Our skin tr
         </div><!-- /.stricky-header -->
 
         <!--Banner Two Start (Layout 3 - Cinematic Animated Multi-Slide Carousel)-->
-        <section class="banner-two banner-layout3-animated">
+        <section class="banner-two banner-layout3-animated" style="padding: 0px;">
             <div class="banner-two__shape1" style="pointer-events: none;"><img src="<?= $asset_url ?>images/shapes/banner-v2-shape1.png" alt=""></div>
             <div class="banner-two__shape2 float-bob-y" style="pointer-events: none;"><img src="<?= $asset_url ?>images/shapes/banner-v2-shape-2.png" alt=""></div>
             <div class="swiper-container banner-two__carousel">

@@ -8,8 +8,7 @@ $blog_thumb = isset($blog) && !empty($blog->thumbnail) ? $blog->thumbnail : 'ass
 $blog_tags_str = isset($blog) && $blog ? $blog->tags : 'Skincare, Beauty, Wellness';
 $blog_tags = array_map('trim', explode(',', $blog_tags_str));
 
-$root_url = rtrim(base_url(), '/') . '/';
-$thumb_src = strpos($blog_thumb, 'http') === 0 ? $blog_thumb : $root_url . ltrim($blog_thumb, '/');
+$thumb_src = fallback_image_url($blog_thumb, 'assets/template2/images/blog/blog-details-img-1.jpg');
 $home_url = website_url('?preview_tpl=template2&preview_layout=' . (isset($active_home_layout) ? $active_home_layout : 1));
 
 // Parse date into day & month
@@ -54,6 +53,98 @@ $month_str = date('M', $time_ts);
     <!-- template styles -->
     <link rel="stylesheet" href="<?= $asset_url ?>css/style.css" />
     <link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css" />
+
+    <style>
+        /* Blog Rich Text Content Styling (Preserves exact WYSIWYG formatting) */
+        .blog-rich-text {
+            line-height: 1.85;
+            color: var(--pureglow-gray, #6D6764);
+            font-size: 16px;
+        }
+        .blog-rich-text p {
+            margin-top: 0 !important;
+            margin-bottom: 1.35rem !important;
+            line-height: 1.85 !important;
+            color: var(--pureglow-gray, #6D6764) !important;
+            font-size: 16px !important;
+        }
+        .blog-rich-text h1,
+        .blog-rich-text h2,
+        .blog-rich-text h3,
+        .blog-rich-text h4,
+        .blog-rich-text h5,
+        .blog-rich-text h6 {
+            font-family: var(--pureglow-font-two, 'Prata', serif) !important;
+            color: var(--pureglow-black, #1C1C1C) !important;
+            font-weight: 500 !important;
+            line-height: 1.35 !important;
+            margin-top: 2rem !important;
+            margin-bottom: 0.85rem !important;
+        }
+        .blog-rich-text h1 { font-size: 34px !important; }
+        .blog-rich-text h2 { font-size: 28px !important; }
+        .blog-rich-text h3 { font-size: 24px !important; }
+        .blog-rich-text h4 { font-size: 20px !important; }
+        .blog-rich-text h5 { font-size: 18px !important; }
+        .blog-rich-text h6 { font-size: 16px !important; }
+
+        .blog-rich-text ul {
+            list-style-type: disc !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 1.5rem !important;
+            padding-left: 28px !important;
+        }
+        .blog-rich-text ol {
+            list-style-type: decimal !important;
+            margin-top: 0.75rem !important;
+            margin-bottom: 1.5rem !important;
+            padding-left: 28px !important;
+        }
+        .blog-rich-text li {
+            display: list-item !important;
+            margin-bottom: 8px !important;
+            line-height: 1.75 !important;
+            color: var(--pureglow-gray, #6D6764) !important;
+            padding-left: 4px !important;
+        }
+        .blog-rich-text blockquote {
+            border-left: 4px solid var(--pureglow-base, #FD7E14) !important;
+            background: #FAF8F5 !important;
+            padding: 16px 22px !important;
+            margin: 1.5rem 0 !important;
+            font-style: italic !important;
+            border-radius: 0 8px 8px 0 !important;
+        }
+        .blog-rich-text img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px !important;
+            margin: 1rem 0 !important;
+        }
+        .blog-rich-text table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 1.5rem 0 !important;
+        }
+        .blog-rich-text table th,
+        .blog-rich-text table td {
+            border: 1px solid #e2e8f0 !important;
+            padding: 10px 14px !important;
+        }
+        .blog-rich-text table th {
+            background-color: #f8fafc !important;
+            font-weight: 600 !important;
+        }
+        .blog-rich-text b,
+        .blog-rich-text strong {
+            font-weight: 700 !important;
+            color: var(--pureglow-black, #1C1C1C) !important;
+        }
+        .blog-rich-text a {
+            color: var(--pureglow-base, #FD7E14) !important;
+            text-decoration: underline !important;
+        }
+    </style>
 </head>
 
 <body class="custom-cursor">
@@ -211,7 +302,7 @@ $month_str = date('M', $time_ts);
                                 <?php endif; ?>
 
                                 <!-- Main Formatted Content from WYSIWYG Editor -->
-                                <div class="blog-details__text-1 mb-4" style="line-height: 1.8;">
+                                <div class="blog-details__text-1 blog-rich-text mb-4">
                                     <?= $blog_content ?>
                                 </div>
 
@@ -253,7 +344,7 @@ $month_str = date('M', $time_ts);
                                     </div>
                                     <ul class="sidebar__post-list list-unstyled">
                                         <?php foreach ($recent_blogs as $rb): 
-                                            $rb_thumb = strpos($rb->thumbnail, 'http') === 0 ? $rb->thumbnail : $root_url . ltrim($rb->thumbnail, '/');
+                                            $rb_thumb = fallback_image_url($rb->thumbnail, 'assets/template2/images/blog/blog-v1-img1.jpg');
                                             $rb_url = website_url('blog/' . $rb->slug . '?preview_tpl=template2&preview_layout=' . $active_home_layout);
                                         ?>
                                             <li>
