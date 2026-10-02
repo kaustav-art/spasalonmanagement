@@ -4,14 +4,13 @@ $act_c = isset($active_controller) ? $active_controller : 'dashboard';
 <!-- Super Admin Sidebar -->
 <aside class="sa-sidebar" id="saSidebar">
     <!-- Brand Header -->
-    <div class="brand">
-        <div class="brand-badge">
-            <i class="fa-solid fa-crown"></i>
-        </div>
-        <div class="brand-text">
-            <h5 class="brand-title">LUXE PLATFORM</h5>
-            <span class="brand-subtitle">Super Admin</span>
-        </div>
+    <?php
+        $sa_logo_url = function_exists('superadmin_logo_url') ? superadmin_logo_url() : base_url('uploads/branding/logo.webp');
+    ?>
+    <div class="brand d-flex align-items-center justify-content-center p-3" style="min-height: 70px;">
+        <a href="<?= superadmin_url('dashboard') ?>" class="d-flex align-items-center justify-content-center w-100">
+            <img src="<?= $sa_logo_url ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; max-width: 180px; width: auto; object-fit: contain;">
+        </a>
     </div>
 
     <!-- Navigation Menu -->

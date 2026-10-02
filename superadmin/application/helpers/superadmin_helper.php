@@ -221,3 +221,30 @@ if (!function_exists('set_tpl_setting')) {
     }
 }
 
+if (!function_exists('superadmin_logo_url')) {
+    function superadmin_logo_url() {
+        $logo = function_exists('get_setting') ? get_setting('landing_site_logo', 'uploads/branding/logo.webp') : 'uploads/branding/logo.webp';
+        if (empty($logo)) {
+            $logo = 'uploads/branding/logo.webp';
+        }
+        if (strpos($logo, 'http://') === 0 || strpos($logo, 'https://') === 0) {
+            return $logo;
+        }
+        return main_site_url(ltrim($logo, '/\\'));
+    }
+}
+
+if (!function_exists('superadmin_favicon_url')) {
+    function superadmin_favicon_url() {
+        $fav = function_exists('get_setting') ? get_setting('landing_site_favicon', 'uploads/branding/codeulas_logo_small.webp') : 'uploads/branding/codeulas_logo_small.webp';
+        if (empty($fav)) {
+            $fav = 'uploads/branding/codeulas_logo_small.webp';
+        }
+        if (strpos($fav, 'http://') === 0 || strpos($fav, 'https://') === 0) {
+            return $fav;
+        }
+        return main_site_url(ltrim($fav, '/\\'));
+    }
+}
+
+

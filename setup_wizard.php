@@ -8,6 +8,12 @@
 $order_num = isset($_GET['order']) ? trim($_GET['order']) : '';
 $token = isset($_GET['token']) ? trim($_GET['token']) : '';
 
+if (empty($order_num)) {
+    $plan_param = isset($_GET['plan']) ? '?plan=' . urlencode($_GET['plan']) : '';
+    header("Location: subscribe.php" . $plan_param);
+    exit;
+}
+
 $order = null;
 $plans = [];
 $settings = [];

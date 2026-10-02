@@ -287,14 +287,15 @@ class Layouts extends Superadmin_Controller {
                 $redirect_tpl2('hero');
             }
 
-            // Featured Skincare Section (Layout 1)
+            // Featured Skincare / Works Section
             if ($action === 'save_featured_skincare_headers') {
                 $tagline = trim($this->input->post('featured_tagline'));
                 $title = trim($this->input->post('featured_title'));
-                set_tpl_setting('template2', 1, 'featured_skincare', 'tagline', $tagline);
-                set_tpl_setting('template2', 1, 'featured_skincare', 'title', $title);
+                $target_layout = (int)$this->input->post('active_layout') ?: $active_layout;
+                set_tpl_setting('template2', $target_layout, 'featured_skincare', 'tagline', $tagline);
+                set_tpl_setting('template2', $target_layout, 'featured_skincare', 'title', $title);
 
-                $this->session->set_flashdata('success', 'Featured Skincare headers updated!');
+                $this->session->set_flashdata('success', 'Section headers updated!');
                 $redirect_tpl2('skincare');
             }
 
@@ -304,34 +305,37 @@ class Layouts extends Superadmin_Controller {
                 $short_desc = trim($this->input->post('short_desc'));
                 $sort_order = (int)$this->input->post('sort_order') ?: 0;
                 $status = $this->input->post('status') === 'inactive' ? 'inactive' : 'active';
-                $thumbnail = trim($this->input->post('thumbnail_url'));
+                $layout_num = (int)$this->input->post('layout_number') ?: (int)$this->input->post('active_layout') ?: $active_layout;
+                $button_text = trim($this->input->post('button_text')) ?: ($layout_num === 2 ? 'View Work' : 'Book Now');
+                $button_link = trim($this->input->post('button_link')) ?: 'booking';
 
+                $thumbnail = trim($this->input->post('thumbnail_url'));
                 $uploaded = $handle_file_upload('thumbnail_file', 't2_feat_' . time());
                 if ($uploaded) {
                     $thumbnail = $uploaded;
                 }
                 if (empty($thumbnail)) {
-                    $thumbnail = 'assets/template2/images/resources/feature-1-1.jpg';
+                    $thumbnail = ($layout_num === 2) ? 'assets/template2/images/work/work-1-1.jpg' : 'assets/template2/images/resources/feature-1-1.jpg';
                 }
 
                 $item_data = array(
                     'template_key' => 'template2',
-                    'layout_number' => 1,
+                    'layout_number' => $layout_num,
                     'title' => $title,
                     'short_desc' => $short_desc,
                     'thumbnail' => $thumbnail,
-                    'button_text' => 'Book Now', // Static as requested
-                    'button_link' => 'booking',
+                    'button_text' => $button_text,
+                    'button_link' => $button_link,
                     'sort_order' => $sort_order,
                     'status' => $status
                 );
 
                 if ($item_id > 0) {
                     $this->db->where('id', $item_id)->update('template_featured_items', $item_data);
-                    $this->session->set_flashdata('success', 'Featured Skincare item updated!');
+                    $this->session->set_flashdata('success', 'Item updated successfully!');
                 } else {
                     $this->db->insert('template_featured_items', $item_data);
-                    $this->session->set_flashdata('success', 'Featured Skincare item added!');
+                    $this->session->set_flashdata('success', 'Item added successfully!');
                 }
                 $redirect_tpl2('skincare');
             }
@@ -409,7 +413,7 @@ class Layouts extends Superadmin_Controller {
                 $duration = trim($this->input->post('duration')) ?: '60 mins';
                 $sort_order = (int)$this->input->post('sort_order') ?: 0;
                 $status = $this->input->post('status') === 'inactive' ? 'inactive' : 'active';
-                $layout_scope = (int)$this->input->post('layout_number'); // 0 = all layouts, or 1,2,3
+                $layout_scope = (int)$this->input->post('layout_number') ?: (int)$this->input->post('active_layout') ?: $active_layout;
 
                 $thumbnail = trim($this->input->post('thumbnail_url'));
                 $uploaded_thumb = $handle_file_upload('thumbnail_file', 't2_svc_thumb_' . time());
@@ -542,7 +546,7 @@ class Layouts extends Superadmin_Controller {
                 $answer = trim($this->input->post('answer'));
                 $sort_order = (int)$this->input->post('sort_order') ?: 0;
                 $status = $this->input->post('status') === 'inactive' ? 'inactive' : 'active';
-                $layout_scope = (int)$this->input->post('layout_number');
+                $layout_scope = (int)$this->input->post('layout_number') ?: (int)$this->input->post('active_layout') ?: $active_layout;
 
                 $faq_data = array(
                     'template_key' => 'template2',
@@ -600,6 +604,9 @@ class Layouts extends Superadmin_Controller {
                 $sort_order = (int)$this->input->post('sort_order') ?: 0;
                 $status = $this->input->post('status') === 'inactive' ? 'inactive' : 'active';
                 $layout_scope = (int)$this->input->post('layout_number');
+                if ($layout_scope <= 0) {
+                    $layout_scope = (int)$active_layout;
+                }
 
                 $thumbnail = trim($this->input->post('thumbnail_url'));
                 $uploaded_thumb = $handle_file_upload('thumbnail_file', 't2_blog_' . time());
@@ -673,11 +680,49 @@ class Layouts extends Superadmin_Controller {
                                         ->order_by('sort_order', 'ASC')
                                         ->get('template_hero_banners')
                                         ->result();
-        $data['featured_items'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_featured_items')->result();
-        $data['services_list'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_services')->result();
+        $data['featured_items'] = $this->db->where('template_key', 'template2')
+                                           ->where('layout_number', $data['active_layout'])
+                                           ->order_by('sort_order', 'ASC')
+                                           ->get('template_featured_items')
+                                           ->result();
+        if (empty($data['featured_items'])) {
+            $data['featured_items'] = $this->db->where('template_key', 'template2')
+                                               ->order_by('sort_order', 'ASC')
+                                               ->get('template_featured_items')
+                                               ->result();
+        }
+
+        $data['services_list'] = $this->db->where('template_key', 'template2')
+                                          ->where('layout_number', $data['active_layout'])
+                                          ->order_by('sort_order', 'ASC')
+                                          ->get('template_services')
+                                          ->result();
+        if (empty($data['services_list'])) {
+            $data['services_list'] = $this->db->where('template_key', 'template2')
+                                              ->order_by('sort_order', 'ASC')
+                                              ->get('template_services')
+                                              ->result();
+        }
+
         $data['testimonials_list'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_testimonials')->result();
-        $data['faqs_list'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_faqs')->result();
-        $data['blogs_list'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_blogs')->result();
+
+        $data['faqs_list'] = $this->db->where('template_key', 'template2')
+                                      ->where('layout_number', $data['active_layout'])
+                                      ->order_by('sort_order', 'ASC')
+                                      ->get('template_faqs')
+                                      ->result();
+        if (empty($data['faqs_list'])) {
+            $data['faqs_list'] = $this->db->where('template_key', 'template2')
+                                          ->order_by('sort_order', 'ASC')
+                                          ->get('template_faqs')
+                                          ->result();
+        }
+
+        $data['blogs_list'] = $this->db->where('template_key', 'template2')
+                                       ->where('layout_number', $data['active_layout'])
+                                       ->order_by('sort_order', 'ASC')
+                                       ->get('template_blogs')
+                                       ->result();
 
         $this->render('configure_layouts/index', $data, 'Configure Layouts & Template 2 Customizer');
     }

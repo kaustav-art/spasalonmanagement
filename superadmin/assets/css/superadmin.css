@@ -455,10 +455,36 @@ select option {
 .modal-header {
     background-color: #0c1322 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    flex-shrink: 0 !important;
 }
 .modal-footer {
     background-color: #0c1322 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    flex-shrink: 0 !important;
+}
+
+/* Ensure every form modal has smooth scrollable body with overflow-y: auto */
+.modal-dialog:not(.modal-fullscreen) {
+    max-height: calc(100vh - 3rem);
+}
+.modal-content > form,
+.modal form {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 3.5rem);
+    height: 100%;
+    overflow: hidden;
+}
+.modal-dialog:not(.modal-fullscreen) .modal-body,
+.modal-content > form .modal-body,
+.modal form .modal-body,
+.modal-dialog-scrollable .modal-body {
+    overflow-y: auto !important;
+    max-height: calc(100vh - 210px);
+}
+#modalPreviewLayout .modal-body {
+    overflow: hidden !important;
+    max-height: none !important;
 }
 
 /* Badges */

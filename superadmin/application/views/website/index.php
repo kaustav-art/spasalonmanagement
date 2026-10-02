@@ -14,11 +14,7 @@ $root_url = rtrim(main_site_url(), '/') . '/';
 $hero_bg_val = $s('landing_hero_bg_image');
 $hero_bg_preview = !empty($hero_bg_val) ? (strpos($hero_bg_val, 'http') === 0 ? $hero_bg_val : $root_url . ltrim($hero_bg_val, '/')) : '';
 
-$logo_val = $s('landing_site_logo');
-$logo_preview = !empty($logo_val) ? (strpos($logo_val, 'http') === 0 ? $logo_val : $root_url . ltrim($logo_val, '/')) : '';
 
-$fav_val = $s('landing_site_favicon');
-$fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $root_url . ltrim($fav_val, '/')) : '';
 ?>
 <div class="container-fluid px-4 py-4">
     <!-- Top Action Bar -->
@@ -67,7 +63,7 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
     <ul class="nav nav-pills gap-2 mb-4 p-2 rounded-3 border border-secondary border-opacity-25" style="background: #0c1322;">
         <li class="nav-item">
             <a class="nav-link <?= $curr_tab === 'hero' ? 'active' : '' ?>" href="#tabHero" data-bs-toggle="pill">
-                <i class="fa-solid fa-bullhorn me-1"></i> Hero, Brand &amp; Media
+                <i class="fa-solid fa-bullhorn me-1"></i> Hero Stage &amp; Media
             </a>
         </li>
         <li class="nav-item">
@@ -90,98 +86,6 @@ $fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $
             <form action="<?= superadmin_url('website') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="active_tab" value="hero">
                 
-                <!-- Website Logo & Favicon Branding -->
-                <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(255,255,255,0.08) !important;">
-                    <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25">
-                        <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-gem text-warning me-2"></i>Website Logo &amp; Favicon Branding</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="row g-4">
-                            <!-- Website Logo -->
-                            <div class="col-lg-6">
-                                <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06);">
-                                    <label class="form-label fw-bold text-white d-flex align-items-center justify-content-between">
-                                        <span><i class="fa-solid fa-image text-warning me-1"></i> Website Logo</span>
-                                        <span class="badge bg-secondary small">PNG, SVG, WEBP</span>
-                                    </label>
-                                    
-                                    <!-- Logo Live Preview Box -->
-                                    <div class="mb-3 p-3 rounded text-center d-flex align-items-center justify-content-center" style="min-height: 90px; background: #080d19; border: 1px dashed rgba(194,153,88,0.4);">
-                                        <div id="logoPreviewContainer">
-                                            <?php if (!empty($logo_preview)): ?>
-                                                <img src="<?= htmlspecialchars($logo_preview) ?>" id="logoPreviewImg" alt="Logo Preview" style="max-height: 55px; max-width: 100%; object-fit: contain;">
-                                            <?php else: ?>
-                                                <div id="logoPlaceholder" class="text-muted small">
-                                                    <i class="fa-solid fa-image fa-2x mb-1 d-block opacity-50"></i>
-                                                    No custom logo uploaded. Default text brand icon is active.
-                                                </div>
-                                                <img src="" id="logoPreviewImg" alt="Logo Preview" style="max-height: 55px; max-width: 100%; object-fit: contain; display: none;">
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <label class="form-label text-muted small mb-1">Upload New Logo File:</label>
-                                        <input type="file" name="landing_site_logo_file" id="logoFileInput" class="form-control form-control-sm" accept="image/*">
-                                    </div>
-                                    <div>
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <label class="form-label text-muted small mb-0">Or Logo Image URL / Path:</label>
-                                            <button type="button" class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" id="clearLogoBtn">
-                                                <i class="fa-solid fa-trash-can me-1"></i> Clear
-                                            </button>
-                                        </div>
-                                        <input type="text" name="landing_site_logo" id="logoUrlInput" class="form-control form-control-sm font-monospace" value="<?= htmlspecialchars($logo_val) ?>" placeholder="uploads/branding/logo.png">
-                                        <input type="hidden" name="clear_landing_site_logo" id="clearLogoFlag" value="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Website Favicon -->
-                            <div class="col-lg-6">
-                                <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06);">
-                                    <label class="form-label fw-bold text-white d-flex align-items-center justify-content-between">
-                                        <span><i class="fa-solid fa-globe text-info me-1"></i> Browser Favicon</span>
-                                        <span class="badge bg-secondary small">ICO, PNG, SVG (32x32)</span>
-                                    </label>
-
-                                    <!-- Favicon Live Tab Simulation -->
-                                    <div class="mb-3 p-3 rounded" style="background: #080d19; border: 1px dashed rgba(194,153,88,0.4);">
-                                        <div class="small text-muted mb-2">Simulated Browser Tab:</div>
-                                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-top bg-dark text-white border border-secondary border-bottom-0 shadow-sm" style="max-width: 280px;">
-                                            <div id="faviconPreviewContainer" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center;">
-                                                <?php if (!empty($fav_preview)): ?>
-                                                    <img src="<?= htmlspecialchars($fav_preview) ?>" id="favPreviewImg" alt="Favicon" style="width: 18px; height: 18px; object-fit: contain;">
-                                                <?php else: ?>
-                                                    <i class="fa-solid fa-spa text-warning" id="favPlaceholder"></i>
-                                                    <img src="" id="favPreviewImg" alt="Favicon" style="width: 18px; height: 18px; object-fit: contain; display: none;">
-                                                <?php endif; ?>
-                                            </div>
-                                            <span class="small text-truncate fw-semibold" id="tabTitlePreview"><?= htmlspecialchars($s('landing_site_title', 'Luxe Salon & Spa Management')) ?></span>
-                                            <i class="fa-solid fa-xmark text-muted ms-auto small"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-2">
-                                        <label class="form-label text-muted small mb-1">Upload New Favicon File:</label>
-                                        <input type="file" name="landing_site_favicon_file" id="favFileInput" class="form-control form-control-sm" accept=".ico,image/png,image/svg+xml">
-                                    </div>
-                                    <div>
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <label class="form-label text-muted small mb-0">Or Favicon URL / Path:</label>
-                                            <button type="button" class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" id="clearFavBtn">
-                                                <i class="fa-solid fa-trash-can me-1"></i> Clear
-                                            </button>
-                                        </div>
-                                        <input type="text" name="landing_site_favicon" id="favUrlInput" class="form-control form-control-sm font-monospace" value="<?= htmlspecialchars($fav_val) ?>" placeholder="uploads/branding/favicon.ico">
-                                        <input type="hidden" name="clear_landing_site_favicon" id="clearFavFlag" value="0">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Hero Section & Background Image Live Preview -->
                 <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(255,255,255,0.08) !important;">
                     <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">

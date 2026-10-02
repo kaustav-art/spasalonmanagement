@@ -172,11 +172,9 @@ class Website extends Superadmin_Controller {
                 }
             }
 
-            // Handle File Uploads (Hero BG, Logo, Favicon)
+            // Handle File Uploads (Hero BG)
             $uploaded_files = array(
                 'landing_hero_bg_file' => 'landing_hero_bg_image',
-                'landing_site_logo_file' => 'landing_site_logo',
-                'landing_site_favicon_file' => 'landing_site_favicon',
             );
 
             $uploaded_keys = array();
@@ -204,8 +202,6 @@ class Website extends Superadmin_Controller {
                 'landing_brand_highlight',
                 'landing_header_cta_text',
                 'landing_header_cta_link',
-                'landing_site_logo',
-                'landing_site_favicon',
                 
                 // Hero Section
                 'landing_hero_badge',
@@ -229,7 +225,7 @@ class Website extends Superadmin_Controller {
                 if ($this->input->post($field) !== NULL) {
                     $val = trim($this->input->post($field));
                     // Guard media fields: do not wipe out existing uploaded files if the text box was left blank
-                    if (in_array($field, array('landing_site_logo', 'landing_site_favicon', 'landing_hero_bg_image')) && $val === '') {
+                    if ($field === 'landing_hero_bg_image' && $val === '') {
                         if ($this->input->post('clear_' . $field) == '1') {
                             set_setting($field, '', 'landing');
                         }

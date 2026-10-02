@@ -28,7 +28,68 @@ class Settings extends Superadmin_Controller {
                     set_setting('timezone', $timezone, 'localization');
                 }
 
-                $this->session->set_flashdata('success', 'General & Dynamic Currency settings saved successfully.');
+                // Handle Branding Uploads (Logo & Favicon)
+                $root_dir = FCPATH;
+                $upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'branding' . DIRECTORY_SEPARATOR;
+                if (!is_dir($upload_dir)) {
+                    @mkdir($upload_dir, 0755, TRUE);
+                }
+
+                $uploaded_files = array(
+                    'landing_site_logo_file' => 'landing_site_logo',
+                    'landing_site_favicon_file' => 'landing_site_favicon',
+                );
+
+                $uploaded_keys = array();
+                foreach ($uploaded_files as $file_input => $setting_key) {
+                    if (!empty($_FILES[$file_input]['name']) && $_FILES[$file_input]['error'] === UPLOAD_ERR_OK) {
+                        $ext = strtolower(pathinfo($_FILES[$file_input]['name'], PATHINFO_EXTENSION));
+                        $allowed = array('jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'ico');
+                        if (in_array($ext, $allowed)) {
+                            $new_name = $setting_key . '_' . time() . '_' . rand(100, 999) . '.' . $ext;
+                            $target_path = $upload_dir . $new_name;
+                            if (move_uploaded_file($_FILES[$file_input]['tmp_name'], $target_path)) {
+                                $rel_path = 'uploads/branding/' . $new_name;
+                                set_setting($setting_key, $rel_path, 'branding');
+                                if ($setting_key === 'landing_site_logo') {
+                                    set_setting('logo', $rel_path, 'branding');
+                                } elseif ($setting_key === 'landing_site_favicon') {
+                                    set_setting('favicon', $rel_path, 'branding');
+                                }
+                                $uploaded_keys[$setting_key] = $rel_path;
+                            }
+                        }
+                    }
+                }
+
+                // Text URL / paths
+                foreach (array('landing_site_logo', 'landing_site_favicon') as $field) {
+                    if (isset($uploaded_keys[$field])) {
+                        continue;
+                    }
+                    if ($this->input->post($field) !== NULL) {
+                        $val = trim($this->input->post($field));
+                        if ($val === '') {
+                            if ($this->input->post('clear_' . $field) == '1') {
+                                set_setting($field, '', 'branding');
+                                if ($field === 'landing_site_logo') {
+                                    set_setting('logo', '', 'branding');
+                                } elseif ($field === 'landing_site_favicon') {
+                                    set_setting('favicon', '', 'branding');
+                                }
+                            }
+                            continue;
+                        }
+                        set_setting($field, $val, 'branding');
+                        if ($field === 'landing_site_logo') {
+                            set_setting('logo', $val, 'branding');
+                        } elseif ($field === 'landing_site_favicon') {
+                            set_setting('favicon', $val, 'branding');
+                        }
+                    }
+                }
+
+                $this->session->set_flashdata('success', 'General, Dynamic Currency & Branding settings saved successfully.');
                 redirect(superadmin_url('settings?tab=currency'));
                 return;
 

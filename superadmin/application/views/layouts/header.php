@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? htmlspecialchars($page_title) : 'Super Admin Control Panel' ?> - Luxe Platform</title>
+    <!-- Favicon -->
+    <?php
+        $sa_fav_url = function_exists('superadmin_favicon_url') ? superadmin_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+    ?>
+    <link rel="icon" type="image/webp" href="<?= $sa_fav_url ?>?v=<?= time() ?>">
+    <link rel="shortcut icon" type="image/webp" href="<?= $sa_fav_url ?>?v=<?= time() ?>">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

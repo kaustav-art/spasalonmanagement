@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Admin Portal Login - Luxe Platform</title>
+    <!-- Favicon & Branding -->
+    <?php
+        $sa_fav_url = function_exists('superadmin_favicon_url') ? superadmin_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+        $sa_logo_url = function_exists('superadmin_logo_url') ? superadmin_logo_url() : base_url('uploads/branding/logo.webp');
+    ?>
+    <link rel="icon" type="image/webp" href="<?= $sa_fav_url ?>?v=<?= time() ?>">
+    <link rel="shortcut icon" type="image/webp" href="<?= $sa_fav_url ?>?v=<?= time() ?>">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,12 +131,8 @@
 <body>
 
 <div class="login-card">
-    <div class="login-header">
-        <div class="brand-badge">
-            <i class="fa-solid fa-crown"></i>
-        </div>
-        <h4 class="text-white fw-bold mb-1">Super Admin Control Panel</h4>
-        <p class="text-warning small mb-0 font-monospace text-uppercase" style="letter-spacing: 1px;">Platform Management &amp; Licenses</p>
+    <div class="login-header text-center py-4">
+        <img src="<?= $sa_logo_url ?>?v=<?= time() ?>" alt="Logo" style="max-height: 55px; max-width: 220px; object-fit: contain;">
     </div>
 
     <div class="p-4 p-sm-5">

@@ -1752,13 +1752,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                     <li><i class="fa fa-check-circle"></i> <span><?php echo htmlspecialchars($f); ?></span></li>
                                 <?php endforeach; ?>
                             </ul>
-                            <button type="button" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
+                            <a href="subscribe.php?plan=SALON" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SALON" 
                                     data-name="Salon Edition (SaaS)" 
                                     data-price="<?php echo number_format($salon_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($salon_price)); ?>">
                                 <i class="fa fa-rocket me-2"></i> Choose Salon Edition
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1782,13 +1782,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                     <li><i class="fa fa-check-circle text-success"></i> <span><?php echo htmlspecialchars($f); ?></span></li>
                                 <?php endforeach; ?>
                             </ul>
-                            <button type="button" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
+                            <a href="subscribe.php?plan=SPA" class="btn btn-outline-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SPA" 
                                     data-name="Spa Wellness Edition (SaaS)" 
                                     data-price="<?php echo number_format($spa_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($spa_price)); ?>">
                                 <i class="fa fa-rocket me-2"></i> Choose Spa Edition
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1815,13 +1815,13 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                     <li><i class="fa fa-check-circle text-warning"></i> <strong><?php echo htmlspecialchars($f); ?></strong></li>
                                 <?php endforeach; ?>
                             </ul>
-                            <button type="button" class="btn btn-gold w-100 fw-bold buy-now-btn" 
+                            <a href="subscribe.php?plan=SALON_SPA" class="btn btn-gold w-100 fw-bold buy-now-btn" 
                                     data-plan="SALON_SPA" 
                                     data-name="Salon &amp; Spa Complete (SaaS)" 
                                     data-price="<?php echo number_format($unified_price, 2); ?>"
                                     data-price-display="<?php echo htmlspecialchars(format_site_price($unified_price)); ?>">
                                 <i class="fa fa-gem me-2"></i> Deploy Complete Edition (<?php echo htmlspecialchars(format_site_price($unified_price)); ?>)
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -2686,20 +2686,12 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         const modalSubtitle = document.getElementById('modalSubtitle');
         const checkoutProgressBar = document.getElementById('checkoutProgressBar');
 
-        // Buy button click handlers
+        // Buy button click handlers - redirect directly to full-screen SaaS wizard
         document.querySelectorAll('.buy-now-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                selectedPlan = this.getAttribute('data-plan') || 'SALON_SPA';
-                selectedPlanName = this.getAttribute('data-name') || 'Salon & Spa Complete (SaaS)';
-                selectedPrice = this.getAttribute('data-price') || '89.00';
-                selectedPriceDisplay = this.getAttribute('data-price-display') || ('$' + selectedPrice);
-
-                document.getElementById('summaryPlanName').textContent = selectedPlanName;
-                document.getElementById('summaryPlanPrice').textContent = selectedPriceDisplay;
-                
-                // Reset flow to step 1
-                goToStep(1);
-                checkoutModal.show();
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const plan = this.getAttribute('data-plan') || 'SALON_SPA';
+                window.location.href = 'subscribe.php?plan=' + encodeURIComponent(plan);
             });
         });
 

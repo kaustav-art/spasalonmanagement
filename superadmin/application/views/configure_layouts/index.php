@@ -45,8 +45,8 @@ $layout_names = array(
     margin-bottom: 4px !important;
 }
 
-/* Toolbar Buttons */
-.note-btn {
+/* Toolbar Buttons (exclude color buttons so palette swatches work) */
+.note-btn:not(.note-color-btn) {
     background-color: #111a2e !important;
     color: #e2e8f0 !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -55,15 +55,15 @@ $layout_names = array(
     font-size: 13px !important;
     transition: all 0.15s ease !important;
 }
-.note-btn:hover,
-.note-btn:focus {
+.note-btn:not(.note-color-btn):hover,
+.note-btn:not(.note-color-btn):focus {
     background-color: rgba(194, 153, 88, 0.2) !important;
     color: #fbbf24 !important;
     border-color: #c29958 !important;
     outline: none !important;
 }
-.note-btn.active,
-.note-btn:active {
+.note-btn:not(.note-color-btn).active,
+.note-btn:not(.note-color-btn):active {
     background-color: #c29958 !important;
     color: #0c1322 !important;
     border-color: #c29958 !important;
@@ -118,38 +118,85 @@ $layout_names = array(
     display: none !important;
 }
 
-/* Color Palette Dropdown */
-.note-color .note-dropdown-menu {
-    min-width: 330px !important;
-    padding: 12px !important;
+/* Color Palette Dropdown & Swatches */
+.note-color .note-dropdown-menu,
+.note-color-all .note-dropdown-menu,
+.note-popover .popover-content .note-color .note-dropdown-menu {
+    min-width: 350px !important;
+    padding: 12px 14px !important;
+    background-color: #111a2e !important;
+    border: 1px solid rgba(194, 153, 88, 0.4) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7) !important;
+}
+.note-color .note-palette,
+.note-color-all .note-palette {
+    display: inline-block !important;
+    vertical-align: top !important;
+    width: 155px !important;
+    margin: 0 4px !important;
 }
 .note-color-palette {
-    padding: 4px !important;
+    line-height: 1 !important;
+    padding: 4px 0 !important;
 }
-.note-color-reset,
-.note-color-select {
-    background-color: #080d19 !important;
-    color: #cbd5e1 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 4px !important;
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-    margin-bottom: 6px !important;
+.note-color-palette .note-color-row {
+    display: flex !important;
+    height: 18px !important;
+    margin-bottom: 2px !important;
+}
+.note-color-palette .note-color-btn {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    padding: 0 !important;
+    margin: 1px !important;
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    border-radius: 2px !important;
     cursor: pointer !important;
+    box-sizing: border-box !important;
+    display: inline-block !important;
+    transition: transform 0.12s ease !important;
 }
-.note-color-reset:hover,
-.note-color-select:hover {
-    background-color: rgba(194, 153, 88, 0.2) !important;
-    color: #fbbf24 !important;
+.note-color-palette .note-color-btn:hover {
+    transform: scale(1.3) !important;
+    z-index: 10 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 6px rgba(251, 191, 36, 0.9) !important;
 }
 .note-palette-title {
-    color: #94a3b8 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fbbf24 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
     font-size: 11px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    margin: 6px 0 !important;
+    letter-spacing: 0.5px !important;
+    margin: 2px 0 6px 0 !important;
     padding-bottom: 4px !important;
+    text-align: center !important;
+}
+.note-color-reset,
+.note-color-select {
+    display: block !important;
+    width: 100% !important;
+    background-color: #0c1322 !important;
+    color: #cbd5e1 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 4px !important;
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    margin: 4px 0 !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    transition: all 0.15s ease !important;
+}
+.note-color-reset:hover,
+.note-color-select:hover {
+    background-color: rgba(194, 153, 88, 0.25) !important;
+    color: #fbbf24 !important;
+    border-color: #c29958 !important;
 }
 
 /* Table Dimension Picker */
@@ -227,15 +274,33 @@ $layout_names = array(
     text-decoration: underline !important;
 }
 .note-editor.note-frame .note-editable table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    margin: 1rem 0 !important;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
 }
 .note-editor.note-frame .note-editable table td,
 .note-editor.note-frame .note-editable table th {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    padding: 8px 12px !important;
-    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 8px 12px;
+    color: #e2e8f0;
+}
+/* Complete border removal for borderless tables in Editor */
+.note-editor.note-frame .note-editable table.table-borderless,
+.note-editor.note-frame .note-editable table.no-border,
+.note-editor.note-frame .note-editable table[data-borderless="1"],
+.note-editor.note-frame .note-editable table[style*="border: none"],
+.note-editor.note-frame .note-editable table[style*="border:none"],
+.note-editor.note-frame .note-editable table.table-borderless *,
+.note-editor.note-frame .note-editable table.no-border *,
+.note-editor.note-frame .note-editable table[data-borderless="1"] *,
+.note-editor.note-frame .note-editable table[style*="border: none"] *,
+.note-editor.note-frame .note-editable table[style*="border:none"] * {
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    box-shadow: none !important;
 }
 .note-editor.note-frame .note-placeholder {
     color: #64748b !important;
@@ -258,76 +323,298 @@ $layout_names = array(
     margin: 1px auto !important;
 }
 
-/* Summernote Modals (Insert Link, Picture, Video, Help) */
-.note-modal .modal-dialog {
-    max-width: 500px !important;
-    margin: 1.75rem auto !important;
+/* Summernote Modals & Dialogs (Insert Link, Picture, Video, Help) */
+.note-modal-backdrop {
+    display: none !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -9999 !important;
 }
+.note-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 1065 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background-color: rgba(4, 7, 14, 0.75) !important;
+    backdrop-filter: blur(4px) !important;
+    display: none !important;
+}
+.note-modal.open {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.note-modal-content,
+.note-modal .note-modal-content,
 .note-modal .modal-content {
     background-color: #111a2e !important;
-    border: 1px solid rgba(194, 153, 88, 0.4) !important;
+    background: #111a2e !important;
+    border: 1px solid rgba(194, 153, 88, 0.45) !important;
     border-radius: 12px !important;
     color: #f1f5f9 !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85) !important;
+    width: 90% !important;
+    max-width: 520px !important;
+    margin: auto !important;
+    overflow: hidden !important;
+    position: relative !important;
 }
+.note-modal-header,
+.note-modal .note-modal-header,
 .note-modal .modal-header {
     background-color: #0c1322 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 14px 20px !important;
+    padding: 14px 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
 }
+.note-modal-title,
+.note-modal .note-modal-title,
 .note-modal .modal-title {
     color: #ffffff !important;
+    font-size: 16px !important;
     font-weight: 700 !important;
+    margin: 0 !important;
+    letter-spacing: 0.3px !important;
 }
-.note-modal .close {
+.note-modal .close,
+.note-modal-header .close,
+.note-modal .note-close {
     background: transparent !important;
     border: 0 !important;
-    color: #ffffff !important;
+    color: #94a3b8 !important;
     font-size: 20px !important;
-    opacity: 0.7 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    opacity: 0.8 !important;
+    transition: color 0.15s ease, opacity 0.15s ease !important;
 }
-.note-modal .close:hover {
+.note-modal .close:hover,
+.note-modal-header .close:hover,
+.note-modal .note-close:hover {
+    color: #fbbf24 !important;
     opacity: 1 !important;
 }
+/* Ensure every form modal has smooth scrollable body with overflow-y: auto */
+.modal-dialog:not(.modal-fullscreen) {
+    max-height: calc(100vh - 3rem);
+}
+.modal-content > form,
+.modal form {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 3.5rem);
+    height: 100%;
+    overflow: hidden;
+}
+.modal-content > form .modal-header,
+.modal form .modal-header,
+.modal-header {
+    flex-shrink: 0 !important;
+}
+.modal-content > form .modal-footer,
+.modal form .modal-footer,
+.modal-footer {
+    flex-shrink: 0 !important;
+}
+.modal-dialog:not(.modal-fullscreen) .modal-body,
+.modal-content > form .modal-body,
+.modal form .modal-body,
+.modal-dialog-scrollable .modal-body {
+    overflow-y: auto !important;
+    max-height: calc(100vh - 210px);
+}
+#modalPreviewLayout .modal-body {
+    overflow: hidden !important;
+    max-height: none !important;
+}
+
+.note-modal-body,
+.note-modal .note-modal-body,
 .note-modal .modal-body {
     background-color: #111a2e !important;
-    padding: 20px !important;
+    background: #111a2e !important;
+    padding: 22px !important;
     color: #cbd5e1 !important;
+    overflow-y: auto !important;
+    max-height: calc(100vh - 210px);
 }
-.note-modal .modal-body .form-group {
-    margin-bottom: 14px !important;
+.note-modal .note-form-group,
+.note-modal .form-group {
+    margin-bottom: 16px !important;
 }
-.note-modal .modal-body label {
-    color: #e2e8f0 !important;
+.note-modal .note-form-label,
+.note-modal-body label,
+.note-modal label {
+    color: #f1f5f9 !important;
     font-size: 13px !important;
     font-weight: 600 !important;
     margin-bottom: 6px !important;
+    display: block !important;
 }
-.note-modal .modal-body .form-control {
+.note-modal .note-input,
+.note-modal .note-form-control,
+.note-modal input[type="text"],
+.note-modal input[type="file"],
+.note-modal select,
+.note-modal textarea {
     background-color: #080d19 !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    background: #080d19 !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
     color: #ffffff !important;
     border-radius: 6px !important;
+    padding: 9px 12px !important;
+    font-size: 13.5px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
 }
-.note-modal .modal-body .form-control:focus {
+.note-modal .note-input:focus,
+.note-modal input[type="text"]:focus,
+.note-modal .note-form-control:focus {
     border-color: #c29958 !important;
+    outline: none !important;
     box-shadow: 0 0 0 3px rgba(194, 153, 88, 0.25) !important;
+    background-color: #0c1322 !important;
 }
+.note-modal input[type="file"] {
+    color: #cbd5e1 !important;
+    padding: 8px 10px !important;
+}
+.note-modal input[type="file"]::file-selector-button {
+    background-color: #111a2e !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(194, 153, 88, 0.45) !important;
+    border-radius: 5px !important;
+    padding: 4px 12px !important;
+    margin-right: 10px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+.note-modal input[type="file"]::file-selector-button:hover {
+    background-color: #c29958 !important;
+    color: #0c1322 !important;
+}
+.note-modal .note-dropzone,
+.note-modal .note-image-dialog .note-dropzone {
+    min-height: 90px !important;
+    font-size: 15px !important;
+    line-height: 90px !important;
+    color: #94a3b8 !important;
+    text-align: center !important;
+    border: 2px dashed rgba(194, 153, 88, 0.45) !important;
+    border-radius: 8px !important;
+    background-color: rgba(8, 13, 25, 0.6) !important;
+    margin-bottom: 14px !important;
+    transition: all 0.2s ease !important;
+}
+.note-modal .note-dropzone:hover {
+    border-color: #fbbf24 !important;
+    color: #fbbf24 !important;
+    background-color: rgba(194, 153, 88, 0.1) !important;
+}
+.note-modal .checkbox {
+    margin: 12px 0 6px 0 !important;
+}
+.note-modal .checkbox label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #cbd5e1 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+}
+.note-modal .checkbox input[type="checkbox"] {
+    accent-color: #c29958 !important;
+    width: 16px !important;
+    height: 16px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+}
+.note-modal-footer,
+.note-modal .note-modal-footer,
 .note-modal .modal-footer {
     background-color: #0c1322 !important;
     border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 12px 20px !important;
+    padding: 14px 24px !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 10px !important;
 }
+.note-modal .note-btn-primary,
+.note-modal .note-image-btn,
+.note-modal .note-link-btn,
+.note-modal .note-video-btn,
 .note-modal .btn-primary {
     background-color: #c29958 !important;
-    border-color: #c29958 !important;
+    border: 1px solid #c29958 !important;
     color: #0c1322 !important;
     font-weight: 700 !important;
+    font-size: 13px !important;
     border-radius: 6px !important;
+    padding: 8px 20px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    display: inline-block !important;
 }
-.note-modal .btn-primary:hover {
+.note-modal .note-btn-primary:hover:not(:disabled),
+.note-modal .note-image-btn:hover:not(:disabled),
+.note-modal .note-link-btn:hover:not(:disabled),
+.note-modal .note-video-btn:hover:not(:disabled),
+.note-modal .btn-primary:hover:not(:disabled) {
     background-color: #e5c388 !important;
     border-color: #e5c388 !important;
+    color: #080d19 !important;
+    box-shadow: 0 4px 14px rgba(194, 153, 88, 0.4) !important;
+}
+.note-modal .note-btn-primary:disabled,
+.note-modal .note-image-btn:disabled,
+.note-modal .note-link-btn:disabled,
+.note-modal .note-video-btn:disabled,
+.note-modal .btn-primary:disabled,
+.note-modal .note-btn-primary.disabled,
+.note-modal .note-image-btn.disabled,
+.note-modal .note-link-btn.disabled,
+.note-modal .note-video-btn.disabled {
+    background-color: rgba(194, 153, 88, 0.25) !important;
+    border-color: rgba(194, 153, 88, 0.25) !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}
+.note-modal .help-list-item {
+    color: #cbd5e1 !important;
+    padding: 4px 6px !important;
+    border-radius: 4px !important;
+}
+.note-modal .help-list-item:hover {
+    background-color: rgba(194, 153, 88, 0.15) !important;
+}
+.note-modal .note-modal-body kbd {
+    background-color: #080d19 !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(194, 153, 88, 0.4) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 11px !important;
 }
 
 /* Summernote Popovers & Tooltips */
@@ -640,14 +927,12 @@ $layout_names = array(
                     <i class="fa-solid fa-bullhorn me-1"></i> Hero Banner
                 </a>
             </li>
-            <?php if ($curr_layout === 1): ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $curr_sec === 'skincare' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                       href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=skincare') ?>">
-                        <i class="fa-solid fa-sparkles me-1"></i> Featured Skincare
-                    </a>
-                </li>
-            <?php endif; ?>
+            <li class="nav-item">
+                <a class="nav-link <?= $curr_sec === 'skincare' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
+                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=skincare') ?>">
+                    <i class="fa-solid fa-sparkles me-1"></i> <?= $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Features') ?>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'about' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
                    href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=about') ?>">
@@ -657,7 +942,7 @@ $layout_names = array(
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'services' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
                    href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=services') ?>">
-                    <i class="fa-solid fa-hand-holding-heart me-1"></i> We Offer (Services)
+                    <i class="fa-solid fa-hand-holding-heart me-1"></i> Services
                 </a>
             </li>
             <li class="nav-item">
@@ -666,18 +951,16 @@ $layout_names = array(
                     <i class="fa-solid fa-comments me-1"></i> Testimonials
                 </a>
             </li>
-            <?php if ($curr_layout === 1): ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $curr_sec === 'faqs' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                       href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=faqs') ?>">
-                        <i class="fa-solid fa-circle-question me-1"></i> FAQ's
-                    </a>
-                </li>
-            <?php endif; ?>
+            <li class="nav-item">
+                <a class="nav-link <?= $curr_sec === 'faqs' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
+                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=faqs') ?>">
+                    <i class="fa-solid fa-circle-question me-1"></i> FAQ's
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'blogs' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
                    href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=blogs') ?>">
-                    <i class="fa-solid fa-newspaper me-1"></i> Latest News (Blog)
+                    <i class="fa-solid fa-newspaper me-1"></i> Blog
                 </a>
             </li>
         </ul>
@@ -789,23 +1072,26 @@ $layout_names = array(
         <?php endif; ?>
 
         <!-- ============================================== -->
-        <!-- 2. FEATURED SKINCARE SECTION (LAYOUT 1)        -->
+        <!-- 2. FEATURES / OUR WORKS SECTION                -->
         <!-- ============================================== -->
-        <?php if ($curr_sec === 'skincare' && $curr_layout === 1): 
-            $feat_tagline = get_tpl_setting('template2', 1, 'featured_skincare', 'tagline', 'Featured Skincare');
-            $feat_title = get_tpl_setting('template2', 1, 'featured_skincare', 'title', 'Beauty and Glow Skin Solutions');
+        <?php if ($curr_sec === 'skincare'): 
+            $feat_section_name = $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Features');
+            $feat_def_tagline = $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Special Highlights');
+            $feat_def_title = $curr_layout === 2 ? 'Glow Transformation Gallery' : ($curr_layout === 1 ? 'Beauty and Glow Skin Solutions' : 'Exclusive Treatments & Skincare Highlights');
+            $feat_tagline = get_tpl_setting('template2', $curr_layout, 'featured_skincare', 'tagline', $feat_def_tagline);
+            $feat_title = get_tpl_setting('template2', $curr_layout, 'featured_skincare', 'title', $feat_def_title);
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_featured_skincare_headers">
                 <input type="hidden" name="active_tab" value="template2">
-                <input type="hidden" name="active_layout" value="1">
+                <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="skincare">
 
                 <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(255,255,255,0.08) !important;">
                     <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
                         <h5 class="text-white fw-bold mb-0">
-                            <i class="fa-solid fa-sparkles text-warning me-2"></i>Featured Skincare Section Heading
+                            <i class="fa-solid fa-sparkles text-warning me-2"></i><?= htmlspecialchars($feat_section_name) ?> Section Heading (Layout <?= $curr_layout ?>)
                         </h5>
                         <button type="submit" class="btn btn-warning btn-sm fw-bold px-3">
                             <i class="fa-solid fa-check me-1"></i> Save Headers
@@ -815,11 +1101,11 @@ $layout_names = array(
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label class="form-label text-white small fw-bold">Section Tagline</label>
-                                <input type="text" name="featured_tagline" class="form-control" value="<?= htmlspecialchars($feat_tagline) ?>" placeholder="Featured Skincare">
+                                <input type="text" name="featured_tagline" class="form-control" value="<?= htmlspecialchars($feat_tagline) ?>" placeholder="<?= htmlspecialchars($feat_def_tagline) ?>">
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label text-white small fw-bold">Section Title Heading</label>
-                                <input type="text" name="featured_title" class="form-control" value="<?= htmlspecialchars($feat_title) ?>" placeholder="Beauty and Glow Skin Solutions">
+                                <input type="text" name="featured_title" class="form-control" value="<?= htmlspecialchars($feat_title) ?>" placeholder="<?= htmlspecialchars($feat_def_title) ?>">
                             </div>
                         </div>
                     </div>
@@ -831,12 +1117,12 @@ $layout_names = array(
                 <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="text-white fw-bold mb-0">
-                            <i class="fa-solid fa-table-cells text-warning me-2"></i>Featured Skincare Items
+                            <i class="fa-solid fa-table-cells text-warning me-2"></i><?= htmlspecialchars($feat_section_name) ?> Items (Layout <?= $curr_layout ?>)
                         </h5>
                         <p class="text-muted small mb-0">Each card contains thumbnail, title, and short description.</p>
                     </div>
                     <button type="button" class="btn btn-gold btn-sm fw-bold px-3" data-bs-toggle="modal" data-bs-target="#modalFeaturedItem" onclick="openNewFeaturedModal()">
-                        <i class="fa-solid fa-plus me-1"></i> Add Featured Item
+                        <i class="fa-solid fa-plus me-1"></i> Add Item
                     </button>
                 </div>
                 <div class="card-body p-4">
@@ -1206,21 +1492,21 @@ $layout_names = array(
         <!-- ============================================== -->
         <!-- 6. FAQS SECTION (LAYOUT 1)                     -->
         <!-- ============================================== -->
-        <?php if ($curr_sec === 'faqs' && $curr_layout === 1): 
-            $faq_tagline = get_tpl_setting('template2', 1, 'faq_header', 'tagline', 'Frequently Asked Questions');
-            $faq_title = get_tpl_setting('template2', 1, 'faq_header', 'title', 'Clear Answers About Your Treatment');
+        <?php if ($curr_sec === 'faqs'): 
+            $faq_tagline = get_tpl_setting('template2', $curr_layout, 'faq_header', 'tagline', 'Frequently Asked Questions');
+            $faq_title = get_tpl_setting('template2', $curr_layout, 'faq_header', 'title', 'Clear Answers About Your Treatment');
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_faqs_headers">
                 <input type="hidden" name="active_tab" value="template2">
-                <input type="hidden" name="active_layout" value="1">
+                <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="faqs">
 
                 <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(255,255,255,0.08) !important;">
                     <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
                         <h5 class="text-white fw-bold mb-0">
-                            <i class="fa-solid fa-circle-question text-warning me-2"></i>FAQ Section Heading
+                            <i class="fa-solid fa-circle-question text-warning me-2"></i>FAQ Section Heading (Layout <?= $curr_layout ?>)
                         </h5>
                         <button type="submit" class="btn btn-warning btn-sm fw-bold px-3">
                             <i class="fa-solid fa-check me-1"></i> Save Headers
@@ -1246,9 +1532,9 @@ $layout_names = array(
                 <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="text-white fw-bold mb-0">
-                            <i class="fa-solid fa-list-check text-warning me-2"></i>Frequently Asked Questions
+                            <i class="fa-solid fa-list-check text-warning me-2"></i>Frequently Asked Questions (Layout <?= $curr_layout ?>)
                         </h5>
-                        <p class="text-muted small mb-0">Manage accordion Q&amp;A pairs displayed on Layout 1.</p>
+                        <p class="text-muted small mb-0">Manage accordion Q&amp;A pairs displayed on Layout <?= $curr_layout ?>.</p>
                     </div>
                     <button type="button" class="btn btn-gold btn-sm fw-bold px-3" data-bs-toggle="modal" data-bs-target="#modalFaq" onclick="openNewFaqModal()">
                         <i class="fa-solid fa-plus me-1"></i> Add FAQ
@@ -1343,7 +1629,8 @@ $layout_names = array(
                 <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="text-white fw-bold mb-0">
-                            <i class="fa-solid fa-pen-nib text-warning me-2"></i>Published Articles &amp; Blog Detail Pages
+                            <i class="fa-solid fa-pen-nib text-warning me-2"></i>Layout <?= $curr_layout ?> Published Articles &amp; Blog Detail Pages
+                            <span class="badge bg-warning text-dark ms-2 font-monospace">Layout <?= $curr_layout ?></span>
                         </h5>
                         <p class="text-muted small mb-0">Each blog post has thumbnail, author, date, excerpt, and full rich text description linking to dedicated detail page (no search bar).</p>
                     </div>
@@ -1514,14 +1801,15 @@ $layout_names = array(
 
 <!-- MODAL: ADD / EDIT FEATURED SKINCARE ITEM (LAYOUT 1) -->
 <div class="modal fade" id="modalFeaturedItem" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_featured_item">
                 <input type="hidden" name="active_tab" value="template2">
-                <input type="hidden" name="active_layout" value="1">
+                <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="skincare">
                 <input type="hidden" name="item_id" id="featItemId" value="0">
+                <input type="hidden" name="layout_number" id="featLayoutNum" value="<?= $curr_layout ?>">
 
                 <div class="modal-header bg-black bg-opacity-25 border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="modal-title text-white fw-bold" id="featModalTitle">Add Featured Item</h5>
@@ -1574,7 +1862,7 @@ $layout_names = array(
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="services">
                 <input type="hidden" name="service_id" id="svcId" value="0">
-                <input type="hidden" name="layout_number" value="0">
+                <input type="hidden" name="layout_number" id="svcLayoutNum" value="<?= $curr_layout ?>">
 
                 <div class="modal-header bg-black bg-opacity-25 border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="modal-title text-white fw-bold" id="svcModalTitle">Add New Service</h5>
@@ -1644,7 +1932,7 @@ $layout_names = array(
 
 <!-- MODAL: ADD / EDIT TESTIMONIAL -->
 <div class="modal fade" id="modalTestimonial" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_testimonial">
@@ -1709,15 +1997,15 @@ $layout_names = array(
 
 <!-- MODAL: ADD / EDIT FAQ (LAYOUT 1) -->
 <div class="modal fade" id="modalFaq" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post">
                 <input type="hidden" name="action" value="save_faq">
                 <input type="hidden" name="active_tab" value="template2">
-                <input type="hidden" name="active_layout" value="1">
+                <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="faqs">
                 <input type="hidden" name="faq_id" id="faqId" value="0">
-                <input type="hidden" name="layout_number" value="0">
+                <input type="hidden" name="layout_number" id="faqLayoutNum" value="<?= $curr_layout ?>">
 
                 <div class="modal-header bg-black bg-opacity-25 border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="modal-title text-white fw-bold" id="faqModalTitle">Add FAQ Item</h5>
@@ -1765,7 +2053,6 @@ $layout_names = array(
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="blogs">
                 <input type="hidden" name="blog_id" id="blogId" value="0">
-                <input type="hidden" name="layout_number" value="0">
 
                 <div class="modal-header bg-black bg-opacity-25 border-bottom border-secondary border-opacity-25 py-3">
                     <h5 class="modal-title text-white fw-bold" id="blogModalTitle">Publish Blog Article</h5>
@@ -1806,11 +2093,19 @@ $layout_names = array(
                             <label class="form-label text-white small fw-bold">Full Article Content (WYSIWYG Rich Text Editor) *</label>
                             <textarea name="content" id="blogContentEditor" class="summernote-editor form-control" rows="8"></textarea>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="form-label text-white small fw-bold">Target Layout *</label>
+                            <select name="layout_number" id="blogLayoutNumber" class="form-select">
+                                <option value="1" <?= $curr_layout == 1 ? 'selected' : '' ?>>Layout 1 (Classic Sanctuary)</option>
+                                <option value="2" <?= $curr_layout == 2 ? 'selected' : '' ?>>Layout 2 (Modern Botanical)</option>
+                                <option value="3" <?= $curr_layout == 3 ? 'selected' : '' ?>>Layout 3 (Clinical Therapy)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label text-white small fw-bold">Sort Order</label>
                             <input type="number" name="sort_order" id="blogSortOrder" class="form-control" value="1">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label text-white small fw-bold">Status</label>
                             <select name="status" id="blogStatus" class="form-select">
                                 <option value="active">Active</option>
@@ -1828,9 +2123,128 @@ $layout_names = array(
     </div>
 </div>
 
+<!-- MODAL: TABLE PROPERTIES & BORDER CONFIGURATION -->
+<div class="modal fade" id="modalTableProperties" tabindex="-1" style="z-index: 1070;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 shadow-lg" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.45) !important;">
+            <div class="modal-header bg-black bg-opacity-25 border-bottom border-secondary border-opacity-25 py-3">
+                <h5 class="modal-title text-white fw-bold">
+                    <i class="fa-solid fa-table-cells text-warning me-2"></i>Table Properties &amp; Borders
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-white">
+                <!-- Quick 1-Click Borderless Action -->
+                <div class="p-3 rounded-3 mb-4 d-flex align-items-center justify-content-between" style="background: rgba(194, 153, 88, 0.1); border: 1px dashed rgba(194, 153, 88, 0.4);">
+                    <div>
+                        <div class="fw-bold text-warning mb-1"><i class="fa-solid fa-wand-magic-sparkles me-1"></i> Quick Border Removal</div>
+                        <div class="small text-muted">Strip all borders from this table with one click</div>
+                    </div>
+                    <button type="button" class="btn btn-outline-warning btn-sm fw-bold px-3" onclick="removeTableBorderFromModal()">
+                        <i class="fa-solid fa-border-none me-1"></i> Remove All Borders
+                    </button>
+                </div>
+
+                <div class="row g-3">
+                    <!-- Border Style -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Border Style</label>
+                        <select id="tpBorderStyle" class="form-select bg-dark text-white border-secondary">
+                            <option value="none">No Border (Borderless)</option>
+                            <option value="solid" selected>Solid Line</option>
+                            <option value="dashed">Dashed Line</option>
+                            <option value="dotted">Dotted Line</option>
+                            <option value="double">Double Line</option>
+                        </select>
+                    </div>
+
+                    <!-- Border Width -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Border Width</label>
+                        <select id="tpBorderWidth" class="form-select bg-dark text-white border-secondary">
+                            <option value="0px">0px (No Border)</option>
+                            <option value="1px" selected>1px (Thin)</option>
+                            <option value="2px">2px (Medium)</option>
+                            <option value="3px">3px (Thick)</option>
+                        </select>
+                    </div>
+
+                    <!-- Border Color -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Border Color</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" id="tpBorderColor" class="form-control form-control-color bg-dark border-secondary" value="#c29958" style="width: 44px; height: 38px;">
+                            <select id="tpBorderColorPreset" class="form-select bg-dark text-white border-secondary form-select-sm" onchange="if(this.value) $('#tpBorderColor').val(this.value);">
+                                <option value="">Custom Color</option>
+                                <option value="#c29958">Gold (#c29958)</option>
+                                <option value="#ffffff">White (#ffffff)</option>
+                                <option value="#334155">Dark Slate (#334155)</option>
+                                <option value="#cbd5e1">Light Slate (#cbd5e1)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Table Width -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Table Width</label>
+                        <select id="tpTableWidth" class="form-select bg-dark text-white border-secondary">
+                            <option value="100%" selected>100% (Full Width)</option>
+                            <option value="75%">75% Width</option>
+                            <option value="50%">50% Width</option>
+                            <option value="auto">Auto (Fit to content)</option>
+                        </select>
+                    </div>
+
+                    <!-- Cell Padding -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Cell Padding / Spacing</label>
+                        <select id="tpCellPadding" class="form-select bg-dark text-white border-secondary">
+                            <option value="none">None (0px)</option>
+                            <option value="compact">Compact (4px 8px)</option>
+                            <option value="normal" selected>Normal (10px 14px)</option>
+                            <option value="spacious">Spacious (16px 20px)</option>
+                        </select>
+                    </div>
+
+                    <!-- Table Alignment -->
+                    <div class="col-md-6">
+                        <label class="form-label text-white small fw-bold">Table Alignment</label>
+                        <select id="tpTableAlign" class="form-select bg-dark text-white border-secondary">
+                            <option value="left" selected>Left Aligned</option>
+                            <option value="center">Centered</option>
+                            <option value="right">Right Aligned</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Toggles -->
+                    <div class="col-12 pt-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="tpStripedRows">
+                            <label class="form-check-label text-white-50 small" for="tpStripedRows">
+                                Alternating striped rows (zebra striping)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-black bg-opacity-25 border-top border-secondary border-opacity-25 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeTableBorderFromModal()">
+                    <i class="fa-solid fa-border-none me-1"></i> Remove All Borders
+                </button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning btn-sm fw-bold px-4" onclick="applyTableProperties()">
+                        <i class="fa-solid fa-check me-1"></i> Apply Properties
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- MODAL: ADD / EDIT TEMPLATE -->
 <div class="modal fade" id="modalTemplate" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post">
                 <input type="hidden" name="action" value="save_template">
@@ -1893,7 +2307,7 @@ $layout_names = array(
 
 <!-- MODAL: ADD / EDIT LAYOUT -->
 <div class="modal fade" id="modalLayout" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_layout">
@@ -2026,6 +2440,242 @@ function resolveMainUrl(path) {
     return mainSiteUrl + path.replace(/^\/+/, '');
 }
 
+// Active Table Tracking & Properties
+let activeTableNode = null;
+let activeEditorContext = null;
+
+$(document).on('click mousedown keyup', '.note-editable table, .note-editable td, .note-editable th', function() {
+    activeTableNode = $(this).closest('table')[0];
+});
+
+function getTargetTable(context) {
+    if (context) activeEditorContext = context;
+    if (activeTableNode && $(activeTableNode).closest('.note-editable').length) {
+        return $(activeTableNode);
+    }
+    var sel = window.getSelection();
+    if (sel && sel.anchorNode) {
+        var $t = $(sel.anchorNode).closest('table');
+        if ($t.length && $t.closest('.note-editable').length) {
+            activeTableNode = $t[0];
+            return $t;
+        }
+    }
+    var $activeEditor = $('.note-editor.note-frame.focus, #modalService .note-editor, #modalBlog .note-editor').first();
+    var $tables = $activeEditor.find('.note-editable table');
+    if ($tables.length >= 1) {
+        activeTableNode = $tables.first()[0];
+        return $tables.first();
+    }
+    return null;
+}
+
+function showTableToast(msg) {
+    $('.table-feedback-toast').remove();
+    var $toast = $('<div class="table-feedback-toast position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">' +
+        '<div class="toast show align-items-center text-white bg-dark border border-warning shadow-lg rounded-3" role="alert">' +
+        '<div class="d-flex"><div class="toast-body fw-semibold"><i class="fa-solid fa-check text-warning me-2"></i>' + msg + '</div>' +
+        '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>' +
+        '</div></div></div>');
+    $('body').append($toast);
+    setTimeout(function() {
+        $toast.fadeOut(400, function() { $(this).remove(); });
+    }, 2800);
+}
+
+function stripAllTableBorders($table) {
+    if (!$table || !$table.length) return;
+
+    $table.removeClass('table-bordered')
+          .addClass('table-borderless no-border')
+          .attr('data-borderless', '1')
+          .attr('border', '0');
+
+    $table.css({
+        'border': 'none',
+        'border-top': 'none',
+        'border-bottom': 'none',
+        'border-left': 'none',
+        'border-right': 'none',
+        'border-collapse': 'collapse'
+    });
+
+    $table.find('thead, tbody, tfoot, tr').each(function() {
+        $(this).removeClass('table-bordered');
+        this.style.setProperty('border', 'none', 'important');
+        this.style.setProperty('border-top', 'none', 'important');
+        this.style.setProperty('border-bottom', 'none', 'important');
+        this.style.setProperty('border-left', 'none', 'important');
+        this.style.setProperty('border-right', 'none', 'important');
+        this.style.setProperty('box-shadow', 'none', 'important');
+    });
+
+    $table.find('td, th').each(function() {
+        $(this).addClass('no-border');
+        this.style.setProperty('border', 'none', 'important');
+        this.style.setProperty('border-top', 'none', 'important');
+        this.style.setProperty('border-bottom', 'none', 'important');
+        this.style.setProperty('border-left', 'none', 'important');
+        this.style.setProperty('border-right', 'none', 'important');
+        this.style.setProperty('box-shadow', 'none', 'important');
+    });
+}
+
+function removeTableBorderFromModal() {
+    var $table = getTargetTable(activeEditorContext);
+    if ($table && $table.length) {
+        stripAllTableBorders($table);
+
+        if (activeEditorContext && activeEditorContext.invoke) {
+            try { activeEditorContext.invoke('editor.afterCommand'); } catch(e) {}
+        }
+        $('.summernote-editor').trigger('summernote.change');
+    }
+    var modalEl = document.getElementById('modalTableProperties');
+    var modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+    showTableToast('All table borders removed completely!');
+}
+
+function openTablePropertiesModal(context) {
+    var $table = getTargetTable(context);
+    if (!$table || !$table.length) {
+        alert('Please click inside a table to edit its properties, or insert a table first.');
+        return;
+    }
+
+    var isBorderless = $table.hasClass('table-borderless') || $table.hasClass('no-border') || $table.attr('data-borderless') === '1' || $table.css('border-style') === 'none' || ($table.attr('style') && $table.attr('style').indexOf('border: none') !== -1);
+    
+    if (isBorderless) {
+        $('#tpBorderStyle').val('none');
+        $('#tpBorderWidth').val('0px');
+    } else {
+        var style = $table.css('border-style') || 'solid';
+        $('#tpBorderStyle').val(style !== 'none' ? style : 'solid');
+        var width = $table.css('border-width') || '1px';
+        $('#tpBorderWidth').val(width !== '0px' ? width : '1px');
+    }
+
+    var curWidth = $table[0].style.width || '100%';
+    if (curWidth === '100%' || curWidth === '75%' || curWidth === '50%' || curWidth === 'auto') {
+        $('#tpTableWidth').val(curWidth);
+    } else {
+        $('#tpTableWidth').val('100%');
+    }
+
+    var firstCell = $table.find('td, th').first();
+    var curPad = firstCell.length ? firstCell.css('padding-top') : '10px';
+    if (parseInt(curPad) <= 2) {
+        $('#tpCellPadding').val('none');
+    } else if (parseInt(curPad) <= 6) {
+        $('#tpCellPadding').val('compact');
+    } else if (parseInt(curPad) >= 16) {
+        $('#tpCellPadding').val('spacious');
+    } else {
+        $('#tpCellPadding').val('normal');
+    }
+
+    var marginLeft = $table[0].style.marginLeft;
+    var marginRight = $table[0].style.marginRight;
+    if (marginLeft === 'auto' && marginRight === 'auto') {
+        $('#tpTableAlign').val('center');
+    } else if (marginLeft === 'auto') {
+        $('#tpTableAlign').val('right');
+    } else {
+        $('#tpTableAlign').val('left');
+    }
+
+    $('#tpStripedRows').prop('checked', $table.hasClass('table-striped'));
+
+    var modal = new bootstrap.Modal(document.getElementById('modalTableProperties'), {
+        backdrop: 'static'
+    });
+    modal.show();
+}
+
+function applyTableProperties() {
+    var $table = getTargetTable(activeEditorContext);
+    if (!$table || !$table.length) return;
+
+    var borderStyle = $('#tpBorderStyle').val();
+    var borderWidth = $('#tpBorderWidth').val();
+    var borderColor = $('#tpBorderColor').val() || '#c29958';
+    var tableWidth = $('#tpTableWidth').val();
+    var cellPaddingPreset = $('#tpCellPadding').val();
+    var tableAlign = $('#tpTableAlign').val();
+    var isStriped = $('#tpStripedRows').is(':checked');
+
+    if (borderStyle === 'none' || borderWidth === '0px') {
+        stripAllTableBorders($table);
+    } else {
+        $table.removeClass('table-borderless no-border').removeAttr('data-borderless');
+        var borderVal = borderWidth + ' ' + borderStyle + ' ' + borderColor;
+        $table.css({
+            'border': borderVal,
+            'border-collapse': 'collapse'
+        });
+        $table.find('thead, tbody, tfoot, tr').each(function() {
+            this.style.removeProperty('border');
+            this.style.removeProperty('border-top');
+            this.style.removeProperty('border-bottom');
+            this.style.removeProperty('border-left');
+            this.style.removeProperty('border-right');
+            this.style.removeProperty('box-shadow');
+        });
+        $table.find('td, th').each(function() {
+            this.style.setProperty('border', borderVal, 'important');
+            $(this).removeClass('no-border');
+        });
+    }
+
+    if (tableWidth) {
+        $table.css('width', tableWidth);
+    }
+
+    if (tableAlign === 'center') {
+        $table.css({ 'margin-left': 'auto', 'margin-right': 'auto' });
+    } else if (tableAlign === 'right') {
+        $table.css({ 'margin-left': 'auto', 'margin-right': '0' });
+    } else {
+        $table.css({ 'margin-left': '0', 'margin-right': 'auto' });
+    }
+
+    var padVal = '10px 14px';
+    if (cellPaddingPreset === 'none') padVal = '0px';
+    else if (cellPaddingPreset === 'compact') padVal = '4px 8px';
+    else if (cellPaddingPreset === 'spacious') padVal = '16px 20px';
+    $table.find('td, th').css('padding', padVal);
+
+    if (isStriped) {
+        $table.addClass('table-striped');
+        $table.find('tr:nth-child(even)').css('background-color', 'rgba(255, 255, 255, 0.04)');
+    } else {
+        $table.removeClass('table-striped');
+        $table.find('tr').css('background-color', '');
+    }
+
+    var modalEl = document.getElementById('modalTableProperties');
+    var modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+
+    if (activeEditorContext && activeEditorContext.invoke) {
+        try { activeEditorContext.invoke('editor.afterCommand'); } catch(e) {}
+    }
+    $('.summernote-editor').trigger('summernote.change');
+    showTableToast(borderStyle === 'none' || borderWidth === '0px' ? 'All table borders removed completely!' : 'Table properties updated!');
+}
+
+var makeTablePropertiesBtn = function(context) {
+    var ui = $.summernote.ui;
+    return ui.button({
+        contents: '<i class="fa-solid fa-table-cells text-warning"></i> <span class="d-none d-md-inline ms-1">Table Props</span>',
+        tooltip: 'Table Properties & Border Settings',
+        click: function() {
+            openTablePropertiesModal(context);
+        }
+    }).render();
+};
+
 // Initialize Summernote Rich Text Editors
 $(document).ready(function() {
     if ($.fn && $.fn.summernote) {
@@ -2033,18 +2683,46 @@ $(document).ready(function() {
             placeholder: 'Write formatted content here...',
             tabsize: 2,
             height: 250,
+            tableClassName: 'table',
+            buttons: {
+                tableProperties: makeTablePropertiesBtn
+            },
             toolbar: [
                 ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
                 ['fontsize', ['fontsize']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
+                ['table', ['table', 'tableProperties']],
                 ['insert', ['link', 'picture', 'hr']],
                 ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+            ],
+            popover: {
+                table: [
+                    ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                    ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+                    ['custom', ['tableProperties']]
+                ]
+            }
         });
     }
+
+    // Ensure Summernote modal backdrop never covers or blocks the screen
+    $(document).on('note.modal.show', function() {
+        $('.note-modal-backdrop').remove();
+    });
+    $(document).on('click', '.note-btn', function() {
+        setTimeout(function() {
+            $('.note-modal-backdrop').remove();
+        }, 30);
+    });
+    // Click outside modal content to close Summernote modal
+    $(document).on('click', '.note-modal', function(e) {
+        if ($(e.target).hasClass('note-modal')) {
+            $(this).find('.close, .note-close').trigger('click');
+            $('.note-modal-backdrop').remove();
+        }
+    });
 
     // Sync Summernote rich text to underlying textarea before form submit
     $('form').on('submit', function() {
@@ -2163,8 +2841,11 @@ function deleteHeroSlide(id) {
 // FEATURED SKINCARE MODAL HANDLERS
 // ==========================================
 function openNewFeaturedModal() {
-    $('#featModalTitle').text('Add Featured Skincare Item');
+    const layoutNum = <?= (int)$curr_layout ?>;
+    const label = layoutNum === 2 ? 'Our Works Item' : (layoutNum === 1 ? 'Featured Skincare Item' : 'Feature Item');
+    $('#featModalTitle').text('Add ' + label);
     $('#featItemId').val(0);
+    $('#featLayoutNum').val(layoutNum);
     $('#featTitle').val('');
     $('#featShortDesc').val('');
     $('#featThumbnailUrl').val('');
@@ -2173,8 +2854,11 @@ function openNewFeaturedModal() {
 }
 
 function openEditFeaturedModal(item) {
-    $('#featModalTitle').text('Edit Featured Item: ' + item.title);
+    const layoutNum = item.layout_number || <?= (int)$curr_layout ?>;
+    const label = layoutNum === 2 ? 'Our Works Item' : (layoutNum === 1 ? 'Featured Skincare Item' : 'Feature Item');
+    $('#featModalTitle').text('Edit ' + label + ': ' + item.title);
     $('#featItemId').val(item.id);
+    $('#featLayoutNum').val(layoutNum);
     $('#featTitle').val(item.title);
     $('#featShortDesc').val(item.short_desc);
     $('#featThumbnailUrl').val(item.thumbnail);
@@ -2185,14 +2869,14 @@ function openEditFeaturedModal(item) {
 }
 
 function deleteFeaturedItem(id) {
-    if (confirm('Are you sure you want to delete this featured item?')) {
+    if (confirm('Are you sure you want to delete this item?')) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_featured_item">
             <input type="hidden" name="active_tab" value="template2">
-            <input type="hidden" name="active_layout" value="1">
+            <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="skincare">
             <input type="hidden" name="item_id" value="${id}">
         `;
@@ -2205,8 +2889,9 @@ function deleteFeaturedItem(id) {
 // SERVICE MODAL HANDLERS
 // ==========================================
 function openNewServiceModal() {
-    $('#svcModalTitle').text('Add New Service');
+    $('#svcModalTitle').text('Add New Service (Layout <?= $curr_layout ?>)');
     $('#svcId').val(0);
+    $('#svcLayoutNum').val(<?= (int)$curr_layout ?>);
     $('#svcTitle').val('');
     $('#svcSlug').val('');
     $('#svcThumbUrl').val('assets/template2/images/services/services-1-1.jpg');
@@ -2244,8 +2929,9 @@ function openEditServiceModal(svc) {
     }
     if (!svc) return;
 
-    $('#svcModalTitle').text('Edit Service: ' + (svc.title || ''));
+    $('#svcModalTitle').text('Edit Service: ' + (svc.title || '') + ' (Layout ' + (svc.layout_number || <?= (int)$curr_layout ?>) + ')');
     $('#svcId').val(svc.id || 0);
+    $('#svcLayoutNum').val(svc.layout_number || <?= (int)$curr_layout ?>);
     $('#svcTitle').val(svc.title || '');
     $('#svcSlug').val(svc.slug || '');
     $('#svcThumbUrl').val(svc.thumbnail || '');
@@ -2340,8 +3026,9 @@ function deleteTestimonial(id) {
 // FAQ MODAL HANDLERS
 // ==========================================
 function openNewFaqModal() {
-    $('#faqModalTitle').text('Add FAQ Item');
+    $('#faqModalTitle').text('Add FAQ Item (Layout <?= $curr_layout ?>)');
     $('#faqId').val(0);
+    $('#faqLayoutNum').val(<?= (int)$curr_layout ?>);
     $('#faqQuestion').val('');
     $('#faqAnswer').val('');
     $('#faqSortOrder').val(1);
@@ -2349,8 +3036,9 @@ function openNewFaqModal() {
 }
 
 function openEditFaqModal(fq) {
-    $('#faqModalTitle').text('Edit FAQ');
+    $('#faqModalTitle').text('Edit FAQ (Layout ' + (fq.layout_number || <?= (int)$curr_layout ?>) + ')');
     $('#faqId').val(fq.id);
+    $('#faqLayoutNum').val(fq.layout_number || <?= (int)$curr_layout ?>);
     $('#faqQuestion').val(fq.question);
     $('#faqAnswer').val(fq.answer);
     $('#faqSortOrder').val(fq.sort_order);
@@ -2367,7 +3055,7 @@ function deleteFaq(id) {
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_faq">
             <input type="hidden" name="active_tab" value="template2">
-            <input type="hidden" name="active_layout" value="1">
+            <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="faqs">
             <input type="hidden" name="faq_id" value="${id}">
         `;
@@ -2403,6 +3091,7 @@ function openNewBlogModal() {
     
     $('#blogSortOrder').val(1);
     $('#blogStatus').val('active');
+    $('#blogLayoutNumber').val(<?= $curr_layout ?>);
     
     const modalEl = document.getElementById('modalBlog');
     if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
@@ -2451,6 +3140,7 @@ function openEditBlogModal(blg) {
     
     $('#blogSortOrder').val(blg.sort_order || 1);
     $('#blogStatus').val(blg.status || 'active');
+    $('#blogLayoutNumber').val(blg.layout_number || <?= $curr_layout ?>);
 
     const modalEl = document.getElementById('modalBlog');
     if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {

@@ -4,6 +4,13 @@ $g = function($key, $default = '') use ($settings) {
 };
 $curr_tab = isset($active_tab) ? $active_tab : 'currency';
 $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
+$root_url = rtrim(main_site_url(), '/') . '/';
+
+$logo_val = $g('landing_site_logo', 'uploads/branding/logo.webp');
+$logo_preview = !empty($logo_val) ? (strpos($logo_val, 'http') === 0 ? $logo_val : $root_url . ltrim($logo_val, '/')) : $root_url . 'uploads/branding/logo.webp';
+
+$fav_val = $g('landing_site_favicon', 'uploads/branding/codeulas_logo_small.webp');
+$fav_preview = !empty($fav_val) ? (strpos($fav_val, 'http') === 0 ? $fav_val : $root_url . ltrim($fav_val, '/')) : $root_url . 'uploads/branding/codeulas_logo_small.webp';
 ?>
 <div class="container-fluid px-4 py-4">
     <!-- Top Action Bar -->
@@ -30,7 +37,7 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
     <ul class="nav nav-pills gap-2 mb-4 p-2 rounded-3 border border-secondary border-opacity-25" style="background: #0c1322;">
         <li class="nav-item">
             <a class="nav-link <?= $curr_tab === 'currency' ? 'active' : '' ?>" href="#tabCurrency" data-bs-toggle="pill">
-                <i class="fa-solid fa-coins me-1"></i> Dynamic Currency &amp; General
+                <i class="fa-solid fa-coins me-1"></i> Currency, Branding &amp; General
             </a>
         </li>
         <li class="nav-item">
@@ -61,7 +68,7 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
 
         <!-- TAB 1: DYNAMIC CURRENCY & GENERAL -->
         <div class="tab-pane fade <?= $curr_tab === 'currency' ? 'show active' : '' ?>" id="tabCurrency">
-            <form action="<?= superadmin_url('settings') ?>" method="post">
+            <form action="<?= superadmin_url('settings') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="update_general_currency">
                 <input type="hidden" name="active_tab" value="currency">
 
@@ -96,6 +103,44 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
                             </div>
                         </div>
 
+                        <!-- Currency Selector Dropdown -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-white small fw-bold">
+                                    <i class="fa-solid fa-coins text-warning me-1"></i> Currency Dropdown
+                                </label>
+                                <select id="curDropdown" class="form-select font-monospace">
+                                    <option value="">-- Choose Pre-configured Currency --</option>
+                                    <option value="USD" data-symbol="$" data-pos="left" <?= $currency_code === 'USD' ? 'selected' : '' ?>>USD ($) - US Dollar</option>
+                                    <option value="EUR" data-symbol="€" data-pos="right" <?= $currency_code === 'EUR' ? 'selected' : '' ?>>EUR (€) - Euro</option>
+                                    <option value="GBP" data-symbol="£" data-pos="left" <?= $currency_code === 'GBP' ? 'selected' : '' ?>>GBP (£) - British Pound</option>
+                                    <option value="INR" data-symbol="₹" data-pos="left" <?= $currency_code === 'INR' ? 'selected' : '' ?>>INR (₹) - Indian Rupee</option>
+                                    <option value="CAD" data-symbol="CA$" data-pos="left" <?= $currency_code === 'CAD' ? 'selected' : '' ?>>CAD (CA$) - Canadian Dollar</option>
+                                    <option value="AUD" data-symbol="AU$" data-pos="left" <?= $currency_code === 'AUD' ? 'selected' : '' ?>>AUD (AU$) - Australian Dollar</option>
+                                    <option value="AED" data-symbol="AED " data-pos="left" <?= $currency_code === 'AED' ? 'selected' : '' ?>>AED (AED) - UAE Dirham</option>
+                                    <option value="SAR" data-symbol="SAR " data-pos="left" <?= $currency_code === 'SAR' ? 'selected' : '' ?>>SAR (SAR) - Saudi Riyal</option>
+                                    <option value="JPY" data-symbol="¥" data-pos="left" <?= $currency_code === 'JPY' ? 'selected' : '' ?>>JPY (¥) - Japanese Yen</option>
+                                    <option value="SGD" data-symbol="S$" data-pos="left" <?= $currency_code === 'SGD' ? 'selected' : '' ?>>SGD (S$) - Singapore Dollar</option>
+                                    <option value="CHF" data-symbol="CHF " data-pos="left" <?= $currency_code === 'CHF' ? 'selected' : '' ?>>CHF (CHF) - Swiss Franc</option>
+                                    <option value="CNY" data-symbol="¥" data-pos="left" <?= $currency_code === 'CNY' ? 'selected' : '' ?>>CNY (¥) - Chinese Yuan</option>
+                                    <option value="MYR" data-symbol="RM " data-pos="left" <?= $currency_code === 'MYR' ? 'selected' : '' ?>>MYR (RM) - Malaysian Ringgit</option>
+                                    <option value="NZD" data-symbol="NZ$" data-pos="left" <?= $currency_code === 'NZD' ? 'selected' : '' ?>>NZD (NZ$) - New Zealand Dollar</option>
+                                    <option value="BRL" data-symbol="R$ " data-pos="left" <?= $currency_code === 'BRL' ? 'selected' : '' ?>>BRL (R$) - Brazilian Real</option>
+                                    <option value="ZAR" data-symbol="R " data-pos="left" <?= $currency_code === 'ZAR' ? 'selected' : '' ?>>ZAR (R) - South African Rand</option>
+                                    <option value="KWD" data-symbol="KD " data-pos="left" <?= $currency_code === 'KWD' ? 'selected' : '' ?>>KWD (KD) - Kuwaiti Dinar</option>
+                                    <option value="QAR" data-symbol="QR " data-pos="left" <?= $currency_code === 'QAR' ? 'selected' : '' ?>>QAR (QR) - Qatari Riyal</option>
+                                    <option value="THB" data-symbol="฿" data-pos="left" <?= $currency_code === 'THB' ? 'selected' : '' ?>>THB (฿) - Thai Baht</option>
+                                    <option value="PHP" data-symbol="₱" data-pos="left" <?= $currency_code === 'PHP' ? 'selected' : '' ?>>PHP (₱) - Philippine Peso</option>
+                                    <option value="IDR" data-symbol="Rp " data-pos="left" <?= $currency_code === 'IDR' ? 'selected' : '' ?>>IDR (Rp) - Indonesian Rupiah</option>
+                                    <option value="TRY" data-symbol="₺" data-pos="left" <?= $currency_code === 'TRY' ? 'selected' : '' ?>>TRY (₺) - Turkish Lira</option>
+                                    <option value="PKR" data-symbol="₨ " data-pos="left" <?= $currency_code === 'PKR' ? 'selected' : '' ?>>PKR (₨) - Pakistani Rupee</option>
+                                    <option value="BDT" data-symbol="৳" data-pos="left" <?= $currency_code === 'BDT' ? 'selected' : '' ?>>BDT (৳) - Bangladeshi Taka</option>
+                                    <option value="NGN" data-symbol="₦" data-pos="left" <?= $currency_code === 'NGN' ? 'selected' : '' ?>>NGN (₦) - Nigerian Naira</option>
+                                </select>
+                                <small class="text-muted">Select a currency to automatically set symbol, code, and placement</small>
+                            </div>
+                        </div>
+
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <label class="form-label text-white small fw-bold">Currency Symbol</label>
@@ -120,6 +165,101 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
                                     <option value="2" <?= $currency_decimals === '2' ? 'selected' : '' ?>>2 Decimals ($89.00 / ₹6,999.00)</option>
                                     <option value="0" <?= $currency_decimals === '0' ? 'selected' : '' ?>>0 Decimals ($89 / ₹6,999)</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Website Logo & Favicon Branding -->
+                <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(255,255,255,0.08) !important;">
+                    <div class="card-header bg-black bg-opacity-25 py-3 border-bottom border-secondary border-opacity-25">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-gem text-warning me-2"></i>Website Logo &amp; Favicon Branding</h5>
+                            <span class="badge bg-warning text-dark fw-bold font-monospace">GLOBAL BRANDING</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <!-- Website Logo -->
+                            <div class="col-lg-6">
+                                <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06);">
+                                    <label class="form-label fw-bold text-white d-flex align-items-center justify-content-between">
+                                        <span><i class="fa-solid fa-image text-warning me-1"></i> Website Logo</span>
+                                        <span class="badge bg-secondary small">PNG, SVG, WEBP</span>
+                                    </label>
+                                    
+                                    <!-- Logo Live Preview Box -->
+                                    <div class="mb-3 p-3 rounded text-center d-flex align-items-center justify-content-center" style="min-height: 90px; background: #080d19; border: 1px dashed rgba(194,153,88,0.4);">
+                                        <div id="logoPreviewContainer">
+                                            <?php if (!empty($logo_preview)): ?>
+                                                <img src="<?= htmlspecialchars($logo_preview) ?>" id="logoPreviewImg" alt="Logo Preview" style="max-height: 55px; max-width: 100%; object-fit: contain;">
+                                            <?php else: ?>
+                                                <div id="logoPlaceholder" class="text-muted small">
+                                                    <i class="fa-solid fa-image fa-2x mb-1 d-block opacity-50"></i>
+                                                    No custom logo uploaded. Default text brand icon is active.
+                                                </div>
+                                                <img src="" id="logoPreviewImg" alt="Logo Preview" style="max-height: 55px; max-width: 100%; object-fit: contain; display: none;">
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label text-muted small mb-1">Upload New Logo File:</label>
+                                        <input type="file" name="landing_site_logo_file" id="logoFileInput" class="form-control form-control-sm" accept="image/*">
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <label class="form-label text-muted small mb-0">Or Logo Image URL / Path:</label>
+                                            <button type="button" class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" id="clearLogoBtn">
+                                                <i class="fa-solid fa-trash-can me-1"></i> Clear
+                                            </button>
+                                        </div>
+                                        <input type="text" name="landing_site_logo" id="logoUrlInput" class="form-control form-control-sm font-monospace" value="<?= htmlspecialchars($logo_val) ?>" placeholder="uploads/branding/logo.webp">
+                                        <input type="hidden" name="clear_landing_site_logo" id="clearLogoFlag" value="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Website Favicon -->
+                            <div class="col-lg-6">
+                                <div class="p-3 rounded-3" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06);">
+                                    <label class="form-label fw-bold text-white d-flex align-items-center justify-content-between">
+                                        <span><i class="fa-solid fa-globe text-info me-1"></i> Browser Favicon</span>
+                                        <span class="badge bg-secondary small">ICO, PNG, SVG, WEBP</span>
+                                    </label>
+
+                                    <!-- Favicon Live Tab Simulation -->
+                                    <div class="mb-3 p-3 rounded" style="background: #080d19; border: 1px dashed rgba(194,153,88,0.4);">
+                                        <div class="small text-muted mb-2">Simulated Browser Tab:</div>
+                                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-top bg-dark text-white border border-secondary border-bottom-0 shadow-sm" style="max-width: 280px;">
+                                            <div id="faviconPreviewContainer" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center;">
+                                                <?php if (!empty($fav_preview)): ?>
+                                                    <img src="<?= htmlspecialchars($fav_preview) ?>" id="favPreviewImg" alt="Favicon" style="width: 18px; height: 18px; object-fit: contain;">
+                                                <?php else: ?>
+                                                    <i class="fa-solid fa-spa text-warning" id="favPlaceholder"></i>
+                                                    <img src="" id="favPreviewImg" alt="Favicon" style="width: 18px; height: 18px; object-fit: contain; display: none;">
+                                                <?php endif; ?>
+                                            </div>
+                                            <span class="small text-truncate fw-semibold" id="tabTitlePreview"><?= htmlspecialchars($g('landing_site_title', 'Luxe Salon & Spa Management')) ?></span>
+                                            <i class="fa-solid fa-xmark text-muted ms-auto small"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label text-muted small mb-1">Upload New Favicon File:</label>
+                                        <input type="file" name="landing_site_favicon_file" id="favFileInput" class="form-control form-control-sm" accept=".ico,image/png,image/svg+xml,image/webp">
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <label class="form-label text-muted small mb-0">Or Favicon URL / Path:</label>
+                                            <button type="button" class="btn btn-link btn-sm text-danger p-0 text-decoration-none small" id="clearFavBtn">
+                                                <i class="fa-solid fa-trash-can me-1"></i> Clear
+                                            </button>
+                                        </div>
+                                        <input type="text" name="landing_site_favicon" id="favUrlInput" class="form-control form-control-sm font-monospace" value="<?= htmlspecialchars($fav_val) ?>" placeholder="uploads/branding/codeulas_logo_small.webp">
+                                        <input type="hidden" name="clear_landing_site_favicon" id="clearFavFlag" value="0">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -622,6 +762,7 @@ $act_gw = isset($active_payment_gateway) ? $active_payment_gateway : 'stripe';
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Dynamic Currency Live Preview Calculation
+    var curDropdown = document.getElementById('curDropdown');
     var curSymbolInput = document.getElementById('curSymbolInput');
     var curCodeInput = document.getElementById('curCodeInput');
     var curPosInput = document.getElementById('curPosInput');
@@ -651,9 +792,130 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pUnified) pUnified.textContent = fmt(89);
     }
 
+    if (curDropdown) {
+        curDropdown.addEventListener('change', function() {
+            var opt = this.options[this.selectedIndex];
+            if (this.value && opt) {
+                var sym = opt.getAttribute('data-symbol');
+                var pos = opt.getAttribute('data-pos') || 'left';
+                if (curCodeInput) curCodeInput.value = this.value;
+                if (curSymbolInput && sym) curSymbolInput.value = sym;
+                if (curPosInput && pos) curPosInput.value = pos;
+                updateCurrencyPreview();
+            }
+        });
+    }
+
     if (curSymbolInput) curSymbolInput.addEventListener('input', updateCurrencyPreview);
     if (curCodeInput) curCodeInput.addEventListener('input', updateCurrencyPreview);
     if (curPosInput) curPosInput.addEventListener('change', updateCurrencyPreview);
     if (curDecInput) curDecInput.addEventListener('change', updateCurrencyPreview);
+
+    // ==========================================
+    // Branding Logo & Favicon Live Previews
+    // ==========================================
+    var logoFile = document.getElementById('logoFileInput');
+    var logoUrl = document.getElementById('logoUrlInput');
+    var logoImg = document.getElementById('logoPreviewImg');
+    var logoPlaceholder = document.getElementById('logoPlaceholder');
+    var clearLogoBtn = document.getElementById('clearLogoBtn');
+    var clearLogoFlag = document.getElementById('clearLogoFlag');
+
+    if (logoFile) {
+        logoFile.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    if (logoImg) {
+                        logoImg.src = e.target.result;
+                        logoImg.style.display = 'inline-block';
+                    }
+                    if (logoPlaceholder) logoPlaceholder.style.display = 'none';
+                    if (clearLogoFlag) clearLogoFlag.value = '0';
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    if (logoUrl) {
+        logoUrl.addEventListener('input', function() {
+            var val = this.value.trim();
+            if (val) {
+                var fullSrc = (val.indexOf('http') === 0 || val.indexOf('/') === 0) ? val : ('<?= base_url() ?>' + val);
+                if (logoImg) {
+                    logoImg.src = fullSrc;
+                    logoImg.style.display = 'inline-block';
+                }
+                if (logoPlaceholder) logoPlaceholder.style.display = 'none';
+                if (clearLogoFlag) clearLogoFlag.value = '0';
+            }
+        });
+    }
+
+    if (clearLogoBtn) {
+        clearLogoBtn.addEventListener('click', function() {
+            if (logoUrl) logoUrl.value = '';
+            if (logoFile) logoFile.value = '';
+            if (logoImg) {
+                logoImg.src = '';
+                logoImg.style.display = 'none';
+            }
+            if (logoPlaceholder) logoPlaceholder.style.display = 'block';
+            if (clearLogoFlag) clearLogoFlag.value = '1';
+        });
+    }
+
+    var favFile = document.getElementById('favFileInput');
+    var favUrl = document.getElementById('favUrlInput');
+    var favImg = document.getElementById('favPreviewImg');
+    var favPlaceholder = document.getElementById('favPlaceholder');
+    var clearFavBtn = document.getElementById('clearFavBtn');
+    var clearFavFlag = document.getElementById('clearFavFlag');
+
+    if (favFile) {
+        favFile.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    if (favImg) {
+                        favImg.src = e.target.result;
+                        favImg.style.display = 'inline-block';
+                    }
+                    if (favPlaceholder) favPlaceholder.style.display = 'none';
+                    if (clearFavFlag) clearFavFlag.value = '0';
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    if (favUrl) {
+        favUrl.addEventListener('input', function() {
+            var val = this.value.trim();
+            if (val) {
+                var fullSrc = (val.indexOf('http') === 0 || val.indexOf('/') === 0) ? val : ('<?= base_url() ?>' + val);
+                if (favImg) {
+                    favImg.src = fullSrc;
+                    favImg.style.display = 'inline-block';
+                }
+                if (favPlaceholder) favPlaceholder.style.display = 'none';
+                if (clearFavFlag) clearFavFlag.value = '0';
+            }
+        });
+    }
+
+    if (clearFavBtn) {
+        clearFavBtn.addEventListener('click', function() {
+            if (favUrl) favUrl.value = '';
+            if (favFile) favFile.value = '';
+            if (favImg) {
+                favImg.src = '';
+                favImg.style.display = 'none';
+            }
+            if (favPlaceholder) favPlaceholder.style.display = 'inline-block';
+            if (clearFavFlag) clearFavFlag.value = '1';
+        });
+    }
 });
 </script>

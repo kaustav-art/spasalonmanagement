@@ -69,7 +69,12 @@ $plan_id = $plan ? (int)$plan->id : 3;
 $amount = $plan ? (float)$plan->price : 89.00;
 $plan_name = $plan ? $plan->name : 'Salon & Spa Complete Edition';
 
-$active_gateway = isset($settings['active_payment_gateway']) ? $settings['active_payment_gateway'] : 'stripe';
+$requested_gateway = isset($_POST['payment_gateway']) ? strtolower(trim($_POST['payment_gateway'])) : '';
+if (in_array($requested_gateway, array('stripe', 'razorpay', 'payu', 'offline', 'sandbox'))) {
+    $active_gateway = ($requested_gateway === 'sandbox' || $requested_gateway === 'offline') ? 'offline' : $requested_gateway;
+} else {
+    $active_gateway = isset($settings['active_payment_gateway']) ? $settings['active_payment_gateway'] : 'stripe';
+}
 $currency_code = isset($settings['currency_code']) && !empty($settings['currency_code']) ? strtoupper($settings['currency_code']) : 'USD';
 
 // Base URL calculation
@@ -173,9 +178,10 @@ if ($active_gateway === 'stripe') {
         'metadata[business_name]' => $business_name,
         'metadata[chosen_template]' => $chosen_template,
         'metadata[chosen_layout]' => $chosen_layout,
+        'metadata[domain]' => isset($_POST['domain']) ? trim($_POST['domain']) : '',
         'metadata[amount]' => $amount,
-        'success_url' => $base_url . 'order_callback.php?gateway=stripe&session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => $base_url . 'index.php?payment_cancelled=1'
+        'success_url' => (isset($_POST['return_source']) && $_POST['return_source'] === 'subscribe') ? ($base_url . 'subscribe.php?stripe_success=1&session_id={CHECKOUT_SESSION_ID}') : ($base_url . 'order_callback.php?gateway=stripe&session_id={CHECKOUT_SESSION_ID}'),
+        'cancel_url' => (isset($_POST['return_source']) && $_POST['return_source'] === 'subscribe') ? ($base_url . 'subscribe.php?payment_cancelled=1') : ($base_url . 'index.php?payment_cancelled=1')
     );
 
     $api_res = payment_http_request('https://api.stripe.com/v1/checkout/sessions', 'POST', $payload, $stripe_secret . ':');
