@@ -6,13 +6,10 @@
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
         <div class="d-flex align-items-center justify-content-md-end gap-2">
             <a href="<?= admin_url('appointments/calendar') ?>" class="btn btn-outline-secondary">
-                <i class="fa-solid fa-calendar-days me-1"></i> Calendar
-            </a>
-            <a href="<?= admin_url('appointments/walkins') ?>" class="btn btn-outline-info">
-                <i class="fa-solid fa-person-walking me-1"></i> Walk-ins / Queue
+                <i class="fa-solid fa-calendar-days me-1"></i> Calendar View
             </a>
             <a href="<?= admin_url('appointments/create') ?>" class="btn btn-primary shadow-sm">
-                <i class="fa-solid fa-plus me-1"></i> New Booking
+                <i class="fa-solid fa-plus me-1"></i> Add Booking
             </a>
         </div>
     </div>
@@ -154,7 +151,13 @@
                     <?php else: ?>
                         <tr>
                             <td colspan="<?= is_spa_enabled() ? '9' : '8' ?>" class="text-center py-5 text-muted">
-                                <i class="fa-regular fa-calendar-xmark fs-2 d-block mb-2"></i> No appointments found matching the selected filter criteria.
+                                <i class="fa-regular fa-calendar-xmark fs-2 d-block mb-2 text-secondary"></i>
+                                <span class="fw-semibold">No appointments found.</span>
+                                <div class="mt-2">
+                                    <a href="<?= admin_url('appointments/create') ?>" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-plus me-1"></i> Create First Booking
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     <?php endif; ?>

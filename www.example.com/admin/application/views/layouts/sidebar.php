@@ -40,15 +40,15 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                     </a>
                 </li>
 
-                <!-- Section: Operations -->
+                <!-- Section: Bookings & Sales -->
                 <li class="app-sidebar-menu-heading">
                     <span><span class="app-sidebar-menu-heading-line"></span>OPERATIONS</span>
                 </li>
 
-                <!-- Appointments -->
-                <?php $is_appt_active = ($act_c === 'appointments'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_appt_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_appt_active ? 'active' : '' ?>">
+                <!-- Bookings -->
+                <?php $is_appt_active = ($act_c === 'appointments' && $act_m !== 'calendar'); ?>
+                <li class="app-sidebar-menu-item <?= $is_appt_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('appointments') ?>" class="menu-link d-flex align-items-center <?= $is_appt_active ? 'menu-current' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="1.5" y="2.75" width="14" height="12.5" rx="2" stroke="currentColor" stroke-width="1.5" />
@@ -57,34 +57,29 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                                 <path opacity="0.4" d="M5.5 10H8.5M5.5 12.5H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1">Appointments</span>
+                        <span class="menu-title flex-grow-1">Bookings</span>
                         <?php if (isset($pending_appointments_count) && $pending_appointments_count > 0): ?>
                             <span class="badge bg-warning rounded-pill me-2"><?= $pending_appointments_count ?></span>
                         <?php endif; ?>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </a>
+                </li>
+
+                <!-- Calendar View -->
+                <?php $is_cal_active = ($act_c === 'appointments' && $act_m === 'calendar'); ?>
+                <li class="app-sidebar-menu-item <?= $is_cal_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('appointments/calendar') ?>" class="menu-link d-flex align-items-center <?= $is_cal_active ? 'menu-current' : '' ?>">
+                        <span class="menu-icon flex-shrink-0">
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="1.5" y="2.75" width="14" height="12.5" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M1.5 6.75H15.5" stroke="currentColor" stroke-width="1.5" />
+                                <circle cx="5" cy="10.5" r="0.75" fill="currentColor" />
+                                <circle cx="8.5" cy="10.5" r="0.75" fill="currentColor" />
+                                <circle cx="12" cy="10.5" r="0.75" fill="currentColor" />
+                                <path d="M5 1.5V4M12 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </span>
+                        <span class="menu-title flex-grow-1">Calendar View</span>
                     </a>
-                    <ul class="app-sidebar-submenu" <?= $is_appt_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_appt_list = ($act_c === 'appointments' && ($act_m === 'index' || $act_m === '')); ?>
-                        <li class="app-sidebar-menu-item <?= $is_appt_list ? 'active' : '' ?>">
-                            <a href="<?= admin_url('appointments') ?>" class="menu-link d-flex align-items-center <?= $is_appt_list ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">All Bookings</span></a>
-                        </li>
-                        <?php $is_appt_cal = ($act_c === 'appointments' && $act_m === 'calendar'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_appt_cal ? 'active' : '' ?>">
-                            <a href="<?= admin_url('appointments/calendar') ?>" class="menu-link d-flex align-items-center <?= $is_appt_cal ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Calendar View</span></a>
-                        </li>
-                        <?php $is_appt_create = ($act_c === 'appointments' && in_array($act_m, array('create', 'edit'))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_appt_create ? 'active' : '' ?>">
-                            <a href="<?= admin_url('appointments/create') ?>" class="menu-link d-flex align-items-center <?= $is_appt_create ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">New Appointment</span></a>
-                        </li>
-                        <?php $is_appt_walkins = ($act_c === 'appointments' && $act_m === 'walkins'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_appt_walkins ? 'active' : '' ?>">
-                            <a href="<?= admin_url('appointments/walkins') ?>" class="menu-link d-flex align-items-center <?= $is_appt_walkins ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Walk-ins & Queue</span></a>
-                        </li>
-                    </ul>
                 </li>
 
                 <!-- Point of Sale (POS) -->
@@ -100,30 +95,14 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                                 <path d="M0.75 15.7478H15.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1">Point of Sale (POS)</span>
-                    </a>
-                </li>
-
-                <!-- Invoices & Sales -->
-                <?php $is_sales_active = ($act_c === 'sales'); ?>
-                <li class="app-sidebar-menu-item <?= $is_sales_active ? 'active' : '' ?>">
-                    <a href="<?= admin_url('sales') ?>" class="menu-link d-flex align-items-center <?= $is_sales_active ? 'menu-current' : '' ?>">
-                        <span class="menu-icon flex-shrink-0">
-                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.5962 4.21155H1.90385C1.26659 4.21155 0.75 4.72814 0.75 5.36539V13.4423C0.75 14.0796 1.26659 14.5962 1.90385 14.5962H14.5962C15.2334 14.5962 15.75 14.0796 15.75 13.4423V5.36539C15.75 4.72814 15.2334 4.21155 14.5962 4.21155Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M0.75 8.82692H15.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M8.25 7.67307V9.98076" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.7117 4.21153C11.7117 3.29348 11.347 2.41302 10.6978 1.76386C10.0486 1.1147 9.16817 0.75 8.25011 0.75V0.75C7.33206 0.75 6.4516 1.1147 5.80244 1.76386C5.15327 2.41302 4.78857 3.29348 4.78857 4.21153" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                        <span class="menu-title flex-grow-1">Invoices & Billing</span>
+                        <span class="menu-title flex-grow-1">Point of Sale</span>
                     </a>
                 </li>
 
                 <!-- Customers CRM -->
                 <?php $is_cust_active = ($act_c === 'customers'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_cust_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_cust_active ? 'active' : '' ?>">
+                <li class="app-sidebar-menu-item <?= $is_cust_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('customers') ?>" class="menu-link d-flex align-items-center <?= $is_cust_active ? 'menu-current' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
                             <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.94234 5.9423C7.37615 5.9423 8.53849 4.77997 8.53849 3.34615C8.53849 1.91234 7.37615 0.75 5.94234 0.75C4.50853 0.75 3.34619 1.91234 3.34619 3.34615C3.34619 4.77997 4.50853 5.9423 5.94234 5.9423Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -132,213 +111,64 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                                 <path d="M12.4038 8.46924C13.3867 8.84314 14.2329 9.50667 14.8304 10.372C15.4279 11.2374 15.7486 12.2638 15.75 13.3154V14.5962H14.0192" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1">Customers CRM</span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        <span class="menu-title flex-grow-1">Customers</span>
                     </a>
-                    <ul class="app-sidebar-submenu" <?= $is_cust_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_cust_list = ($act_c === 'customers' && ($act_m === 'index' || $act_m === '')); ?>
-                        <li class="app-sidebar-menu-item <?= $is_cust_list ? 'active' : '' ?>">
-                            <a href="<?= admin_url('customers') ?>" class="menu-link d-flex align-items-center <?= $is_cust_list ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Customer List</span></a>
-                        </li>
-                        <?php $is_cust_create = ($act_c === 'customers' && in_array($act_m, array('create', 'edit', 'view'))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_cust_create ? 'active' : '' ?>">
-                            <a href="<?= admin_url('customers/create') ?>" class="menu-link d-flex align-items-center <?= $is_cust_create ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Add Customer</span></a>
-                        </li>
-                        <?php $is_cust_groups = ($act_c === 'customers' && $act_m === 'groups'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_cust_groups ? 'active' : '' ?>">
-                            <a href="<?= admin_url('customers/groups') ?>" class="menu-link d-flex align-items-center <?= $is_cust_groups ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Customer Groups</span></a>
-                        </li>
-                    </ul>
                 </li>
 
-                <!-- Section: Management -->
+                <!-- Section: Content & Services -->
                 <li class="app-sidebar-menu-heading">
-                    <span><span class="app-sidebar-menu-heading-line"></span>CATALOG & STAFF</span>
+                    <span><span class="app-sidebar-menu-heading-line"></span>CONTENT & CATALOG</span>
                 </li>
 
-                <!-- Services & Packages -->
+                <!-- Services Adding & Management Section -->
                 <?php $is_srv_active = ($act_c === 'services'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_srv_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_srv_active ? 'active' : '' ?>">
+                <li class="app-sidebar-menu-item <?= $is_srv_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('services') ?>" class="menu-link d-flex align-items-center <?= $is_srv_active ? 'menu-current' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8.5 1.5L10 6L14.5 7.5L10 9L8.5 13.5L7 9L2.5 7.5L7 6L8.5 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
                                 <path opacity="0.4" d="M13.5 11.5L14.25 13.75L16.5 14.5L14.25 15.25L13.5 17.5L12.75 15.25L10.5 14.5L12.75 13.75L13.5 11.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1">Services & Packages</span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        <span class="menu-title flex-grow-1">Services</span>
                     </a>
-                    <ul class="app-sidebar-submenu" <?= $is_srv_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_srv_list = ($act_c === 'services' && ($act_m === 'index' || $act_m === '' || in_array($act_m, array('create', 'edit')))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_srv_list ? 'active' : '' ?>">
-                            <a href="<?= admin_url('services') ?>" class="menu-link d-flex align-items-center <?= $is_srv_list ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">All Services</span></a>
-                        </li>
-                        <?php $is_srv_cat = ($act_c === 'services' && $act_m === 'categories'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_srv_cat ? 'active' : '' ?>">
-                            <a href="<?= admin_url('services/categories') ?>" class="menu-link d-flex align-items-center <?= $is_srv_cat ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Service Categories</span></a>
-                        </li>
-                        <?php $is_srv_pkg = ($act_c === 'services' && $act_m === 'packages'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_srv_pkg ? 'active' : '' ?>">
-                            <a href="<?= admin_url('services/packages') ?>" class="menu-link d-flex align-items-center <?= $is_srv_pkg ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Packages</span></a>
-                        </li>
-                    </ul>
                 </li>
 
-                <!-- Staff Management -->
-                <?php $is_staff_active = ($act_c === 'staff'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_staff_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_staff_active ? 'active' : '' ?>">
+                <!-- Blogs Adding & Management Section -->
+                <?php $is_blog_active = ($act_c === 'blogs'); ?>
+                <li class="app-sidebar-menu-item <?= $is_blog_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('blogs') ?>" class="menu-link d-flex align-items-center <?= $is_blog_active ? 'menu-current' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="8.5" cy="5" r="3.25" stroke="currentColor" stroke-width="1.5" />
-                                <path d="M2.5 14.5C2.5 11.7386 5.18629 9.5 8.5 9.5C11.8137 9.5 14.5 11.7386 14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                <path opacity="0.4" d="M7 9.5L8.5 12L10 9.5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                <rect x="2" y="2" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M5 6H12M5 9H12M5 12H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1"><?= ($btype === 'SPA') ? 'Therapists & Staff' : (($btype === 'SALON') ? 'Stylists & Staff' : 'Staff & Specialists') ?></span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        <span class="menu-title flex-grow-1">Blogs</span>
                     </a>
-                    <ul class="app-sidebar-submenu" <?= $is_staff_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_staff_list = ($act_c === 'staff' && ($act_m === 'index' || $act_m === '' || in_array($act_m, array('create', 'edit')))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_staff_list ? 'active' : '' ?>">
-                            <a href="<?= admin_url('staff') ?>" class="menu-link d-flex align-items-center <?= $is_staff_list ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Staff Directory</span></a>
-                        </li>
-                        <?php $is_staff_sched = ($act_c === 'staff' && $act_m === 'schedules'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_staff_sched ? 'active' : '' ?>">
-                            <a href="<?= admin_url('staff/schedules') ?>" class="menu-link d-flex align-items-center <?= $is_staff_sched ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Work Schedules</span></a>
-                        </li>
-                        <?php $is_staff_comm = ($act_c === 'staff' && $act_m === 'commissions'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_staff_comm ? 'active' : '' ?>">
-                            <a href="<?= admin_url('staff/commissions') ?>" class="menu-link d-flex align-items-center <?= $is_staff_comm ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Commissions</span></a>
-                        </li>
-                    </ul>
                 </li>
 
-                <!-- SPA Specific Modules -->
-                <?php if (is_spa_enabled()): ?>
+                <!-- Section: Website & Reports -->
                 <li class="app-sidebar-menu-heading">
-                    <span><span class="app-sidebar-menu-heading-line"></span>SPA MODULES</span>
+                    <span><span class="app-sidebar-menu-heading-line"></span>WEBSITE & ANALYTICS</span>
                 </li>
 
-                <?php $is_spa_active = ($act_c === 'spa'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_spa_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_spa_active ? 'active' : '' ?>">
-                        <span class="menu-icon flex-shrink-0">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.5 2C8.5 2 4.5 5.5 4.5 9.5C4.5 11.7091 6.29086 13.5 8.5 13.5C10.7091 13.5 12.5 11.7091 12.5 9.5C12.5 5.5 8.5 2 8.5 2Z" stroke="currentColor" stroke-width="1.5" />
-                                <path opacity="0.4" d="M1.5 15.5H15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                            </svg>
-                        </span>
-                        <span class="menu-title flex-grow-1 fw-semibold">Spa & Treatment Rooms</span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                    </a>
-                    <ul class="app-sidebar-submenu" <?= $is_spa_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_spa_rooms = ($act_c === 'spa' && $act_m === 'rooms'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_spa_rooms ? 'active' : '' ?>">
-                            <a href="<?= admin_url('spa/rooms') ?>" class="menu-link d-flex align-items-center <?= $is_spa_rooms ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Treatment Rooms</span></a>
-                        </li>
-                        <?php $is_spa_sched = ($act_c === 'spa' && $act_m === 'schedule'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_spa_sched ? 'active' : '' ?>">
-                            <a href="<?= admin_url('spa/schedule') ?>" class="menu-link d-flex align-items-center <?= $is_spa_sched ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Room Schedule & Conflicts</span></a>
-                        </li>
-                        <?php $is_spa_sess = ($act_c === 'spa' && $act_m === 'sessions'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_spa_sess ? 'active' : '' ?>">
-                            <a href="<?= admin_url('spa/sessions') ?>" class="menu-link d-flex align-items-center <?= $is_spa_sess ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Spa Sessions</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <?php endif; ?>
-
-                <!-- Section: Inventory & Finance -->
-                <li class="app-sidebar-menu-heading">
-                    <span><span class="app-sidebar-menu-heading-line"></span>STOCK & FINANCE</span>
-                </li>
-
-                <!-- Inventory -->
-                <?php $is_inv_active = ($act_c === 'inventory'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_inv_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_inv_active ? 'active' : '' ?>">
-                        <span class="menu-icon flex-shrink-0">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.5 1.5L15 4.75V11.25L8.5 15.5L2 11.25V4.75L8.5 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                <path opacity="0.4" d="M8.5 1.5V15.5" stroke="currentColor" stroke-width="1.5" />
-                                <path opacity="0.4" d="M15 4.75L8.5 8.5L2 4.75" stroke="currentColor" stroke-width="1.5" />
-                            </svg>
-                        </span>
-                        <span class="menu-title flex-grow-1">Inventory</span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                    </a>
-                    <ul class="app-sidebar-submenu" <?= $is_inv_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_inv_prod = ($act_c === 'inventory' && in_array($act_m, array('products', 'index', 'create', 'edit', ''))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_inv_prod ? 'active' : '' ?>">
-                            <a href="<?= admin_url('inventory/products') ?>" class="menu-link d-flex align-items-center <?= $is_inv_prod ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Products Master</span></a>
-                        </li>
-                        <?php $is_inv_cat = ($act_c === 'inventory' && $act_m === 'categories'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_inv_cat ? 'active' : '' ?>">
-                            <a href="<?= admin_url('inventory/categories') ?>" class="menu-link d-flex align-items-center <?= $is_inv_cat ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Product Categories</span></a>
-                        </li>
-                        <?php $is_inv_adj = ($act_c === 'inventory' && $act_m === 'adjustments'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_inv_adj ? 'active' : '' ?>">
-                            <a href="<?= admin_url('inventory/adjustments') ?>" class="menu-link d-flex align-items-center <?= $is_inv_adj ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Stock Adjustments</span></a>
-                        </li>
-                        <?php $is_inv_supp = ($act_c === 'inventory' && $act_m === 'suppliers'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_inv_supp ? 'active' : '' ?>">
-                            <a href="<?= admin_url('inventory/suppliers') ?>" class="menu-link d-flex align-items-center <?= $is_inv_supp ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Suppliers</span></a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Finance & Expenses -->
-                <?php $is_fin_active = ($act_c === 'finance'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_fin_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_fin_active ? 'active' : '' ?>">
+                <!-- Configure Website (Hero Banner, Features, About Us, Testimonials, FAQs) -->
+                <?php $is_cfg_active = ($act_c === 'configure_website' || ($act_c === 'website' && $act_m !== 'templates')); ?>
+                <li class="app-sidebar-menu-item <?= $is_cfg_active ? 'active' : '' ?>">
+                    <a href="<?= admin_url('configure_website') ?>" class="menu-link d-flex align-items-center <?= $is_cfg_active ? 'menu-current' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="8.5" cy="8.5" r="7" stroke="currentColor" stroke-width="1.5" />
-                                <path opacity="0.4" d="M8.5 4.5V12.5M6 6.5C6 5.5 7 5 8.5 5C10 5 11 5.5 11 7C11 9 6 8.5 6 10.5C6 12 7 12 8.5 12C10 12 11 11.5 11 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.4" d="M1.5 8.5H15.5M8.5 1.5C10.5 4.5 11 6.5 11 8.5C11 10.5 10.5 12.5 8.5 15.5M8.5 1.5C6.5 4.5 6 6.5 6 8.5C6 10.5 6.5 12.5 8.5 15.5" stroke="currentColor" stroke-width="1.5" />
                             </svg>
                         </span>
-                        <span class="menu-title flex-grow-1">Finance & Expenses</span>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        <span class="menu-title flex-grow-1">Configure Website</span>
+                        <span class="badge bg-primary rounded-pill me-1" style="font-size:10px;">Visual</span>
                     </a>
-                    <ul class="app-sidebar-submenu" <?= $is_fin_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_fin_exp = ($act_c === 'finance' && in_array($act_m, array('expenses', 'index', ''))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_fin_exp ? 'active' : '' ?>">
-                            <a href="<?= admin_url('finance/expenses') ?>" class="menu-link d-flex align-items-center <?= $is_fin_exp ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Expenses</span></a>
-                        </li>
-                        <?php $is_fin_cash = ($act_c === 'finance' && $act_m === 'cash_register'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_fin_cash ? 'active' : '' ?>">
-                            <a href="<?= admin_url('finance/cash_register') ?>" class="menu-link d-flex align-items-center <?= $is_fin_cash ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Cash Register</span></a>
-                        </li>
-                    </ul>
                 </li>
 
-                <!-- Reports -->
+                <!-- Reports and Analytics -->
                 <?php $is_rep_active = ($act_c === 'reports'); ?>
                 <li class="app-sidebar-menu-item has-dropdown <?= $is_rep_active ? 'active open' : '' ?>">
                     <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_rep_active ? 'active' : '' ?>">
@@ -366,94 +196,11 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                         <li class="app-sidebar-menu-item <?= $is_rep_appt ? 'active' : '' ?>">
                             <a href="<?= admin_url('reports/appointments') ?>" class="menu-link d-flex align-items-center <?= $is_rep_appt ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Appointment Analytics</span></a>
                         </li>
-                        <?php $is_rep_staff = ($act_c === 'reports' && $act_m === 'staff'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_rep_staff ? 'active' : '' ?>">
-                            <a href="<?= admin_url('reports/staff') ?>" class="menu-link d-flex align-items-center <?= $is_rep_staff ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Staff Performance</span></a>
-                        </li>
-                        <?php $is_rep_inv = ($act_c === 'reports' && $act_m === 'inventory'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_rep_inv ? 'active' : '' ?>">
-                            <a href="<?= admin_url('reports/inventory') ?>" class="menu-link d-flex align-items-center <?= $is_rep_inv ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Inventory Valuation</span></a>
-                        </li>
                     </ul>
-                </li>
-
-                <!-- Section: Website & System -->
-                <li class="app-sidebar-menu-heading">
-                    <span><span class="app-sidebar-menu-heading-line"></span>SYSTEM & WEBSITE</span>
-                </li>
-
-                <!-- Website CMS -->
-                <?php $is_web_active = ($act_c === 'website'); ?>
-                <li class="app-sidebar-menu-item has-dropdown <?= $is_web_active ? 'active open' : '' ?>">
-                    <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_web_active ? 'active' : '' ?>">
-                        <span class="menu-icon flex-shrink-0">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="8.5" cy="8.5" r="7" stroke="currentColor" stroke-width="1.5" />
-                                <path opacity="0.4" d="M1.5 8.5H15.5M8.5 1.5C10.5 4.5 11 6.5 11 8.5C11 10.5 10.5 12.5 8.5 15.5M8.5 1.5C6.5 4.5 6 6.5 6 8.5C6 10.5 6.5 12.5 8.5 15.5" stroke="currentColor" stroke-width="1.5" />
-                            </svg>
-                        </span>
-                        <span class="menu-title flex-grow-1">Website CMS</span>
-                        <?php if (isset($unread_messages_count) && $unread_messages_count > 0): ?>
-                            <span class="badge bg-danger rounded-pill me-2"><?= $unread_messages_count ?></span>
-                        <?php endif; ?>
-                        <span class="menu-arrow flex-shrink-0 d-flex align-items-center justify-content-center">
-                            <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                    </a>
-                    <ul class="app-sidebar-submenu" <?= $is_web_active ? 'style="display:block;"' : '' ?>>
-                        <?php $is_web_banner = ($act_c === 'website' && in_array($act_m, array('banners', 'index', ''))); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_banner ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/banners') ?>" class="menu-link d-flex align-items-center <?= $is_web_banner ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Hero Banners</span></a>
-                        </li>
-                        <?php $is_web_gal = ($act_c === 'website' && $act_m === 'gallery'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_gal ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/gallery') ?>" class="menu-link d-flex align-items-center <?= $is_web_gal ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Photo Gallery</span></a>
-                        </li>
-                        <?php $is_web_testi = ($act_c === 'website' && $act_m === 'testimonials'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_testi ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/testimonials') ?>" class="menu-link d-flex align-items-center <?= $is_web_testi ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Testimonials</span></a>
-                        </li>
-                        <?php $is_web_pages = ($act_c === 'website' && $act_m === 'pages'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_pages ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/pages') ?>" class="menu-link d-flex align-items-center <?= $is_web_pages ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">CMS Pages</span></a>
-                        </li>
-                        <?php $is_web_msg = ($act_c === 'website' && $act_m === 'messages'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_msg ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/messages') ?>" class="menu-link d-flex align-items-center <?= $is_web_msg ? 'menu-current' : '' ?>">
-                                <span class="menu-title flex-grow-1">Contact Messages</span>
-                                <?php if (isset($unread_messages_count) && $unread_messages_count > 0): ?>
-                                    <span class="badge bg-danger rounded-pill"><?= $unread_messages_count ?></span>
-                                <?php endif; ?>
-                            </a>
-                        </li>
-                        <?php $is_web_tpl = ($act_c === 'website' && $act_m === 'templates'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_web_tpl ? 'active' : '' ?>">
-                            <a href="<?= admin_url('website/templates') ?>" class="menu-link d-flex align-items-center <?= $is_web_tpl ? 'menu-current' : '' ?>">
-                                <span class="menu-title flex-grow-1 fw-semibold">Multi-Template Switcher</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- Marketplace / Addons -->
-                <?php $is_mkt_active = ($act_c === 'marketplace'); ?>
-                <li class="app-sidebar-menu-item <?= $is_mkt_active ? 'active' : '' ?>">
-                    <a href="<?= admin_url('marketplace') ?>" class="menu-link d-flex align-items-center <?= $is_mkt_active ? 'menu-current' : '' ?>">
-                        <span class="menu-icon flex-shrink-0">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 5H14L15 14.5H2L3 5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                <path opacity="0.4" d="M6 7.5V4C6 2.61929 7.11929 1.5 8.5 1.5C9.88071 1.5 11 2.61929 11 4V7.5" stroke="currentColor" stroke-width="1.5" />
-                            </svg>
-                        </span>
-                        <span class="menu-title flex-grow-1">Marketplace / Addons</span>
-                        <span class="badge bg-label-primary rounded-pill">New</span>
-                    </a>
                 </li>
 
                 <!-- Settings -->
-                <?php $is_set_active = ($act_c === 'settings'); ?>
+                <?php $is_set_active = ($act_c === 'settings' || ($act_c === 'website' && $act_m === 'templates')); ?>
                 <li class="app-sidebar-menu-item has-dropdown <?= $is_set_active ? 'active open' : '' ?>">
                     <a href="javascript:void(0);" class="menu-link d-flex align-items-center <?= $is_set_active ? 'active' : '' ?>">
                         <span class="menu-icon flex-shrink-0">
@@ -474,13 +221,8 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                         <li class="app-sidebar-menu-item <?= $is_set_gen ? 'active' : '' ?>">
                             <a href="<?= admin_url('settings') ?>" class="menu-link d-flex align-items-center <?= $is_set_gen ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">General Settings</span></a>
                         </li>
-                        <?php $is_set_type = ($act_c === 'settings' && $act_m === 'business_type'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_set_type ? 'active' : '' ?>">
-                            <a href="<?= admin_url('settings/business_type') ?>" class="menu-link d-flex align-items-center <?= $is_set_type ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Business Edition & Type</span></a>
-                        </li>
-                        <?php $is_set_sys = ($act_c === 'settings' && $act_m === 'system'); ?>
-                        <li class="app-sidebar-menu-item <?= $is_set_sys ? 'active' : '' ?>">
-                            <a href="<?= admin_url('settings/system') ?>" class="menu-link d-flex align-items-center <?= $is_set_sys ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">System Info</span></a>
+                        <li class="app-sidebar-menu-item <?= ($act_c === 'website' && $act_m === 'templates') ? 'active' : '' ?>">
+                            <a href="<?= admin_url('website/templates') ?>" class="menu-link d-flex align-items-center <?= ($act_c === 'website' && $act_m === 'templates') ? 'menu-current' : '' ?>"><span class="menu-title flex-grow-1">Template Switcher</span></a>
                         </li>
                     </ul>
                 </li>
@@ -508,7 +250,7 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2">
                     <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="<?= admin_url('settings') ?>"><i class="fa-solid fa-gear text-muted"></i> Settings</a></li>
-                    <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="<?= admin_url('website/templates') ?>"><i class="fa-solid fa-palette text-primary"></i> Template Switcher</a></li>
+                    <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="<?= admin_url('configure_website') ?>"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> Configure Website</a></li>
                     <li><hr class="dropdown-divider my-1"></li>
                     <li><a class="dropdown-item py-2 text-danger d-flex align-items-center gap-2" href="<?= admin_url('auth/logout') ?>"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</a></li>
                 </ul>

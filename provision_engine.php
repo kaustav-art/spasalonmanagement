@@ -157,6 +157,24 @@ function copy_recursive_fast($source, $dest) {
     return true;
 }
 
+// Helper to remove directory recursively
+function remove_dir_recursive($dir) {
+    if (!file_exists($dir)) return true;
+    if (!is_dir($dir)) return @unlink($dir);
+    $items = scandir($dir);
+    if ($items === false) return false;
+    foreach ($items as $item) {
+        if ($item === '.' || $item === '..') continue;
+        $path = $dir . DIRECTORY_SEPARATOR . $item;
+        if (is_dir($path)) {
+            remove_dir_recursive($path);
+        } else {
+            @unlink($path);
+        }
+    }
+    return @rmdir($dir);
+}
+
 // 4. Create Tenant Folder & Copy Files
 try {
     if (!file_exists($tenant_dir)) {
@@ -171,6 +189,23 @@ try {
     $admin_src = __DIR__ . DIRECTORY_SEPARATOR . 'admin';
     $tenant_admin_dir = $tenant_dir . DIRECTORY_SEPARATOR . 'admin';
     copy_recursive_fast($admin_src, $tenant_admin_dir);
+
+    // Step C: Prune unselected template files so tenant views and assets contain ONLY the chosen template
+    $views_dir = $tenant_dir . DIRECTORY_SEPARATOR . 'application' . DIRECTORY_SEPARATOR . 'views';
+    $assets_dir = $tenant_dir . DIRECTORY_SEPARATOR . 'assets';
+    $known_templates = ['template1', 'template2'];
+    foreach ($known_templates as $tpl) {
+        if ($tpl !== $chosen_template) {
+            $unselected_view = $views_dir . DIRECTORY_SEPARATOR . $tpl;
+            $unselected_asset = $assets_dir . DIRECTORY_SEPARATOR . $tpl;
+            if (is_dir($unselected_view)) {
+                remove_dir_recursive($unselected_view);
+            }
+            if (is_dir($unselected_asset)) {
+                remove_dir_recursive($unselected_asset);
+            }
+        }
+    }
 
     // Ensure install.lock files exist
     @file_put_contents($tenant_dir . DIRECTORY_SEPARATOR . 'install.lock', "Tenant provisioned on " . date('Y-m-d H:i:s') . "\nDomain: $clean_domain");
@@ -255,6 +290,74 @@ try {
             }
         }
         $db_pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+    }
+
+    // Migrate Template Dummy Services & Blogs from Master Database (spasalon_db) for chosen template & layout
+    try {
+        $db_pdo->exec("
+            CREATE TABLE IF NOT EXISTS blogs (
+                id int(11) NOT NULL AUTO_INCREMENT,
+                title varchar(255) NOT NULL,
+                slug varchar(255) NOT NULL,
+                thumbnail varchar(255) DEFAULT NULL,
+                author_name varchar(100) DEFAULT 'Admin',
+                published_date date DEFAULT NULL,
+                short_desc text DEFAULT NULL,
+                content longtext DEFAULT NULL,
+                tags varchar(255) DEFAULT NULL,
+                sort_order int(11) DEFAULT 0,
+                status enum('active','inactive') DEFAULT 'active',
+                created_at datetime DEFAULT current_timestamp(),
+                PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+        ");
+
+        $stmt_ms = $master_pdo->prepare("SELECT * FROM template_services WHERE template_key = ? AND layout_number = ? ORDER BY sort_order ASC");
+        $stmt_ms->execute([$chosen_template, $chosen_layout]);
+        $m_services = $stmt_ms->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($m_services)) {
+            $stmt_ms2 = $master_pdo->prepare("SELECT * FROM template_services WHERE template_key = ? ORDER BY sort_order ASC");
+            $stmt_ms2->execute([$chosen_template]);
+            $m_services = $stmt_ms2->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        if (!empty($m_services)) {
+            $db_pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE services; TRUNCATE TABLE template_services; SET FOREIGN_KEY_CHECKS=1;");
+            $cat_stmt = $db_pdo->query("SELECT id FROM service_categories LIMIT 1");
+            $cat_res = $cat_stmt ? $cat_stmt->fetch(PDO::FETCH_ASSOC) : null;
+            $c_id = $cat_res ? (int)$cat_res['id'] : 1;
+
+            $ins_s = $db_pdo->prepare("INSERT INTO services (category_id, name, slug, type, price, duration, image, description, status) VALUES (?, ?, ?, 'both', ?, ?, ?, ?, ?)");
+            $ins_ts = $db_pdo->prepare("INSERT INTO template_services (template_key, layout_number, title, slug, icon, thumbnail, banner_image, short_desc, description, price, duration, sort_order, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            foreach ($m_services as $s) {
+                $dur_m = (int)preg_replace('/[^0-9]/', '', $s['duration']) ?: 60;
+                $ins_s->execute([$c_id, $s['title'], $s['slug'], $s['price'], $dur_m, $s['thumbnail'], $s['short_desc'] ?: strip_tags($s['description']), $s['status']]);
+                $ins_ts->execute([$chosen_template, $chosen_layout, $s['title'], $s['slug'], $s['icon'] ?: 'icon-botox', $s['thumbnail'], $s['banner_image'], $s['short_desc'], $s['description'], $s['price'], $s['duration'], $s['sort_order'], $s['status']]);
+            }
+        }
+
+        $stmt_mb = $master_pdo->prepare("SELECT * FROM template_blogs WHERE template_key = ? AND layout_number = ? ORDER BY sort_order ASC");
+        $stmt_mb->execute([$chosen_template, $chosen_layout]);
+        $m_blogs = $stmt_mb->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($m_blogs)) {
+            $stmt_mb2 = $master_pdo->prepare("SELECT * FROM template_blogs WHERE template_key = ? ORDER BY sort_order ASC");
+            $stmt_mb2->execute([$chosen_template]);
+            $m_blogs = $stmt_mb2->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        if (!empty($m_blogs)) {
+            $db_pdo->exec("TRUNCATE TABLE template_blogs; TRUNCATE TABLE blogs;");
+            $ins_tb = $db_pdo->prepare("INSERT INTO template_blogs (template_key, layout_number, title, slug, thumbnail, author_name, published_date, short_desc, content, tags, sort_order, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $ins_b = $db_pdo->prepare("INSERT INTO blogs (title, slug, thumbnail, author_name, published_date, short_desc, content, tags, sort_order, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            foreach ($m_blogs as $b) {
+                $ins_tb->execute([$chosen_template, $chosen_layout, $b['title'], $b['slug'], $b['thumbnail'], $b['author_name'], $b['published_date'], $b['short_desc'], $b['content'], $b['tags'], $b['sort_order'], $b['status']]);
+                $ins_b->execute([$b['title'], $b['slug'], $b['thumbnail'], $b['author_name'], $b['published_date'], $b['short_desc'], $b['content'], $b['tags'], $b['sort_order'], $b['status']]);
+            }
+        }
+    } catch (Exception $mig_e) {
+        // Migration exception caught safely
     }
 
     // Configure business_settings in the tenant database

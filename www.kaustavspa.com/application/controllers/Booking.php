@@ -287,4 +287,140 @@ class Booking extends Website_Controller {
             'message' => 'Your appointment has been booked successfully! Booking Code: #' . $appointment_number
         ));
     }
+
+    /**
+     * Process Quick Booking Form from Homepage (appointment-one__form)
+     */
+    public function quick_submit() {
+        $name = trim($this->input->post('name', TRUE));
+        $email = trim($this->input->post('email', TRUE));
+        $phone = trim($this->input->post('phone', TRUE));
+        $date = trim($this->input->post('date', TRUE));
+        $service_val = trim($this->input->post('service', TRUE));
+        $message = trim($this->input->post('message', TRUE));
+
+        if (empty($name)) {
+            $msg = 'Please enter your full name.';
+            if ($this->input->is_ajax_request()) {
+                http_response_code(400);
+                echo $msg; exit;
+            }
+            $this->session->set_flashdata('error', $msg);
+            redirect($_SERVER['HTTP_REFERER'] ?: website_url());
+            return;
+        }
+
+        // Date resolution (datepicker might send 'YYYY-MM-DD', 'MM/DD/YYYY', or similar)
+        if (empty($date) || $date === 'Date') {
+            $booking_date = date('Y-m-d');
+        } else {
+            $parsed_time = strtotime($date);
+            $booking_date = $parsed_time ? date('Y-m-d', $parsed_time) : date('Y-m-d');
+        }
+
+        // Service resolution
+        $service_id = 1;
+        $service_name = $service_val ?: 'Facial Treatment';
+        $price = 85.00;
+        $duration = 60;
+
+        if (!empty($service_val)) {
+            if (is_numeric($service_val)) {
+                $svc = $this->db->where('id', (int)$service_val)->get('services')->row();
+            } else {
+                $svc = $this->db->like('name', $service_val)->get('services')->row();
+                if (!$svc) {
+                    $svc = $this->db->like('title', $service_val)->get('template_services')->row();
+                }
+            }
+            if ($svc) {
+                $service_id = $svc->id;
+                $service_name = isset($svc->name) ? $svc->name : (isset($svc->title) ? $svc->title : $service_val);
+                $price = isset($svc->price) ? (float)$svc->price : 85.00;
+                $duration = isset($svc->duration) ? (int)$svc->duration : 60;
+                if ($duration <= 0) $duration = 60;
+            }
+        } else {
+            $first_svc = $this->db->get('services')->row();
+            if ($first_svc) {
+                $service_id = $first_svc->id;
+                $service_name = $first_svc->name;
+                $price = (float)$first_svc->price;
+                $duration = (int)$first_svc->duration ?: 60;
+            }
+        }
+
+        // Customer resolution
+        $customer = null;
+        if (!empty($phone)) {
+            $customer = $this->db->where('phone', $phone)->get('customers')->row();
+        }
+        if (!$customer && !empty($email)) {
+            $customer = $this->db->where('email', $email)->get('customers')->row();
+        }
+
+        if ($customer) {
+            $customer_id = $customer->id;
+            $up_c = array();
+            if (empty($customer->email) && !empty($email)) $up_c['email'] = $email;
+            if (empty($customer->name) && !empty($name)) $up_c['name'] = $name;
+            if (!empty($up_c)) {
+                $this->db->where('id', $customer_id)->update('customers', $up_c);
+            }
+        } else {
+            $this->db->insert('customers', array(
+                'group_id' => 1,
+                'name' => $name,
+                'email' => $email,
+                'phone' => !empty($phone) ? $phone : 'N/A'
+            ));
+            $customer_id = $this->db->insert_id();
+        }
+
+        $appointment_number = 'APT-' . date('Ymd') . '-' . rand(1000, 9999);
+        $start_time = '10:00:00';
+        $end_time = date('H:i:s', strtotime('10:00:00') + ($duration * 60));
+
+        // Insert appointment
+        $this->db->insert('appointments', array(
+            'appointment_number' => $appointment_number,
+            'customer_id' => $customer_id,
+            'staff_id' => NULL,
+            'room_id' => NULL,
+            'booking_date' => $booking_date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'subtotal' => $price,
+            'discount_amount' => 0.00,
+            'tax_amount' => 0.00,
+            'final_amount' => $price,
+            'status' => 'pending',
+            'booking_source' => 'online',
+            'notes' => $message ?: ('Website appointment booking request for ' . $service_name)
+        ));
+        $appointment_id = $this->db->insert_id();
+
+        // Insert appointment service item
+        if ($this->db->table_exists('appointment_services')) {
+            $this->db->insert('appointment_services', array(
+                'appointment_id' => $appointment_id,
+                'service_id' => $service_id,
+                'staff_id' => NULL,
+                'price' => $price,
+                'tax' => 0.00,
+                'duration' => $duration
+            ));
+        }
+
+        $success_msg = "Thank you {$name}! Your appointment booking for {$service_name} on {$booking_date} has been received successfully. Booking Code: #{$appointment_number}. Our concierge will contact you shortly to confirm.";
+
+        if ($this->input->is_ajax_request()) {
+            echo $success_msg;
+            exit;
+        }
+
+        $this->session->set_flashdata('success', $success_msg);
+        redirect($_SERVER['HTTP_REFERER'] ?: website_url());
+    }
 }
+

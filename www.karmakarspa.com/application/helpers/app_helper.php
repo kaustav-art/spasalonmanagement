@@ -77,7 +77,16 @@ if (!function_exists('is_spa_enabled')) {
 
 if (!function_exists('get_active_template')) {
     function get_active_template() {
-        $tpl = get_setting('active_template', 'template1');
+        $tpl = get_setting('active_template', '');
+        if ($tpl && in_array($tpl, array('template1', 'template2')) && is_dir(APPPATH . 'views/' . $tpl)) {
+            return $tpl;
+        }
+        if (is_dir(APPPATH . 'views/template2') && !is_dir(APPPATH . 'views/template1')) {
+            return 'template2';
+        }
+        if (is_dir(APPPATH . 'views/template1') && !is_dir(APPPATH . 'views/template2')) {
+            return 'template1';
+        }
         return in_array($tpl, array('template1', 'template2')) ? $tpl : 'template1';
     }
 }

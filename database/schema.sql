@@ -195,12 +195,7 @@ CREATE TABLE `customers` (
   KEY `group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `customers` (`id`, `group_id`, `name`, `email`, `phone`, `gender`, `dob`, `address`, `loyalty_points`, `notes`) VALUES
-(1, 3, 'Sophia Montgomery', 'sophia.m@example.com', '+1 (555) 101-2020', 'Female', '1992-04-14', '124 Fifth Ave, NY', 120, 'Prefers organic essential oils and warm herbal tea.'),
-(2, 2, 'Emily Harrison', 'emily.h@example.com', '+1 (555) 202-3030', 'Female', '1995-08-22', '88 Central Park West, NY', 45, 'Sensitive scalp. Regular hair coloring client.'),
-(3, 1, 'Alexander Wright', 'alex.wright@example.com', '+1 (555) 303-4040', 'Male', '1988-11-05', '45 Broadway, NY', 10, 'Likes deep tissue Swedish massage sessions.'),
-(4, 4, 'Jessica Alba Miller', 'jessica.m@example.com', '+1 (555) 404-5050', 'Female', '1990-01-30', '16 Hudson St, NY', 260, 'Celebrity client. Book private VIP spa suite.'),
-(5, 1, 'David Beckham Jr', 'david.b@example.com', '+1 (555) 505-6060', 'Male', '1996-07-19', '32 Brooklyn Heights, NY', 15, 'Men haircut & beard grooming regular.');
+
 
 -- --------------------------------------------------------
 -- Table: staff
@@ -436,11 +431,6 @@ CREATE TABLE `appointments` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `appointments` (`id`, `appointment_number`, `customer_id`, `staff_id`, `room_id`, `booking_date`, `start_time`, `end_time`, `subtotal`, `discount_amount`, `tax_amount`, `final_amount`, `status`, `booking_source`, `notes`) VALUES
-(1, 'APT-2026-0001', 1, 1, NULL, CURDATE(), '10:00:00', '10:45:00', 65.00, 6.50, 4.97, 63.47, 'confirmed', 'online', 'Client requested extra hair rinse.'),
-(2, 'APT-2026-0002', 2, 4, NULL, CURDATE(), '11:00:00', '12:00:00', 120.00, 6.00, 9.69, 123.69, 'in_service', 'admin', 'First time trying hydra facial.'),
-(3, 'APT-2026-0003', 3, 2, 1, CURDATE(), '14:00:00', '15:00:00', 130.00, 0.00, 11.05, 141.05, 'pending', 'online', 'Spa room 1 requested. Prefers lavender oil.'),
-(4, 'APT-2026-0004', 4, 5, 2, DATE_ADD(CURDATE(), INTERVAL 1 DAY), '15:30:00', '17:00:00', 160.00, 24.00, 11.56, 147.56, 'confirmed', 'admin', 'VIP client - complimentary herbal tea.');
 
 -- --------------------------------------------------------
 -- Table: appointment_services
@@ -458,12 +448,6 @@ CREATE TABLE `appointment_services` (
   KEY `appointment_id` (`appointment_id`),
   KEY `service_id` (`service_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `appointment_services` (`appointment_id`, `service_id`, `staff_id`, `price`, `tax`, `duration`) VALUES
-(1, 1, 1, 65.00, 5.53, 45),
-(2, 4, 4, 120.00, 10.20, 60),
-(3, 8, 2, 130.00, 11.05, 60),
-(4, 9, 5, 160.00, 13.60, 90);
 
 -- --------------------------------------------------------
 -- Table: room_bookings
@@ -754,9 +738,6 @@ CREATE TABLE `invoices` (
   KEY `invoice_date` (`invoice_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `invoices` (`id`, `invoice_number`, `appointment_id`, `customer_id`, `invoice_date`, `subtotal`, `discount_type`, `discount_amount`, `tax_amount`, `grand_total`, `paid_amount`, `due_amount`, `payment_status`, `notes`) VALUES
-(1, 'INV-2026-0001', 1, 1, CURDATE(), 97.00, 'percentage', 6.50, 7.69, 98.19, 98.19, 0.00, 'paid', 'Haircut + Moroccan Shampoo bottle purchase.'),
-(2, 'INV-2026-0002', 2, 2, CURDATE(), 120.00, 'fixed', 10.00, 9.35, 119.35, 119.35, 0.00, 'paid', 'Hydra-Facial treatment paid via credit card.');
 
 -- --------------------------------------------------------
 -- Table: invoice_items
@@ -777,11 +758,6 @@ CREATE TABLE `invoice_items` (
   KEY `invoice_id` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `invoice_items` (`invoice_id`, `item_type`, `item_id`, `item_name`, `staff_id`, `quantity`, `unit_price`, `subtotal`, `tax`) VALUES
-(1, 'service', 1, 'Signature Haircut & Blowdry', 1, 1, 65.00, 65.00, 5.53),
-(1, 'product', 1, 'Moroccan Argan Nourishing Shampoo 250ml', 1, 1, 32.00, 32.00, 2.16),
-(2, 'service', 4, 'Glow Radiance Hydra-Facial', 4, 1, 120.00, 120.00, 9.35);
-
 -- --------------------------------------------------------
 -- Table: payments
 -- --------------------------------------------------------
@@ -800,10 +776,6 @@ CREATE TABLE `payments` (
   KEY `invoice_id` (`invoice_id`),
   KEY `payment_date` (`payment_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `payments` (`invoice_id`, `payment_method`, `amount`, `transaction_reference`, `payment_date`, `notes`) VALUES
-(1, 'card', 98.19, 'TXN-CARD-9921', CURDATE(), 'Visa ending in 4112'),
-(2, 'cash', 119.35, 'CASH-REC-102', CURDATE(), 'Full cash payment at front desk');
 
 -- --------------------------------------------------------
 -- Table: commissions
@@ -824,10 +796,6 @@ CREATE TABLE `commissions` (
   KEY `staff_id` (`staff_id`),
   KEY `invoice_id` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `commissions` (`staff_id`, `invoice_id`, `service_id`, `service_amount`, `commission_rate`, `commission_amount`, `status`) VALUES
-(1, 1, 1, 65.00, 15.00, 9.75, 'pending'),
-(4, 2, 4, 120.00, 10.00, 12.00, 'pending');
 
 -- --------------------------------------------------------
 -- Table: expense_categories
@@ -867,9 +835,7 @@ CREATE TABLE `expenses` (
   KEY `expense_date` (`expense_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `expenses` (`id`, `category_id`, `expense_date`, `title`, `amount`, `payment_method`, `notes`) VALUES
-(1, 2, CURDATE(), 'Monthly High Voltage & AC Bill', 340.00, 'bank_transfer', 'Payment to ConEd NYC'),
-(2, 3, CURDATE(), 'Commercial Laundry - Fresh Linens & Towels', 85.00, 'cash', 'Clean linen batch delivered');
+
 
 -- --------------------------------------------------------
 -- Table: cash_register
@@ -891,8 +857,7 @@ CREATE TABLE `cash_register` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `cash_register` (`user_id`, `opening_balance`, `cash_in`, `cash_out`, `status`) VALUES
-(1, 200.00, 119.35, 85.00, 'open');
+
 
 -- --------------------------------------------------------
 -- Table: website_pages

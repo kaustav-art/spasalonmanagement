@@ -13,6 +13,19 @@
     </div>
 </div>
 
+<!-- Sub-Tabs for Single Menu Navigation -->
+<ul class="nav nav-pills mb-4 border-bottom pb-3">
+    <li class="nav-item">
+        <a class="nav-link active fw-semibold" href="<?= admin_url('reports/sales') ?>"><i class="fas fa-chart-line me-1"></i> Sales & Revenue</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link fw-semibold text-secondary" href="<?= admin_url('reports/appointments') ?>"><i class="fas fa-calendar-check me-1"></i> Appointment Analytics</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link fw-semibold text-secondary" href="<?= admin_url('reports/profit_loss') ?>"><i class="fas fa-balance-scale me-1"></i> Profit & Loss</a>
+    </li>
+</ul>
+
 <!-- Date Filter Form -->
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-body py-3">

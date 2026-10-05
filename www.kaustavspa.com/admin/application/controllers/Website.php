@@ -7,6 +7,10 @@ class Website extends Admin_Controller {
         parent::__construct();
     }
 
+    public function index() {
+        redirect(admin_url('configure_website'));
+    }
+
     /**
      * Multi-Template Manager: Switch Template & Homepage Layout
      */

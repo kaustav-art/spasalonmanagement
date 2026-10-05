@@ -40,14 +40,6 @@
                             <label class="form-label fw-semibold">Date of Birth</label>
                             <input type="date" name="dob" class="form-control" value="<?= html_escape($customer->dob) ?>">
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">Customer Group / Tier</label>
-                            <select name="group_id" class="form-select">
-                                <?php foreach ($groups as $g): ?>
-                                    <option value="<?= $g->id ?>" <?= ($customer->group_id == $g->id) ? 'selected' : '' ?>><?= html_escape($g->name) ?> (<?= $g->discount_percent ?>% off)</option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">Address</label>
                             <textarea name="address" class="form-control" rows="2"><?= html_escape($customer->address) ?></textarea>

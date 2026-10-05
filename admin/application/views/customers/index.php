@@ -5,9 +5,6 @@
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
         <div class="d-flex align-items-center justify-content-md-end gap-2">
-            <a href="<?= admin_url('customers/groups') ?>" class="btn btn-outline-secondary">
-                <i class="fa-solid fa-crown me-1"></i> Customer Groups
-            </a>
             <a href="<?= admin_url('customers/create') ?>" class="btn btn-primary shadow-sm">
                 <i class="fa-solid fa-user-plus me-1"></i> Add Customer
             </a>
@@ -19,23 +16,14 @@
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body p-3">
         <form action="<?= admin_url('customers') ?>" method="GET" class="row g-2 align-items-end">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <label class="form-label fs-13px fw-semibold mb-1">Search Clients</label>
                 <div class="input-group input-group-sm">
                     <span class="input-group-text bg-light"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
                     <input type="text" name="q" class="form-control" placeholder="Search by name, phone, or email..." value="<?= html_escape($search) ?>">
                 </div>
             </div>
-            <div class="col-md-4">
-                <label class="form-label fs-13px fw-semibold mb-1">Customer Group</label>
-                <select name="group_id" class="form-select form-select-sm">
-                    <option value="">All Groups</option>
-                    <?php foreach ($groups as $g): ?>
-                        <option value="<?= $g->id ?>" <?= ($current_group == $g->id) ? 'selected' : '' ?>><?= html_escape($g->name) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex gap-2">
+            <div class="col-md-3 d-flex gap-2">
                 <button type="submit" class="btn btn-sm btn-primary w-100">Filter</button>
                 <a href="<?= admin_url('customers') ?>" class="btn btn-sm btn-light border">Reset</a>
             </div>
@@ -52,7 +40,6 @@
                     <tr>
                         <th class="ps-4">Client</th>
                         <th>Contact</th>
-                        <th>Group / VIP</th>
                         <th>Visits</th>
                         <th>Total Spend</th>
                         <th>Loyalty Points</th>
@@ -79,11 +66,6 @@
                                 <td>
                                     <div><a href="tel:<?= html_escape($c->phone) ?>" class="text-decoration-none fw-semibold text-dark"><?= html_escape($c->phone) ?></a></div>
                                     <small class="text-muted"><?= html_escape($c->email ? $c->email : 'No email') ?></small>
-                                </td>
-                                <td>
-                                    <span class="badge bg-light text-dark border">
-                                        <?= html_escape($c->group_name ? $c->group_name : 'Regular') ?>
-                                    </span>
                                 </td>
                                 <td class="fw-semibold"><?= (int)$c->total_visits ?> visits</td>
                                 <td class="fw-bold text-success"><?= format_currency($c->total_spend ? $c->total_spend : 0) ?></td>

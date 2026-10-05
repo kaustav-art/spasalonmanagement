@@ -12,11 +12,9 @@ class Customers extends Admin_Controller {
      */
     public function index() {
         $search = $this->input->get('q', TRUE);
-        $group_id = $this->input->get('group_id', TRUE);
 
-        $this->db->select('c.*, g.name as group_name, g.discount_percent, (SELECT COUNT(id) FROM appointments WHERE customer_id = c.id) as total_visits, (SELECT SUM(grand_total) FROM invoices WHERE customer_id = c.id) as total_spend')
-                 ->from('customers c')
-                 ->join('customer_groups g', 'g.id = c.group_id', 'left');
+        $this->db->select('c.*, (SELECT COUNT(id) FROM appointments WHERE customer_id = c.id) as total_visits, (SELECT SUM(grand_total) FROM invoices WHERE customer_id = c.id) as total_spend')
+                 ->from('customers c');
 
         if ($search) {
             $this->db->group_start()
@@ -25,14 +23,9 @@ class Customers extends Admin_Controller {
                      ->or_like('c.email', $search)
                      ->group_end();
         }
-        if ($group_id) {
-            $this->db->where('c.group_id', (int)$group_id);
-        }
 
         $data['customers'] = $this->db->order_by('c.id', 'DESC')->get()->result();
-        $data['groups'] = $this->db->get('customer_groups')->result();
         $data['search'] = $search;
-        $data['current_group'] = $group_id;
 
         $this->render('customers/index', $data, 'Customer CRM & Profiles');
     }
@@ -48,7 +41,6 @@ class Customers extends Admin_Controller {
             $gender = $this->input->post('gender', TRUE);
             $dob = $this->input->post('dob', TRUE);
             $address = $this->input->post('address', TRUE);
-            $group_id = (int)$this->input->post('group_id');
             $notes = $this->input->post('notes', TRUE);
 
             if (empty($name) || empty($phone)) {
@@ -64,7 +56,7 @@ class Customers extends Admin_Controller {
                 'gender' => $gender ? $gender : 'Female',
                 'dob' => $dob ? $dob : NULL,
                 'address' => $address,
-                'group_id' => $group_id ? $group_id : 1,
+                'group_id' => 1,
                 'notes' => $notes
             ));
 
@@ -74,17 +66,15 @@ class Customers extends Admin_Controller {
             return;
         }
 
-        $data['groups'] = $this->db->get('customer_groups')->result();
-        $this->render('customers/create', $data, 'Register New Client');
+        $this->render('customers/create', array(), 'Register New Client');
     }
 
     /**
      * Customer 360 Profile View
      */
     public function profile($id) {
-        $customer = $this->db->select('c.*, g.name as group_name, g.discount_percent')
+        $customer = $this->db->select('c.*')
                              ->from('customers c')
-                             ->join('customer_groups g', 'g.id = c.group_id', 'left')
                              ->where('c.id', (int)$id)
                              ->get()->row();
 
@@ -129,7 +119,6 @@ class Customers extends Admin_Controller {
                 'gender' => $this->input->post('gender', TRUE),
                 'dob' => $this->input->post('dob', TRUE) ? $this->input->post('dob', TRUE) : NULL,
                 'address' => $this->input->post('address', TRUE),
-                'group_id' => (int)$this->input->post('group_id'),
                 'notes' => $this->input->post('notes', TRUE)
             ));
 
@@ -139,34 +128,14 @@ class Customers extends Admin_Controller {
         }
 
         $data['customer'] = $customer;
-        $data['groups'] = $this->db->get('customer_groups')->result();
         $this->render('customers/edit', $data, 'Edit Client: ' . $customer->name);
     }
 
     /**
-     * Customer Groups (VIP, Regular, etc.)
+     * Customer Groups - Feature disabled/removed
      */
     public function groups() {
-        if ($this->input->method() === 'post') {
-            $name = $this->input->post('name', TRUE);
-            $discount = (float)$this->input->post('discount_percent');
-            $desc = $this->input->post('description', TRUE);
-
-            $this->db->insert('customer_groups', array(
-                'name' => $name,
-                'discount_percent' => $discount,
-                'description' => $desc
-            ));
-            $this->session->set_flashdata('success', 'Customer group created.');
-            redirect(admin_url('customers/groups'));
-            return;
-        }
-
-        $data['groups'] = $this->db->select('g.*, (SELECT COUNT(id) FROM customers WHERE group_id = g.id) as total_members')
-                                   ->from('customer_groups g')
-                                   ->get()->result();
-
-        $this->render('customers/groups', $data, 'Customer Groups & Loyalty Tiers');
+        redirect(admin_url('customers'));
     }
 
     /**

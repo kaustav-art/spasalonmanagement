@@ -7,30 +7,16 @@ class Website extends Admin_Controller {
         parent::__construct();
     }
 
+    public function index() {
+        redirect(admin_url('configure_website'));
+    }
+
     /**
-     * Multi-Template Manager: Switch Template & Homepage Layout
+     * Multi-Template Manager: Locked to provisioned template
      */
     public function templates() {
-        if ($this->input->method() === 'post') {
-            $active_template = $this->input->post('active_template', TRUE);
-            $active_home_layout = $this->input->post('active_home_layout', TRUE);
-
-            if (in_array($active_template, array('template1', 'template2'))) {
-                set_setting('active_template', $active_template, 'website');
-            }
-            if (in_array($active_home_layout, array('1', '2', '3'))) {
-                set_setting('active_home_layout', $active_home_layout, 'website');
-            }
-
-            $this->session->set_flashdata('success', 'Website template configuration updated successfully! Active: ' . ucfirst($active_template) . ' (Home ' . $active_home_layout . ')');
-            redirect(admin_url('website/templates'));
-            return;
-        }
-
-        $data['current_template'] = get_active_template();
-        $data['current_layout'] = get_active_home_layout();
-
-        $this->render('website/templates', $data, 'Multi-Template Settings');
+        $this->session->set_flashdata('info', 'Template architecture is locked to your provisioned subscription plan.');
+        redirect(admin_url('settings'));
     }
 
     /**

@@ -303,7 +303,7 @@ $site_fav = $site_fav_url;
                                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
                                     <h2 class="mb-0"><?= htmlspecialchars($service_title) ?></h2>
                                     <div class="d-flex align-items-center gap-2">
-                                        <span class="badge bg-warning text-dark px-3 py-2 fs-6 fw-bold">$<?= number_format($service_price, 2) ?></span>
+                                        <span class="badge bg-warning text-dark px-3 py-2 fs-6 fw-bold"><?= format_currency($service_price) ?></span>
                                         <span class="badge bg-dark border text-white px-3 py-2 fs-6"><i class="fal fa-clock me-1"></i><?= htmlspecialchars($service_duration) ?></span>
                                     </div>
                                 </div>

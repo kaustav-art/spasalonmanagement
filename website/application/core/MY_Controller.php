@@ -14,7 +14,7 @@ class Website_Controller extends CI_Controller {
 
         // Template detection (Database setting with optional GET override for live admin preview)
         $preview_tpl = $this->input->get('preview_tpl', TRUE);
-        if ($preview_tpl && in_array($preview_tpl, array('template1', 'template2'))) {
+        if ($preview_tpl && in_array($preview_tpl, array('template1', 'template2')) && is_dir(APPPATH . 'views/' . $preview_tpl)) {
             $this->template = $preview_tpl;
         } else {
             $this->template = get_active_template();

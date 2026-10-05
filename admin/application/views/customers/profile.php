@@ -24,7 +24,7 @@
                 <h4 class="fw-bold text-dark mb-1"><?= html_escape($customer->name) ?></h4>
                 <div class="mb-3">
                     <span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-1">
-                        <?= html_escape($customer->group_name ? $customer->group_name : 'Regular Client') ?>
+                        Active Client
                     </span>
                 </div>
 
@@ -40,7 +40,7 @@
                 <div class="p-3 bg-warning bg-opacity-10 border border-warning rounded-3 text-center">
                     <span class="text-muted fs-13px fw-semibold">LOYALTY REWARD BALANCE</span>
                     <h2 class="fw-bold text-warning mb-0"><i class="fa-solid fa-star"></i> <?= $customer->loyalty_points ?> pts</h2>
-                    <small class="text-muted">Earn 1 pt per $10 spent</small>
+                    <small class="text-muted">Earn 1 pt per <?= format_currency(10) ?> spent</small>
                 </div>
             </div>
         </div>

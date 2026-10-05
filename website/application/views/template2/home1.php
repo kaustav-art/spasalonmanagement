@@ -674,11 +674,11 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                     <h2 class="section-title__title title-animation">Make an Appointment Today !</h2>
                                 </div>
                                 <form class="contact-form-validated appointment-one__form"
-                                    action="#" method="post">
+                                    action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" name="name" placeholder="Full Name" required="">
+                                                <input type="text" name="name" placeholder="Full Name" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-user"></span>
                                                 </div>
@@ -686,7 +686,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="email" name="email" placeholder="Your Email" required="">
+                                                <input type="email" name="email" placeholder="Your Email" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-envelope"></span>
                                                 </div>
@@ -702,7 +702,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" placeholder="Date " name="date" id="datepicker">
+                                                <input type="text" placeholder="Date " name="date" id="datepicker" class="hasDatepicker">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-calendar"></span>
                                                 </div>
@@ -711,13 +711,26 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         <div class="col-xl-12">
                                             <div class="appointment-one__input-box">
                                                 <div class="select-box">
-                                                    <select class="selectmenu wide">
-                                                        <option selected>Select Service</option>
-                                                        <option>Facial Treatment</option>
-                                                        <option>Skin Brightening</option>
-                                                        <option>Acne Treatment</option>
-                                                        <option>Natural Skin Therapy</option>
-                                                        <option>Deep Hydration Therapy</option>
+                                                    <select class="selectmenu wide" name="service">
+                                                        <option value="" selected="selected">Select Service</option>
+                                                        <?php 
+                                                        $form_services = !empty($tpl_services) ? $tpl_services : (!empty($services) ? $services : array());
+                                                        if (!empty($form_services)):
+                                                            foreach ($form_services as $s_item): 
+                                                                $s_title = isset($s_item->title) ? $s_item->title : (isset($s_item->name) ? $s_item->name : '');
+                                                                if (!empty($s_title)):
+                                                        ?>
+                                                            <option value="<?= htmlspecialchars($s_title) ?>"><?= htmlspecialchars($s_title) ?></option>
+                                                        <?php 
+                                                                endif;
+                                                            endforeach;
+                                                        else: ?>
+                                                            <option value="Facial Treatment">Facial Treatment</option>
+                                                            <option value="Skin Brightening">Skin Brightening</option>
+                                                            <option value="Acne Treatment">Acne Treatment</option>
+                                                            <option value="Natural Skin Therapy">Natural Skin Therapy</option>
+                                                            <option value="Deep Hydration Therapy">Deep Hydration Therapy</option>
+                                                        <?php endif; ?>
                                                     </select>
                                                 </div>
                                             </div>
