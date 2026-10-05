@@ -1,10 +1,3 @@
-<!-- Page Banner -->
-<section class="py-5 text-center" style="background: #f4efe9;">
-    <div class="container py-4">
-        <h1 class="display-4 fw-bold" style="font-family: 'Prata', serif; color: #2d241e;">Schedule Your Sanctuary Visit</h1>
-        <p class="text-muted mb-0">Select your holistic ritual, preferred therapist, and confirmed appointment slot.</p>
-    </div>
-</section>
 
 <section class="py-5 bg-white">
     <div class="container py-4">

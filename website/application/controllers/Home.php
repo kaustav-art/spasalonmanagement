@@ -153,8 +153,14 @@ class Home extends Website_Controller {
             }
         }
 
-        // Render layout 1, 2, or 3
+        // Render chosen layout
         $layout_view = 'home' . $this->home_layout;
+        if (!file_exists(APPPATH . 'views/' . $this->template . '/' . $layout_view . '.php')) {
+            $existing_homes = glob(APPPATH . 'views/' . $this->template . '/home*.php');
+            if (!empty($existing_homes)) {
+                $layout_view = basename($existing_homes[0], '.php');
+            }
+        }
         $this->render($layout_view, $data, 'Home');
     }
 
@@ -174,6 +180,23 @@ class Home extends Website_Controller {
      * Services Menu
      */
     public function services() {
+        if ($this->template === 'template2') {
+            $tpl_services = $this->db->where('template_key', 'template2')
+                                     ->where('layout_number', $this->home_layout)
+                                     ->where('status', 'active')
+                                     ->order_by('sort_order', 'ASC')
+                                     ->get('template_services')
+                                     ->result();
+            if (empty($tpl_services)) {
+                $tpl_services = $this->db->where('template_key', 'template2')
+                                         ->where('status', 'active')
+                                         ->order_by('sort_order', 'ASC')
+                                         ->get('template_services')
+                                         ->result();
+            }
+            $data['tpl_services'] = $tpl_services;
+        }
+
         $this->db->select('s.*, s.duration as duration_minutes, c.name as category_name, c.type as category_type')
                  ->from('services s')
                  ->join('service_categories c', 'c.id = s.category_id', 'left')
@@ -335,11 +358,7 @@ class Home extends Website_Controller {
         $data['active_template'] = $this->template;
         $data['active_home_layout'] = $this->home_layout;
 
-        if ($this->template === 'template2') {
-            $this->load->view('template2/service_detail', $data);
-        } else {
-            $this->render('service_detail', $data, $page_title);
-        }
+        $this->render('service_detail', $data, $page_title);
     }
 
     /**
@@ -398,10 +417,6 @@ class Home extends Website_Controller {
         $data['active_template'] = $this->template;
         $data['active_home_layout'] = $this->home_layout;
 
-        if ($this->template === 'template2') {
-            $this->load->view('template2/blog_detail', $data);
-        } else {
-            $this->render('blog_detail', $data, $page_title);
-        }
+        $this->render('blog_detail', $data, $page_title);
     }
 }

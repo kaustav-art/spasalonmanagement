@@ -1025,9 +1025,10 @@
 
   $(".contact-form-validated").each(function () {
     $(this).validate({
+      ignore: ":hidden:not(select)",
       rules: {
         name: {
-          required: false,
+          required: true,
           minlength: 2
         },
         email: {
@@ -1035,16 +1036,22 @@
           email: true
         },
         Phone: {
-          required: false,
+          required: true,
           minlength: 6
         },
         phone: {
-          required: false,
+          required: true,
           minlength: 6
         },
+        date: {
+          required: true
+        },
+        service: {
+          required: true
+        },
         message: {
-          required: false,
-          minlength: 10
+          required: true,
+          minlength: 3
         }
       },
       messages: {
@@ -1064,9 +1071,15 @@
           required: "Please enter your phone number.",
           minlength: "Please enter a valid phone number."
         },
+        date: {
+          required: "Please select an appointment date."
+        },
+        service: {
+          required: "Please select a service."
+        },
         message: {
           required: "Please enter your message.",
-          minlength: "Message must be at least 10 characters."
+          minlength: "Message must be at least 3 characters."
         }
       },
       submitHandler: function (form) {
@@ -1371,60 +1384,124 @@
   }
 
 
-  // Smooth Menu Scroll
+  // Smooth Menu Scroll & SPA Navigation
+  var isSmoothMenuScrolling = false;
 
   function SmoothMenuScroll() {
-    var anchor = $(".scrollToLink");
-    if (anchor.length) {
-      anchor.children("a").bind("click", function (event) {
-        if ($(window).scrollTop() > 10) {
-          var headerH = "90";
-        } else {
-          var headerH = "90";
+    $(document).on("click", 'a[href*="#"]', function (event) {
+      var href = $(this).attr("href");
+      if (!href || href === "#" || href === "#!" || href === "#0") return;
+
+      var hashIdx = href.indexOf("#");
+      if (hashIdx === -1) return;
+      var hash = href.substring(hashIdx);
+      if (!hash || hash.length <= 1) return;
+
+      var target = $(hash);
+      if (target.length) {
+        event.preventDefault();
+
+        var stricky = $(".stricked-menu");
+        var targetOffsetTop = target.offset().top;
+
+        // If target is down the page, activate sticky header immediately so it docks smoothly without jumping
+        if (targetOffsetTop > 200 && stricky.length && !stricky.hasClass("stricky-fixed")) {
+          stricky.addClass("stricky-fixed");
         }
-        var target = $(this);
+
+        var headerH = 85;
+        if (stricky.length) {
+          headerH = stricky.outerHeight() || 85;
+        }
+
+        var scrollTarget = Math.max(0, targetOffsetTop - headerH + 2);
+
+        // Lock OnePageMenuScroll during animation to prevent class thrashing and jitter
+        isSmoothMenuScrolling = true;
+
+        // Update active class immediately in all menus
+        $(".main-menu__list li").removeClass("current");
+        $(".main-menu__list a[href='" + hash + "'], .main-menu__list a[href$='" + hash + "']").closest("li").addClass("current");
+
+        // Close mobile nav if open
+        if ($(".mobile-nav__wrapper").hasClass("expanded")) {
+          $(".mobile-nav__wrapper").removeClass("expanded");
+          $("body").removeClass("locked");
+        }
+
         $("html, body")
           .stop()
-          .animate({
-              scrollTop: $(target.attr("href")).offset().top - headerH + "px"
+          .animate(
+            {
+              scrollTop: scrollTarget
             },
-            200,
-            "easeInOutExpo"
+            600,
+            "easeInOutExpo",
+            function () {
+              setTimeout(function () {
+                isSmoothMenuScrolling = false;
+              }, 100);
+            }
           );
-        anchor.removeClass("current");
-        anchor.removeClass("current-menu-ancestor");
-        anchor.removeClass("current_page_item");
-        anchor.removeClass("current-menu-parent");
-        target.parent().addClass("current");
-        event.preventDefault();
-      });
+
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, null, hash);
+        }
+      }
+    });
+
+    // Check if initial URL has hash and scroll smoothly
+    if (window.location.hash && $(window.location.hash).length) {
+      var hash = window.location.hash;
+      var target = $(hash);
+      if (target.length) {
+        var stricky = $(".stricked-menu");
+        if (stricky.length && !stricky.hasClass("stricky-fixed")) {
+          stricky.addClass("stricky-fixed");
+        }
+        var headerH = stricky.length ? (stricky.outerHeight() || 85) : 85;
+        var targetTop = Math.max(0, target.offset().top - headerH + 2);
+        isSmoothMenuScrolling = true;
+        setTimeout(function () {
+          $("html, body").stop().animate({ scrollTop: targetTop }, 500, "easeInOutExpo", function () {
+            setTimeout(function () {
+              isSmoothMenuScrolling = false;
+            }, 100);
+          });
+        }, 150);
+      }
     }
   }
   SmoothMenuScroll();
 
   function OnePageMenuScroll() {
+    if (isSmoothMenuScrolling) return;
+    if ($("#about").length === 0) return; // Only execute on one-page home
+
     var windscroll = $(window).scrollTop();
-    if (windscroll >= 117) {
-      var menuAnchor = $(".one-page-scroll-menu .scrollToLink").children("a");
-      menuAnchor.each(function () {
-        var sections = $(this).attr("href");
-        $(sections).each(function () {
-          if ($(this).offset().top <= windscroll + 100) {
-            var Sectionid = $(sections).attr("id");
-            $(".one-page-scroll-menu").find("li").removeClass("current");
-            $(".one-page-scroll-menu").find("li").removeClass("current-menu-ancestor");
-            $(".one-page-scroll-menu").find("li").removeClass("current_page_item");
-            $(".one-page-scroll-menu").find("li").removeClass("current-menu-parent");
-            $(".one-page-scroll-menu")
-              .find("a[href*=\\#" + Sectionid + "]")
-              .parent()
-              .addClass("current");
-          }
-        });
-      });
-    } else {
-      $(".one-page-scroll-menu li.current").removeClass("current");
-      $(".one-page-scroll-menu li:first").addClass("current");
+    var headerH = $(".stricky-header").outerHeight() || 85;
+    var sections = ["#booking", "#blog", "#faq", "#services", "#about"];
+    
+    if (windscroll < 200) {
+      $(".main-menu__list li").removeClass("current");
+      $(".main-menu__list li:first").addClass("current");
+      return;
+    }
+
+    var found = false;
+    for (var i = 0; i < sections.length; i++) {
+      var secId = sections[i];
+      var secElem = $(secId);
+      if (secElem.length && secElem.offset().top <= windscroll + headerH + 60) {
+        $(".main-menu__list li").removeClass("current");
+        $(".main-menu__list a[href='" + secId + "'], .main-menu__list a[href$='" + secId + "']").closest("li").addClass("current");
+        found = true;
+        break;
+      }
+    }
+    if (!found && windscroll < 400) {
+      $(".main-menu__list li").removeClass("current");
+      $(".main-menu__list li:first").addClass("current");
     }
   }
 
@@ -1769,18 +1846,25 @@
   // window scroll event
 
   $(window).on("scroll", function () {
-    if ($(".stricked-menu").length) {
-      var headerScrollPos = 300;
-      var stricky = $(".stricked-menu");
-      if ($(window).scrollTop() > headerScrollPos) {
-        stricky.addClass("stricky-fixed");
-      } else if ($(this).scrollTop() <= headerScrollPos) {
-        stricky.removeClass("stricky-fixed");
+    var windscroll = $(window).scrollTop();
+    var stricky = $(".stricked-menu");
+
+    if (stricky.length) {
+      // Hysteresis: add at > 220px, remove only at <= 120px to prevent fluttering/dancing
+      if (windscroll > 220) {
+        if (!stricky.hasClass("stricky-fixed")) {
+          stricky.addClass("stricky-fixed");
+        }
+      } else if (windscroll <= 120) {
+        if (stricky.hasClass("stricky-fixed")) {
+          stricky.removeClass("stricky-fixed");
+        }
       }
     }
 
-    OnePageMenuScroll();
-
+    if (!isSmoothMenuScrolling) {
+      OnePageMenuScroll();
+    }
   });
 
   $(window).on("scroll", function () {

@@ -33,30 +33,6 @@ class Tenants extends Superadmin_Controller {
             return;
         }
 
-        // Gather metrics
-        $data['business_name'] = get_setting('business_name', 'Salon & Spa Management');
-        $data['business_email'] = get_setting('business_email', 'contact@spasalon.com');
-        $data['business_phone'] = get_setting('business_phone', '+1 (555) 019-2834');
-        $data['business_type'] = get_setting('business_type', 'SALON_SPA');
-        $data['active_template'] = get_setting('active_template', 'template1');
-        $data['active_layout'] = get_setting('active_home_layout', '1');
-        $data['currency_symbol'] = get_setting('currency_symbol', '$');
-
-        // Detailed tenant statistics
-        $data['count_appointments'] = $this->db->table_exists('appointments') ? $this->db->count_all('appointments') : 0;
-        $data['count_customers'] = $this->db->table_exists('customers') ? $this->db->count_all('customers') : 0;
-        $data['count_staff'] = $this->db->table_exists('staff') ? $this->db->count_all('staff') : 0;
-        $data['count_services'] = $this->db->table_exists('services') ? $this->db->count_all('services') : 0;
-        $data['count_products'] = $this->db->table_exists('products') ? $this->db->count_all('products') : 0;
-        $data['count_invoices'] = $this->db->table_exists('invoices') ? $this->db->count_all('invoices') : 0;
-
-        // Total tenant salon billing revenue
-        $data['tenant_sales_revenue'] = 0.00;
-        if ($this->db->table_exists('invoices')) {
-            $inv_row = $this->db->select_sum('grand_total')->where('payment_status', 'paid')->get('invoices')->row();
-            $data['tenant_sales_revenue'] = $inv_row && $inv_row->grand_total ? (float)$inv_row->grand_total : 0.00;
-        }
-
         // Multi-Tenant SaaS Instances
         $data['saas_tenants'] = $this->db->table_exists('saas_tenants') ? $this->db->order_by('id', 'DESC')->get('saas_tenants')->result() : array();
         $data['total_saas_tenants'] = count($data['saas_tenants']);

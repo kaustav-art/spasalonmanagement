@@ -41,8 +41,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Body / Philosophy Content</label>
-                            <textarea name="content" class="form-control" rows="6"><?= html_escape($current_page->content) ?></textarea>
+                            <label class="form-label fw-semibold">Body / Philosophy Content (WYSIWYG Rich Text)</label>
+                            <textarea name="content" class="form-control summernote-editor" rows="6"><?= html_escape($current_page->content) ?></textarea>
                         </div>
 
                         <div class="row g-3 mb-4">

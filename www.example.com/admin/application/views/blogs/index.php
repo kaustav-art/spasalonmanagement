@@ -1,7 +1,3 @@
-<!-- Summernote WYSIWYG Editor Assets -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
 <div class="container-fluid px-4 py-4">
 
     <!-- Flash Messages -->
@@ -162,10 +158,10 @@
 </div>
 
 <!-- MODAL: ADD / EDIT BLOG POST -->
-<div class="modal fade" id="modalBlog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal fade" id="modalBlog" aria-labelledby="blogModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
-            <form action="<?= admin_url('blogs') ?>" method="post" enctype="multipart/form-data">
+            <form action="<?= admin_url('blogs') ?>" method="post" enctype="multipart/form-data" id="blogForm">
                 <input type="hidden" name="action" value="save_blog">
                 <input type="hidden" name="blog_id" id="blogId" value="0">
 
@@ -250,11 +246,10 @@ function openNewBlogModal() {
     $('#blogDate').val('<?= date('Y-m-d') ?>');
     $('#blogThumbUrl').val('assets/template2/images/blog/blog-1-1.jpg');
     $('#blogShortDesc').val('');
-    if ($('#blogContentEditor').summernote) {
+    if (typeof $.fn.summernote !== 'undefined') {
         $('#blogContentEditor').summernote('code', '');
-    } else {
-        $('#blogContentEditor').val('');
     }
+    $('#blogContentEditor').val('');
     $('#blogTags').val('Spa, Skincare, Wellness');
     $('#blogSortOrder').val(1);
     $('#blogStatus').val('active');
@@ -273,11 +268,11 @@ function triggerEditBlog(id) {
         $('#blogDate').val(data.published_date);
         $('#blogThumbUrl').val(data.thumbnail);
         $('#blogShortDesc').val(data.short_desc);
-        if ($('#blogContentEditor').summernote) {
-            $('#blogContentEditor').summernote('code', data.content || '');
-        } else {
-            $('#blogContentEditor').val(data.content || '');
+        var content = data.content || '';
+        if (typeof $.fn.summernote !== 'undefined') {
+            $('#blogContentEditor').summernote('code', content);
         }
+        $('#blogContentEditor').val(content);
         $('#blogTags').val(data.tags);
         $('#blogSortOrder').val(data.sort_order);
         $('#blogStatus').val(data.status);
@@ -294,19 +289,45 @@ function deleteBlog(id) {
 }
 
 $(document).ready(function() {
-    if ($.fn.summernote) {
-        $('.summernote-editor').summernote({
-            height: 250,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'italic', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-    }
+    // When modal opens, ensure summernote is initialized properly
+    $('#modalBlog').on('shown.bs.modal', function () {
+        if (typeof $.fn.summernote !== 'undefined' && !$('#blogContentEditor').next().hasClass('note-editor')) {
+            $('#blogContentEditor').summernote({
+                height: 250,
+                placeholder: 'Type full detailed article content here...',
+                dialogsInBody: false,
+                dialogsFade: false,
+                tabsize: 2,
+                tableClassName: 'table',
+                buttons: {
+                    tableProperties: typeof makeTablePropertiesBtn !== 'undefined' ? makeTablePropertiesBtn : null
+                },
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table', 'tableProperties']],
+                    ['insert', ['link', 'picture', 'video', 'hr']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                popover: {
+                    table: [
+                        ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                        ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+                        ['custom', ['tableProperties']]
+                    ]
+                }
+            });
+        }
+    });
+
+    // Ensure editor content syncs back to textarea on form submit
+    $('#blogForm').on('submit', function() {
+        if (typeof $.fn.summernote !== 'undefined' && $('#blogContentEditor').next().hasClass('note-editor')) {
+            $('#blogContentEditor').val($('#blogContentEditor').summernote('code'));
+        }
+    });
 });
 </script>

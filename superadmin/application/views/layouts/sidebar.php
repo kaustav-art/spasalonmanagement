@@ -77,12 +77,6 @@ $act_c = isset($active_controller) ? $active_controller : 'dashboard';
                 <span>Users &amp; Accounts</span>
             </a>
         </li>
-        <li class="sa-menu-item <?= $act_c === 'packages' ? 'active' : '' ?>">
-            <a href="<?= superadmin_url('packages') ?>" class="sa-menu-link">
-                <i class="fa-solid fa-box-archive"></i>
-                <span>Software Packages</span>
-            </a>
-        </li>
         <li class="sa-menu-item <?= $act_c === 'settings' ? 'active' : '' ?>">
             <a href="<?= superadmin_url('settings') ?>" class="sa-menu-link">
                 <i class="fa-solid fa-sliders text-warning"></i>

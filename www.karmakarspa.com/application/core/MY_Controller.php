@@ -20,12 +20,11 @@ class Website_Controller extends CI_Controller {
             $this->template = get_active_template();
         }
 
-        // Layout variant detection (1, 2, or 3)
+        // Layout variant detection (User's chosen layout)
+        $this->home_layout = get_active_home_layout();
         $preview_layout = (int)$this->input->get('preview_layout');
-        if ($preview_layout && in_array($preview_layout, array(1, 2, 3))) {
+        if ($preview_layout && file_exists(APPPATH . 'views/' . $this->template . '/home' . $preview_layout . '.php')) {
             $this->home_layout = $preview_layout;
-        } else {
-            $this->home_layout = get_active_home_layout();
         }
     }
 
@@ -51,18 +50,17 @@ class Website_Controller extends CI_Controller {
         $data['youtube_url'] = get_setting('youtube_url', '#');
         $data['footer_about'] = get_setting('footer_about', 'Experience world-class hair styling, beauty therapies, and restorative holistic spa treatments.');
 
-        // For complete standalone homepage layouts in template1 and template2
-        if (in_array($this->template, array('template1', 'template2')) && in_array($view, array('home1', 'home2', 'home3'))) {
-            $data['asset_url'] = base_url('assets/' . $this->template . '/');
-            $this->load->view($this->template . '/' . $view, $data);
-            return;
-        }
+        $data['asset_url'] = base_url('assets/' . $this->template . '/');
+        $data['site_logo_url'] = function_exists('site_logo_url') ? site_logo_url() : base_url('uploads/branding/logo.webp');
+        $data['site_fav_url'] = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+        $data['active_view'] = $view;
+        $data['is_home'] = in_array($view, array('home1', 'home2', 'home3', 'home', 'index'));
 
-        // Render the inner view
+        // Render the view content
         $target_view = $this->template . '/' . $view;
         $data['content'] = $this->load->view($target_view, $data, TRUE);
 
-        // Render in the template layout
+        // Render inside common layout (common header + page content + common footer)
         $this->load->view($this->template . '/layout', $data);
     }
 

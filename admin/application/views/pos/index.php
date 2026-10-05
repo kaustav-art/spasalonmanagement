@@ -8,7 +8,7 @@
             </ol>
         </nav>
         <h2 class="fw-semibold fs-7 mb-1 text-dark">Point of Sale (POS) Terminal</h2>
-        <p class="text-custom-paragraph fz-13px mb-0">Fast checkout register for salon services, spa sessions, and retail haircare/skincare products.</p>
+        <p class="text-custom-paragraph fz-13px mb-0">Fast checkout register for salon services and spa sessions.</p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <a href="<?= admin_url('sales') ?>" class="btn btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-2">
@@ -19,7 +19,7 @@
 </div>
 
 <div class="row g-4">
-    <!-- Left Column: Catalog (Services & Products) -->
+    <!-- Left Column: Services Catalog -->
     <div class="col-xl-7 col-lg-6">
         <div class="pure-card rounded-custom card-bg shadow-custom h-100">
             <div class="pure-card-header py-4 px-5 border-bottom">
@@ -30,15 +30,18 @@
                                 <path d="M7.22221 13.4444C10.6586 13.4444 13.4444 10.6586 13.4444 7.22221C13.4444 3.78578 10.6586 1 7.22221 1C3.78578 1 1 3.78578 1 7.22221C1 10.6586 3.78578 13.4444 7.22221 13.4444Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                 <path d="M15 15L11.6167 11.6166" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
-                            <input type="text" id="posSearch" placeholder="Search service or retail product...">
+                            <input type="text" id="posSearch" placeholder="Search services...">
                         </div>
                     </div>
                     <div class="col-md-6 text-md-end">
-                        <div class="btn-group btn-group-sm w-100" role="group">
-                            <button type="button" class="btn btn-primary active filter-btn rounded-pill px-3" data-filter="all">All Items</button>
-                            <button type="button" class="btn btn-outline-primary filter-btn rounded-pill px-3 ms-1" data-filter="service">Services</button>
-                            <button type="button" class="btn btn-outline-primary filter-btn rounded-pill px-3 ms-1" data-filter="product">Retail Products</button>
-                        </div>
+                        <select id="posCategoryFilter" class="form-select form-select-sm rounded-pill">
+                            <option value="all">All Service Categories</option>
+                            <?php if (!empty($service_categories)): ?>
+                                <?php foreach ($service_categories as $cat): ?>
+                                    <option value="<?= $cat->id ?>"><?= html_escape($cat->name) ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -46,42 +49,30 @@
             <div class="pure-card-body p-4" style="max-height: 660px; overflow-y: auto;">
                 <div class="row g-3" id="catalogContainer">
                     <!-- Services Items -->
-                    <?php foreach ($services as $srv): ?>
-                        <div class="col-xxl-4 col-md-6 catalog-item" data-type="service" data-name="<?= strtolower(html_escape($srv->name)) ?>" data-id="<?= $srv->id ?>" data-price="<?= $srv->price ?>">
-                            <div class="pos-product-card shadow-sm" onclick="addToCart('service', <?= $srv->id ?>, '<?= addslashes(html_escape($srv->name)) ?>', <?= $srv->price ?>)">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="badge badge-label-primary rounded-pill fz-11px">Service</span>
-                                    <small class="text-muted fz-12px"><i class="fa-regular fa-clock me-1"></i><?= $srv->duration ?>m</small>
-                                </div>
-                                <h6 class="fw-semibold mb-1 text-truncate text-dark fz-14px" title="<?= html_escape($srv->name) ?>"><?= html_escape($srv->name) ?></h6>
-                                <div class="d-flex align-items-center justify-content-between mt-3">
-                                    <span class="fw-bold text-dark fs-15px"><?= format_currency($srv->price) ?></span>
-                                    <button type="button" class="btn btn-xs btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width:26px;height:26px;">
-                                        <i class="fa-solid fa-plus fs-11px"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-
-                    <!-- Retail Product Items -->
-                    <?php foreach ($products as $prd): ?>
-                        <div class="col-xxl-4 col-md-6 catalog-item" data-type="product" data-name="<?= strtolower(html_escape($prd->name)) ?>" data-id="<?= $prd->id ?>" data-price="<?= $prd->selling_price ?>">
-                            <div class="pos-product-card shadow-sm" onclick="addToCart('product', <?= $prd->id ?>, '<?= addslashes(html_escape($prd->name)) ?>', <?= $prd->selling_price ?>, <?= $prd->current_stock ?>)">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <span class="badge badge-label-info rounded-pill fz-11px">Retail Product</span>
-                                    <small class="text-muted fz-12px">Stock: <?= $prd->current_stock ?></small>
-                                </div>
-                                <h6 class="fw-semibold mb-1 text-truncate text-dark fz-14px" title="<?= html_escape($prd->name) ?>"><?= html_escape($prd->name) ?></h6>
-                                <div class="d-flex align-items-center justify-content-between mt-3">
-                                    <span class="fw-bold text-dark fs-15px"><?= format_currency($prd->selling_price) ?></span>
-                                    <button type="button" class="btn btn-xs btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width:26px;height:26px;">
-                                        <i class="fa-solid fa-plus fs-11px"></i>
-                                    </button>
+                    <?php if (!empty($services)): ?>
+                        <?php foreach ($services as $srv): ?>
+                            <div class="col-xxl-4 col-md-6 catalog-item" data-category="<?= $srv->category_id ?>" data-name="<?= strtolower(html_escape($srv->name)) ?>" data-id="<?= $srv->id ?>" data-price="<?= $srv->price ?>">
+                                <div class="pos-product-card shadow-sm" onclick="addToCart(<?= $srv->id ?>, '<?= addslashes(html_escape($srv->name)) ?>', <?= $srv->price ?>)">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span class="badge badge-label-primary rounded-pill fz-11px">Service</span>
+                                        <small class="text-muted fz-12px"><i class="fa-regular fa-clock me-1"></i><?= $srv->duration ?>m</small>
+                                    </div>
+                                    <h6 class="fw-semibold mb-1 text-truncate text-dark fz-14px" title="<?= html_escape($srv->name) ?>"><?= html_escape($srv->name) ?></h6>
+                                    <div class="d-flex align-items-center justify-content-between mt-3">
+                                        <span class="fw-bold text-dark fs-15px"><?= format_currency($srv->price) ?></span>
+                                        <button type="button" class="btn btn-xs btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width:26px;height:26px;">
+                                            <i class="fa-solid fa-plus fs-11px"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center py-5 text-muted">
+                            <i class="fa-solid fa-spa fs-1 mb-2 d-block text-secondary"></i>
+                            <p class="mb-0">No active services found in catalog.</p>
                         </div>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -138,7 +129,7 @@
                                     <i class="fa-solid fa-cart-shopping fs-5"></i>
                                 </div>
                                 <div class="fw-semibold text-dark fz-14px">Cart is empty</div>
-                                <span class="fz-12px text-muted">Select services or retail products from the left catalog to start.</span>
+                                <span class="fz-12px text-muted">Select services from the left catalog to start.</span>
                             </td>
                         </tr>
                     </tbody>
@@ -157,7 +148,7 @@
                     <div class="d-flex align-items-center gap-1" style="max-width: 140px;">
                         <input type="number" id="discountInput" class="form-control form-control-sm text-end rounded-2" value="0" min="0" step="any" oninput="calculateTotals()">
                         <select id="discountType" class="form-select form-select-sm rounded-2" onchange="calculateTotals()" style="width: 55px;">
-                            <option value="fixed">$</option>
+                            <option value="fixed"><?= html_escape(get_setting('currency_symbol', '$')) ?></option>
                             <option value="percentage">%</option>
                         </select>
                     </div>
@@ -287,50 +278,39 @@ var cart = [];
 var taxRate = <?= $tax_rate ?>;
 var currencySymbol = "<?= get_setting('currency_symbol', '$') ?>";
 
-// Search and filter
-document.getElementById('posSearch').addEventListener('input', function() {
-    var query = this.value.toLowerCase().trim();
+// Search and category filter
+function filterCatalog() {
+    var query = (document.getElementById('posSearch').value || '').toLowerCase().trim();
+    var catFilter = document.getElementById('posCategoryFilter') ? document.getElementById('posCategoryFilter').value : 'all';
+
     document.querySelectorAll('.catalog-item').forEach(function(el) {
-        var name = el.getAttribute('data-name');
-        el.style.display = (name.indexOf(query) !== -1) ? 'block' : 'none';
-    });
-});
+        var name = (el.getAttribute('data-name') || '').toLowerCase();
+        var catId = el.getAttribute('data-category') || '';
+        
+        var matchesQuery = (query === '' || name.indexOf(query) !== -1);
+        var matchesCat = (catFilter === 'all' || catId === catFilter);
 
-document.querySelectorAll('.filter-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'btn-primary');
-            b.classList.add('btn-outline-primary');
-        });
-        this.classList.add('active', 'btn-primary');
-        this.classList.remove('btn-outline-primary');
-        var filter = this.getAttribute('data-filter');
-        document.querySelectorAll('.catalog-item').forEach(function(el) {
-            if (filter === 'all' || el.getAttribute('data-type') === filter) {
-                el.style.display = 'block';
-            } else {
-                el.style.display = 'none';
-            }
-        });
+        el.style.display = (matchesQuery && matchesCat) ? 'block' : 'none';
     });
-});
+}
 
-function addToCart(type, id, name, price, maxStock) {
-    var existing = cart.find(item => item.type === type && item.id === id);
+document.getElementById('posSearch').addEventListener('input', filterCatalog);
+var posCatSelect = document.getElementById('posCategoryFilter');
+if (posCatSelect) {
+    posCatSelect.addEventListener('change', filterCatalog);
+}
+
+function addToCart(id, name, price) {
+    var existing = cart.find(item => item.id === id);
     if (existing) {
-        if (type === 'product' && maxStock && existing.qty >= maxStock) {
-            Swal.fire('Stock Limit', 'Cannot add more than available stock (' + maxStock + ')', 'warning');
-            return;
-        }
         existing.qty++;
     } else {
         cart.push({
-            type: type,
+            type: 'service',
             id: id,
             name: name,
             price: parseFloat(price),
             qty: 1,
-            maxStock: maxStock || null,
             staff_id: null
         });
     }
@@ -340,10 +320,6 @@ function addToCart(type, id, name, price, maxStock) {
 function updateQty(index, delta) {
     if (cart[index]) {
         cart[index].qty += delta;
-        if (cart[index].type === 'product' && cart[index].maxStock && cart[index].qty > cart[index].maxStock) {
-            cart[index].qty = cart[index].maxStock;
-            Swal.fire('Stock Limit', 'Max available stock is ' + cart[index].maxStock, 'warning');
-        }
         if (cart[index].qty <= 0) {
             cart.splice(index, 1);
         }
@@ -371,7 +347,7 @@ function renderCart() {
                         <i class="fa-solid fa-cart-shopping fs-5"></i>
                     </div>
                     <div class="fw-semibold text-dark fz-14px">Cart is empty</div>
-                    <span class="fz-12px text-muted">Select services or retail products from the left catalog to start.</span>
+                    <span class="fz-12px text-muted">Select services from the left catalog to start.</span>
                 </td>
             </tr>`;
         document.getElementById('btnCheckout').disabled = true;
@@ -379,12 +355,11 @@ function renderCart() {
         var html = '';
         cart.forEach((item, idx) => {
             var itemTotal = (item.price * item.qty).toFixed(2);
-            var typeBadge = (item.type === 'service') ? 'badge-label-primary' : 'badge-label-info';
             html += `
                 <tr>
                     <td class="ps-4">
-                        <div class="fw-semibold text-dark text-truncate fz-14px" style="max-width: 150px;">${item.name}</div>
-                        <small class="badge ${typeBadge} rounded-pill fz-10px">${item.type.toUpperCase()}</small>
+                        <div class="fw-semibold text-dark text-truncate fz-14px" style="max-width: 170px;" title="${item.name}">${item.name}</div>
+                        <small class="badge badge-label-primary rounded-pill fz-10px">SERVICE</small>
                     </td>
                     <td>
                         <div class="d-flex align-items-center gap-1">
@@ -408,6 +383,8 @@ function renderCart() {
     calculateTotals();
 }
 
+var currentGrandTotal = 0;
+
 function calculateTotals() {
     var subtotal = 0;
     cart.forEach(item => {
@@ -428,6 +405,7 @@ function calculateTotals() {
     var taxable = Math.max(0, subtotal - discountAmount);
     var taxAmount = (taxable * taxRate) / 100;
     var grandTotal = taxable + taxAmount;
+    currentGrandTotal = grandTotal;
 
     document.getElementById('lblSubtotal').innerText = currencySymbol + subtotal.toFixed(2);
     document.getElementById('lblTax').innerText = currencySymbol + taxAmount.toFixed(2);
@@ -438,7 +416,7 @@ function calculateTotals() {
 }
 
 function calculateChange() {
-    var due = parseFloat(document.getElementById('lblGrandTotal').innerText.replace(currencySymbol, '')) || 0;
+    var due = currentGrandTotal || 0;
     var tendered = parseFloat(document.getElementById('tenderedAmount').value) || 0;
     var change = Math.max(0, tendered - due);
     document.getElementById('lblChangeAmount').innerText = currencySymbol + change.toFixed(2);
@@ -538,4 +516,21 @@ function saveQuickCustomer(e) {
         }
     });
 }
+
+<?php if (!empty($appointment_services)): ?>
+    <?php foreach ($appointment_services as $asrv): 
+        $srv_info = $this->db->get_where('services', array('id' => $asrv->service_id))->row();
+        $sname = $srv_info ? $srv_info->name : 'Service #' . $asrv->service_id;
+    ?>
+    cart.push({
+        type: 'service',
+        id: <?= (int)$asrv->service_id ?>,
+        name: <?= json_encode($sname) ?>,
+        price: <?= (float)$asrv->price ?>,
+        qty: 1,
+        staff_id: <?= !empty($asrv->staff_id) ? (int)$asrv->staff_id : 'null' ?>
+    });
+    <?php endforeach; ?>
+    renderCart();
+<?php endif; ?>
 </script>

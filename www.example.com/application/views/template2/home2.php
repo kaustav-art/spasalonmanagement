@@ -167,7 +167,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                     <div class="sidebar-info-contents">
                         <div class="content-inner">
                             <div class="logo">
-                                <a href="<?= website_url('?preview_tpl=template2&preview_layout=2') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
+                                <a href="<?= website_url() ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
                             </div>
                             <div class="content-box">
                                 <h4>About Us</h4>
@@ -301,26 +301,29 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                     <div class="main-menu-two__wrapper-inner">
                         <div class="main-menu-two__left">
                             <div class="main-menu-two__logo">
-                                <a href="<?= website_url('?preview_tpl=template2&preview_layout=2') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
+                                <a href="<?= website_url() ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
                             </div>
                         </div>
                         <div class="main-menu-two__main-menu-box">
                             <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                             <ul class="main-menu__list">
                                 <li class="current">
-                                    <a href="<?= website_url('?preview_tpl=template2&preview_layout=2') ?>">Home</a>
+                                    <a href="<?= website_url() ?>">Home</a>
                                 </li>
                                 <li>
-                                    <a href="<?= website_url('about') ?>">About</a>
+                                    <a href="#about">About</a>
                                 </li>
                                 <li>
-                                    <a href="<?= website_url('services') ?>">Services</a>
+                                    <a href="#services">Services</a>
                                 </li>
                                 <li>
-                                    <a href="<?= website_url('faq') ?>">FAQ</a>
+                                    <a href="#faq">FAQ</a>
                                 </li>
                                 <li>
-                                    <a href="<?= website_url('contact') ?>">Contact</a>
+                                    <a href="#blog">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#booking">Contact</a>
                                 </li>
                             </ul>
                         </div>
@@ -331,11 +334,11 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 </div>
                                 <div class="main-menu__call-content">
                                     <p class="main-menu__call-sub-title">Call Anytime</p>
-                                    <h5 class="main-menu__call-number"><a href="tel:9288006780">+92 ( 8800 ) - 6780</a></h5>
+                                    <h5 class="main-menu__call-number"><a href="tel:<?= preg_replace('/[^0-9+]/', '', $business_phone) ?>"><?= htmlspecialchars($business_phone) ?></a></h5>
                                 </div>
                             </div>
                             <div class="main-menu-two__btn-box">
-                                <a class="thm-btn" href="<?= website_url('booking') ?>">Book Appointment
+                                <a class="thm-btn" href="#booking">Book Now
                                     <span class="fas fa-arrow-right"></span>
                                 </a>
                             </div>
@@ -380,7 +383,10 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                                 <p class="main-slider__text" style="max-width: 800px;"><?= nl2br(htmlspecialchars($slide_desc)) ?></p>
                                                 <div class="main-slider__btn-and-video-box">
                                                     <div class="main-slider__btn-box">
-                                                        <a class="thm-btn" href="<?= website_url($slide_btn_url) ?>"><?= htmlspecialchars($slide_btn_text) ?>
+                                                        <?php 
+                                                            $resolved_btn_url = (strpos($slide_btn_url, '#') === 0) ? $slide_btn_url : (in_array(trim($slide_btn_url), array('booking', 'contact', 'book-now')) ? '#booking' : website_url($slide_btn_url));
+                                                        ?>
+                                                        <a class="thm-btn" href="<?= $resolved_btn_url ?>"><?= htmlspecialchars($slide_btn_text) ?>
                                                             <span class="fas fa-arrow-right"></span>
                                                         </a>
                                                     </div>
@@ -411,7 +417,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
         <!--Main Slider End-->
 
         <!--About Two Start-->
-        <section class="about-two">
+        <section class="about-two" id="about">
             <div class="container">
                 <div class="about-two__top">
                     <div class="row">
@@ -524,7 +530,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
         <!--About Two End-->
 
         <!--Services Two Start-->
-        <section class="services-two">
+        <section class="services-two" id="services">
             <div class="container">
                 <div class="services-two__top">
                     <div class="services-two__top-left">
@@ -549,7 +555,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                     <div class="row">
                         <?php if (!empty($tpl_services)): ?>
                             <?php foreach ($tpl_services as $s_idx => $svc): 
-                                $svc_url = website_url('service/' . $svc->slug . '?preview_tpl=template2&preview_layout=' . $layout_num);
+                                $svc_url = website_url('service/' . $svc->slug);
                                 $anim = ($s_idx % 2 === 0) ? 'fadeInLeft' : 'fadeInRight';
                             ?>
                                 <div class="col-xl-4 col-lg-6 col-md-6 wow <?= $anim ?>" data-wow-delay="0ms" data-wow-duration="1500ms">
@@ -734,7 +740,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
         <!--Testimonial Two End-->
 
         <!--Faq One Start-->
-        <section class="faq-one">
+        <section class="faq-one" id="faq">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-6">
@@ -816,7 +822,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
         <!--Faq One End-->
 
         <!--Blog Two Start-->
-        <section class="blog-two">
+        <section class="blog-two" id="blog">
             <div class="container">
                 <div class="blog-two__top">
                     <div class="blog-two__top-left">
@@ -832,7 +838,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                     <div class="blog-two__top-right">
                         <p><?= nl2br(htmlspecialchars($blog_desc)) ?></p>
                         <div class="blog-two__btn-box">
-                            <a class="thm-btn" href="#">View All Posts
+                            <a class="thm-btn" href="<?= website_url('blog') ?>">View All Posts
                                 <span class="fas fa-arrow-right"></span>
                             </a>
                         </div>
@@ -841,7 +847,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                 <div class="row">
                     <?php if (!empty($tpl_blogs)): ?>
                         <?php foreach ($tpl_blogs as $bidx => $blog): 
-                            $blog_url = website_url('blog/' . $blog->slug . '?preview_tpl=template2&preview_layout=' . $layout_num);
+                            $blog_url = website_url('blog/' . $blog->slug);
                             $b_time = strtotime($blog->published_date ?: date('Y-m-d'));
                             $day = date('d', $b_time);
                             $my = date('M, Y', $b_time);
@@ -877,7 +883,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
         <!--Blog Two End-->
 
         <!--Appointment Two Start-->
-        <section class="appointment-two">
+        <section class="appointment-two" id="booking">
             <div class="appointment-two__bg"
                 style="background-image: url(<?= $asset_url ?>images/backgrounds/appointment-v2-bg.jpg);"></div>
             <div class="shape1"></div>
@@ -894,11 +900,11 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                             <h2 class="section-title__title title-animation">Reserve Your Glow Treatment</h2>
                         </div>
                         <form class="contact-form-validated appointment-one__form"
-                            action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
+                            action="<?= website_url('booking/quick_submit') ?>" method="post">
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                     <div class="appointment-one__input-box">
-                                        <input type="text" name="name" placeholder="Full Name" required="" aria-required="true">
+                                        <input type="text" name="name" placeholder="Full Name *" required="" aria-required="true">
                                         <div class="appointment-one__input-box-icon">
                                             <span class="icon-user"></span>
                                         </div>
@@ -906,7 +912,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                     <div class="appointment-one__input-box">
-                                        <input type="email" name="email" placeholder="Your Email" required="" aria-required="true">
+                                        <input type="email" name="email" placeholder="Your Email *" required="" aria-required="true">
                                         <div class="appointment-one__input-box-icon">
                                             <span class="icon-envelope"></span>
                                         </div>
@@ -914,7 +920,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                     <div class="appointment-one__input-box">
-                                        <input type="text" name="phone" placeholder="Phone">
+                                        <input type="text" name="phone" placeholder="Phone Number *" required="" aria-required="true">
                                         <div class="appointment-one__input-box-icon">
                                             <span class="icon-telephone"></span>
                                         </div>
@@ -922,7 +928,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                     <div class="appointment-one__input-box">
-                                        <input type="text" placeholder="Date " name="date" id="datepicker" class="hasDatepicker">
+                                        <input type="text" placeholder="Select Date *" name="date" id="datepicker" class="hasDatepicker" required="" aria-required="true">
                                         <div class="appointment-one__input-box-icon">
                                             <span class="icon-calendar"></span>
                                         </div>
@@ -931,8 +937,8 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 <div class="col-xl-12">
                                     <div class="appointment-one__input-box">
                                         <div class="select-box">
-                                            <select class="selectmenu wide" name="service">
-                                                <option value="" selected="selected">Select Service</option>
+                                            <select class="selectmenu wide" name="service" required="" aria-required="true">
+                                                <option value="" disabled selected="selected">Select Service *</option>
                                                 <?php 
                                                 $form_services = !empty($tpl_services) ? $tpl_services : (!empty($services) ? $services : array());
                                                 if (!empty($form_services)):
@@ -957,13 +963,13 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                 </div>
                                 <div class="col-xl-12">
                                     <div class="appointment-one__input-box text-message-box">
-                                        <textarea name="message" placeholder="Messege"></textarea>
+                                        <textarea name="message" placeholder="Your Message *" required="" aria-required="true"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
                                     <div class="appointment-one__btn-box">
                                         <button type="submit" class="thm-btn">
-                                            Submit Now
+                                            Book Now
                                             <span class="fas fa-arrow-right"></span>
                                         </button>
                                     </div>
@@ -987,7 +993,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                             <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                                 <div class="footer-widget__about">
                                     <div class="footer-widget__about-logo">
-                                        <a href="<?= website_url('?preview_tpl=template2&preview_layout=2') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
+                                        <a href="<?= website_url() ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
                                     </div>
                                     <p class="footer-widget__about-text">Professional skin care solutions designed to
                                         keep your skin healthy, glowing, and beautiful every day.
@@ -1038,7 +1044,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                             <div class="footer-widget__links">
                                                 <h4 class="footer-widget__title">Quick links</h4>
                                                 <ul class="footer-widget__links-list list-unstyled">
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>">Home</a>
+                                                    <li><span class="icon-chevron"></span><a href="<?= website_url() ?>">Home</a>
                                                     </li>
                                                     <li><span class="icon-chevron"></span><a href="<?= website_url('about') ?>">About
                                                             Us</a>
@@ -1046,12 +1052,11 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                                                     <li><span class="icon-chevron"></span><a href="<?= website_url('services') ?>">Our
                                                             Services</a>
                                                     </li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Products</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a href="#">Latest
+                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('blog') ?>">Latest
                                                             Blog</a></li>
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('contact') ?>">Contact
+                                                    <li><span class="icon-chevron"></span><a href="#booking">Book
+                                                            Now</a></li>
+                                                    <li><span class="icon-chevron"></span><a href="#booking">Contact
                                                             Us</a></li>
                                                 </ul>
                                             </div>
@@ -1158,7 +1163,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
                         <div class="col-xl-12">
                             <div class="site-footer__bottom-inner">
                                 <div class="site-footer__copyright">
-                                    <p class="site-footer__copyright-text">© 2026 <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>">Pureglow</a>. All
+                                    <p class="site-footer__copyright-text">© <?= date('Y') ?> <a href="<?= website_url() ?>"><?= htmlspecialchars($business_name ?? 'Pureglow') ?></a>. All
                                         Rights Reserved.</p>
                                 </div>
                                 <div class="site-footer__bottom-payment-box">
@@ -1200,7 +1205,7 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
             <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
 
             <div class="logo-box">
-                <a href="<?= website_url('?preview_tpl=template2&preview_layout=2') ?>" aria-label="logo image"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
+                <a href="<?= website_url() ?>" aria-label="logo image"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
             </div>
             <!-- /.logo-box -->
             <div class="mobile-nav__container"></div>
@@ -1209,11 +1214,11 @@ $blog_desc = get_tpl_setting('template2', 2, 'blog_header', 'desc', 'Our skin tr
             <ul class="mobile-nav__contact list-unstyled">
                 <li>
                     <i class="fa fa-envelope"></i>
-                    <a href="mailto:needhelp@packageName__.com">needhelp@Pureglow.com</a>
+                    <a href="mailto:<?= htmlspecialchars($business_email) ?>"><?= htmlspecialchars($business_email) ?></a>
                 </li>
                 <li>
                     <i class="fas fa-phone"></i>
-                    <a href="tel:666-888-0000">666 888 0000</a>
+                    <a href="tel:<?= preg_replace('/[^0-9+]/', '', $business_phone) ?>"><?= htmlspecialchars($business_phone) ?></a>
                 </li>
             </ul><!-- /.mobile-nav__contact -->
             <div class="mobile-nav__top">

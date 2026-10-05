@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 if (!isset($asset_url)) {
     $asset_url = base_url('assets/template2/');
@@ -45,283 +45,14 @@ $testi_tagline = get_tpl_setting('template2', 1, 'testimonials_header', 'tagline
 $testi_title = get_tpl_setting('template2', 1, 'testimonials_header', 'title', 'Radiant Reviews from Our Happy Clients');
 
 // FAQ Header
-$faq_tagline = get_tpl_setting('template2', 1, 'faq_header', 'tagline', 'FAQ’S');
+$faq_tagline = get_tpl_setting('template2', 1, 'faq_header', 'tagline', 'FAQâ€™S');
 $faq_title = get_tpl_setting('template2', 1, 'faq_header', 'title', 'Frequently Asked Questions');
 
 // Blog Header
 $blog_tagline = get_tpl_setting('template2', 1, 'blog_header', 'tagline', 'Latest News');
 $blog_title = get_tpl_setting('template2', 1, 'blog_header', 'title', 'Inside a World of Relaxing Spa Treatments');
-$blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful skin doesn’t happen overnight. It requires patience, consistency, and the right treatments.');
+$blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful skin doesnâ€™t happen overnight. It requires patience, consistency, and the right treatments.');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Home One || Pureglow || Pureglow HTML 5 Template </title>
-    <!-- favicons Icons -->
-    <link rel="icon" type="image/webp" href="<?= $site_fav_url ?>?v=<?= time() ?>" />
-    <link rel="shortcut icon" type="image/webp" href="<?= $site_fav_url ?>?v=<?= time() ?>" />
-    <link rel="apple-touch-icon" href="<?= $site_fav_url ?>?v=<?= time() ?>" />
-    <meta name="description" content="Pureglow HTML 5 Template " />
-
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Prata&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=My+Soul&amp;display=swap" rel="stylesheet">
-
-
-    <link rel="stylesheet" href="<?= $asset_url ?>css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/animate.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/custom-animate.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/swiper.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/font-awesome-all.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/jarallax.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/jquery.magnific-popup.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/odometer.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/flaticon.css">
-    <link rel="stylesheet" href="<?= $asset_url ?>css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/nice-select.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/jquery-ui.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/aos.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/timePicker.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/twentytwenty.css" />
-
-
-
-    <!-- template styles -->
-    <link rel="stylesheet" href="<?= $asset_url ?>css/style.css" />
-    <link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css" />
-</head>
-
-<body class="custom-cursor">
-
-    <div class="custom-cursor__cursor"></div>
-    <div class="custom-cursor__cursor-two"></div>
-
-    <!--Start Preloader-->
-    <div id="preloader">
-        <div class="preloader">
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <!--End Preloader-->
-
-
-
-    <div class="chat-icon"><button type="button" class="chat-toggler"><i class="fa fa-comment"></i></button></div>
-    <!--Chat Popup-->
-    <div id="chat-popup" class="chat-popup">
-        <div class="popup-inner">
-            <div class="close-chat"><i class="fa fa-times"></i></div>
-            <div class="chat-form">
-                <p>Please fill out the form below and we will get back to you as soon as possible.</p>
-                <form action="#" method="POST" class="contact-form-validated">
-                    <div class="form-group">
-                        <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="message" placeholder="Your Text" required></textarea>
-                    </div>
-                    <div class="form-group message-btn">
-                        <button type="submit" class="thm-btn"> Submit Now
-                            <span class="fas fa-arrow-right"></span>
-                        </button>
-                    </div>
-                    <div class="result"></div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Start sidebar widget content -->
-    <div class="xs-sidebar-group info-group info-sidebar">
-        <div class="xs-overlay xs-bg-black"></div>
-        <div class="xs-sidebar-widget">
-            <div class="sidebar-widget-container">
-                <div class="widget-heading">
-                    <a href="#" class="close-side-widget">X</a>
-                </div>
-                <div class="sidebar-textwidget">
-                    <div class="sidebar-info-contents">
-                        <div class="content-inner">
-                            <div class="logo">
-                                <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
-                            </div>
-                            <div class="content-box">
-                                <h4>About Us</h4>
-                                <div class="inner-text">
-                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                                        roots in a piece of classical Latin literature from 45 BC, making it over
-                                        2000 years old.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="form-inner">
-                                <h4>Get a free quote</h4>
-                                <form action="#" method="POST" class="contact-form-validated">
-                                    <div class="form-group">
-                                        <input type="text" name="name" placeholder="Name" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" name="email" placeholder="Email" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea name="message" placeholder="Message..." required=""></textarea>
-                                    </div>
-                                    <div class="form-group message-btn">
-                                        <button class="thm-btn" data-text="Submit Now +" type="submit"
-                                            data-loading-text="Please wait...">Submit Now
-                                            <span class="fas fa-arrow-right"></span>
-                                        </button>
-                                    </div>
-                                    <div class="result"></div>
-                                </form>
-                            </div>
-
-                            <div class="sidebar-contact-info">
-                                <h4>Contact Info</h4>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <span class="icon-maps-and-flags"></span> 88 broklyn street, New York
-                                    </li>
-                                    <li>
-                                        <span class="icon-call"></span>
-                                        <a href="tel:123456789">+1 555-9990-153</a>
-                                    </li>
-                                    <li>
-                                        <span class="icon-email"></span>
-                                        <a href="mailto:info@example.com">info@example.com</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="thm-social-link1">
-                                <ul class="social-box list-unstyled">
-                                    <li>
-                                        <a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End sidebar widget content -->
-
-
-    <div class="page-wrapper">
-        <header class="main-header">
-            <div class="main-menu__top">
-                <div class="main-menu__top-inner">
-                    <ul class="list-unstyled main-menu__contact-list">
-                        <li>
-                            <div class="icon">
-                                <i class="fal fa-envelope"></i>
-                            </div>
-                            <div class="text">
-                                <p><a href="mailto:info@Pureglow24.com">info@Pureglow25.com</a>
-                                </p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="icon">
-                                <i class="far fa-map-marker-alt"></i>
-                            </div>
-                            <div class="text">
-                                <p>4124 Cimmaron Road, CA 92806</p>
-                            </div>
-                        </li>
-                    </ul>
-                    <p class="main-menu__top-welcome-text">Welcome to Pureglow
-                        HTML5 Template</p>
-                    <div class="main-menu__top-right">
-                        <p class="main-menu__social-title">Follow Us On:</p>
-                        <div class="main-menu__social">
-                            <a href="https://x.com/"><i class="fab fa-twitter"></i></a>
-                            <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a>
-                            <a href="https://www.instagram.com/?hl=en"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <nav class="main-menu">
-                <div class="main-menu__wrapper">
-                    <div class="main-menu__wrapper-inner">
-                        <div class="main-menu__left">
-                            <div class="main-menu__logo">
-                                <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
-                            </div>
-                        </div>
-                        <div class="main-menu__main-menu-box">
-                            <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
-                            <ul class="main-menu__list">
-                                <li class="current">
-                                    <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>">Home</a>
-                                </li>
-                                <li>
-                                    <a href="<?= website_url('about') ?>">About</a>
-                                </li>
-                                <li>
-                                    <a href="<?= website_url('services') ?>">Services</a>
-                                </li>
-                                <li>
-                                    <a href="<?= website_url('faq') ?>">FAQ</a>
-                                </li>
-                                <li>
-                                    <a href="<?= website_url('contact') ?>">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="main-menu__right">
-                            <div class="main-menu__call">
-                                <div class="main-menu__call-icon">
-                                    <i class="icon-telephone"></i>
-                                </div>
-                                <div class="main-menu__call-content">
-                                    <p class="main-menu__call-sub-title">Call Anytime</p>
-                                    <h5 class="main-menu__call-number"><a href="tel:9288006780">+92 ( 8800 ) - 6780</a></h5>
-                                </div>
-                            </div>
-                            <div class="main-menu__btn-box">
-                                <a class="thm-btn" href="<?= website_url('booking') ?>">Book Appointment
-                                    <span class="fas fa-arrow-right"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <div class="stricky-header stricked-menu main-menu">
-            <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
-        </div><!-- /.stricky-header -->
-
 
         <!--Main Slider Start-->
         <section class="main-slider">
@@ -439,7 +170,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
         <!--Feature One End -->
 
         <!--About One Start -->
-        <section class="about-one">
+        <section class="about-one" id="about">
             <div class="about-one-shape-1 float-bob-y">
                 <img src="<?= $asset_url ?>images/shapes/about-one-shape-1.png" alt="about-one-shape">
             </div>
@@ -521,7 +252,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                             </div>
                             <div class="about-one__btn-and-author-box">
                                 <div class="about-one__btn-box">
-                                    <a class="thm-btn" href="<?= website_url('about') ?>">Explore Now
+                                    <a class="thm-btn" href="<?= website_url('about') ?>">More About Us
                                         <span class="fas fa-arrow-right"></span>
                                     </a>
                                 </div>
@@ -534,7 +265,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
         <!--About One End -->
 
         <!--Services One Start -->
-        <section class="services-one">
+        <section class="services-one" id="services">
             <div class="services-one__shape-1 float-bob-y">
                 <img src="<?= $asset_url ?>images/shapes/services-one-shape-1.png" alt="services-one-shape">
             </div>
@@ -557,7 +288,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                             <div class="services-one__top-right">
                                 <p class="services-one__top-text"><?= htmlspecialchars($services_desc) ?></p>
                                 <div class="services-one__btn-box">
-                                    <a class="thm-btn" href="<?= website_url('services') ?>">Explore Now
+                                    <a class="thm-btn" href="<?= website_url('services') ?>">View all Services
                                         <span class="fas fa-arrow-right"></span>
                                     </a>
                                 </div>
@@ -569,7 +300,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                     <div class="row">
                         <?php if (!empty($tpl_services)): ?>
                             <?php foreach ($tpl_services as $s_idx => $svc): 
-                                $svc_url = website_url('service/' . $svc->slug . '?preview_tpl=template2&preview_layout=' . $layout_num);
+                                $svc_url = website_url('service/' . $svc->slug);
                                 $anim = ($s_idx % 3 === 0) ? 'fadeInLeft' : (($s_idx % 3 === 1) ? 'fadeInUp' : 'fadeInRight');
                             ?>
                                 <div class="col-xl-4 col-lg-6 col-md-6 wow <?= $anim ?>" data-wow-delay="100ms">
@@ -654,7 +385,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
         <!--Testimonial One End-->
 
         <!--Appointment One Start-->
-        <section class="appointment-one">
+        <section class="appointment-one" id="booking">
             <div class="appointment-one__img wow fadeInRight" data-wow-delay="200ms">
                 <img src="<?= $asset_url ?>images/resources/appointment-one-img-1.png" alt="appointment-one-img">
             </div>
@@ -668,17 +399,17 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                             <div class="appointment-one__form-box">
                                 <div class="section-title text-left sec-title-animation animation-style2">
                                     <div class="section-title__tagline-box">
-                                        <p class="section-title__tagline">Book Appointment</p>
+                                        <p class="section-title__tagline">Our Booking</p>
                                         <div class="section-title__tagline-shape"></div>
                                     </div>
                                     <h2 class="section-title__title title-animation">Make an Appointment Today !</h2>
                                 </div>
                                 <form class="contact-form-validated appointment-one__form"
-                                    action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
+                                    action="<?= website_url('booking/quick_submit') ?>" method="post">
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" name="name" placeholder="Full Name" required="" aria-required="true">
+                                                <input type="text" name="name" placeholder="Full Name *" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-user"></span>
                                                 </div>
@@ -686,7 +417,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="email" name="email" placeholder="Your Email" required="" aria-required="true">
+                                                <input type="email" name="email" placeholder="Your Email *" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-envelope"></span>
                                                 </div>
@@ -694,7 +425,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" name="phone" placeholder="Phone">
+                                                <input type="text" name="phone" placeholder="Phone Number *" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-telephone"></span>
                                                 </div>
@@ -702,7 +433,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" placeholder="Date " name="date" id="datepicker" class="hasDatepicker">
+                                                <input type="text" placeholder="Select Date *" name="date" id="datepicker" class="hasDatepicker" required="" aria-required="true">
                                                 <div class="appointment-one__input-box-icon">
                                                     <span class="icon-calendar"></span>
                                                 </div>
@@ -711,8 +442,8 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         <div class="col-xl-12">
                                             <div class="appointment-one__input-box">
                                                 <div class="select-box">
-                                                    <select class="selectmenu wide" name="service">
-                                                        <option value="" selected="selected">Select Service</option>
+                                                    <select class="selectmenu wide" name="service" required="" aria-required="true">
+                                                        <option value="" disabled selected="selected">Select Service *</option>
                                                         <?php 
                                                         $form_services = !empty($tpl_services) ? $tpl_services : (!empty($services) ? $services : array());
                                                         if (!empty($form_services)):
@@ -737,13 +468,13 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="appointment-one__input-box text-message-box">
-                                                <textarea name="message" placeholder="Messege"></textarea>
+                                                <textarea name="message" placeholder="Your Message *" required="" aria-required="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="appointment-one__btn-box">
                                                 <button type="submit" class="thm-btn">
-                                                    Submit Now
+                                                    Book Now
                                                     <span class="fas fa-arrow-right"></span>
                                                 </button>
                                             </div>
@@ -761,7 +492,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
 
         
         <!--Faq One Start-->
-        <section class="faq-one">
+        <section class="faq-one" id="faq">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-6">
@@ -948,7 +679,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
         <!-- Sliding Text One End -->
 
         <!--Blog One Start-->
-        <section class="blog-one">
+        <section class="blog-one" id="blog">
             <div class="container">
                 <div class="row">
                     <!--Blog One Content Start-->
@@ -971,7 +702,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
 
                     <?php if (!empty($tpl_blogs)): ?>
                         <?php foreach ($tpl_blogs as $bidx => $blog): 
-                            $blog_url = website_url('blog/' . $blog->slug . '?preview_tpl=template2&preview_layout=' . $layout_num);
+                            $blog_url = website_url('blog/' . $blog->slug);
                             $b_time = strtotime($blog->published_date ?: date('Y-m-d'));
                             $day = date('d', $b_time);
                             $my = date('M, Y', $b_time);
@@ -1005,305 +736,3 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
             </div>
         </section>
         <!--Blog One End-->
-
-        <!--Site Footer Start-->
-        <footer class="site-footer">
-            <div class="site-footer__top">
-                <div class="container">
-                    <div class="site-footer__top-inner">
-                        <div class="row">
-                            <div class="col-xl-4 wow fadeInUp" data-wow-delay="100ms">
-                                <div class="footer-widget__about">
-                                    <div class="footer-widget__about-logo">
-                                        <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;"></a>
-                                    </div>
-                                    <p class="footer-widget__about-text">We provide a range of professional skincare
-                                        <br> treatments designed to improve your skin’s <br> health and natural beauty.
-                                    </p>
-                                    <div class="footer-widget__newsletter-form-box">
-                                        <form class="footer-widget__newsletter-form contact-form-validated"
-                                            action="#" method="POST" novalidate="novalidate">
-                                            <div class="footer-widget__newsletter-form-input-box">
-                                                <input type="email" placeholder="Your Email address" name="email">
-                                            </div>
-                                            <button type="submit" class="footer-widget__newsletter-btn">
-                                                <span><i class="icon-paper-plane"></i></span>
-                                            </button>
-                                            <div class="result"></div>
-                                        </form>
-                                    </div>
-                                    <div class="footer-widget__social">
-                                        <a href="https://www.facebook.com/"><span class="fab fa-facebook-f"></span></a>
-                                        <a href="https://x.com/"><span class="fab fa-twitter"></span></a>
-                                        <a href="https://www.instagram.com/?hl=en"><span
-                                                class="fab fa-instagram"></span></a>
-                                        <a href="https://www.pinterest.com/"><span
-                                                class="fab fa-pinterest-p"></span></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-8">
-                                <div class="site-footer__top-right">
-                                    <div class="site-footer__top-right-top">
-                                        <div class="site-footer__contact-info">
-                                            <ul class="site-footer__contact-info-list">
-                                                <li>
-                                                    <div class="icon-box">
-                                                        <span class="icon-telephone"></span>
-                                                    </div>
-                                                    <div class="content-box">
-                                                        <h3>Urgent Support?</h3>
-                                                        <p><a href="tel:123456789">+1 (246) 333-099</a></p>
-                                                    </div>
-                                                </li>
-
-                                                <li>
-                                                    <div class="icon-box">
-                                                        <span class="icon-email"></span>
-                                                    </div>
-                                                    <div class="content-box">
-                                                        <h3>Send us a Mail</h3>
-                                                        <p><a href="mailto:info@domain.com">info@domain.com</a></p>
-                                                    </div>
-                                                </li>
-
-                                                <li>
-                                                    <div class="icon-box">
-                                                        <span class="icon-clock"></span>
-                                                    </div>
-                                                    <div class="content-box">
-                                                        <h3>Opening Time</h3>
-                                                        <p><a href="tel:123456789">Mon -Sat: 10:00 - 17:00</a></p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                                            <div class="footer-widget__links">
-                                                <h4 class="footer-widget__title">Quick links</h4>
-                                                <ul class="footer-widget__links-list list-unstyled">
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>">Home</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('about') ?>">About
-                                                            Us</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('services') ?>">Our
-                                                            Services</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Products</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a href="#">Latest
-                                                            Blog</a></li>
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('contact') ?>">Contact
-                                                            Us</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="200ms">
-                                            <div class="footer-widget__links services">
-                                                <h4 class="footer-widget__title">Our Services</h4>
-                                                <ul class="footer-widget__links-list list-unstyled">
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Facial
-                                                            Treatment</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Skin
-                                                            Hydration </a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a href="<?= website_url('services') ?>">Our
-                                                            Services</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Anti-Aging
-                                                            Care</a>
-                                                    </li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Acne
-                                                            Treatment</a></li>
-                                                    <li><span class="icon-chevron"></span><a
-                                                            href="#">Skin
-                                                            Rejuvenation</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="400ms">
-                                            <div class="footer-widget__recent-posts">
-                                                <h3 class="footer-widget__title">Recent Posts</h3>
-                                                <ul class="footer-widget__recent-posts-list">
-                                                    <li>
-                                                        <div class="footer-widget__recent-posts-img">
-                                                            <img src="<?= $asset_url ?>images/resources/footer-v1-img1.jpg"
-                                                                alt="news-update-img">
-                                                        </div>
-                                                        <div class="footer-widget__recent-posts-content">
-                                                            <p><span class="icon-calendar"></span> 10 Jan,2026</p>
-                                                            <h4><a href="#">Natural Skincare Tips <br>
-                                                                    for a Radiant Glow</a></h4>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="footer-widget__recent-posts-img">
-                                                            <img src="<?= $asset_url ?>images/resources/footer-v1-img2.jpg"
-                                                                alt="news-update-img">
-                                                        </div>
-                                                        <div class="footer-widget__recent-posts-content">
-                                                            <p><span class="icon-calendar"></span> 10 Jan,2026</p>
-                                                            <h4><a href="#">Easy Skincare Routines <br>
-                                                                    for Busy Lifestyles</a></h4>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="site-footer__bottom">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="site-footer__bottom-inner">
-                                <div class="site-footer__copyright">
-                                    <p class="site-footer__copyright-text">© 2026 <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>">Pureglow</a>. All
-                                        Rights Reserved.</p>
-                                </div>
-                                <div class="site-footer__bottom-payment-box">
-                                    <ul class="list-unstyled site-footer__bottom-payment">
-                                        <li><a href="<?= website_url('about') ?>"><img
-                                                    src="<?= $asset_url ?>images/resources/site-footer-payment-img1.png"
-                                                    alt=""></a></li>
-                                        <li><a href="<?= website_url('about') ?>"><img
-                                                    src="<?= $asset_url ?>images/resources/site-footer-payment-img2.png"
-                                                    alt=""></a></li>
-                                        <li><a href="<?= website_url('about') ?>"><img
-                                                    src="<?= $asset_url ?>images/resources/site-footer-payment-img3.png"
-                                                    alt=""></a></li>
-                                        <li><a href="<?= website_url('about') ?>"><img
-                                                    src="<?= $asset_url ?>images/resources/site-footer-payment-img4.png"
-                                                    alt=""></a></li>
-                                        <li><a href="<?= website_url('about') ?>"><img
-                                                    src="<?= $asset_url ?>images/resources/site-footer-payment-img5.png"
-                                                    alt=""></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!--Site Footer End-->
-
-
-
-    </div><!-- /.page-wrapper -->
-
-
-    <div class="mobile-nav__wrapper">
-        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
-        <!-- /.mobile-nav__overlay -->
-        <div class="mobile-nav__content">
-            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
-
-            <div class="logo-box">
-                <a href="<?= website_url('?preview_tpl=template2&preview_layout=1') ?>" aria-label="logo image"><img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;" /></a>
-            </div>
-            <!-- /.logo-box -->
-            <div class="mobile-nav__container"></div>
-            <!-- /.mobile-nav__container -->
-
-            <ul class="mobile-nav__contact list-unstyled">
-                <li>
-                    <i class="fa fa-envelope"></i>
-                    <a href="mailto:needhelp@packageName__.com">needhelp@Pureglow.com</a>
-                </li>
-                <li>
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:666-888-0000">666 888 0000</a>
-                </li>
-            </ul><!-- /.mobile-nav__contact -->
-            <div class="mobile-nav__top">
-                <div class="mobile-nav__social">
-                    <a href="#" class="fab fa-twitter"></a>
-                    <a href="#" class="fab fa-facebook-square"></a>
-                    <a href="#" class="fab fa-pinterest-p"></a>
-                    <a href="#" class="fab fa-instagram"></a>
-                </div><!-- /.mobile-nav__social -->
-            </div><!-- /.mobile-nav__top -->
-
-
-
-        </div>
-        <!-- /.mobile-nav__content -->
-    </div>
-    <!-- /.mobile-nav__wrapper -->
-
-    <!-- Search Popup -->
-    <div class="search-popup">
-        <div class="color-layer"></div>
-        <button class="close-search"><span class="far fa-times fa-fw"></span></button>
-        <form method="post" action="#">
-            <div class="form-group">
-                <input type="search" name="search-field" value="" placeholder="Search Here" required="">
-                <button type="submit"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
-    </div>
-    <!-- End Search Popup -->
-
-    <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
-        <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
-        <span class="scroll-to-top__text"> Go Back Top</span>
-    </a>
-
-
-    <script src="<?= $asset_url ?>js/jquery-latest.js"></script>
-    <script src="<?= $asset_url ?>js/bootstrap.bundle.min.js"></script>
-    <script src="<?= $asset_url ?>js/jarallax.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.appear.min.js"></script>
-    <script src="<?= $asset_url ?>js/swiper.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.magnific-popup.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.validate.min.js"></script>
-    <script src="<?= $asset_url ?>js/odometer.min.js"></script>
-    <script src="<?= $asset_url ?>js/wow.js"></script>
-    <script src="<?= $asset_url ?>js/isotope.js"></script>
-    <script src="<?= $asset_url ?>js/owl.carousel.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery-ui.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.circleType.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.lettering.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.fittext.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.nice-select.min.js"></script>
-    <script src="<?= $asset_url ?>js/marquee.min.js"></script>
-    <script src="<?= $asset_url ?>js/jquery-sidebar-content.js"></script>
-    <script src="<?= $asset_url ?>js/aos.js"></script>
-    <script src="<?= $asset_url ?>js/gsap/gsap.js"></script>
-    <script src="<?= $asset_url ?>js/gsap/ScrollTrigger.js"></script>
-    <script src="<?= $asset_url ?>js/gsap/SplitText.js"></script>
-    <script src="<?= $asset_url ?>js/timePicker.js"></script>
-    <script src="<?= $asset_url ?>js/twentytwenty.js"></script>
-    <script src="<?= $asset_url ?>js/jquery.event.move.js"></script>
-
-
-
-
-
-    <!-- template js -->
-    <script src="<?= $asset_url ?>js/script.js?v=<?= time() ?>"></script>
-</body>
-
-
-</html>

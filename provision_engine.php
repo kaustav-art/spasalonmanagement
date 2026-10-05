@@ -207,6 +207,19 @@ try {
         }
     }
 
+    // Step D: Prune unselected home layouts so tenant views contain ONLY the chosen layout (e.g. only home2.php if layout 2 chosen)
+    $chosen_views_dir = $views_dir . DIRECTORY_SEPARATOR . $chosen_template;
+    if (is_dir($chosen_views_dir)) {
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i !== (int)$chosen_layout) {
+                $unselected_home = $chosen_views_dir . DIRECTORY_SEPARATOR . 'home' . $i . '.php';
+                if (file_exists($unselected_home)) {
+                    @unlink($unselected_home);
+                }
+            }
+        }
+    }
+
     // Ensure install.lock files exist
     @file_put_contents($tenant_dir . DIRECTORY_SEPARATOR . 'install.lock', "Tenant provisioned on " . date('Y-m-d H:i:s') . "\nDomain: $clean_domain");
     @file_put_contents($tenant_admin_dir . DIRECTORY_SEPARATOR . 'install.lock', "Tenant provisioned on " . date('Y-m-d H:i:s') . "\nDomain: $clean_domain");

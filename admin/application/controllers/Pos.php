@@ -40,11 +40,8 @@ class Pos extends Admin_Controller {
             $data['services'] = $this->db->where('status', 'active')->get('services')->result();
         }
 
-        // Retail Products
-        $data['products'] = $this->db->where('status', 'active')
-                                     ->where('product_type', 'retail')
-                                     ->where('current_stock >', 0)
-                                     ->get('products')->result();
+        // Retail Products removed - POS operates exclusively on services
+        $data['products'] = array();
 
         // Service Categories
         $data['service_categories'] = $this->db->where('status', 'active')->get('service_categories')->result();
@@ -101,9 +98,8 @@ class Pos extends Admin_Controller {
 
         $invoice_id = $this->db->insert_id();
 
-        // 2. Insert Invoice Items, Process Stock, and Calculate Staff Commission
+        // 2. Insert Invoice Items and Calculate Staff Commission (Services Only)
         foreach ($items as $item) {
-            $item_type = $item['type']; // 'service' or 'product'
             $item_id = (int)$item['id'];
             $item_name = $item['name'];
             $item_price = (float)$item['price'];
@@ -113,7 +109,7 @@ class Pos extends Admin_Controller {
 
             $this->db->insert('invoice_items', array(
                 'invoice_id' => $invoice_id,
-                'item_type' => $item_type,
+                'item_type' => 'service',
                 'item_id' => $item_id,
                 'item_name' => $item_name,
                 'staff_id' => $staff_id,
@@ -123,23 +119,8 @@ class Pos extends Admin_Controller {
                 'tax' => 0.00
             ));
 
-            // If product, decrement inventory stock
-            if ($item_type === 'product') {
-                $this->db->set('current_stock', 'current_stock - ' . $item_qty, FALSE)
-                         ->where('id', $item_id)
-                         ->update('products');
-
-                $this->db->insert('inventory_transactions', array(
-                    'product_id' => $item_id,
-                    'transaction_type' => 'sale',
-                    'quantity' => -$item_qty,
-                    'reference_id' => $invoice_id,
-                    'notes' => 'Sold on POS #' . $invoice_number
-                ));
-            }
-
             // If service and staff assigned, award commission
-            if ($item_type === 'service' && $staff_id) {
+            if ($staff_id) {
                 $staff = $this->db->get_where('staff', array('id' => $staff_id))->row();
                 if ($staff && (float)$staff->commission_rate > 0) {
                     $rate = (float)$staff->commission_rate;

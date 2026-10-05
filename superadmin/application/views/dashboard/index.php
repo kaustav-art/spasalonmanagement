@@ -82,65 +82,6 @@
     </div>
 </div>
 
-<!-- Active Tenant Platform Instance Summary Banner -->
-<div class="card border-0 shadow-sm rounded-3 mb-4 bg-dark text-white overflow-hidden">
-    <div class="card-body p-4 position-relative">
-        <div class="row align-items-center g-3">
-            <div class="col-lg-7">
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <span class="badge bg-warning text-dark fw-bold font-monospace px-2 py-1">LIVE TENANT INSTANCE</span>
-                    <span class="badge bg-secondary"><?= $business_type ?></span>
-                </div>
-                <h4 class="fw-bold text-white mb-2"><?= htmlspecialchars($business_name) ?></h4>
-                <p class="text-light text-opacity-75 small mb-3">
-                    Active Template: <strong class="text-warning"><?= $active_template === 'template1' ? 'Template 1' : 'Template 2' ?></strong> &bull; 
-                    Active Layout: <strong class="text-warning">Layout <?= $active_layout ?></strong> &bull;
-                    Database: <strong class="text-info">spasalon_db</strong>
-                </p>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="<?= superadmin_url('tenants') ?>" class="btn btn-warning btn-sm fw-bold">
-                        <i class="fa-solid fa-rotate me-1"></i> Switch Edition / Template
-                    </a>
-                    <a href="<?= tenant_admin_url('dashboard') ?>" target="_blank" class="btn btn-outline-light btn-sm">
-                        <i class="fa-solid fa-door-open me-1"></i> Launch Tenant Admin
-                    </a>
-                    <a href="<?= tenant_site_url() ?>" target="_blank" class="btn btn-outline-light btn-sm">
-                        <i class="fa-solid fa-globe me-1"></i> Launch Tenant Website
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="row g-2 text-center">
-                    <div class="col-6 col-sm-3">
-                        <div class="p-2 rounded bg-opacity-10">
-                            <div class="fs-4 fw-bold text-warning"><?= $tenant_appointments ?></div>
-                            <div class="small text-light text-opacity-75">Appointments</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-2 rounded bg-opacity-10">
-                            <div class="fs-4 fw-bold text-info"><?= $tenant_customers ?></div>
-                            <div class="small text-light text-opacity-75">Customers</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-2 rounded bg-opacity-10">
-                            <div class="fs-4 fw-bold text-success"><?= $tenant_staff ?></div>
-                            <div class="small text-light text-opacity-75">Staff</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-2 rounded bg-opacity-10">
-                            <div class="fs-4 fw-bold text-white"><?= $tenant_services ?></div>
-                            <div class="small text-light text-opacity-75">Services</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Active Marketplace Pricing Cards Summary -->
 <div class="card border-0 shadow-sm rounded-3 mb-4">
     <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">

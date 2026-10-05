@@ -1,62 +1,59 @@
-<!-- Page Banner -->
-<section class="py-5 text-center" style="background: #f4efe9;">
-    <div class="container py-4">
-        <h1 class="display-4 fw-bold" style="font-family: 'Prata', serif; color: #2d241e;">Treatments & Service Menu</h1>
-        <p class="text-muted mb-0">Immerse yourself in our organic therapies and precision hair rituals.</p>
-    </div>
-</section>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-<section class="py-5 bg-white">
-    <div class="container py-4">
-        <!-- Category Filter Buttons -->
-        <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
-            <button class="btn btn-pureglow btn-sm px-3 filter-btn active" onclick="filterServices('all')">All Treatments</button>
-            <?php foreach ($categories as $cat): ?>
-                <button class="btn btn-outline-secondary btn-sm px-3 filter-btn" onclick="filterServices('cat-<?= $cat->id ?>')"><?= htmlspecialchars($cat->name) ?></button>
-            <?php endforeach; ?>
-        </div>
+$items = !empty($tpl_services) ? $tpl_services : (!empty($services) ? $services : []);
+?>
 
-        <div class="row g-4" id="servicesGrid">
-            <?php foreach ($services as $svc): ?>
-            <div class="col-lg-6 service-item cat-<?= $svc->category_id ?>">
-                <div class="p-4 rounded-4 shadow-sm h-100 d-flex justify-content-between align-items-center" style="background: #faf8f5;">
-                    <div>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                            <h5 class="fw-bold mb-0" style="color: #2d241e;"><?= htmlspecialchars($svc->name) ?></h5>
-                            <span class="badge bg-white text-dark border small"><?= $svc->duration_minutes ?> mins</span>
+<!--Services One Start -->
+<section class="services-one services-one--services">
+    <div class="container">
+        <div class="row">
+            <?php if (!empty($items)): ?>
+                <?php foreach ($items as $index => $svc): 
+                    $svc_title = isset($svc->title) ? $svc->title : (isset($svc->name) ? $svc->name : 'Service');
+                    $svc_slug = !empty($svc->slug) ? $svc->slug : (isset($svc->id) ? $svc->id : '');
+                    $svc_url = website_url('service/' . $svc_slug);
+                    $svc_desc = !empty($svc->short_desc) ? $svc->short_desc : (!empty($svc->description) ? strip_tags($svc->description) : 'Botanical brightening serum infusion to revive fatigued complexion.');
+                    if (mb_strlen($svc_desc) > 130) {
+                        $svc_desc = mb_substr($svc_desc, 0, 127) . '...';
+                    }
+                    $svc_icon = !empty($svc->icon) ? $svc->icon : (!empty($svc->icon_class) ? $svc->icon_class : 'icon-botox');
+
+                    // Image resolving
+                    $raw_img = !empty($svc->thumbnail) ? $svc->thumbnail : (!empty($svc->image) ? $svc->image : '');
+                    if (!empty($raw_img) && (strpos($raw_img, 'http://') === 0 || strpos($raw_img, 'https://') === 0)) {
+                        $svc_img = $raw_img;
+                    } elseif (!empty($raw_img) && (strpos($raw_img, 'uploads/') === 0 || strpos($raw_img, 'assets/') === 0)) {
+                        $svc_img = base_url($raw_img);
+                    } elseif (!empty($raw_img)) {
+                        $svc_img = base_url('uploads/' . ltrim($raw_img, '/'));
+                    } else {
+                        $svc_img = base_url('assets/template2/images/services/services-1-' . (($index % 6) + 1) . '.jpg');
+                    }
+                    $delay = (($index % 3) + 1) * 100;
+                ?>
+                <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp animated" data-wow-delay="<?= $delay ?>ms">
+                    <div class="services-one__single">
+                        <div class="services-one__img">
+                            <img src="<?= htmlspecialchars($svc_img) ?>" alt="<?= htmlspecialchars($svc_title) ?>" style="height: 260px; width: 100%; object-fit: cover;">
                         </div>
-                        <div class="small mb-2" style="color: #b8865f;"><i class="fas fa-tag me-1"></i><?= htmlspecialchars($svc->category_name) ?></div>
-                        <p class="text-muted small mb-0" style="max-width: 360px;"><?= htmlspecialchars($svc->description ? $svc->description : 'Personalized holistic care.') ?></p>
-                    </div>
-                    <div class="text-end ps-3">
-                        <div class="fs-4 fw-bold mb-2" style="color: #b8865f;"><?= format_currency($svc->price) ?></div>
-                        <a href="<?= website_url('booking?service_id='.$svc->id) ?>" class="btn btn-pureglow btn-sm">
-                            Book
-                        </a>
+                        <div class="services-one__content">
+                            <div class="services-one__icon">
+                                <span class="<?= htmlspecialchars($svc_icon) ?>"></span>
+                            </div>
+                            <h3 class="services-one__title"><a href="<?= $svc_url ?>"><?= htmlspecialchars($svc_title) ?></a></h3>
+                            <p class="services-one__text"><?= htmlspecialchars($svc_desc) ?></p>
+                            <a href="<?= $svc_url ?>" class="services-one__btn">Read More <span class="icon-right-arrow"></span> </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">No services found at this time.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
-
-<script>
-function filterServices(catClass) {
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        b.classList.remove('btn-pureglow', 'active');
-        b.classList.add('btn-outline-secondary');
-    });
-    event.target.classList.remove('btn-outline-secondary');
-    event.target.classList.add('btn-pureglow', 'active');
-
-    var items = document.querySelectorAll('.service-item');
-    items.forEach(el => {
-        if (catClass === 'all' || el.classList.contains(catClass)) {
-            el.style.display = 'block';
-        } else {
-            el.style.display = 'none';
-        }
-    });
-}
-</script>
+<!--Services One End -->

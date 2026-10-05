@@ -299,8 +299,28 @@ class Booking extends Website_Controller {
         $service_val = trim($this->input->post('service', TRUE));
         $message = trim($this->input->post('message', TRUE));
 
+        $errors = array();
         if (empty($name)) {
-            $msg = 'Please enter your full name.';
+            $errors[] = 'Full name is required.';
+        }
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'A valid email address is required.';
+        }
+        if (empty($phone)) {
+            $errors[] = 'Phone number is required.';
+        }
+        if (empty($date) || $date === 'Date') {
+            $errors[] = 'Booking date is required.';
+        }
+        if (empty($service_val) || $service_val === 'Select Service *') {
+            $errors[] = 'Please select a service.';
+        }
+        if (empty($message)) {
+            $errors[] = 'Message is required.';
+        }
+
+        if (!empty($errors)) {
+            $msg = implode(' ', $errors);
             if ($this->input->is_ajax_request()) {
                 http_response_code(400);
                 echo $msg; exit;

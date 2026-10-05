@@ -1,7 +1,3 @@
-<!-- Summernote WYSIWYG Editor Assets -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
 <div class="container-fluid px-4 py-4">
 
     <!-- Flash Messages -->
@@ -117,7 +113,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1">$<?= number_format($svc_price, 2) ?></span>
+                                        <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1"><?= format_currency($svc_price) ?></span>
                                         <span class="badge bg-light text-dark border ms-1"><?= htmlspecialchars($svc_duration) ?></span>
                                     </td>
                                     <td>
@@ -172,10 +168,10 @@
 </div>
 
 <!-- MODAL: ADD / EDIT SERVICE (MATCHING SUPERADMIN LAYOUTS SERVICES) -->
-<div class="modal fade" id="modalService" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal fade" id="modalService" aria-labelledby="svcModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
-            <form action="<?= admin_url('services') ?>" method="post" enctype="multipart/form-data">
+            <form action="<?= admin_url('services') ?>" method="post" enctype="multipart/form-data" id="serviceForm">
                 <input type="hidden" name="action" value="save_service">
                 <input type="hidden" name="service_id" id="svcId" value="0">
 
@@ -205,7 +201,7 @@
                             <input type="text" name="banner_image_url" id="svcBannerUrl" class="form-control form-control-sm" placeholder="assets/template2/images/services/service-details-img4.jpg">
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label small fw-bold">Price ($)</label>
+                            <label class="form-label small fw-bold">Price (<?= html_escape(get_setting('currency_symbol', '$')) ?>)</label>
                             <input type="number" step="0.01" name="price" id="svcPrice" class="form-control" value="85.00">
                         </div>
                         <div class="col-md-2">
@@ -262,11 +258,10 @@ function openNewServiceModal() {
     $('#svcPrice').val('85.00');
     $('#svcDuration').val('60 mins');
     $('#svcShortDesc').val('');
-    if ($('#svcDescriptionEditor').summernote) {
+    if (typeof $.fn.summernote !== 'undefined') {
         $('#svcDescriptionEditor').summernote('code', '');
-    } else {
-        $('#svcDescriptionEditor').val('');
     }
+    $('#svcDescriptionEditor').val('');
     $('#svcSortOrder').val(1);
     $('#svcStatus').val('active');
 }
@@ -285,11 +280,11 @@ function triggerEditService(id) {
         $('#svcPrice').val(data.price);
         $('#svcDuration').val(data.duration);
         $('#svcShortDesc').val(data.short_desc);
-        if ($('#svcDescriptionEditor').summernote) {
-            $('#svcDescriptionEditor').summernote('code', data.description || '');
-        } else {
-            $('#svcDescriptionEditor').val(data.description || '');
+        var desc = data.description || '';
+        if (typeof $.fn.summernote !== 'undefined') {
+            $('#svcDescriptionEditor').summernote('code', desc);
         }
+        $('#svcDescriptionEditor').val(desc);
         $('#svcSortOrder').val(data.sort_order);
         $('#svcStatus').val(data.status);
     } catch(e) {
@@ -305,19 +300,45 @@ function deleteService(id) {
 }
 
 $(document).ready(function() {
-    if ($.fn.summernote) {
-        $('.summernote-editor').summernote({
-            height: 250,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'italic', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-    }
+    // When modal opens, ensure summernote is initialized properly
+    $('#modalService').on('shown.bs.modal', function () {
+        if (typeof $.fn.summernote !== 'undefined' && !$('#svcDescriptionEditor').next().hasClass('note-editor')) {
+            $('#svcDescriptionEditor').summernote({
+                height: 250,
+                placeholder: 'Type full detailed service description here...',
+                dialogsInBody: false,
+                dialogsFade: false,
+                tabsize: 2,
+                tableClassName: 'table',
+                buttons: {
+                    tableProperties: typeof makeTablePropertiesBtn !== 'undefined' ? makeTablePropertiesBtn : null
+                },
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table', 'tableProperties']],
+                    ['insert', ['link', 'picture', 'video', 'hr']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                popover: {
+                    table: [
+                        ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                        ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+                        ['custom', ['tableProperties']]
+                    ]
+                }
+            });
+        }
+    });
+
+    // Ensure editor content syncs back to textarea on form submit
+    $('#serviceForm').on('submit', function() {
+        if (typeof $.fn.summernote !== 'undefined' && $('#svcDescriptionEditor').next().hasClass('note-editor')) {
+            $('#svcDescriptionEditor').val($('#svcDescriptionEditor').summernote('code'));
+        }
+    });
 });
 </script>
