@@ -1,3 +1,10 @@
+<?php
+$site_logo_url = function_exists('site_logo_url') ? site_logo_url() : base_url('uploads/branding/logo.webp');
+$site_logo = $site_logo_url;
+
+$site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+$site_fav = $site_fav_url;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +13,9 @@
     <title><?= htmlspecialchars($page_title) ?> - <?= htmlspecialchars($business_name) ?></title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="<?= template_asset('images/favicons/favicon-32x32.png', 'template2') ?>" />
+    <link rel="shortcut icon" type="image/x-icon" href="<?= htmlspecialchars($site_fav_url) ?>?v=<?= time() ?>" />
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= htmlspecialchars($site_fav_url) ?>?v=<?= time() ?>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= htmlspecialchars($site_fav_url) ?>?v=<?= time() ?>" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -84,8 +93,8 @@
     <header class="pureglow-navbar sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-xl navbar-light p-0">
-                <a class="pureglow-brand" href="<?= website_url() ?>">
-                    <?= htmlspecialchars($business_name) ?>
+                <a class="pureglow-brand d-inline-block" href="<?= website_url() ?>">
+                    <img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;">
                 </a>
 
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#pureglowMenu">
@@ -151,8 +160,8 @@
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-widget">
-                        <a class="pureglow-brand text-white mb-3 d-inline-block" href="<?= website_url() ?>">
-                            <?= htmlspecialchars($business_name) ?>
+                        <a class="footer-brand mb-3 d-inline-block" href="<?= website_url() ?>">
+                            <img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" style="max-height: 48px; width: auto; object-fit: contain;">
                         </a>
                         <p class="small mb-4 text-white-50">
                             <?= htmlspecialchars($footer_about) ?>

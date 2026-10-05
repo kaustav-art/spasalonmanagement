@@ -6,7 +6,8 @@
     <title>Login | <?= html_escape(get_setting('business_name', 'Salon & Spa Management')) ?></title>
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="<?= admin_asset('img/logo/favicon.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= function_exists('admin_favicon_url') ? admin_favicon_url() : admin_asset('img/logo/favicon.png') ?>?v=<?= time() ?>" type="image/x-icon">
+    <link rel="icon" href="<?= function_exists('admin_favicon_url') ? admin_favicon_url() : admin_asset('img/logo/favicon.png') ?>?v=<?= time() ?>">
     
     <!-- Global CSS -->
     <link id="bootstrap-css" rel="stylesheet" type="text/css" href="<?= admin_asset('css/bootstrap.css') ?>">
@@ -14,9 +15,6 @@
     <link rel="stylesheet" type="text/css" href="<?= admin_asset('css/conca.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        .demo-box { background: var(--bs-card-bg, #f8fafc); border: 1px dashed var(--bs-border-color, #cbd5e1); border-radius: 8px; padding: 12px; }
-    </style>
 </head>
 <body>
     <div class="auth-main">
@@ -27,8 +25,7 @@
                         <div class="card-body py-9 px-6 px-sm-10">
                             <div class="mb-7 text-center">
                                 <div class="d-flex align-items-center justify-content-center mb-4">
-                                    <img class="app-main-logo logo-black" width="110" src="<?= admin_asset('img/logo/logo.png') ?>" alt="Logo">
-                                    <img class="app-main-logo logo-white d-none" width="110" src="<?= admin_asset('img/logo/logo-white.png') ?>" alt="Logo">
+                                    <img class="app-main-logo" style="max-height: 65px; max-width: 220px; object-fit: contain;" src="<?= function_exists('admin_logo_url') ? admin_logo_url() : admin_asset('img/logo/logo.png') ?>?v=<?= time() ?>" alt="<?= html_escape(get_setting('business_name', 'Logo')) ?>">
                                 </div>
                                 <h4 class="mb-1 fw-semibold"><?= html_escape(get_setting('business_name', 'Salon & Spa Management')) ?></h4>
                                 <p class="text-muted fs-14px"><?= html_escape(get_setting('business_tagline', 'Business Control & Administration Portal')) ?></p>
@@ -51,13 +48,13 @@
                             <form action="<?= admin_url('auth/login') ?>" method="POST">
                                 <div class="mb-3">
                                     <label for="loginEmail" class="form-label fw-medium">Email Address</label>
-                                    <input type="email" name="email" class="form-control" id="loginEmail" placeholder="admin@spasalon.com" required value="admin@spasalon.com">
+                                    <input type="email" name="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="loginPassword" class="form-label fw-medium">Password</label>
                                     <div class="input-group">
-                                        <input type="password" name="password" class="form-control" placeholder="••••••••" id="loginPassword" required value="admin123">
+                                        <input type="password" name="password" class="form-control" placeholder="••••••••" id="loginPassword" required>
                                         <span class="input-group-text password-toggle cursor-pointer" style="cursor: pointer;">
                                             <span class="close-eye password-eye">
                                                 <svg width="22" height="10" viewBox="0 0 22 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,17 +88,6 @@
                                         Sign In to Dashboard
                                     </button>
                                 </div>
-
-                                <!-- Demo Credentials Box -->
-                                <div class="demo-box text-start mb-4">
-                                    <div class="fw-bold text-dark fs-13px mb-1"><i class="fa-solid fa-key text-warning me-1"></i> Demo Credentials:</div>
-                                    <div class="fs-12px text-muted mb-2">
-                                        <strong>Email:</strong> admin@spasalon.com &bull; <strong>Password:</strong> admin123
-                                    </div>
-                                    <button type="button" onclick="fillAdmin()" class="btn btn-xs btn-outline-primary">
-                                        Auto-fill Credentials
-                                    </button>
-                                </div>
                             </form>
 
                             <div class="text-center pt-3 border-top">
@@ -123,11 +109,5 @@
     <script src="<?= admin_asset('js/bootstrap.js') ?>"></script>
     <script src="<?= admin_asset('js/conca.js') ?>"></script>
 
-    <script>
-    function fillAdmin() {
-        document.getElementById('loginEmail').value = 'admin@spasalon.com';
-        document.getElementById('loginPassword').value = 'admin123';
-    }
-    </script>
 </body>
 </html>

@@ -10,9 +10,8 @@ $user_role = isset($current_user->role_name) ? $current_user->role_name : 'Admin
     <div class="app-sidebar-wrapper">
         <!-- app sidebar header -->
         <div class="app-sidebar-header d-flex align-items-center justify-content-between">
-            <a href="<?= admin_url('dashboard') ?>" class="app-sidebar-logo">
-                <img class="app-main-logo logo-black" width="105" src="<?= admin_asset('img/logo/logo.png') ?>" alt="Logo">
-                <img class="app-main-logo logo-white d-none" width="105" src="<?= admin_asset('img/logo/logo-white.png') ?>" alt="Logo">
+            <a href="<?= admin_url('dashboard') ?>" class="app-sidebar-logo d-flex align-items-center">
+                <img class="app-main-logo" style="max-height: 42px; max-width: 140px; object-fit: contain;" src="<?= function_exists('admin_logo_url') ? admin_logo_url() : admin_asset('img/logo/logo.png') ?>?v=<?= time() ?>" alt="<?= html_escape(get_setting('business_name', 'Logo')) ?>">
             </a>
 
             <button type="button" class="app-sidebar-close-btn app-sidebar-mobile-close d-xl-none">

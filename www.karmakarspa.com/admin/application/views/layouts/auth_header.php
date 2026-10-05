@@ -6,7 +6,8 @@
     <title><?= isset($page_title) ? html_escape($page_title) : 'Authentication' ?> | <?= html_escape(get_setting('business_name', 'Salon & Spa Management')) ?></title>
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="<?= admin_asset('img/logo/favicon.png'); ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= function_exists('admin_favicon_url') ? admin_favicon_url() : admin_asset('img/logo/favicon.png'); ?>?v=<?= time() ?>" type="image/x-icon">
+    <link rel="icon" href="<?= function_exists('admin_favicon_url') ? admin_favicon_url() : admin_asset('img/logo/favicon.png'); ?>?v=<?= time() ?>">
 
     <!-- global style sheet for all pages -->
     <link id="bootstrap-css" rel="stylesheet" type="text/css" href="<?= admin_asset('css/bootstrap.css'); ?>">

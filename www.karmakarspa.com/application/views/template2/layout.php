@@ -1,9 +1,9 @@
 <?php
-$site_logo = function_exists('get_setting') ? get_setting('landing_site_logo', 'uploads/branding/logo.webp') : 'uploads/branding/logo.webp';
-$site_logo_url = !empty($site_logo) ? (strpos($site_logo, 'http') === 0 ? $site_logo : base_url(ltrim($site_logo, '/'))) : base_url('uploads/branding/logo.webp');
+$site_logo_url = function_exists('site_logo_url') ? site_logo_url() : base_url('uploads/branding/logo.webp');
+$site_logo = $site_logo_url;
 
-$site_fav = function_exists('get_setting') ? get_setting('landing_site_favicon', 'uploads/branding/codeulas_logo_small.webp') : 'uploads/branding/codeulas_logo_small.webp';
-$site_fav_url = !empty($site_fav) ? (strpos($site_fav, 'http') === 0 ? $site_fav : base_url(ltrim($site_fav, '/'))) : base_url('uploads/branding/codeulas_logo_small.webp');
+$site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+$site_fav = $site_fav_url;
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -11,11 +11,11 @@ $blog_tags = array_map('trim', explode(',', $blog_tags_str));
 $thumb_src = fallback_image_url($blog_thumb, 'assets/template2/images/blog/blog-details-img-1.jpg');
 $home_url = website_url('?preview_tpl=template2&preview_layout=' . (isset($active_home_layout) ? $active_home_layout : 1));
 
-$site_logo = function_exists('get_setting') ? get_setting('landing_site_logo', 'uploads/branding/logo.webp') : 'uploads/branding/logo.webp';
-$site_logo_url = !empty($site_logo) ? (strpos($site_logo, 'http') === 0 ? $site_logo : base_url(ltrim($site_logo, '/'))) : base_url('uploads/branding/logo.webp');
+$site_logo_url = function_exists('site_logo_url') ? site_logo_url() : base_url('uploads/branding/logo.webp');
+$site_logo = $site_logo_url;
 
-$site_fav = function_exists('get_setting') ? get_setting('landing_site_favicon', 'uploads/branding/codeulas_logo_small.webp') : 'uploads/branding/codeulas_logo_small.webp';
-$site_fav_url = !empty($site_fav) ? (strpos($site_fav, 'http') === 0 ? $site_fav : base_url(ltrim($site_fav, '/'))) : base_url('uploads/branding/codeulas_logo_small.webp');
+$site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
+$site_fav = $site_fav_url;
 
 // Parse date into day & month
 $time_ts = strtotime($blog_date);

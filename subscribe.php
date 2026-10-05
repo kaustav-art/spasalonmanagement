@@ -700,7 +700,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
         <div class="wizard-main-card">
             
             <!-- 5-Step Visual Bar -->
-            <div class="wizard-step-bar">
+            <div class="wizard-step-bar" id="wizardStepBar" style="<?= ($stripe_provision_completed && $stripe_provision_result) ? 'display: none !important;' : '' ?>">
                 <div class="step-node active" id="nodeStep1">
                     <div class="step-badge">1</div>
                     <div class="step-meta">
@@ -754,7 +754,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- STEP 1: ACCOUNT REGISTRATION -->
                     <!-- ======================================================== -->
-                    <div id="sectionStep1">
+                    <div id="sectionStep1" class="wizard-section" style="<?= ($stripe_provision_completed && $stripe_provision_result) ? 'display: none !important;' : '' ?>">
                         <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap gap-2">
                             <div>
                                 <h4 class="fw-bold font-serif text-white mb-1">Create Your SaaS Account</h4>
@@ -819,7 +819,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- STEP 2: OTP VERIFICATION -->
                     <!-- ======================================================== -->
-                    <div id="sectionStep2" style="display: none;">
+                    <div id="sectionStep2" class="wizard-section" style="display: none;">
                         <div class="text-center mb-4">
                             <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-10 text-warning mb-3">
                                 <i class="fa-solid fa-shield-halved fa-2x"></i>
@@ -871,7 +871,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- STEP 3: SETUP INFORMATION (All setup info comes here) -->
                     <!-- ======================================================== -->
-                    <div id="sectionStep3" style="display: none;">
+                    <div id="sectionStep3" class="wizard-section" style="display: none;">
                         <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap gap-2">
                             <div>
                                 <h4 class="fw-bold font-serif text-white mb-1">Project &amp; Business Setup Information</h4>
@@ -992,7 +992,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- STEP 4: CHOOSE TEMPLATE & HOMEPAGE LAYOUT -->
                     <!-- ======================================================== -->
-                    <div id="sectionStep4" style="display: none;">
+                    <div id="sectionStep4" class="wizard-section" style="display: none;">
                         <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap gap-2">
                             <div>
                                 <h4 class="fw-bold font-serif text-white mb-1">Select Website Theme &amp; Homepage Layout</h4>
@@ -1068,7 +1068,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- STEP 5: PAYMENT (Final Step, Submit button: 'Payment') -->
                     <!-- ======================================================== -->
-                    <div id="sectionStep5" style="display: none;">
+                    <div id="sectionStep5" class="wizard-section" style="display: none;">
                         <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap gap-2">
                             <div>
                                 <h4 class="fw-bold font-serif text-white mb-1">Order Review &amp; Payment</h4>
@@ -1236,7 +1236,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- LIVE DEPLOYMENT PROGRESSION / INSTALLATION PAGE -->
                     <!-- ======================================================== -->
-                    <div id="sectionDeploying" style="display: none;">
+                    <div id="sectionDeploying" class="wizard-section" style="<?= ($stripe_provision_completed && $stripe_provision_result) ? 'display: block !important;' : 'display: none !important;' ?>">
                         <div class="text-center py-4">
                             <div class="spinner-border text-warning mb-3" style="width: 3.5rem; height: 3.5rem;" role="status"></div>
                             <h3 class="fw-bold font-serif text-white mb-2">Deploying Your SaaS Project Instance...</h3>
@@ -1291,7 +1291,7 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     <!-- ======================================================== -->
                     <!-- DEPLOYMENT SUCCESS / LAUNCH HUB -->
                     <!-- ======================================================== -->
-                    <div id="sectionComplete" style="display: none;">
+                    <div id="sectionComplete" class="wizard-section" style="display: none !important;">
                         <div class="text-center mb-4">
                             <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-10 text-success mb-3">
                                 <i class="fa-solid fa-circle-check fa-3x"></i>
@@ -1468,14 +1468,18 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
             currentStep = step;
             hideAlert();
 
+            const stepBar = document.getElementById('wizardStepBar');
+            if (stepBar) stepBar.style.setProperty('display', 'flex', 'important');
+
             // Sections
-            document.getElementById('sectionStep1').style.display = (step === 1) ? 'block' : 'none';
-            document.getElementById('sectionStep2').style.display = (step === 2) ? 'block' : 'none';
-            document.getElementById('sectionStep3').style.display = (step === 3) ? 'block' : 'none';
-            document.getElementById('sectionStep4').style.display = (step === 4) ? 'block' : 'none';
-            document.getElementById('sectionStep5').style.display = (step === 5) ? 'block' : 'none';
-            document.getElementById('sectionDeploying').style.display = 'none';
-            document.getElementById('sectionComplete').style.display = 'none';
+            for (let i = 1; i <= 5; i++) {
+                const s = document.getElementById('sectionStep' + i);
+                if (s) s.style.setProperty('display', (i === step) ? 'block' : 'none', 'important');
+            }
+            const dep = document.getElementById('sectionDeploying');
+            if (dep) dep.style.setProperty('display', 'none', 'important');
+            const comp = document.getElementById('sectionComplete');
+            if (comp) comp.style.setProperty('display', 'none', 'important');
 
             // Nodes
             for (let i = 1; i <= 5; i++) {
@@ -2265,8 +2269,19 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
 
         function runDeploymentAnimation(data, onFinish) {
             // Switch to animated deployment progression view
-            document.querySelectorAll('.wizard-section').forEach(el => el.style.display = 'none');
-            document.getElementById('sectionDeploying').style.display = 'block';
+            const stepBar = document.getElementById('wizardStepBar');
+            if (stepBar) stepBar.style.setProperty('display', 'none', 'important');
+
+            for (let i = 1; i <= 5; i++) {
+                const s = document.getElementById('sectionStep' + i);
+                if (s) s.style.setProperty('display', 'none', 'important');
+            }
+            const comp = document.getElementById('sectionComplete');
+            if (comp) comp.style.setProperty('display', 'none', 'important');
+
+            const dep = document.getElementById('sectionDeploying');
+            if (dep) dep.style.setProperty('display', 'block', 'important');
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             const domainText = data.domain || data.folder_name || (document.getElementById('wizDomain') ? document.getElementById('wizDomain').value.trim() : 'salon');
@@ -2318,8 +2333,13 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
 
             setTimeout(() => {
                 // Hide deployment box and show Launch Hub
-                document.getElementById('sectionDeploying').style.display = 'none';
-                document.getElementById('sectionComplete').style.display = 'block';
+                if (dep) dep.style.setProperty('display', 'none', 'important');
+                if (comp) comp.style.setProperty('display', 'block', 'important');
+                if (stepBar) stepBar.style.setProperty('display', 'none', 'important');
+                for (let i = 1; i <= 5; i++) {
+                    const s = document.getElementById('sectionStep' + i);
+                    if (s) s.style.setProperty('display', 'none', 'important');
+                }
 
                 if (data.website_url) {
                     document.getElementById('hubLinkSite').href = data.website_url;
@@ -2360,16 +2380,28 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
         async function executeFinalPaymentWithTransaction(method, txnId) {
             const btn = document.getElementById('btnSubmitPayment');
             const spinner = document.getElementById('spinnerPayment');
-            btn.disabled = true;
-            spinner.classList.remove('d-none');
+            if (btn) btn.disabled = true;
+            if (spinner) spinner.classList.remove('d-none');
 
             // Switch to animated deployment progression view
-            document.getElementById('sectionStep5').style.display = 'none';
-            document.getElementById('sectionDeploying').style.display = 'block';
+            const stepBar = document.getElementById('wizardStepBar');
+            if (stepBar) stepBar.style.setProperty('display', 'none', 'important');
+
+            for (let i = 1; i <= 5; i++) {
+                const s = document.getElementById('sectionStep' + i);
+                if (s) s.style.setProperty('display', 'none', 'important');
+            }
+            const comp = document.getElementById('sectionComplete');
+            if (comp) comp.style.setProperty('display', 'none', 'important');
+
+            const dep = document.getElementById('sectionDeploying');
+            if (dep) dep.style.setProperty('display', 'block', 'important');
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            const cleanDom = document.getElementById('wizDomain').value.trim();
-            document.getElementById('dpDomainDisplay').textContent = cleanDom;
+            const cleanDom = document.getElementById('wizDomain') ? document.getElementById('wizDomain').value.trim() : 'salon';
+            const dpDom = document.getElementById('dpDomainDisplay');
+            if (dpDom) dpDom.textContent = cleanDom;
 
             // Start initial animation while request is processed
             setDeployItem('dpStep1', 'running');
@@ -2440,8 +2472,13 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
 
                     setTimeout(() => {
                         // Render completion hub
-                        document.getElementById('sectionDeploying').style.display = 'none';
-                        document.getElementById('sectionComplete').style.display = 'block';
+                        if (dep) dep.style.setProperty('display', 'none', 'important');
+                        if (comp) comp.style.setProperty('display', 'block', 'important');
+                        if (stepBar) stepBar.style.setProperty('display', 'none', 'important');
+                        for (let i = 1; i <= 5; i++) {
+                            const s = document.getElementById('sectionStep' + i);
+                            if (s) s.style.setProperty('display', 'none', 'important');
+                        }
 
                         document.getElementById('hubLinkSite').href = data.website_url;
                         document.getElementById('hubUrlSite').textContent = data.website_url;
@@ -2465,20 +2502,24 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     }, 1600);
 
                 } else {
-                    document.getElementById('sectionDeploying').style.display = 'none';
-                    document.getElementById('sectionStep5').style.display = 'block';
-                    btn.disabled = false;
-                    spinner.classList.add('d-none');
+                    if (dep) dep.style.setProperty('display', 'none', 'important');
+                    const s5 = document.getElementById('sectionStep5');
+                    if (s5) s5.style.setProperty('display', 'block', 'important');
+                    if (stepBar) stepBar.style.setProperty('display', 'flex', 'important');
+                    if (btn) btn.disabled = false;
+                    if (spinner) spinner.classList.add('d-none');
                     showAlert(data.message || 'Payment or provisioning encountered an error.');
                 }
             } catch (err) {
                 clearTimeout(t1);
                 clearTimeout(t2);
                 clearTimeout(t3);
-                document.getElementById('sectionDeploying').style.display = 'none';
-                document.getElementById('sectionStep5').style.display = 'block';
-                btn.disabled = false;
-                spinner.classList.add('d-none');
+                if (dep) dep.style.setProperty('display', 'none', 'important');
+                const s5 = document.getElementById('sectionStep5');
+                if (s5) s5.style.setProperty('display', 'block', 'important');
+                if (stepBar) stepBar.style.setProperty('display', 'flex', 'important');
+                if (btn) btn.disabled = false;
+                if (spinner) spinner.classList.add('d-none');
                 showAlert('Deployment communication failure: ' + err.message);
             }
         }

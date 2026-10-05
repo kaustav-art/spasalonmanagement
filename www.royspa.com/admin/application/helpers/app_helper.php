@@ -143,6 +143,76 @@ if (!function_exists('template_asset')) {
     }
 }
 
+if (!function_exists('admin_logo_url')) {
+    function admin_logo_url() {
+        $logo = '';
+        if (function_exists('get_setting')) {
+            $logo = get_setting('logo');
+            if (empty($logo)) $logo = get_setting('business_logo');
+            if (empty($logo)) $logo = get_setting('landing_site_logo');
+            if (empty($logo)) $logo = get_setting('site_logo');
+        }
+        
+        if (!empty($logo)) {
+            if (strpos($logo, 'http://') === 0 || strpos($logo, 'https://') === 0) {
+                return $logo;
+            }
+            $clean = ltrim($logo, '/\\');
+            if (strpos($clean, 'uploads/') !== 0) {
+                if (file_exists(FCPATH . 'uploads/branding/' . $clean)) {
+                    $clean = 'uploads/branding/' . $clean;
+                } elseif (file_exists(dirname(FCPATH) . DIRECTORY_SEPARATOR . 'uploads/branding/' . $clean)) {
+                    $clean = 'uploads/branding/' . $clean;
+                }
+            }
+            if (file_exists(FCPATH . $clean)) {
+                return admin_url($clean);
+            }
+            if (file_exists(dirname(FCPATH) . DIRECTORY_SEPARATOR . $clean)) {
+                return website_url($clean);
+            }
+            return website_url($clean);
+        }
+        
+        return admin_asset('img/logo/logo.png');
+    }
+}
+
+if (!function_exists('admin_favicon_url')) {
+    function admin_favicon_url() {
+        $fav = '';
+        if (function_exists('get_setting')) {
+            $fav = get_setting('favicon');
+            if (empty($fav)) $fav = get_setting('business_favicon');
+            if (empty($fav)) $fav = get_setting('landing_site_favicon');
+            if (empty($fav)) $fav = get_setting('site_favicon');
+        }
+        
+        if (!empty($fav)) {
+            if (strpos($fav, 'http://') === 0 || strpos($fav, 'https://') === 0) {
+                return $fav;
+            }
+            $clean = ltrim($fav, '/\\');
+            if (strpos($clean, 'uploads/') !== 0) {
+                if (file_exists(FCPATH . 'uploads/branding/' . $clean)) {
+                    $clean = 'uploads/branding/' . $clean;
+                } elseif (file_exists(dirname(FCPATH) . DIRECTORY_SEPARATOR . 'uploads/branding/' . $clean)) {
+                    $clean = 'uploads/branding/' . $clean;
+                }
+            }
+            if (file_exists(FCPATH . $clean)) {
+                return admin_url($clean);
+            }
+            if (file_exists(dirname(FCPATH) . DIRECTORY_SEPARATOR . $clean)) {
+                return website_url($clean);
+            }
+            return website_url($clean);
+        }
+        
+        return admin_asset('img/logo/favicon.png');
+    }
+}
+
 if (!function_exists('appointment_status_badge')) {
     function appointment_status_badge($status) {
         switch (strtolower($status)) {

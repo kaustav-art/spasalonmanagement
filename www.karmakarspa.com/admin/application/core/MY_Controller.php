@@ -30,7 +30,6 @@ class Admin_Controller extends CI_Controller {
         if (!in_array($controller, $exempt_controllers)) {
             $user_id = $this->session->userdata('user_id');
             if (!$user_id) {
-                $this->session->set_flashdata('error', 'Please login to access the administration panel.');
                 redirect(admin_url('auth/login'));
                 exit;
             }

@@ -251,27 +251,55 @@ if (!function_exists('fallback_image_url')) {
 
 if (!function_exists('site_logo_url')) {
     function site_logo_url() {
-        $logo = function_exists('get_setting') ? get_setting('landing_site_logo', 'uploads/branding/logo.webp') : 'uploads/branding/logo.webp';
+        $logo = '';
+        if (function_exists('get_setting')) {
+            $logo = get_setting('logo');
+            if (empty($logo)) $logo = get_setting('business_logo');
+            if (empty($logo)) $logo = get_setting('landing_site_logo');
+            if (empty($logo)) $logo = get_setting('site_logo');
+        }
         if (empty($logo)) {
             $logo = 'uploads/branding/logo.webp';
         }
         if (strpos($logo, 'http://') === 0 || strpos($logo, 'https://') === 0) {
             return $logo;
         }
-        return root_url(ltrim($logo, '/\\'));
+        $clean = ltrim($logo, '/\\');
+        if (strpos($clean, 'uploads/') !== 0) {
+            if (file_exists(FCPATH . 'uploads/branding/' . $clean)) {
+                $clean = 'uploads/branding/' . $clean;
+            } elseif (defined('FCPATH') && file_exists(dirname(FCPATH) . '/uploads/branding/' . $clean)) {
+                $clean = 'uploads/branding/' . $clean;
+            }
+        }
+        return root_url($clean);
     }
 }
 
 if (!function_exists('site_favicon_url')) {
     function site_favicon_url() {
-        $fav = function_exists('get_setting') ? get_setting('landing_site_favicon', 'uploads/branding/codeulas_logo_small.webp') : 'uploads/branding/codeulas_logo_small.webp';
+        $fav = '';
+        if (function_exists('get_setting')) {
+            $fav = get_setting('favicon');
+            if (empty($fav)) $fav = get_setting('business_favicon');
+            if (empty($fav)) $fav = get_setting('landing_site_favicon');
+            if (empty($fav)) $fav = get_setting('site_favicon');
+        }
         if (empty($fav)) {
             $fav = 'uploads/branding/codeulas_logo_small.webp';
         }
         if (strpos($fav, 'http://') === 0 || strpos($fav, 'https://') === 0) {
             return $fav;
         }
-        return root_url(ltrim($fav, '/\\'));
+        $clean = ltrim($fav, '/\\');
+        if (strpos($clean, 'uploads/') !== 0) {
+            if (file_exists(FCPATH . 'uploads/branding/' . $clean)) {
+                $clean = 'uploads/branding/' . $clean;
+            } elseif (defined('FCPATH') && file_exists(dirname(FCPATH) . '/uploads/branding/' . $clean)) {
+                $clean = 'uploads/branding/' . $clean;
+            }
+        }
+        return root_url($clean);
     }
 }
 

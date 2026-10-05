@@ -820,7 +820,11 @@ function execute_subscription_provisioning($pdo, $settings, $data, $files = []) 
             'active_home_layout' => (string)$chosen_layout,
             'currency_symbol' => $currency_symbol,
             'logo' => $logo_rel_path,
+            'business_logo' => $logo_rel_path,
+            'landing_site_logo' => $logo_rel_path,
             'favicon' => $favicon_rel_path,
+            'business_favicon' => $favicon_rel_path,
+            'landing_site_favicon' => $favicon_rel_path,
             'domain' => $clean_domain
         ];
 
