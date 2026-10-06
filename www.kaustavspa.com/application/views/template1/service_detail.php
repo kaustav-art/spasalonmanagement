@@ -241,7 +241,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 							<?php endif; ?>
 						</div>
 						<a href="<?= $booking_page_url ?>" class="pbmit-btn">
-							<span class="pbmit-button-text">Book Appointment</span>
+							<span class="pbmit-button-text">Book Now</span>
 						</a>
 					</div>
 
@@ -251,110 +251,6 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 						<div class="pbmit-service-desc-text mt-3" style="font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.78);">
 							<?= !empty($svc_desc) ? $svc_desc : '<p>' . nl2br(htmlspecialchars($svc_short)) . '</p>' ?>
 						</div>
-					</div>
-
-					<!-- 3. Safety Precautions / Authentic Glamr Features -->
-					<div class="pbmit-custom-heading mt-5">
-						<h3 class="pbmit-title mb-3">Safety Precautions are taken in Hair Salon</h3>
-					</div>
-					<p class="pb-xl-4 pb-3" style="color: rgba(255,255,255,0.7);">While every hair salon may offer a unique experience, our priority is delivering world-class hair care with safety, hygiene, and hospital-grade sanitization at the forefront.</p>
-
-					<div class="row mb-5">
-						<div class="col-md-6 col-lg-4">
-							<article class="pbmit-miconheading-style-6">
-								<div class="pbmit-ihbox-style-6">
-									<div class="pbmit-ihbox-box">
-										<div class="pbmit-ihbox-icon">
-											<div class="pbmit-ihbox-icon-wrapper pbmit-icon-type-icon">
-												<svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-													<g id="Hair_Tools"><g><path d="m409 511c-3.314 0-6-2.686-6-6v-498c0-3.313 2.686-6 6-6s6 2.687 6 6v498c0 3.314-2.686 6-6 6z"></path><path d="m439.869 510.791h-47.972c-21.076 0-38.222-17.146-38.222-38.223v-433.332c0-21.076 17.146-38.223 38.222-38.223h47.972c3.314 0 6 2.687 6 6v497.777c0 3.314-2.687 6.001-6 6.001zm-47.972-497.777c-14.459 0-26.222 11.764-26.222 26.223v433.332c0 14.459 11.763 26.223 26.222 26.223h41.972v-485.778z"></path><path d="m505.115 13h-66c-3.314 0-6-2.687-6-6s2.686-6 6-6h66c3.314 0 6 2.687 6 6s-2.687 6-6 6z"></path><path d="m505.115 73h-66c-3.314 0-6-2.687-6-6s2.686-6 6-6h66c3.314 0 6 2.687 6 6s-2.687 6-6 6z"></path><path d="m505.115 141h-66c-3.314 0-6-2.686-6-6s2.686-6 6-6h66c3.314 0 6 2.686 6 6s-2.687 6-6 6z"></path></g></g>
-												</svg>
-											</div>
-										</div>
-										<h2 class="pbmit-element-title">Only natural products</h2>
-										<div class="pbmit-heading-desc">Because you deserve gentle care powered by the purity of botanical nature.</div>
-									</div>
-								</div>
-							</article>
-						</div>
-						<div class="col-md-6 col-lg-4 mt-md-0 mt-4">
-							<article class="pbmit-miconheading-style-6">
-								<div class="pbmit-ihbox-style-6">
-									<div class="pbmit-ihbox-box">
-										<div class="pbmit-ihbox-icon">
-											<div class="pbmit-ihbox-icon-wrapper pbmit-icon-type-icon">
-												<svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-													<g id="Scissor"><g><path d="m221.679 276.165c-2.261 0-4.427-1.284-5.443-3.469l-46.105-99.062c-12.174-26.164-18.974-54.048-20.211-82.878-1.237-28.832 3.149-57.195 13.038-84.303.832-2.28 2.955-3.834 5.379-3.938 2.428-.099 4.673 1.263 5.697 3.463l87.426 187.846c1.398 3.004.096 6.573-2.908 7.972-3.005 1.398-6.573.097-7.972-2.908l-80.994-174.029c-13.656 47.746-9.737 98.235 11.424 143.713l46.104 99.06c1.398 3.005.097 6.573-2.908 7.972-.818.382-1.679.561-2.527.561z"></path></g></g>
-												</svg>
-											</div>
-										</div>
-										<h2 class="pbmit-element-title">Professional stylists</h2>
-										<div class="pbmit-heading-desc">Skill meets style to ensure you feel flawless, fresh, &amp; fabulous.</div>
-									</div>
-								</div>
-							</article>
-						</div>
-						<div class="col-md-6 col-lg-4 mt-lg-0 mt-4">
-							<article class="pbmit-miconheading-style-6">
-								<div class="pbmit-ihbox-style-6">
-									<div class="pbmit-ihbox-box">
-										<div class="pbmit-ihbox-icon">
-											<div class="pbmit-ihbox-icon-wrapper pbmit-icon-type-icon">
-												<svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-													<g id="Shaving_Cream"><g><path d="m406.134 431.072h-300.737c-57.571 0-104.409-46.838-104.409-104.409v-66.438c0-3.314 2.686-6 6-6h497.554c3.313 0 6 2.686 6 6v66.438c.001 57.571-46.837 104.409-104.408 104.409zm-393.146-164.847v60.438c0 50.954 41.454 92.409 92.409 92.409h300.737c50.954 0 92.409-41.455 92.409-92.409v-60.438z"></path></g></g>
-												</svg>
-											</div>
-										</div>
-										<h2 class="pbmit-element-title">Qualified specialists</h2>
-										<div class="pbmit-heading-desc">Passionate professionals committed to your lasting beauty.</div>
-									</div>
-								</div>
-							</article>
-						</div>
-					</div>
-
-					<!-- 4. Relaxing Atmosphere Section -->
-					<div class="about-stylist-area mb-5">
-						<div class="row g-0">
-							<div class="col-md-6 full-width-1024">
-								<div class="image-column" style="background-image: url('<?= $asset_url ?>images/demo-1/about-img.jpg'); min-height: 320px; background-size: cover; background-position: center; border-radius: 8px 0 0 8px;"></div>
-							</div>
-							<div class="col-md-6 full-width-1024">
-								<div class="stylist-content-box p-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 0 8px 8px 0;">
-									<div class="pbmit-custom-heading">
-										<h3 class="pbmit-title mb-3">A Relaxing Atmosphere with Our Passionate Stylists</h3>
-									</div>
-									<p style="color: rgba(255,255,255,0.7);">We have experience &amp; creativity to deliver a variety of hair and beauty rituals. We’re skilled in handling complex styling, cutting, and coloring needs with precision &amp; care.</p>
-									<ul class="list-group">
-										<li class="list-group-item bg-transparent text-white border-0 px-0 d-flex align-items-center gap-2">
-											<span class="pbmit-icon-list-icon text-warning"><i class="pbmit-base-icon-check-1"></i></span>
-											<span class="pbmit-icon-list-text">Custom tailored styling for your unique look</span>
-										</li>
-										<li class="list-group-item bg-transparent text-white border-0 px-0 d-flex align-items-center gap-2">
-											<span class="pbmit-icon-list-icon text-warning"><i class="pbmit-base-icon-check-1"></i></span>
-											<span class="pbmit-icon-list-text">Be able to communicate and consult closely with clients</span>
-										</li>
-										<li class="list-group-item bg-transparent text-white border-0 px-0 d-flex align-items-center gap-2">
-											<span class="pbmit-icon-list-icon text-warning"><i class="pbmit-base-icon-check-1"></i></span>
-											<span class="pbmit-icon-list-text">Cut, style, and groom all hair textures &amp; lengths</span>
-										</li>
-										<li class="list-group-item bg-transparent text-white border-0 px-0 d-flex align-items-center gap-2">
-											<span class="pbmit-icon-list-icon text-warning"><i class="pbmit-base-icon-check-1"></i></span>
-											<span class="pbmit-icon-list-text">Proficient with shears, razors, and balayage techniques</span>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- 5. Bottom Booking CTA (NO FAQ Section as requested) -->
-					<div class="p-4 rounded text-center" style="background: rgba(198,172,115,0.08); border: 1px solid rgba(198,172,115,0.3);">
-						<h4 class="text-white mb-2">Book Your <?= htmlspecialchars($svc_title) ?> Session Today</h4>
-						<p class="text-white-50 mb-3">Reserve your personalized consultation and transformation with our senior stylists.</p>
-						<a href="<?= $booking_page_url ?>" class="pbmit-btn">
-							<span class="pbmit-button-text">Book Appointment Now</span>
-						</a>
 					</div>
 
 				</div>
@@ -390,14 +286,6 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 								<span style="color: #e5e7eb; font-size: 14px;"><i class="far fa-clock text-warning me-1"></i><?= htmlspecialchars($svc_duration) ?></span>
 							<?php endif; ?>
 						</div>
-
-						<?php if (!empty($catalog_default['category'])): ?>
-							<div class="position-absolute" style="top: 20px; left: 20px;">
-								<span class="badge" style="background: rgba(198,172,115,0.95); color: #0b0f19; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 16px; border-radius: 20px;">
-									<?= htmlspecialchars($catalog_default['category']) ?>
-								</span>
-							</div>
-						<?php endif; ?>
 					</div>
 
 					<!-- Luxury Actions Ribbon -->
@@ -407,7 +295,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 							<p class="text-white-50 small mb-0">Exclusive salon ritual designed for your personal transformation.</p>
 						</div>
 						<a href="<?= $booking_page_url ?>" class="pbmit-btn" style="border-radius: 30px; padding: 10px 24px;">
-							<span class="pbmit-button-text">Book Appointment</span>
+							<span class="pbmit-button-text">Book Now</span>
 						</a>
 					</div>
 
@@ -420,81 +308,6 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 						<div class="pbmit-service-desc-text" style="font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.82);">
 							<?= !empty($svc_desc) ? $svc_desc : '<p>' . nl2br(htmlspecialchars($svc_short)) . '</p>' ?>
 						</div>
-					</div>
-
-					<!-- 3. Safety Precautions in Luxury Boutique Cards -->
-					<div class="mb-5">
-						<div class="d-flex align-items-center gap-3 mb-3">
-							<span style="display: inline-block; width: 4px; height: 24px; background: #c6ac73; border-radius: 2px;"></span>
-							<h3 class="text-white mb-0" style="font-size: 22px; font-weight: 600;">Boutique Safety &amp; Care Standards</h3>
-						</div>
-						<p class="text-white-50 mb-4">Every appointment is crafted with strict hospital-grade cleanliness, pristine botanical solutions, and attentive master care.</p>
-						<div class="row g-3">
-							<div class="col-md-4">
-								<div class="p-4 h-100 text-center" style="background: #111827; border: 1px solid rgba(198,172,115,0.2); border-radius: 12px; transition: transform 0.3s ease;">
-									<div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(198,172,115,0.15); border: 1px solid rgba(198,172,115,0.4); color: #c6ac73; font-size: 20px;">
-										<i class="fas fa-leaf"></i>
-									</div>
-									<h5 class="text-white mb-2" style="font-size: 16px;">Pure Botanicals</h5>
-									<p class="text-white-50 small mb-0">Organic nutrient formulas that nurture without compromise.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="p-4 h-100 text-center" style="background: #111827; border: 1px solid rgba(198,172,115,0.2); border-radius: 12px; transition: transform 0.3s ease;">
-									<div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(198,172,115,0.15); border: 1px solid rgba(198,172,115,0.4); color: #c6ac73; font-size: 20px;">
-										<i class="fas fa-certificate"></i>
-									</div>
-									<h5 class="text-white mb-2" style="font-size: 16px;">Master Artists</h5>
-									<p class="text-white-50 small mb-0">Editorial stylists with extensive boutique experience.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="p-4 h-100 text-center" style="background: #111827; border: 1px solid rgba(198,172,115,0.2); border-radius: 12px; transition: transform 0.3s ease;">
-									<div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(198,172,115,0.15); border: 1px solid rgba(198,172,115,0.4); color: #c6ac73; font-size: 20px;">
-										<i class="fas fa-shield-alt"></i>
-									</div>
-									<h5 class="text-white mb-2" style="font-size: 16px;">Sanitized Suites</h5>
-									<p class="text-white-50 small mb-0">Sterilized tools and pristine individual styling suites.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- 4. Atmosphere Area -->
-					<div class="p-4 mb-5" style="background: #111827; border: 1px solid rgba(198,172,115,0.2); border-radius: 16px;">
-						<div class="row align-items-center g-4">
-							<div class="col-md-5">
-								<img src="<?= $asset_url ?>images/demo-1/about-img.jpg" class="img-fluid rounded" alt="Stylists" style="border-radius: 12px; object-fit: cover; width: 100%; max-height: 240px;">
-							</div>
-							<div class="col-md-7">
-								<h4 class="text-white mb-2" style="font-size: 20px;">A Serene Sanctuary for Your Hair</h4>
-								<p class="text-white-50 small mb-3">Immerse yourself in our tranquil salon ambiance where every detail is tailored for calm relaxation and breathtaking transformations.</p>
-								<ul class="list-unstyled mb-0">
-									<li class="text-white-50 small mb-2 d-flex align-items-center gap-2">
-										<i class="fas fa-check-circle text-warning"></i>
-										<span>One-on-one personal stylist consultation</span>
-									</li>
-									<li class="text-white-50 small mb-2 d-flex align-items-center gap-2">
-										<i class="fas fa-check-circle text-warning"></i>
-										<span>Complimentary organic tea &amp; refreshments</span>
-									</li>
-									<li class="text-white-50 small d-flex align-items-center gap-2">
-										<i class="fas fa-check-circle text-warning"></i>
-										<span>Tailored post-care ritual guidelines</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<!-- 5. Luxury Booking Banner -->
-					<div class="p-4 p-md-5 rounded-4 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(198,172,115,0.12) 0%, rgba(17,24,39,0.95) 100%); border: 1px solid rgba(198,172,115,0.35); border-radius: 16px;">
-						<span style="color: #c6ac73; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; display: block; margin-bottom: 8px;">BESPOKE APPOINTMENTS</span>
-						<h3 class="text-white mb-2" style="font-size: 24px; font-weight: 600;">Reserve Your <?= htmlspecialchars($svc_title) ?> Experience</h3>
-						<p class="text-white-50 mb-4" style="max-width: 520px; margin-inline: auto;">Our senior beauty artisans are available for private consultations and transformations.</p>
-						<a href="<?= $booking_page_url ?>" class="pbmit-btn" style="border-radius: 30px; padding: 12px 32px;">
-							<span class="pbmit-button-text">Book Appointment Now</span>
-						</a>
 					</div>
 
 				</div>
@@ -517,7 +330,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 								?>
 									<a href="<?= $s_url ?>" class="d-flex align-items-center justify-content-between p-3 text-decoration-none" style="border-radius: 10px; transition: all 0.3s ease; <?= $is_active ? 'background: linear-gradient(135deg, #c6ac73 0%, #aa8b45 100%); color: #0b0f19; font-weight: 700; box-shadow: 0 4px 15px rgba(198,172,115,0.35);' : 'background: rgba(255,255,255,0.03); color: #e5e7eb; border: 1px solid rgba(255,255,255,0.06);' ?>">
 										<span style="font-size: 15px;"><?= htmlspecialchars($s_item['title']) ?></span>
-										<i class="fas <?= $is_active ? 'fa-arrow-right text-dark' : 'fa-chevron-right text-warning' ?>" style="font-size: 13px;"></i>
+										<i class="fa fas <?= $is_active ? 'fa-arrow-right text-dark' : 'fa-chevron-right text-warning' ?>" style="font-size: 13px;"></i>
 									</a>
 								<?php endforeach; ?>
 							</div>
@@ -526,7 +339,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 						<!-- Luxury Boutique Contact Card -->
 						<div class="p-4 text-center" style="background: #111827; border: 1px solid rgba(198,172,115,0.2); border-radius: 16px;">
 							<div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(198,172,115,0.1); border: 1px solid rgba(198,172,115,0.3); color: #c6ac73; font-size: 20px;">
-								<i class="fas fa-phone-alt"></i>
+								<i class="fa fas fa-phone"></i>
 							</div>
 							<h5 class="text-white mb-1" style="font-size: 17px;">Need Assistance?</h5>
 							<p class="text-white-50 small mb-3">Speak directly with our concierge team for custom appointments.</p>
@@ -575,7 +388,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 											<span style="font-family: monospace; font-size: 13px; color: <?= $is_active ? '#c6ac73' : 'rgba(255,255,255,0.4)' ?>; font-weight: 700;">[ <?= $num_str ?> ]</span>
 											<span style="font-size: 15px;"><?= htmlspecialchars($s_item['title']) ?></span>
 										</div>
-										<i class="fas fa-arrow-right" style="font-size: 12px; color: <?= $is_active ? '#c6ac73' : 'rgba(255,255,255,0.2)' ?>;"></i>
+										<i class="fa fas fa-arrow-right" style="font-size: 12px; color: <?= $is_active ? '#c6ac73' : 'rgba(255,255,255,0.2)' ?>;"></i>
 									</a>
 								<?php endforeach; ?>
 							</div>
@@ -628,7 +441,7 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 							<?php endif; ?>
 						</div>
 						<a href="<?= $booking_page_url ?>" class="pbmit-btn" style="border-radius: 2px;">
-							<span class="pbmit-button-text">Book Appointment</span>
+							<span class="pbmit-button-text">Book Now</span>
 						</a>
 					</div>
 
@@ -640,74 +453,6 @@ $current_icon_svg = !empty($catalog_default['icon_svg']) ? $catalog_default['ico
 						<div class="pbmit-service-desc-text" style="font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.8);">
 							<?= !empty($svc_desc) ? $svc_desc : '<p>' . nl2br(htmlspecialchars($svc_short)) . '</p>' ?>
 						</div>
-					</div>
-
-					<!-- 3. Modern Grid Precautions -->
-					<div class="mb-5">
-						<span style="color: #c6ac73; font-family: monospace; font-size: 12px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">// RIGOROUS STANDARDS</span>
-						<h3 class="text-white mt-1 mb-4" style="font-size: 22px; font-weight: 700;">Precision &amp; Quality Assured</h3>
-
-						<div class="row g-3">
-							<div class="col-md-4">
-								<div class="p-4 h-100" style="background: #0f1523; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;">
-									<span style="color: #c6ac73; font-family: monospace; font-size: 12px; font-weight: 700;">01. FORMULA</span>
-									<h5 class="text-white mt-2 mb-2" style="font-size: 16px; font-weight: 600;">Organic Elements</h5>
-									<p class="text-white-50 small mb-0">Clean cruelty-free formulations tested for optimal hair vitality.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="p-4 h-100" style="background: #0f1523; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;">
-									<span style="color: #c6ac73; font-family: monospace; font-size: 12px; font-weight: 700;">02. TALENT</span>
-									<h5 class="text-white mt-2 mb-2" style="font-size: 16px; font-weight: 600;">Certified Masters</h5>
-									<p class="text-white-50 small mb-0">Trained internationally across contemporary cutting &amp; color methods.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="p-4 h-100" style="background: #0f1523; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;">
-									<span style="color: #c6ac73; font-family: monospace; font-size: 12px; font-weight: 700;">03. SAFETY</span>
-									<h5 class="text-white mt-2 mb-2" style="font-size: 16px; font-weight: 600;">Clinical Hygiene</h5>
-									<p class="text-white-50 small mb-0">Continuous autoclave sterilization ensuring peak hygiene at every station.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- 4. Modern Stylist Section -->
-					<div class="p-4 mb-5" style="background: #0f1523; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;">
-						<div class="row align-items-center g-4">
-							<div class="col-md-5">
-								<img src="<?= $asset_url ?>images/demo-1/about-img.jpg" class="img-fluid" alt="Stylists" style="border-radius: 2px; object-fit: cover; width: 100%; max-height: 240px;">
-							</div>
-							<div class="col-md-7">
-								<span style="color: #c6ac73; font-family: monospace; font-size: 12px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">EXPERTISE &amp; VISION</span>
-								<h4 class="text-white mt-1 mb-2" style="font-size: 20px; font-weight: 700;">Dedicated to Exceptional Craft</h4>
-								<p class="text-white-50 small mb-3">Our styling artists combine technical discipline with contemporary creative flair to deliver tailored aesthetics.</p>
-								<ul class="list-unstyled mb-0">
-									<li class="text-white-50 small mb-2 d-flex align-items-center gap-2">
-										<i class="fas fa-check text-warning"></i>
-										<span>Bespoke consultations tailored to personal facial silhouette</span>
-									</li>
-									<li class="text-white-50 small mb-2 d-flex align-items-center gap-2">
-										<i class="fas fa-check text-warning"></i>
-										<span>Advanced multi-tonal color &amp; texture refinement</span>
-									</li>
-									<li class="text-white-50 small d-flex align-items-center gap-2">
-										<i class="fas fa-check text-warning"></i>
-										<span>Signature post-service styling and blow-dry finish</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<!-- 5. Modern Salon Booking Banner -->
-					<div class="p-4 p-md-5 text-center position-relative overflow-hidden" style="background: #0f1523; border: 2px solid rgba(198,172,115,0.3); border-radius: 4px;">
-						<span style="color: #c6ac73; font-family: monospace; font-size: 12px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase;">// RESERVATIONS</span>
-						<h3 class="text-white mt-1 mb-2" style="font-size: 24px; font-weight: 700;">Book Your <?= htmlspecialchars($svc_title) ?> Today</h3>
-						<p class="text-white-50 mb-4" style="max-width: 500px; margin-inline: auto;">Select your preferred date, time, and senior stylist in just a few clicks.</p>
-						<a href="<?= $booking_page_url ?>" class="pbmit-btn" style="border-radius: 2px; padding: 12px 32px;">
-							<span class="pbmit-button-text">Book Appointment Now</span>
-						</a>
 					</div>
 
 				</div>

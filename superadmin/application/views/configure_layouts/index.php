@@ -9,9 +9,9 @@ $website_url_base = rtrim(tenant_site_url(), '/') . '/';
 // Layout names for Template 1 and Template 2
 if ($curr_target_tpl === 'template1') {
     $layout_names = array(
-        1 => 'Home 1 (Classic)',
-        2 => 'Home 2 (Split Hero)',
-        3 => 'Home 3 (Hair Rituals)'
+        1 => 'Home 1',
+        2 => 'Home 2',
+        3 => 'Home 3'
     );
 } else {
     $layout_names = array(
@@ -664,18 +664,18 @@ if ($curr_target_tpl === 'template1') {
                 <span class="badge bg-success-subtle text-success border border-success-subtle">LIVE CUSTOMIZER</span>
             </div>
             <h3 class="fw-bold text-white mb-0 font-serif">Configure Layouts &amp; Template Customizer</h3>
-            <p class="text-muted small mb-0">Fine-tune <?= $curr_target_tpl === 'template1' ? 'Template 1' : 'Template 2' ?> (Layouts 1, 2, and 3) dynamic sections, services, blogs, testimonials, and manage multi-theme layouts.</p>
+            <p class="text-muted small mb-0">Fine-tune <?= $curr_target_tpl === 'template1' ? 'Template 1 (Home 1, 2, 3)' : 'Template 2 (Layouts 1, 2, and 3)' ?> dynamic sections, services, blogs, testimonials, and manage multi-theme layouts.</p>
         </div>
         <div class="d-flex flex-wrap align-items-center gap-2">
             <div class="btn-group shadow-sm">
                 <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=1') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
-                    <i class="fa-solid fa-eye me-1"></i> Preview Layout 1
+                    <i class="fa-solid fa-eye me-1"></i> Preview <?= $curr_target_tpl === 'template1' ? 'Home 1' : 'Layout 1' ?>
                 </a>
                 <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=2') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
-                    <i class="fa-solid fa-eye me-1"></i> Layout 2
+                    <i class="fa-solid fa-eye me-1"></i> <?= $curr_target_tpl === 'template1' ? 'Home 2' : 'Layout 2' ?>
                 </a>
                 <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=3') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
-                    <i class="fa-solid fa-eye me-1"></i> Layout 3
+                    <i class="fa-solid fa-eye me-1"></i> <?= $curr_target_tpl === 'template1' ? 'Home 3' : 'Layout 3' ?>
                 </a>
             </div>
             <a href="<?= superadmin_url('website') ?>" class="btn btn-outline-light btn-sm fw-semibold">
@@ -701,7 +701,7 @@ if ($curr_target_tpl === 'template1') {
         </li>
         <li class="nav-item">
             <a class="nav-link <?= $curr_tab === 'template1' ? 'active' : '' ?>" href="<?= superadmin_url('layouts?tab=template1&layout=' . ($curr_tab === 'template1' ? $curr_layout : 1)) ?>">
-                <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i> Template 1 Customizer (Layouts 1, 2, 3)
+                <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i> Template 1 Customizer (Home 1, 2, 3)
             </a>
         </li>
         <li class="nav-item">
@@ -926,7 +926,7 @@ if ($curr_target_tpl === 'template1') {
                             Currently Editing: <?= htmlspecialchars($layout_names[$curr_layout]) ?> (<?= strtoupper($curr_target_tpl) ?>)
                         </span>
                         <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=' . $curr_layout) ?>" target="_blank" class="btn btn-sm btn-outline-info">
-                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Live View Layout <?= $curr_layout ?>
+                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Live View <?= $curr_target_tpl === 'template1' ? ('Home ' . $curr_layout) : ('Layout ' . $curr_layout) ?>
                         </a>
                     </div>
                 </div>
@@ -2110,9 +2110,9 @@ if ($curr_target_tpl === 'template1') {
                         <div class="col-md-4">
                             <label class="form-label text-white small fw-bold">Target Layout *</label>
                             <select name="layout_number" id="blogLayoutNumber" class="form-select">
-                                <option value="1" <?= $curr_layout == 1 ? 'selected' : '' ?>>Layout 1 (Classic Sanctuary)</option>
-                                <option value="2" <?= $curr_layout == 2 ? 'selected' : '' ?>>Layout 2 (Modern Botanical)</option>
-                                <option value="3" <?= $curr_layout == 3 ? 'selected' : '' ?>>Layout 3 (Clinical Therapy)</option>
+                                <option value="1" <?= $curr_layout == 1 ? 'selected' : '' ?>><?= $curr_target_tpl === 'template1' ? 'Home 1' : 'Layout 1' ?></option>
+                                <option value="2" <?= $curr_layout == 2 ? 'selected' : '' ?>><?= $curr_target_tpl === 'template1' ? 'Home 2' : 'Layout 2' ?></option>
+                                <option value="3" <?= $curr_layout == 3 ? 'selected' : '' ?>><?= $curr_target_tpl === 'template1' ? 'Home 3' : 'Layout 3' ?></option>
                             </select>
                         </div>
                         <div class="col-md-4">

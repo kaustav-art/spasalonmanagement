@@ -377,16 +377,24 @@ class Home extends Website_Controller {
             $slug_or_id = $this->input->get('slug', TRUE) ?: $this->input->get('id', TRUE);
         }
 
+        $target_tpl = in_array($this->template, array('template1', 'template2')) ? $this->template : 'template1';
+
         $blog = null;
         if (is_numeric($slug_or_id)) {
-            $blog = $this->db->where('id', (int)$slug_or_id)->get('template_blogs')->row();
+            $blog = $this->db->where('id', (int)$slug_or_id)->where('template_key', $target_tpl)->get('template_blogs')->row();
+            if (!$blog) {
+                $blog = $this->db->where('id', (int)$slug_or_id)->get('template_blogs')->row();
+            }
         } elseif (!empty($slug_or_id)) {
-            $blog = $this->db->where('slug', $slug_or_id)->get('template_blogs')->row();
+            $blog = $this->db->where('slug', $slug_or_id)->where('template_key', $target_tpl)->get('template_blogs')->row();
+            if (!$blog) {
+                $blog = $this->db->where('slug', $slug_or_id)->get('template_blogs')->row();
+            }
         }
 
         // Fallback to first active blog if not found
         if (!$blog) {
-            $blog = $this->db->where('template_key', 'template2')
+            $blog = $this->db->where('template_key', $target_tpl)
                              ->where('status', 'active')
                              ->order_by('sort_order', 'ASC')
                              ->limit(1)
@@ -394,8 +402,10 @@ class Home extends Website_Controller {
                              ->row();
         }
 
+        $data['blog'] = $blog;
+
         $blog_layout = isset($this->home_layout) ? (int)$this->home_layout : ($blog && isset($blog->layout_number) ? (int)$blog->layout_number : 1);
-        $data['recent_blogs'] = $this->db->where('template_key', 'template2')
+        $data['recent_blogs'] = $this->db->where('template_key', $target_tpl)
                                          ->where('layout_number', $blog_layout)
                                          ->where('status', 'active')
                                          ->order_by('published_date', 'DESC')
@@ -403,7 +413,7 @@ class Home extends Website_Controller {
                                          ->get('template_blogs')
                                          ->result();
         if (empty($data['recent_blogs'])) {
-            $data['recent_blogs'] = $this->db->where('template_key', 'template2')
+            $data['recent_blogs'] = $this->db->where('template_key', $target_tpl)
                                              ->where('status', 'active')
                                              ->order_by('published_date', 'DESC')
                                              ->limit(5)
@@ -411,13 +421,46 @@ class Home extends Website_Controller {
                                              ->result();
         }
 
-        $data['categories'] = array(
-            'Skincare Essentials',
-            'Natural Skincare',
-            'Sensitive Skin Care',
-            'Acne & Blemish Care',
-            'Hydration & Moisturizing'
-        );
+        // Previous and Next blogs for navigation
+        $data['prev_blog'] = null;
+        $data['next_blog'] = null;
+        if ($blog) {
+            $data['prev_blog'] = $this->db->where('template_key', $target_tpl)
+                                          ->where('status', 'active')
+                                          ->where('id <', $blog->id)
+                                          ->order_by('id', 'DESC')
+                                          ->limit(1)
+                                          ->get('template_blogs')
+                                          ->row();
+            $data['next_blog'] = $this->db->where('template_key', $target_tpl)
+                                          ->where('status', 'active')
+                                          ->where('id >', $blog->id)
+                                          ->order_by('id', 'ASC')
+                                          ->limit(1)
+                                          ->get('template_blogs')
+                                          ->row();
+        }
+
+        // Popular tags
+        $all_tags_rows = $this->db->select('tags')->where('template_key', $target_tpl)->where('status', 'active')->get('template_blogs')->result();
+        $tags_list = array();
+        if (!empty($all_tags_rows)) {
+            foreach ($all_tags_rows as $tr) {
+                if (!empty($tr->tags)) {
+                    $parts = explode(',', $tr->tags);
+                    foreach ($parts as $p) {
+                        $p = trim($p);
+                        if ($p !== '' && !in_array($p, $tags_list)) {
+                            $tags_list[] = $p;
+                        }
+                    }
+                }
+            }
+        }
+        if (empty($tags_list)) {
+            $tags_list = array('Beauty', 'Curly Hair', 'Elegant', 'Fashion', 'Haircut', 'Highlights', 'Spa', 'Straight Hair');
+        }
+        $data['tags_list'] = $tags_list;
 
         $page_title = $blog ? $blog->title : 'Blog Detail';
         $data['page_title'] = $page_title;

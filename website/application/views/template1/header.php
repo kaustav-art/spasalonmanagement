@@ -42,6 +42,7 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
     <!-- CSS -->
     <link rel="stylesheet" href="<?= $asset_url ?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= $asset_url ?>css/fontawesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="<?= $asset_url ?>fonts/pbmit-glamr-icon/pbmit_glamr.css">
     <link rel="stylesheet" href="<?= $asset_url ?>css/pbminfotech-base-icons.css">
     <link rel="stylesheet" href="<?= $asset_url ?>css/themify-icons.css">

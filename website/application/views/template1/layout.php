@@ -12,9 +12,7 @@ $this->load->view($tpl . '/header');
 ?>
 
     <!-- Main Content Injection -->
-    <main>
-        <?= isset($content) ? $content : '' ?>
-    </main>
+    <?= isset($content) ? $content : '' ?>
 
 <?php
 $this->load->view($tpl . '/footer');

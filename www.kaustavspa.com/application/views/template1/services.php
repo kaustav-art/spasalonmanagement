@@ -160,6 +160,96 @@ if (!empty($tpl_services)) {
 				<!-- LAYOUT 1: EXACT MATCH TO template1/services.html-->
 				<!-- ============================================== -->
 				<?php if ($curr_layout == 1): ?>
+					<style>
+					.pbmit-service-style-1 .pbminfotech-post-item {
+						position: relative;
+						overflow: hidden;
+						background-color: var(--pbmit-secondary-color, #0b0f19);
+						border-radius: 8px;
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+						transition: transform 0.35s ease, box-shadow 0.35s ease;
+					}
+					.pbmit-service-style-1:hover .pbminfotech-post-item {
+						box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+						transform: translateY(-4px);
+					}
+					.pbmit-service-style-1 .pbmit-box-content-wrap {
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+					}
+					.pbmit-service-style-1 .pbmit-service-image-wrapper {
+						position: relative;
+						overflow: hidden;
+						width: 100%;
+					}
+					.pbmit-service-style-1 .pbmit-featured-wrapper img {
+						width: 100%;
+						height: 280px;
+						object-fit: cover;
+						transition: transform 0.6s ease;
+					}
+					.pbmit-service-style-1:hover .pbmit-featured-wrapper img {
+						transform: scale(1.06);
+					}
+					.pbmit-service-style-1 .pbmit-content-box {
+						padding: 22px 22px 20px;
+						transform: none; /* override default translateY(-50px) to prevent unwanted cutoffs */
+						transition: background-color 0.35s ease;
+						background-color: var(--pbmit-secondary-color, #0b0f19);
+						position: relative;
+						z-index: 2;
+						flex-grow: 1;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+					}
+					.pbmit-service-style-1:hover .pbmit-content-box {
+						transform: none;
+						background-color: #121826;
+					}
+					.pbmit-service-style-1 .pbmit-service-title {
+						max-width: calc(100% - 55px);
+						font-size: 22px;
+						line-height: 1.3;
+					}
+					.pbmit-service-style-1 .pbmit-service-title a {
+						color: #fff;
+						transition: color 0.3s ease;
+					}
+					.pbmit-service-style-1:hover .pbmit-service-title a {
+						color: var(--pbmit-global-color, #c6ac73);
+					}
+					.pbmit-service-style-1 .pbmit-service-description {
+						max-height: 0;
+						opacity: 0;
+						overflow: hidden;
+						margin-top: 0;
+						transform: translateY(8px);
+						transition: max-height 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease, transform 0.35s ease;
+					}
+					.pbmit-service-style-1:hover .pbmit-service-description {
+						max-height: 100px;
+						opacity: 1;
+						margin-top: 12px;
+						transform: translateY(0);
+					}
+					.pbmit-service-style-1 .pbmit-service-description p {
+						color: rgba(255, 255, 255, 0.75);
+						font-size: 14px;
+						line-height: 1.6;
+						margin: 0;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						line-clamp: 2;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					</style>
+
 					<?php foreach ($render_services as $idx => $svc): 
 						$detail_url = website_url('service/' . $svc['slug'] . '?preview_tpl=' . (!empty($_GET['preview_tpl']) ? $_GET['preview_tpl'] : 'template1') . '&preview_layout=1');
 					?>
@@ -178,8 +268,9 @@ if (!empty($tpl_services)) {
 											<?= $svc['icon_svg'] ?>
 										</div>
 										<div class="pbminfotech-box-number"><?= sprintf('%02d', $idx + 1) ?></div>
-										<div class="pbmit-service-cat">
-											<a href="<?= $detail_url ?>" rel="tag"><?= htmlspecialchars($svc['category']) ?></a>
+										<div class="d-flex align-items-center justify-content-between mb-2 pb-1" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+											<span class="text-warning fw-bold" style="font-size: 15px;"><?= htmlspecialchars($svc['price']) ?></span>
+											<span style="color: rgba(255,255,255,0.7); font-size: 13px;"><i class="far fa-clock text-warning me-1"></i><?= htmlspecialchars($svc['duration']) ?></span>
 										</div>
 										<div class="pbmit-service-title-wrapper">
 											<h3 class="pbmit-service-title">
@@ -190,6 +281,9 @@ if (!empty($tpl_services)) {
 													<span class="pbmit-button-icon"></span>
 												</a>
 											</div>
+										</div>
+										<div class="pbmit-service-description">
+											<p><?= htmlspecialchars($svc['desc']) ?></p>
 										</div>
 									</div>
 								</div>
@@ -358,7 +452,7 @@ if (!empty($tpl_services)) {
 									<div class="pbmit-l2-footer">
 										<a href="<?= $detail_url ?>" class="pbmit-l2-book-btn">
 											<span>Read More</span>
-											<i class="fas fa-arrow-right ms-2"></i>
+											<i class="fa fas fa-arrow-right ms-2"></i>
 										</a>
 										<span class="badge bg-dark border border-secondary text-warning small px-2 py-1">
 											#<?= sprintf('%02d', $idx + 1) ?>
@@ -374,6 +468,82 @@ if (!empty($tpl_services)) {
 				<!-- LAYOUT 3: MODERN SALON STYLE (STYLE 3)         -->
 				<!-- ============================================== -->
 				<?php elseif ($curr_layout == 3): ?>
+					<style>
+					.pbmit-service-style-3 .pbminfotech-post-item {
+						position: relative;
+						overflow: hidden;
+						border-radius: 8px;
+						transition: transform 0.35s ease, box-shadow 0.35s ease;
+					}
+					.pbmit-service-style-3:hover .pbminfotech-post-item {
+						box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+						transform: translateY(-4px);
+					}
+					.pbmit-service-style-3 .pbmit-service-image-wrapper {
+						position: relative;
+						overflow: hidden;
+					}
+					.pbmit-service-style-3 .pbmit-featured-wrapper img {
+						width: 100%;
+						min-height: 420px;
+						object-fit: cover;
+						transition: transform 0.6s ease, opacity 0.4s ease;
+						opacity: 0.45;
+					}
+					.pbmit-service-style-3:hover .pbmit-featured-wrapper img {
+						opacity: 0.65;
+						transform: scale(1.06);
+					}
+					.pbmit-service-style-3 .pbmit-content-box-wrapper {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						padding: 35px 30px;
+						background: linear-gradient(to top, rgba(11, 15, 25, 0.98) 0%, rgba(11, 15, 25, 0.8) 70%, transparent 100%);
+						transition: all 0.35s ease;
+					}
+					.pbmit-service-style-3 .pbmit-service-title {
+						max-width: calc(100% - 60px);
+						font-size: 24px;
+						line-height: 1.3;
+					}
+					.pbmit-service-style-3 .pbmit-service-title a {
+						color: #fff;
+						transition: color 0.3s ease;
+					}
+					.pbmit-service-style-3:hover .pbmit-service-title a {
+						color: var(--pbmit-global-color, #c6ac73);
+					}
+					.pbmit-service-style-3 .pbmit-service-description {
+						max-height: 0;
+						opacity: 0;
+						overflow: hidden;
+						margin-top: 0;
+						transform: translateY(12px);
+						transition: max-height 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.35s ease, margin-top 0.35s ease, transform 0.35s ease;
+					}
+					.pbmit-service-style-3:hover .pbmit-service-description {
+						max-height: 100px;
+						opacity: 1;
+						margin-top: 12px;
+						transform: translateY(0);
+					}
+					.pbmit-service-style-3 .pbmit-service-description p {
+						color: rgba(255, 255, 255, 0.82);
+						font-size: 14px;
+						line-height: 1.6;
+						text-transform: none;
+						margin: 0;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						line-clamp: 2;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					</style>
+
 					<?php foreach ($render_services as $idx => $svc): 
 						$detail_url = website_url('service/' . $svc['slug'] . '?preview_tpl=' . (!empty($_GET['preview_tpl']) ? $_GET['preview_tpl'] : 'template1') . '&preview_layout=3');
 					?>
@@ -392,8 +562,14 @@ if (!empty($tpl_services)) {
 								<div class="pbminfotech-box-content">
 									<div class="pbmit-content-box-wrapper">
 										<div class="pbmit-content-box">
-											<div class="pbmit-service-cat">
-												<a href="<?= $detail_url ?>" rel="tag"><?= htmlspecialchars($svc['category']) ?></a>
+											<div class="d-flex align-items-center gap-2 mb-2">
+												<span style="color: #c6ac73; font-weight: 700; font-family: monospace; font-size: 15px;">
+													<?= htmlspecialchars($svc['price']) ?>
+												</span>
+												<span style="color: rgba(255,255,255,0.3);">|</span>
+												<span class="text-white-50" style="font-size: 13px; font-family: monospace;">
+													<i class="far fa-clock text-warning me-1"></i><?= htmlspecialchars($svc['duration']) ?>
+												</span>
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
@@ -404,6 +580,9 @@ if (!empty($tpl_services)) {
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
+											</div>
+											<div class="pbmit-service-description">
+												<p><?= htmlspecialchars($svc['desc']) ?></p>
 											</div>
 										</div>
 									</div>

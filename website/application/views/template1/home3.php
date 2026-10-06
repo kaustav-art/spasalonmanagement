@@ -10,6 +10,34 @@ $site_logo = $site_logo_url;
 $site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
 $site_fav = $site_fav_url;
 $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
+
+if (!isset($tpl_services)) {
+    $CI =& get_instance();
+    $CI->load->model('Template_model');
+    $tpl_services = $CI->Template_model->get_services('template1');
+}
+
+$get_svc_url = function($slug_or_title) use ($tpl_services) {
+    $slug = $slug_or_title;
+    if (!empty($tpl_services)) {
+        foreach ($tpl_services as $ts) {
+            if ((!empty($ts->slug) && $ts->slug === $slug_or_title) || 
+                (!empty($ts->title) && strtolower(trim($ts->title)) === strtolower(trim($slug_or_title)))) {
+                $slug = !empty($ts->slug) ? $ts->slug : $slug_or_title;
+                break;
+            }
+        }
+    }
+    $params = array();
+    if (!empty($_GET['preview_tpl'])) {
+        $params['preview_tpl'] = $_GET['preview_tpl'];
+    }
+    if (!empty($_GET['preview_layout'])) {
+        $params['preview_layout'] = (int)$_GET['preview_layout'];
+    }
+    $q = !empty($params) ? ('?' . http_build_query($params)) : '';
+    return website_url('service/' . $slug . $q);
+};
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -32,6 +60,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
       <link rel="stylesheet" href="<?= $asset_url ?>css/bootstrap.min.css">
       <!-- Fontawesome -->
       <link rel="stylesheet" href="<?= $asset_url ?>css/fontawesome.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	  <!-- Pbmit Glamr Icon -->
 	  <link rel="stylesheet" href="<?= $asset_url ?>fonts/pbmit-glamr-icon/pbmit_glamr.css">
       <!-- Base Icons -->
@@ -200,10 +229,10 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 												<div class="pbmit-service-title-wrapper">
 													<h3 class="pbmit-service-title">
-														<a href="#">Hair Styling</a>
+														<a href="<?= $get_svc_url('hair-styling') ?>">Hair Styling</a>
 													</h3>
 													<div class="pbmit-service-btn-wrapper">
-														<a class="pbmit-service-btn" href="#" title="Hair Styling">
+														<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-styling') ?>" title="Hair Styling">
 															<span class="pbmit-button-icon"></span>
 														</a>
 													</div>
@@ -211,7 +240,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Styling"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-styling') ?>" title="Go to Hair Styling"></a>
 								</div>
 							</article>
 							<!-- Slide2 -->
@@ -235,10 +264,10 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 												<div class="pbmit-service-title-wrapper">
 													<h3 class="pbmit-service-title">
-														<a href="#">Hair Extensions</a>
+														<a href="<?= $get_svc_url('hair-extensions') ?>">Hair Extensions</a>
 													</h3>
 													<div class="pbmit-service-btn-wrapper">
-														<a class="pbmit-service-btn" href="#" title="Hair Extensions">
+														<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-extensions') ?>" title="Hair Extensions">
 															<span class="pbmit-button-icon"></span>
 														</a>
 													</div>
@@ -246,7 +275,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Extensions"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-extensions') ?>" title="Go to Hair Extensions"></a>
 								</div>
 							</article>
 							<!-- Slide3 -->
@@ -270,10 +299,10 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 												<div class="pbmit-service-title-wrapper">
 													<h3 class="pbmit-service-title">
-														<a href="#">Custom Hair Spa</a>
+														<a href="<?= $get_svc_url('custom-hair-spa') ?>">Custom Hair Spa</a>
 													</h3>
 													<div class="pbmit-service-btn-wrapper">
-														<a class="pbmit-service-btn" href="#" title="Custom Hair Spa">
+														<a class="pbmit-service-btn" href="<?= $get_svc_url('custom-hair-spa') ?>" title="Custom Hair Spa">
 															<span class="pbmit-button-icon"></span>
 														</a>
 													</div>
@@ -281,7 +310,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Custom Hair Spa"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('custom-hair-spa') ?>" title="Go to Custom Hair Spa"></a>
 								</div>
 							</article>
 							<!-- Slide4 -->
@@ -305,10 +334,10 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 												<div class="pbmit-service-title-wrapper">
 													<h3 class="pbmit-service-title">
-														<a href="#">Hair Treatments</a>
+														<a href="<?= $get_svc_url('hair-treatments') ?>">Hair Treatments</a>
 													</h3>
 													<div class="pbmit-service-btn-wrapper">
-														<a class="pbmit-service-btn" href="#" title="Hair Treatments">
+														<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-treatments') ?>" title="Hair Treatments">
 															<span class="pbmit-button-icon"></span>
 														</a>
 													</div>
@@ -316,7 +345,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Treatments"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-treatments') ?>" title="Go to Hair Treatments"></a>
 								</div>
 							</article>
 							<!-- Slide5 -->
@@ -340,10 +369,10 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 												<div class="pbmit-service-title-wrapper">
 													<h3 class="pbmit-service-title">
-														<a href="#">Hair Straightening</a>
+														<a href="<?= $get_svc_url('hair-straightening') ?>">Hair Straightening</a>
 													</h3>
 													<div class="pbmit-service-btn-wrapper">
-														<a class="pbmit-service-btn" href="#" title="Hair Straightening">
+														<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-straightening') ?>" title="Hair Straightening">
 															<span class="pbmit-button-icon"></span>
 														</a>
 													</div>
@@ -351,7 +380,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Straightening"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-straightening') ?>" title="Go to Hair Straightening"></a>
 								</div>
 							</article>
 						</div>
@@ -898,12 +927,16 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'blog_header', 'title', 'Explore our articles')) ?></h2>
 					</div>
 					<div class="row pbminfotech-gap-35px">
+						<?php 
+							$q_blog_param = !empty($_GET['preview_tpl']) ? '?preview_tpl=' . htmlspecialchars($_GET['preview_tpl']) . '&preview_layout=' . htmlspecialchars($_GET['preview_layout'] ?? 3) : '';
+						?>
 						<?php if (!empty($tpl_blogs)): ?>
 							<?php foreach ($tpl_blogs as $b_item): 
 								$b_thumb = !empty($b_item->thumbnail) ? ((strpos($b_item->thumbnail, 'http') === 0) ? $b_item->thumbnail : base_url(ltrim($b_item->thumbnail, '/'))) : ($asset_url . 'images/demo-3/blog/blog-img-01.jpg');
 								$b_ts = !empty($b_item->published_date) ? strtotime($b_item->published_date) : time();
 								$b_day = date('d', $b_ts);
 								$b_mon = date('M', $b_ts);
+								$b_url = website_url('blog/' . ($b_item->slug ?: $b_item->id) . $q_blog_param);
 							?>
 							<article class="pbmit-blog-style-3 col-md-12">
 								<div class="post-item">
@@ -918,7 +951,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											<div class="pbmit-meta-wraper d-flex align-items-center">
 												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
 													<div class="pbmit-meta-category">
-														<a href="<?= website_url('blog') ?>" rel="category tag"><?= htmlspecialchars(!empty($b_item->tags) ? explode(',', $b_item->tags)[0] : 'Hair Style') ?></a>
+														<a href="<?= website_url('blog' . $q_blog_param) ?>" rel="category tag"><?= htmlspecialchars(!empty($b_item->tags) ? explode(',', $b_item->tags)[0] : 'Hair Style') ?></a>
 													</div>
 												</div>
 												<div class="pbmit-meta-author pbmit-meta-line">
@@ -926,23 +959,24 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 											</div>
 											<h3 class="pbmit-post-title">
-												<a href="<?= website_url('blog/' . ($b_item->slug ?: $b_item->id)) ?>"><?= htmlspecialchars($b_item->title) ?></a>
+												<a href="<?= $b_url ?>"><?= htmlspecialchars($b_item->title) ?></a>
 											</h3>
 										</div>
 										<div class="pbmit-featured-container">
 											<div class="pbmit-featured-img-wrapper">
 												<div class="pbmit-featured-wrapper">
-													<img src="<?= htmlspecialchars($b_thumb) ?>" class="img-fluid" alt="<?= htmlspecialchars($b_item->title) ?>">
+													<a href="<?= $b_url ?>"><img src="<?= htmlspecialchars($b_thumb) ?>" class="img-fluid" alt="<?= htmlspecialchars($b_item->title) ?>"></a>
 												</div>
 											</div>
 										</div>
 										<div class="pbmit-blog-button">
-											<a class="pbmit-button-inner" href="<?= website_url('blog/' . ($b_item->slug ?: $b_item->id)) ?>" title="<?= htmlspecialchars($b_item->title) ?>">
+											<a class="pbmit-button-inner" href="<?= $b_url ?>" title="<?= htmlspecialchars($b_item->title) ?>">
 												<span class="pbmit-button-icon"></span>
 											</a>
 										</div>
 									</div>
 								</div>
+								<a class="pbmit-link" href="<?= $b_url ?>" title="<?= htmlspecialchars($b_item->title) ?>"></a>
 							</article>
 							<?php endforeach; ?>
 						<?php else: ?>
@@ -959,7 +993,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											<div class="pbmit-meta-wraper d-flex align-items-center">
 												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
 													<div class="pbmit-meta-category">
-														<a href="#" rel="category tag">Hair Style</a>
+														<a href="<?= website_url('blog' . $q_blog_param) ?>" rel="category tag">Hair Style</a>
 													</div>
 												</div>
 												<div class="pbmit-meta-author pbmit-meta-line">
@@ -967,23 +1001,24 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 											</div>
 											<h3 class="pbmit-post-title">
-												<a href="#">The most effective anti-losing hair care products</a>
+												<a href="<?= website_url('blog/anti-losing-hair-care-products' . $q_blog_param) ?>">The most effective anti-losing hair care products</a>
 											</h3>
 										</div>
 										<div class="pbmit-featured-container">
 											<div class="pbmit-featured-img-wrapper">
 												<div class="pbmit-featured-wrapper">
-													<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-01.jpg" class="img-fluid" alt="blog-img-01">
+													<a href="<?= website_url('blog/anti-losing-hair-care-products' . $q_blog_param) ?>"><img src="<?= $asset_url ?>images/demo-3/blog/blog-img-01.jpg" class="img-fluid" alt="blog-img-01"></a>
 												</div>
 											</div>
 										</div>
 										<div class="pbmit-blog-button">
-											<a class="pbmit-button-inner" href="#" title="Go to The most effective anti-losing hair care products">
+											<a class="pbmit-button-inner" href="<?= website_url('blog/anti-losing-hair-care-products' . $q_blog_param) ?>" title="Go to The most effective anti-losing hair care products">
 												<span class="pbmit-button-icon"></span>
 											</a>
 										</div>
 									</div>
 								</div>
+								<a class="pbmit-link" href="<?= website_url('blog/anti-losing-hair-care-products' . $q_blog_param) ?>" title="Go to The most effective anti-losing hair care products"></a>
 							</article>
 							<article class="pbmit-blog-style-3 col-md-12">
 								<div class="post-item">
@@ -998,7 +1033,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 											<div class="pbmit-meta-wraper d-flex align-items-center">
 												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
 													<div class="pbmit-meta-category">
-														<a href="#" rel="category tag">Hair Spa</a>
+														<a href="<?= website_url('blog' . $q_blog_param) ?>" rel="category tag">Hair Spa</a>
 													</div>
 												</div>
 												<div class="pbmit-meta-author pbmit-meta-line">
@@ -1006,23 +1041,24 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 												</div>
 											</div>
 											<h3 class="pbmit-post-title">
-												<a href="#">What’s the main challenge for bleached hair?</a>
+												<a href="<?= website_url('blog/main-challenge-bleached-hair' . $q_blog_param) ?>">What’s the main challenge for bleached hair?</a>
 											</h3>
 										</div>
 										<div class="pbmit-featured-container">
 											<div class="pbmit-featured-img-wrapper">
 												<div class="pbmit-featured-wrapper">
-													<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-02.jpg" class="img-fluid" alt="blog-img-02">
+													<a href="<?= website_url('blog/main-challenge-bleached-hair' . $q_blog_param) ?>"><img src="<?= $asset_url ?>images/demo-3/blog/blog-img-02.jpg" class="img-fluid" alt="blog-img-02"></a>
 												</div>
 											</div>
 										</div>
 										<div class="pbmit-blog-button">
-											<a class="pbmit-button-inner" href="#" title="Go to What’s the main challenge for bleached hair?">
+											<a class="pbmit-button-inner" href="<?= website_url('blog/main-challenge-bleached-hair' . $q_blog_param) ?>" title="Go to What’s the main challenge for bleached hair?">
 												<span class="pbmit-button-icon"></span>
 											</a>
 										</div>
 									</div>
 								</div>
+								<a class="pbmit-link" href="<?= website_url('blog/main-challenge-bleached-hair' . $q_blog_param) ?>" title="Go to What’s the main challenge for bleached hair?"></a>
 							</article>
 						<?php endif; ?>
 					</div>
@@ -1101,14 +1137,14 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 							<aside class="pbmit-two-column-menu widget">
 								<h2 class="widget-title">Our Services</h2>
 								<ul class="menu">
-									<li><a href="#">Hair Extensions</a></li>
-									<li><a href="#">Face Care</a></li>
-									<li><a href="#">Grooming & Styling</a></li>
-									<li><a href="#">Hair Treatments</a></li>
-									<li><a href="#">Layered Hair</a></li>
-									<li><a href="#">Hair Wash</a></li>
-									<li><a href="#">Hair Straightening</a></li>
-									<li><a href="#">Custom Hair Spa</a></li>
+									<li><a href="<?= $get_svc_url('hair-extensions') ?>">Hair Extensions</a></li>
+									<li><a href="<?= $get_svc_url('hair-styling') ?>">Hair Styling</a></li>
+									<li><a href="<?= $get_svc_url('grooming-styling') ?>">Grooming & Styling</a></li>
+									<li><a href="<?= $get_svc_url('hair-treatments') ?>">Hair Treatments</a></li>
+									<li><a href="<?= $get_svc_url('hair-texture') ?>">Hair Texture</a></li>
+									<li><a href="<?= $get_svc_url('hair-coloring') ?>">Hair Coloring</a></li>
+									<li><a href="<?= $get_svc_url('hair-straightening') ?>">Hair Straightening</a></li>
+									<li><a href="<?= $get_svc_url('custom-hair-spa') ?>">Custom Hair Spa</a></li>
 								</ul>
 							</aside>
 						</div>
@@ -1174,7 +1210,7 @@ $business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=3') ?>">Glamr</a>, All Rights Reserved.</div>
+								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=3') ?>">codeulas</a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">

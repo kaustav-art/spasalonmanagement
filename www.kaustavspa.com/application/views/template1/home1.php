@@ -31,6 +31,7 @@ $site_fav = $site_fav_url;
 		<link rel="stylesheet" href="<?= $asset_url ?>css/bootstrap.min.css">
 		<!-- Fontawesome -->
 		<link rel="stylesheet" href="<?= $asset_url ?>css/fontawesome.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 		<!-- Pbmit Glamr Icon -->
 	  	<link rel="stylesheet" href="<?= $asset_url ?>fonts/pbmit-glamr-icon/pbmit_glamr.css">
 		<!-- Base Icons -->
@@ -423,6 +424,29 @@ $site_fav = $site_fav_url;
 							<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'services_header', 'tagline', 'our services')) ?></h4>
 							<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'services_header', 'title', 'Exclusive Hair Service')) ?></h2>
 						</div>
+						<?php
+						$get_svc_url = function($slug_or_title) use ($tpl_services) {
+							$slug = $slug_or_title;
+							if (!empty($tpl_services)) {
+								foreach ($tpl_services as $ts) {
+									if ((!empty($ts->slug) && $ts->slug === $slug_or_title) || 
+										(!empty($ts->title) && strtolower(trim($ts->title)) === strtolower(trim($slug_or_title)))) {
+										$slug = !empty($ts->slug) ? $ts->slug : $slug_or_title;
+										break;
+									}
+								}
+							}
+							$params = array();
+							if (!empty($_GET['preview_tpl'])) {
+								$params['preview_tpl'] = $_GET['preview_tpl'];
+							}
+							if (!empty($_GET['preview_layout'])) {
+								$params['preview_layout'] = (int)$_GET['preview_layout'];
+							}
+							$q = !empty($params) ? ('?' . http_build_query($params)) : '';
+							return website_url('service/' . $slug . $q);
+						};
+						?>
 						<div class="swiper-wrapper">
 							<!-- Slide1 -->
 							<article class="pbmit-service-style-1 swiper-slide">
@@ -455,17 +479,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Styling</a>
+													<a href="<?= $get_svc_url('hair-styling') ?>">Hair Styling</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Styling">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-styling') ?>" title="Hair Styling">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Styling"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-styling') ?>" title="Go to Hair Styling"></a>
 								</div>
 							</article>
 							<!-- Slide2 -->
@@ -489,17 +513,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Extensions</a>
+													<a href="<?= $get_svc_url('hair-extensions') ?>">Hair Extensions</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Extensions">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-extensions') ?>" title="Hair Extensions">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Extensions"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-extensions') ?>" title="Go to Hair Extensions"></a>
 								</div>
 							</article>
 							<!-- Slide3 -->
@@ -523,17 +547,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Custom Hair Spa</a>
+													<a href="<?= $get_svc_url('custom-hair-spa') ?>">Custom Hair Spa</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Custom Hair Spa">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('custom-hair-spa') ?>" title="Custom Hair Spa">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Custom Hair Spa"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('custom-hair-spa') ?>" title="Go to Custom Hair Spa"></a>
 								</div>
 							</article>
 							<!-- Slide4 -->
@@ -557,17 +581,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Treatments</a>
+													<a href="<?= $get_svc_url('hair-treatments') ?>">Hair Treatments</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Treatments">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-treatments') ?>" title="Hair Treatments">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Treatments"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-treatments') ?>" title="Go to Hair Treatments"></a>
 								</div>
 							</article>
 							<!-- Slide5 -->
@@ -591,17 +615,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Straightening</a>
+													<a href="<?= $get_svc_url('hair-straightening') ?>">Hair Straightening</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Straightening">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-straightening') ?>" title="Hair Straightening">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Straightening"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-straightening') ?>" title="Go to Hair Straightening"></a>
 								</div>
 							</article>
 							<!-- Slide6 -->
@@ -625,17 +649,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Grooming & Styling</a>
+													<a href="<?= $get_svc_url('grooming-styling') ?>">Grooming & Styling</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Grooming & Styling">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('grooming-styling') ?>" title="Grooming & Styling">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Grooming & Styling"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('grooming-styling') ?>" title="Go to Grooming & Styling"></a>
 								</div>
 							</article>
 							<!-- Slide7 -->
@@ -651,7 +675,7 @@ $site_fav = $site_fav_url;
 										</div>
 										<div class="pbmit-content-box">
 											<div class="pbmit-service-icon">
-												<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 504.98 504.98" style="enable-background:new 0 0 504.98 504.98;" xml:space="preserve"><g><g><path d="M362.749,275.435c-0.01-0.005-0.019-0.01-0.029-0.015l-2.96-1.48c-8.451-4.322-18.68-3.071-25.84,3.16 c-12.607,10.321-30.234,11.906-44.48,4c-2.064-0.789-4.376,0.245-5.165,2.308c-0.609,1.592-0.141,3.396,1.165,4.492  c4.847-0.813,9.756,1.053,12.84,4.88c0.755,1.007,1.941,1.6,3.2,1.6c0.865,0,1.708-0.281,2.4-0.8c1.767-1.326,2.125-3.833,0.8-5.6 c-2.427-3.294-5.785-5.788-9.64-7.16c4.648-3.25,10.712-3.665,15.76-1.08l2.96,1.52c1.947,0.935,4.284,0.156,5.28-1.76 C365.489,278.855,364.714,276.444,362.749,275.435z"/></g></g><g><g><path d="M359.72,226.46c-37.76-10.28-69.08-4-77.88,16c-0.959,1.99-0.122,4.381,1.868,5.339c0.044,0.021,0.087,0.041,0.132,0.061 c0.515,0.235,1.074,0.357,1.64,0.36c1.581-0.01,3.008-0.951,3.64-2.4c7.08-16,35.24-20.68,68.48-11.64 c2.132,0.585,4.335-0.668,4.92-2.8C363.105,229.248,361.852,227.046,359.72,226.46z"/></g></g><g><g><path d="M220.16,282.3c-1.15-1.886-3.611-2.484-5.497-1.334c-0.008,0.005-0.015,0.009-0.023,0.014 c0.994,1.977,3.403,2.774,5.38,1.78l2.96-1.52c5.054-2.582,11.122-2.151,15.76,1.12c-3.81,1.293-7.142,3.704-9.56,6.92 c-1.334,1.757-0.994,4.262,0.76,5.6c0.692,0.519,1.535,0.8,2.4,0.8c1.202-0.049,2.319-0.637,3.04-1.6 c3.107-3.82,8.022-5.682,12.88-4.88c0,0,0,0,0.28,0c5.477,2.73,11.422,4.4,17.52,4.92c1.52,0,3.08,0,4.6,0 c8.114,0.114,16.102-2.018,23.08-6.16C220.711,286.626,221.3,284.179,220.16,282.3z"/></g></g><g><g><path d="M222.282,242.585c-0.001-0.002-0.001-0.003-0.002-0.005c-8.84-20-40-26.4-77.88-16c-2.132,0.585-3.385,2.788-2.8,4.92 c0.585,2.132,2.788,3.385,4.92,2.8v-0.12c33.24-9.04,61.4-4.24,68.44,11.64c0.638,1.462,2.084,2.406,3.68,2.4 c0.552-0.008,1.097-0.131,1.6-0.36C222.261,246.967,223.175,244.605,222.282,242.585z"/></g></g><g><g><path d="M290.92,393.18c-5.279-9.133-13.606-16.115-23.52-19.72c-4.278-1.556-9.031-1.085-12.92,1.28 c-1.504,0.841-3.336,0.841-4.84,0c-3.891-2.359-8.641-2.83-12.92-1.28c-9.919,3.596-18.249,10.58-23.52,19.72 c-0.715,1.238-0.715,2.762,0,4c12.488,21.462,40.01,28.736,61.472,16.248c6.732-3.917,12.331-9.516,16.248-16.248 C291.635,395.942,291.635,394.418,290.92,393.18z M252.04,411.54c-12.315,0.005-23.822-6.131-30.68-16.36 c4.351-6.547,10.689-11.524,18.08-14.2c2.02-0.712,4.253-0.477,6.08,0.64c4.051,2.32,9.029,2.32,13.08,0 c1.825-1.122,4.061-1.358,6.08-0.64c7.386,2.686,13.72,7.661,18.08,14.2C275.884,405.41,264.366,411.544,252.04,411.54z"/></g></g><g><g><path d="M268.724,347.58c-1.498-1.283-3.706-1.283-5.204,0c-6.167,6.329-16.296,6.461-22.626,0.294 c-0.099-0.097-0.198-0.195-0.294-0.294c-1.678-1.437-4.203-1.242-5.64,0.436c-1.282,1.497-1.282,3.706,0,5.204 c4.513,4.561,10.664,7.125,17.08,7.12c6.43,0.016,12.598-2.549,17.12-7.12C270.597,351.542,270.402,349.017,268.724,347.58z"/></g></g><g><g><path d="M254.226,142.243c-1.447-1.419-3.726-1.532-5.306-0.263l-0.08,0.04c-13.031,11.492-29.023,19.099-46.16,21.96 c-2.172,0.403-3.606,2.49-3.203,4.663c0.001,0.006,0.002,0.012,0.003,0.017c0.369,1.908,2.057,3.275,4,3.24h0.76 c18.599-3.154,35.938-11.47,50.04-24C255.827,146.323,255.803,143.791,254.226,142.243z"/></g></g><g><g><path d="M68.4,240.341c-17.673-0.11-32.089,14.127-32.199,31.799c0,0.066-0.001,0.133-0.001,0.199c0,17.595,14.205,31.89,31.8,32 c17.673,0.11,32.089-14.127,32.199-31.799C100.31,254.868,86.073,240.452,68.4,240.341z M68,296.34 c-13.144,0-23.8-10.656-23.8-23.8c0.109-13.099,10.701-23.691,23.8-23.8c13.144,0,23.8,10.656,23.8,23.8 C91.8,285.684,81.144,296.34,68,296.34z"/></g></g><g><g><path d="M437.12,321.78c27.194-0.059,49.192-22.152,49.134-49.346c-0.05-23.275-16.39-43.336-39.174-48.094 c3.262-23.655,0.312-47.751-8.56-69.92c-0.15-0.303-0.339-0.585-0.56-0.84l13.68-14.64c0.715-0.784,1.089-1.82,1.04-2.88 c-0.026-1.061-0.472-2.068-1.24-2.8l-70.6-65.76c-1.609-1.514-4.14-1.437-5.654,0.172c-0.009,0.009-0.017,0.018-0.026,0.028 l-53.32,57.24c-0.719,0.768-1.108,1.788-1.08,2.84c0.036,1.067,0.497,2.075,1.28,2.8l70.44,65.76c1.56,1.551,4.08,1.551,5.64,0 l33.76-36.24c7.542,20.256,9.974,42.06,7.08,63.48h-2.16c-14.436,0.003-28.142,6.351-37.48,17.36 c-9.393-17.905-22.176-33.813-37.64-46.84c-10.96-8.68-47-36.24-58.24-44.84c1.32-1.52,2.6-3.08,4-4.68c8-10.28,15.6-30.96,16-32 c0.762-2.077-0.303-4.378-2.38-5.14c-2.077-0.762-4.378,0.303-5.14,2.38c0,0.2-7.6,20.4-14.72,29.72 c-20,26.04-50.48,42.96-90.68,50.4l-75.68,15.6c-16.603,3.399-32.023,11.095-44.72,22.32c0,0,0,0.24-0.24,0.32 c-3.216-1.579-6.597-2.8-10.08-3.64c1.573-7.055,3.755-13.961,6.52-20.64c0.851-2.043-0.117-4.389-2.16-5.24 s-4.389,0.117-5.24,2.16c-2.999,7.273-5.355,14.795-7.04,22.48c-1.2,0-2.36,0-3.6,0h-2.4c0,0,0-0.2,0-0.32 c-3.696-20.143-2.097-40.901,4.64-60.24l30.8,33.6c1.56,1.551,4.08,1.551,5.64,0l70.6-65.76c1.551-1.56,1.551-4.08,0-5.64 l-16-17.04c22.751-14.938,29.085-45.49,14.147-68.241s-45.49-29.085-68.241-14.147C85.425,39.983,78.68,69.239,92.16,91.9 l-44,41.36c-1.623,1.499-1.724,4.029-0.226,5.652c0.009,0.009,0.017,0.018,0.026,0.028l16.24,17.4 c-8.382,21.637-10.625,45.169-6.48,68c-26.598,5.664-43.568,31.818-37.904,58.416C24.659,305.497,44.749,321.751,68,321.74v0.04 c4.204,0.05,8.398-0.434,12.48-1.44L87,332.86l-31.24,10.28c-2.102,0.679-3.256,2.934-2.577,5.036 c0.018,0.055,0.037,0.11,0.057,0.164L84,439.82c0.342,1.015,1.077,1.851,2.04,2.32c0.549,0.266,1.151,0.403,1.76,0.4 c0.434-0.005,0.865-0.072,1.28-0.2l74.16-24.96c2.136-0.565,3.408-2.755,2.843-4.891s-2.755-3.408-4.891-2.843 c-0.175,0.046-0.346,0.104-0.513,0.174l-70.36,23.64l-2.68-8l64-29.04c0.64,0.68,1.28,1.32,1.96,1.96l20,18.68v16 c-0.056,23.719-8.039,46.739-22.68,65.4c-1.343,1.746-1.021,4.25,0.72,5.6c0.698,0.542,1.556,0.837,2.44,0.84 c1.238-0.003,2.405-0.579,3.16-1.56c15.746-20.046,24.323-44.789,24.36-70.28v-8.72l34.88,32.8 c7.894,7.359,18.287,11.448,29.08,11.44h12.76c10.791,0,21.181-4.088,29.08-11.44l38.64-36v12 c0.037,25.491,8.614,50.234,24.36,70.28c0.755,0.981,1.922,1.557,3.16,1.56c0.884-0.003,1.742-0.298,2.44-0.84 c1.741-1.35,2.063-3.854,0.72-5.6c-14.641-18.661-22.624-41.681-22.68-65.4v-19.36l16.44-15.36l2.24-2.2l64.4,29.28l-2.72,8 l-70.36-23.64c-2.026-0.88-4.382,0.048-5.263,2.075c-0.88,2.026,0.048,4.382,2.075,5.263c0.216,0.094,0.439,0.168,0.668,0.223 l74.12,24.96c0.416,0.122,0.846,0.189,1.28,0.2c1.793,0.094,3.428-1.018,4-2.72l30.72-91.52c0.687-2.087-0.438-4.337-2.52-5.04 l-34.24-11.64l5.6-12.8C425.82,320.773,431.448,321.761,437.12,321.78z M330.4,127.46l48-51.4l6.08,5.76l-42.6,56.32L330.4,127.46 z M347.76,143.46l42.6-56.16L431,125.14l-53.16,46.48L347.76,143.46z M395.16,187.46l-11.44-10.68l53.16-46.12l6.16,5.68 L395.16,187.46z M169.2,127.46l-11.44,10.64l-42.64-56.28l6.2-5.76l31.36,33.68L169.2,127.46z M115.165,30.495 c6.02-3.252,12.754-4.955,19.595-4.955c22.754-0.135,41.309,18.2,41.445,40.954c0.086,14.444-7.398,27.877-19.725,35.406l-32-34.2 c-1.505-1.608-4.025-1.697-5.64-0.2L98.48,86.38C87.655,66.341,95.125,41.32,115.165,30.495z M109.24,87.3l42.6,56.32l-30.08,28 l-53.28-46.48L109.24,87.3z M56.48,136.34l6.16-5.72l53.24,46.48l-11.4,10.68L56.48,136.34z M394.2,248.02 c-13.539,23.508-5.457,53.541,18.052,67.08c0.235,0.135,0.471,0.269,0.708,0.4l-5.76,13.36l-24-8.24l-0.2-91.48 C387.198,235.146,390.942,241.457,394.2,248.02z M121.04,218.06v0.12v103l-26.6,8.92l-6.52-12.56 c24.831-10.925,36.104-39.911,25.179-64.742c-3.544-8.055-9.187-15.01-16.339-20.138 C103.994,226.489,112.198,221.556,121.04,218.06z M68,313.78c-22.776,0-41.24-18.464-41.24-41.24 c0.022-22.767,18.473-41.218,41.24-41.24c22.776,0,41.24,18.464,41.24,41.24C109.24,295.316,90.776,313.78,68,313.78z  M62.12,349.54l59.12-20c0.269,4.974,0.911,9.922,1.92,14.8l-58.36,13.2L62.12,349.54z M85.08,417.7l-17.72-52.64l57.8-13.08 c4.05,14.03,11.061,27.029,20.56,38.12L85.08,417.7z M345.16,392.34l-63.12,58.92c-6.387,6.007-14.832,9.342-23.6,9.32h-12.76 c-8.77,0.03-17.217-3.306-23.6-9.32l-63.12-58.92c-19.066-17.837-29.897-42.771-29.92-68.88V215.34c2.32-0.68,4.72-1.28,7.12-1.8 l75.6-15.6c36.48-6.72,65.4-21.08,86.28-42.72c10.44,8.04,47.56,36.36,58.64,45.12c6.765,5.524,12.956,11.715,18.48,18.48 c0,0,0,0.28,0,0.4V323.5C375.086,349.603,364.229,374.515,345.16,392.34z M419.88,417.78l-61.24-28 c9.445-11.079,16.414-24.049,20.44-38.04l58.52,13.4L419.88,417.78z M443,349.5l-2.68,8l-59.36-13.44 c1.034-4.943,1.689-9.957,1.96-15l0.08,0.08L443,349.5z M395.72,272.58c0-0.013,0-0.027,0-0.04 c0.022-22.767,18.473-41.218,41.24-41.24l-0.08-0.04c22.776-0.044,41.276,18.384,41.32,41.16s-18.384,41.276-41.16,41.32 C414.264,313.784,395.764,295.356,395.72,272.58z"/></g></g><g><g><path d="M436.96,240.34c-17.673,0-32,14.327-32,32c0,17.673,14.327,32,32,32c17.673,0,32-14.327,32-32 C468.96,254.667,454.633,240.34,436.96,240.34z M436.56,296.338c-13.066-0.11-23.6-10.732-23.6-23.798 c0.11-13.177,10.823-23.8,24-23.8c13.144,0.11,23.71,10.855,23.599,23.999C460.449,285.883,449.704,296.449,436.56,296.338z"/></g></g><g><g><path d="M160.526,47.17c-10.627-14.121-30.69-16.953-44.81-6.326c-8.137,6.123-12.873,15.754-12.756,25.937c0,2.209,1.791,4,4,4 c2.209,0,4-1.791,4-4c-0.192-13.253,10.396-24.153,23.649-24.346c13.253-0.192,24.153,10.396,24.346,23.649 c0.112,7.692-3.471,14.972-9.635,19.576c-1.745,1.354-2.062,3.867-0.708,5.612c0.755,0.973,1.916,1.544,3.148,1.548 c0.884-0.003,1.742-0.298,2.44-0.84C168.321,81.353,171.153,61.291,160.526,47.17z"/></g></g><g><g><path d="M336.673,2.967c-25.563-9.276-53.807,3.927-63.083,29.49c-1.886,5.197-2.883,10.675-2.95,16.203h-73.12 c-2.209,0-4,1.791-4,4v78.16c0,2.209,1.791,4,4,4h96.52c2.209,0,4-1.791,4-4V52.58c-0.036-1.392-0.794-2.664-2-3.36 c0.044-13.1,10.699-23.685,23.799-23.641c13.1,0.044,23.685,10.699,23.641,23.799c-0.044,13.1-10.699,23.685-23.799,23.641 c-4.69-0.016-9.27-1.421-13.161-4.039c-1.728-1.376-4.245-1.09-5.621,0.638c-1.376,1.728-1.09,4.245,0.638,5.621 c0.159,0.126,0.327,0.24,0.503,0.341c14.613,9.939,34.517,6.15,44.456-8.463c9.939-14.613,6.15-34.517-8.463-44.456 c-14.613-9.939-34.517-6.15-44.456,8.463c-3.522,5.178-5.447,11.275-5.537,17.536h-9.4c0.376-22.707,19.088-40.81,41.794-40.434 c22.707,0.376,40.81,19.088,40.434,41.794c-0.376,22.707-19.088,40.81-41.795,40.434c-4.529-0.075-9.014-0.897-13.274-2.435 c-2.098-0.692-4.36,0.447-5.052,2.545c-0.665,2.014,0.359,4.197,2.332,4.975c25.563,9.276,53.807-3.927,63.083-29.49 C375.44,40.486,362.236,12.243,336.673,2.967z M201.52,126.82V56.58h8.44l7.2,70.24H201.52z M266.32,126.82H225.2L218,56.58h55.52 L266.32,126.82z M281.52,56.58h8.44v70.24h-15.6L281.52,56.58z"/></g></g></svg>
+												<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 504.98 504.98" style="enable-background:new 0 0 504.98 504.98;" xml:space="preserve"><g><g><path d="M362.749,275.435c-0.01-0.005-0.019-0.01-0.029-0.015l-2.96-1.48c-8.451-4.322-18.68-3.071-25.84,3.16 c-12.607,10.321-30.234,11.906-44.48,4c-2.064-0.789-4.376,0.245-5.165,2.308c-0.609,1.592-0.141,3.396,1.165,4.492  c4.847-0.813,9.756,1.053,12.84,4.88c0.755,1.007,1.941,1.6,3.2,1.6c0.865,0,1.708-0.281,2.4-0.8c1.767-1.326,2.125-3.833,0.8-5.6 c-2.427-3.294-5.785-5.788-9.64-7.16c4.648-3.25,10.712-3.665,15.76-1.08l2.96,1.52c1.947,0.935,4.284,0.156,5.28-1.76 C365.489,278.855,364.714,276.444,362.749,275.435z"/></g></g><g><g><path d="M359.72,226.46c-37.76-10.28-69.08-4-77.88,16c-0.959,1.99-0.122,4.381,1.868,5.339c0.044,0.021,0.087,0.041,0.132,0.061 c0.515,0.235,1.074,0.357,1.64,0.36c1.581-0.01,3.008-0.951,3.64-2.4c7.08-16,35.24-20.68,68.48-11.64 c2.132,0.585,4.335-0.668,4.92-2.8C363.105,229.248,361.852,227.046,359.72,226.46z"/></g></g><g><g><path d="M220.16,282.3c-1.15-1.886-3.611-2.484-5.497-1.334c-0.008,0.005-0.015,0.009-0.023,0.014 c0.994,1.977,3.403,2.774,5.38,1.78l2.96-1.52c5.054-2.582,11.122-2.151,15.76,1.12c-3.81,1.293-7.142,3.704-9.56,6.92 c-1.334,1.757-0.994,4.262,0.76,5.6c0.692,0.519,1.535,0.8,2.4,0.8c1.202-0.049,2.319-0.637,3.04-1.6 c3.107-3.82,8.022-5.682,12.88-4.88c0,0,0,0,0.28,0c5.477,2.73,11.422,4.4,17.52,4.92c1.52,0,3.08,0,4.6,0 c8.114,0.114,16.102-2.018,23.08-6.16C220.711,286.626,221.3,284.179,220.16,282.3z"/></g></g><g><g><path d="M222.282,242.585c-0.001-0.002-0.001-0.003-0.002-0.005c-8.84-20-40-26.4-77.88-16c-2.132,0.585-3.385,2.788-2.8,4.92 c0.585,2.132,2.788,3.385,4.92,2.8v-0.12c33.24-9.04,61.4-4.24,68.44,11.64c0.638,1.462,2.084,2.406,3.68,2.4 c0.552-0.008,1.097-0.131,1.6-0.36C222.261,246.967,223.175,244.605,222.282,242.585z"/></g></g><g><g><path d="M290.92,393.18c-5.279-9.133-13.606-16.115-23.52-19.72c-4.278-1.556-9.031-1.085-12.92,1.28 c-1.504,0.841-3.336,0.841-4.84,0c-3.891-2.359-8.641-2.83-12.92-1.28c-9.919,3.596-18.249,10.58-23.52,19.72 c-0.715,1.238-0.715,2.762,0,4c12.488,21.462,40.01,28.736,61.472,16.248c6.732-3.917,12.331-9.516,16.248-16.248 C291.635,395.942,291.635,394.418,290.92,393.18z M252.04,411.54c-12.315,0.005-23.822-6.131-30.68-16.36 c4.351-6.547,10.689-11.524,18.08-14.2c2.02-0.712,4.253-0.477,6.08,0.64c4.051,2.32,9.029,2.32,13.08,0 c1.825-1.122,4.061-1.358,6.08-0.64c7.386,2.686,13.72,7.661,18.08,14.2C275.884,405.41,264.366,411.544,252.04,411.54z"/></g></g><g><g><path d="M268.724,347.58c-1.498-1.283-3.706-1.283-5.204,0c-6.167,6.329-16.296,6.461-22.626,0.294 c-0.099-0.097-0.198-0.195-0.294-0.294c-1.678-1.437-4.203-1.242-5.64,0.436c-1.282,1.497-1.282,3.706,0,5.204 c4.513,4.561,10.664,7.125,17.08,7.12c6.43,0.016,12.598-2.549,17.12-7.12C270.597,351.542,270.402,349.017,268.724,347.58z"/></g></g><g><g><path d="M254.226,142.243c-1.447-1.419-3.726-1.532-5.306-0.263l-0.08,0.04c-13.031,11.492-29.023,19.099-46.16,21.96 c-2.172,0.403-3.606,2.49-3.203,4.663c0.001,0.006,0.002,0.012,0.003,0.017c0.369,1.908,2.057,3.275,4,3.24h0.76 c18.599-3.154,35.938-11.47,50.04-24C255.827,146.323,255.803,143.791,254.226,142.243z"/></g></g><g><g><path d="M68.4,240.341c-17.673-0.11-32.089,14.127-32.199,31.799c0,0.066-0.001,0.133-0.001,0.199c0,17.595,14.205,31.89,31.8,32 c17.673,0.11,32.089-14.127,32.199-31.799C100.31,254.868,86.073,240.452,68.4,240.341z M68,296.34 c-13.144,0-23.8-10.656-23.8-23.8c0.109-13.099,10.701-23.691,23.8-23.8c13.144,0,23.8,10.656,23.8,23.8 C91.8,285.684,81.144,296.34,68,296.34z"/></g></g><g><g><path d="M437.12,321.78c27.194-0.059,49.192-22.152,49.134-49.346c-0.05-23.275-16.39-43.336-39.174-48.094 c3.262-23.655,0.312-47.751-8.56-69.92c-0.15-0.303-0.339-0.585-0.56-0.84l13.68-14.64c0.715-0.784,1.089-1.82,1.04-2.88 c-0.026-1.061-0.472-2.068-1.24-2.8l-70.6-65.76c-1.609-1.514-4.14-1.437-5.654,0.172c-0.009,0.009-0.017,0.018-0.026,0.028 l-53.32,57.24c-0.719,0.768-1.108,1.788-1.08,2.84c0.036,1.067,0.497,2.075,1.28,2.8l70.44,65.76c1.56,1.551,4.08,1.551,5.64,0 l33.76-36.24c7.542,20.256,9.974,42.06,7.08,63.48h-2.16c-14.436,0.003-28.142,6.351-37.48,17.36 c-9.393-17.905-22.176-33.813-37.64-46.84c-10.96-8.68-47-36.24-58.24-44.84c1.32-1.52,2.6-3.08,4-4.68c8-10.28,15.6-30.96,16-32 c0.762-2.077-0.303-4.378-2.38-5.14c-2.077-0.762-4.378,0.303-5.14,2.38c0,0.2-7.6,20.4-14.72,29.72 c-20,26.04-50.48,42.96-90.68,50.4l-75.68,15.6c-16.603,3.399-32.023,11.095-44.72,22.32c0,0,0,0.24-0.24,0.32 c-3.216-1.579-6.597-2.8-10.08-3.64c1.573-7.055,3.755-13.961,6.52-20.64c0.851-2.043-0.117-4.389-2.16-5.24 s-4.389,0.117-5.24,2.16c-2.999,7.273-5.355,14.795-7.04,22.48c-1.2,0-2.36,0-3.6,0h-2.4c0,0,0-0.2,0-0.32 c-3.696-20.143-2.097-40.901,4.64-60.24l30.8,33.6c1.56,1.551,4.08,1.551,5.64,0l70.6-65.76c1.551-1.56,1.551-4.08,0-5.64 l-16-17.04c22.751-14.938,29.085-45.49,14.147-68.241s-45.49-29.085-68.241-14.147C85.425,39.983,78.68,69.239,92.16,91.9 l-44,41.36c-1.623,1.499-1.724,4.029-0.226,5.652c0.009,0.009,0.017,0.018,0.026,0.028l16.24,17.4 c-8.382,21.637-10.625,45.169-6.48,68c-26.598,5.664-43.568,31.818-37.904,58.416C24.659,305.497,44.749,321.751,68,321.74v0.04 c4.204,0.05,8.398-0.434,12.48-1.44L87,332.86l-31.24,10.28c-2.102,0.679-3.256,2.934-2.577,5.036 c0.018,0.055,0.037,0.11,0.057,0.164L84,439.82c0.342,1.015,1.077,1.851,2.04,2.32c0.549,0.266,1.151,0.403,1.76,0.4 c0.434-0.005,0.865-0.072,1.28-0.2l74.16-24.96c2.136-0.565,3.408-2.755,2.843-4.891s-2.755-3.408-4.891-2.843 c-0.175,0.046-0.346,0.104-0.513,0.174l-70.36,23.64l-2.68-8l64-29.04c0.64,0.68,1.28,1.32,1.96,1.96l20,18.68v16 c-0.056,23.719-8.039,46.739-22.68,65.4c-1.343,1.746-1.021,4.25,0.72,5.6c0.698,0.542,1.556,0.837,2.44,0.84 c1.238-0.003,2.405-0.579,3.16-1.56c15.746-20.046,24.323-44.789,24.36-70.28v-8.72l34.88,32.8 c7.894,7.359,18.287,11.448,29.08,11.44h12.76c10.791,0,21.181-4.088,29.08-11.44l38.64-36v12 c0.037,25.491,8.614,50.234,24.36,70.28c0.755,0.981,1.922,1.557,3.16,1.56c0.884-0.003,1.742-0.298,2.44-0.84 c1.741-1.35,2.063-3.854,0.72-5.6c-14.641-18.661-22.624-41.681-22.68-65.4v-19.36l16.44-15.36l2.24-2.2l64.4,29.28l-2.72,8 l-70.36-23.64c-2.026-0.88-4.382,0.048-5.263,2.075c-0.88,2.026,0.048,4.382,2.075,5.263c0.216,0.094,0.439,0.168,0.668,0.223 l74.12,24.96c0.416,0.122,0.846,0.189,1.28,0.2c1.793,0.094,3.428-1.018,4-2.72l30.72-91.52c0.687-2.087-0.438-4.337-2.52-5.04 l-34.24-11.64l5.6-12.8C425.82,320.773,431.448,321.761,437.12,321.78z M330.4,127.46l48-51.4l6.08,5.76l-42.6,56.32L330.4,127.46 z M347.76,143.46l42.6-56.16L431,125.14l-53.16,46.48L347.76,143.46z M395.16,187.46l-11.44-10.68l53.16-46.12l6.16,5.68 L395.16,187.46z M169.2,127.46l-11.44,10.64l-42.64-56.28l6.2-5.76l31.36,33.68L169.2,127.46z M115.165,30.495 c6.02-3.252,12.754-4.955,19.595-4.955c22.754-0.135,41.309,18.2,41.445,40.954c0.086,14.444-7.398,27.877-19.725,35.406l-32-34.2 c-1.505-1.608-4.025-1.697-5.64-0.2L98.48,86.38C87.655,66.341,95.125,41.32,115.165,30.495z M109.24,87.3l42.6,56.32l-30.08,28 l-53.28-46.48L109.24,87.3z M56.48,136.34l6.16-5.72l53.24,46.48l-11.4,10.68L56.48,136.34z M394.2,248.02 c-13.539,23.508-5.457,53.541,18.052,67.08c0.235,0.135,0.471,0.269,0.708,0.4l-5.76,13.36l-24-8.24l-0.2-91.48 C387.198,235.146,390.942,241.457,394.2,248.02z M121.04,218.06v0.12v103l-26.6,8.92l-6.52-12.56 c24.831-10.925,36.104-39.911,25.179-64.742c-3.544-8.055-9.187-15.01-16.339-20.138 C103.994,226.489,112.198,221.556,121.04,218.06z M68,313.78c-22.776,0-41.24-18.464-41.24-41.24 c0.022-22.767,18.473-41.218,41.24-41.24c22.776,0,41.24,18.464,41.24,41.24C109.24,295.316,90.776,313.78,68,313.78z  M62.12,349.54l59.12-20c0.269,4.974,0.911,9.922,1.92,14.8l-58.36,13.2L62.12,349.54z M85.08,417.7l-17.72-52.64l57.8-13.08 c4.05,14.03,11.061,27.029,20.56,38.12L85.08,417.7z M345.16,392.34l-63.12,58.92c-6.387,6.007-14.832,9.342-23.6,9.32h-12.76 c-8.77,0.03-17.217-3.306-23.6-9.32l-63.12-58.92c-19.066-17.837-29.897-42.771-29.92-68.88V215.34c2.32-0.68,4.72-1.28,7.12-1.8 l75.6-15.6c36.48-6.72,65.4-21.08,86.28-42.72c10.44,8.04,47.56,36.36,58.64,45.12c6.765,5.524,12.956,11.715,18.48,18.48 c0,0,0,0.28,0,0.4V323.5C375.086,349.603,364.229,374.515,345.16,392.34z M419.88,417.78l-61.24-28 c9.445-11.079,16.414-24.049,20.44-38.04l58.52,13.4L419.88,417.78z M443,349.5l-2.68,8l-59.36-13.44 c1.034-4.943,1.689-9.957,1.96-15l0.08,0.08L443,349.5z M395.72,272.58c0-0.013,0-0.027,0-0.04 c0.022-22.767,18.473-41.218,41.24-41.24l-0.08-0.04c22.776-0.044,41.276,18.384,41.32,41.16s-18.384,41.276-41.16,41.32 C414.264,313.784,395.764,295.356,395.72,272.58z"/></g></g><g><g><path d="M436.96,240.34c-17.673,0-32,14.327-32,32c0,17.673,14.327,32,32,32c17.673,0,32-14.327,32-32 C468.96,254.667,454.633,240.34,436.96,240.34z M436.56,296.338c-13.066-0.11-23.6-10.732-23.6-23.798 c0.11-13.177,10.823-23.8,24-23.8c13.144,0.11,23.71,10.855,23.599,23.999C460.449,285.883,449.704,296.449,436.56,296.338z"/></g></g><g><g><path d="M160.526,47.17c-10.627-14.121-30.69-16.953-44.81-6.326c-8.137,6.123-12.873,15.754-12.756,25.937c0,2.209,1.791,4,4,4 c2.209,0,4-1.791,4-4c-0.192-13.253,10.396-24.153,23.649-24.346c13.253-0.192,24.153,10.396,24.346,23.649 c0.112,7.692-3.471,14.972-9.635,19.576c-1.745,1.354-2.062,3.867-0.708,5.612c0.755,0.973,1.916,1.544,3.148,1.548 c0.884-0.003,1.742-0.298,2.4-0.8C168.321,81.353,171.153,61.291,160.526,47.17z"/></g></g><g><g><path d="M336.673,2.967c-25.563-9.276-53.807,3.927-63.083,29.49c-1.886,5.197-2.883,10.675-2.95,16.203h-73.12 c-2.209,0-4,1.791-4,4v78.16c0,2.209,1.791,4,4,4h96.52c2.209,0,4-1.791,4-4V52.58c-0.036-1.392-0.794-2.664-2-3.36 c0.044-13.1,10.699-23.685,23.799-23.641c13.1,0.044,23.685,10.699,23.641,23.799c-0.044,13.1-10.699,23.685-23.799,23.641 c-4.69-0.016-9.27-1.421-13.161-4.039c-1.728-1.376-4.245-1.09-5.621,0.638c-1.376,1.728-1.09,4.245,0.638,5.621 c0.159,0.126,0.327,0.24,0.503,0.341c14.613,9.939,34.517,6.15,44.456-8.463c9.939-14.613,6.15-34.517-8.463-44.456 c-14.613-9.939-34.517-6.15-44.456,8.463c-3.522,5.178-5.447,11.275-5.537,17.536h-9.4c0.376-22.707,19.088-40.81,41.794-40.434 c22.707,0.376,40.81,19.088,40.434,41.794c-0.376,22.707-19.088,40.81-41.795,40.434c-4.529-0.075-9.014-0.897-13.274-2.435 c-2.098-0.692-4.36,0.447-5.052,2.545c-0.665,2.014,0.359,4.197,2.332,4.975c25.563,9.276,53.807-3.927,63.083-29.49 C375.44,40.486,362.236,12.243,336.673,2.967z M201.52,126.82V56.58h8.44l7.2,70.24H201.52z M266.32,126.82H225.2L218,56.58h55.52 L266.32,126.82z M281.52,56.58h8.44v70.24h-15.6L281.52,56.58z"/></g></g></svg>
 											</div>
 											<div class="pbminfotech-box-number">07</div>
 											<div class="pbmit-service-cat">
@@ -659,17 +683,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Texture</a>
+													<a href="<?= $get_svc_url('hair-texture') ?>">Hair Texture</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Texture">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-texture') ?>" title="Hair Texture">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Texture"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-texture') ?>" title="Go to Hair Texture"></a>
 								</div>
 							</article>
 							<!-- Slide8 -->
@@ -693,17 +717,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Coloring</a>
+													<a href="<?= $get_svc_url('hair-coloring') ?>">Hair Coloring</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Coloring">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-coloring') ?>" title="Hair Coloring">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Coloring"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-coloring') ?>" title="Go to Hair Coloring"></a>
 								</div>
 							</article>
 							<!-- Slide9 -->
@@ -727,17 +751,17 @@ $site_fav = $site_fav_url;
 											</div>
 											<div class="pbmit-service-title-wrapper">
 												<h3 class="pbmit-service-title">
-													<a href="#">Hair Cutting</a>
+													<a href="<?= $get_svc_url('hair-cutting') ?>">Hair Cutting</a>
 												</h3>
 												<div class="pbmit-service-btn-wrapper">
-													<a class="pbmit-service-btn" href="#" title="Hair Cutting">
+													<a class="pbmit-service-btn" href="<?= $get_svc_url('hair-cutting') ?>" title="Hair Cutting">
 														<span class="pbmit-button-icon"></span>
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<a class="pbmit-link" href="#" title="Go to Hair Cutting"></a>
+									<a class="pbmit-link" href="<?= $get_svc_url('hair-cutting') ?>" title="Go to Hair Cutting"></a>
 								</div>
 							</article>
 						</div>
@@ -781,150 +805,7 @@ $site_fav = $site_fav_url;
 				</div>
 			</section>
 			<!-- Video End -->
-
-			<!-- Pricing Start --> 
-			<section class="section-xxl animation animated fade">
-				<div class="container">
-					<div class="pbminfotech-ele-ptable-style-2">
-						<div class="pbmit-heading-subheading">
-							<h4 class="pbmit-subtitle">check the plans</h4>
-							<h2 class="pbmit-title">We take care of the glow<br> of your hair strands.</h2>
-						</div>
-						<div class="pbmit-ptable-cols row">
-							<div class="pbmit-ptable-col col-md-12">
-								<div class="pbmit-pricing-table-box">
-									<div class="pbmit-box-number">
-										<div class="pbminfotech-ptable-box-number">01</div>
-									</div>
-									<div class="pbmit-head-wrap">
-										<h3 class="pbminfotech-ptable-heading">Signature<br> Haircuts</h3>
-										<div class="pbminfotech-sep"></div>
-									</div>
-									<div class="pbmit-price-wrapper">
-										<div class="pbmit-ptable-price-w">
-											<div class="pbminfotech-ptable-symbol">$</div>
-											<div class="pbminfotech-ptable-price">129</div>
-										</div>
-									</div>
-									<div class="pbmit-ptable-lines-w">
-										<div class="pbmit-ptable-line">
-											Split-End Removal Cut					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Fade &amp; Taper Cuts					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Restyle Transformation Cut					
-										</div>
-										<!-- .pbmit-ptable-line -->
-									</div>
-									<div class="pbmit-ptable-inner">
-										<div class="pbmit-price-btn-wraper">
-											<div class="pbminfotech-ptable-btn">
-												<div class="pbmit-ptl-btn">
-													<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-														<span class="pbmit-button-text">Book Now</span>
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="pbmit-ptable-col col-md-12">
-								<div class="pbmit-pricing-table-box">
-									<div class="pbmit-box-number">
-										<div class="pbminfotech-ptable-box-number">02</div>
-									</div>
-									<div class="pbmit-head-wrap">
-										<h3 class="pbminfotech-ptable-heading">Hair <br>Treatment</h3>
-										<div class="pbminfotech-sep"></div>
-									</div>
-									<div class="pbmit-price-wrapper">
-										<div class="pbmit-ptable-price-w">
-											<div class="pbminfotech-ptable-symbol">$</div>
-											<div class="pbminfotech-ptable-price">150</div>
-										</div>
-									</div>
-									<div class="pbmit-ptable-lines-w">
-										<div class="pbmit-ptable-line">
-											Keratin Smoothing Treatment					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Balayage Color Service					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Full/Partial Head Highlights					
-										</div>
-										<!-- .pbmit-ptable-line -->
-									</div>
-									<div class="pbmit-ptable-inner">
-										<div class="pbmit-price-btn-wraper">
-											<div class="pbminfotech-ptable-btn">
-												<div class="pbmit-ptl-btn">
-													<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-														<span class="pbmit-button-text">Book Now</span>
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="pbmit-ptable-col col-md-12">
-								<div class="pbmit-pricing-table-box">
-									<div class="pbmit-box-number">
-										<div class="pbminfotech-ptable-box-number">03</div>
-									</div>
-									<div class="pbmit-head-wrap">
-										<h3 class="pbminfotech-ptable-heading">Hair <br>Extension</h3>
-										<div class="pbminfotech-sep"></div>
-									</div>
-									<div class="pbmit-price-wrapper">
-										<div class="pbmit-ptable-price-w">
-											<div class="pbminfotech-ptable-symbol">$</div>
-											<div class="pbminfotech-ptable-price">225</div>
-										</div>
-									</div>
-									<div class="pbmit-ptable-lines-w">
-										<div class="pbmit-ptable-line">
-											Luxury Hair Extension 					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Fusion Hair Extensions					
-										</div>
-										<!-- .pbmit-ptable-line -->
-										<div class="pbmit-ptable-line">
-											Volume and Length Boosting					
-										</div>
-										<!-- .pbmit-ptable-line -->
-									</div>
-									<div class="pbmit-ptable-inner">
-										<div class="pbmit-price-btn-wraper">
-											<div class="pbminfotech-ptable-btn">
-												<div class="pbmit-ptl-btn">
-													<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-														<span class="pbmit-button-text">Book Now</span>
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="price-arrow" data-aos="fade-down" data-aos-duration="800">
-							<img src="<?= $asset_url ?>images/demo-1/price-arrow-1.png" alt="">
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- Pricing end --> 
+ 
 
 			<!-- Marquee Start -->
 			<section class="pbmit-bg-color-global py-md-3 py-2">
@@ -1429,115 +1310,163 @@ $site_fav = $site_fav_url;
 								<h4 class="pbmit-subtitle">Latest News</h4>
 								<h2 class="pbmit-title">Explore our articles</h2>
 							</div>
-							<a href="#" class="pbmit-btn">
+							<?php 
+								$q_param = !empty($_GET['preview_tpl']) ? '?preview_tpl=' . htmlspecialchars($_GET['preview_tpl']) . '&preview_layout=' . htmlspecialchars($_GET['preview_layout'] ?? 1) : '';
+							?>
+							<a href="<?= website_url('blog' . $q_param) ?>" class="pbmit-btn">
 								<span class="pbmit-button-text">View All Post</span>
 							</a>
 						</div>
 						<div class="col-md-12 col-lg-8">
 							<div class="swiper-slider" data-autoplay="false" data-allow-touch="true" data-loop="true" data-dots="false" data-arrows="false" data-columns="2" data-margin="40" data-effect="slide">
 								<div class="swiper-wrapper">
-									<!-- Slide1 -->
-									<article class="pbmit-blog-style-2 swiper-slide">
-										<div class="post-item">
-											<div class="pbminfotech-box-content">
-												<div class="pbmit-featured-container">
-													<div class="pbmit-featured-img-wrapper">
-														<div class="pbmit-featured-wrapper">
-															<img src="<?= $asset_url ?>images/demo-1/blog/blog-img-01.jpg" class="img-fluid" alt="">
+									<?php if (!empty($tpl_blogs)): ?>
+										<?php foreach ($tpl_blogs as $b_item): 
+											$b_thumb = !empty($b_item->thumbnail) ? ((strpos($b_item->thumbnail, 'http') === 0) ? $b_item->thumbnail : base_url(ltrim($b_item->thumbnail, '/'))) : ($asset_url . 'images/demo-1/blog/blog-img-01.jpg');
+											$b_ts = !empty($b_item->published_date) ? strtotime($b_item->published_date) : time();
+											$b_day = date('d', $b_ts);
+											$b_mon = date('M', $b_ts);
+											$b_url = website_url('blog/' . ($b_item->slug ?: $b_item->id) . $q_param);
+										?>
+										<!-- Slide -->
+										<article class="pbmit-blog-style-2 swiper-slide">
+											<div class="post-item">
+												<div class="pbminfotech-box-content">
+													<div class="pbmit-featured-container">
+														<div class="pbmit-featured-img-wrapper">
+															<div class="pbmit-featured-wrapper">
+																<a href="<?= $b_url ?>"><img src="<?= htmlspecialchars($b_thumb) ?>" class="img-fluid" alt="<?= htmlspecialchars($b_item->title) ?>"></a>
+															</div>
+														</div>
+														<div class="pbmit-meta-date-wrapper">
+															<div class="pbmit-post-date">
+																<span class="pbmit-date-number"><?= $b_day ?></span>
+																<span class="pbmit-month-text"><?= $b_mon ?></span>
+															</div>
 														</div>
 													</div>
-													<div class="pbmit-meta-date-wrapper">
-														<div class="pbmit-post-date">
-															<span class="pbmit-date-number">20</span>
-															<span class="pbmit-month-text">Apr</span>
+													<div class="pbmit-content-wrapper">
+														<div class="pbmit-meta-wraper d-flex align-items-center">
+															<div class="pbmit-meta-category pbmit-meta-line">
+																<a href="<?= website_url('blog' . $q_param) ?>" rel="category tag"><?= htmlspecialchars(!empty($b_item->tags) ? explode(',', $b_item->tags)[0] : 'Hair Style') ?></a>				
+															</div>
+															<div class="pbmit-meta-author pbmit-meta-line">
+																<?= htmlspecialchars($b_item->author_name ?: 'Alex Joy') ?>				
+															</div>
 														</div>
+														<h3 class="pbmit-post-title">
+															<a href="<?= $b_url ?>"><?= htmlspecialchars($b_item->title) ?></a>
+														</h3>
 													</div>
-												</div>
-												<div class="pbmit-content-wrapper">
-													<div class= "pbmit-meta-wraper d-flex align-items-center">
-														<div class="pbmit-meta-category pbmit-meta-line">
-															<a href="#" rel="category tag">Hair Style</a>				
-														</div>
-														<div class="pbmit-meta-author pbmit-meta-line">
-															Alex Joy				
-														</div>
-													</div>
-													<h3 class="pbmit-post-title">
-														<a href="#">The most effective anti-losing hair care products</a>
-													</h3>
 												</div>
 											</div>
-										</div>
-										<a class="pbmit-link" href="#" title="Go to The most effective anti-losing hair care products"></a>
-									</article>
-									<!-- Slide2 -->
-									<article class="pbmit-blog-style-2 swiper-slide">
-										<div class="post-item">
-											<div class="pbminfotech-box-content">
-												<div class="pbmit-featured-container">
-													<div class="pbmit-featured-img-wrapper">
-														<div class="pbmit-featured-wrapper">
-															<img src="<?= $asset_url ?>images/demo-1/blog/blog-img-02.jpg" class="img-fluid" alt="">
+											<a class="pbmit-link" href="<?= $b_url ?>" title="<?= htmlspecialchars($b_item->title) ?>"></a>
+										</article>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<!-- Slide1 -->
+										<article class="pbmit-blog-style-2 swiper-slide">
+											<div class="post-item">
+												<div class="pbminfotech-box-content">
+													<div class="pbmit-featured-container">
+														<div class="pbmit-featured-img-wrapper">
+															<div class="pbmit-featured-wrapper">
+																<a href="<?= website_url('blog/anti-losing-hair-care-products' . $q_param) ?>"><img src="<?= $asset_url ?>images/demo-1/blog/blog-img-01.jpg" class="img-fluid" alt=""></a>
+															</div>
+														</div>
+														<div class="pbmit-meta-date-wrapper">
+															<div class="pbmit-post-date">
+																<span class="pbmit-date-number">20</span>
+																<span class="pbmit-month-text">Apr</span>
+															</div>
 														</div>
 													</div>
-													<div class="pbmit-meta-date-wrapper">
-														<div class="pbmit-post-date">
-															<span class="pbmit-date-number">18</span>
-															<span class="pbmit-month-text">Apr</span>
+													<div class="pbmit-content-wrapper">
+														<div class="pbmit-meta-wraper d-flex align-items-center">
+															<div class="pbmit-meta-category pbmit-meta-line">
+																<a href="<?= website_url('blog' . $q_param) ?>" rel="category tag">Hair Style</a>				
+															</div>
+															<div class="pbmit-meta-author pbmit-meta-line">
+																Alex Joy				
+															</div>
 														</div>
+														<h3 class="pbmit-post-title">
+															<a href="<?= website_url('blog/anti-losing-hair-care-products' . $q_param) ?>">The most effective anti-losing hair care products</a>
+														</h3>
 													</div>
-												</div>
-												<div class="pbmit-content-wrapper">
-													<div class= "pbmit-meta-wraper d-flex align-items-center">
-														<div class="pbmit-meta-category pbmit-meta-line">
-															<a href="#" rel="category tag">Hair Spa</a>				
-														</div>
-														<div class="pbmit-meta-author pbmit-meta-line">
-															Alex Joy				
-														</div>
-													</div>
-													<h3 class="pbmit-post-title">
-														<a href="#">What’s the main challenge for bleached hair?</a>
-													</h3>
 												</div>
 											</div>
-										</div>
-										<a class="pbmit-link" href="#" title="Go to What’s the main challenge for bleached hair?"></a>
-									</article>
-									<!-- Slide3 -->
-									<article class="pbmit-blog-style-2 swiper-slide">
-										<div class="post-item">
-											<div class="pbminfotech-box-content">
-												<div class="pbmit-featured-container">
-													<div class="pbmit-featured-img-wrapper">
-														<div class="pbmit-featured-wrapper">
-															<img src="<?= $asset_url ?>images/demo-1/blog/blog-img-03.jpg" class="img-fluid" alt="">
+											<a class="pbmit-link" href="<?= website_url('blog/anti-losing-hair-care-products' . $q_param) ?>" title="Go to The most effective anti-losing hair care products"></a>
+										</article>
+										<!-- Slide2 -->
+										<article class="pbmit-blog-style-2 swiper-slide">
+											<div class="post-item">
+												<div class="pbminfotech-box-content">
+													<div class="pbmit-featured-container">
+														<div class="pbmit-featured-img-wrapper">
+															<div class="pbmit-featured-wrapper">
+																<a href="<?= website_url('blog/main-challenge-bleached-hair' . $q_param) ?>"><img src="<?= $asset_url ?>images/demo-1/blog/blog-img-02.jpg" class="img-fluid" alt=""></a>
+															</div>
+														</div>
+														<div class="pbmit-meta-date-wrapper">
+															<div class="pbmit-post-date">
+																<span class="pbmit-date-number">18</span>
+																<span class="pbmit-month-text">Apr</span>
+															</div>
 														</div>
 													</div>
-													<div class="pbmit-meta-date-wrapper">
-														<div class="pbmit-post-date">
-															<span class="pbmit-date-number">15</span>
-															<span class="pbmit-month-text">Apr</span>
+													<div class="pbmit-content-wrapper">
+														<div class="pbmit-meta-wraper d-flex align-items-center">
+															<div class="pbmit-meta-category pbmit-meta-line">
+																<a href="<?= website_url('blog' . $q_param) ?>" rel="category tag">Hair Spa</a>				
+															</div>
+															<div class="pbmit-meta-author pbmit-meta-line">
+																Alex Joy				
+															</div>
 														</div>
+														<h3 class="pbmit-post-title">
+															<a href="<?= website_url('blog/main-challenge-bleached-hair' . $q_param) ?>">What’s the main challenge for bleached hair?</a>
+														</h3>
 													</div>
-												</div>
-												<div class="pbmit-content-wrapper">
-													<div class= "pbmit-meta-wraper d-flex align-items-center">
-														<div class="pbmit-meta-category pbmit-meta-line">
-															<a href="#" rel="category tag">Hair Trimming</a>				
-														</div>
-														<div class="pbmit-meta-author pbmit-meta-line">
-															Alex Joy				
-														</div>
-													</div>
-													<h3 class="pbmit-post-title">
-														<a href="#">Regular haircuts are the secret to hair growth</a>
-													</h3>
 												</div>
 											</div>
-										</div>
-										<a class="pbmit-link" href="#" title="Go to Regular haircuts are the secret to hair growth"></a>
-									</article>
+											<a class="pbmit-link" href="<?= website_url('blog/main-challenge-bleached-hair' . $q_param) ?>" title="Go to What’s the main challenge for bleached hair?"></a>
+										</article>
+										<!-- Slide3 -->
+										<article class="pbmit-blog-style-2 swiper-slide">
+											<div class="post-item">
+												<div class="pbminfotech-box-content">
+													<div class="pbmit-featured-container">
+														<div class="pbmit-featured-img-wrapper">
+															<div class="pbmit-featured-wrapper">
+																<a href="<?= website_url('blog/regular-haircuts-secret-growth' . $q_param) ?>"><img src="<?= $asset_url ?>images/demo-1/blog/blog-img-03.jpg" class="img-fluid" alt=""></a>
+															</div>
+														</div>
+														<div class="pbmit-meta-date-wrapper">
+															<div class="pbmit-post-date">
+																<span class="pbmit-date-number">15</span>
+																<span class="pbmit-month-text">Apr</span>
+															</div>
+														</div>
+													</div>
+													<div class="pbmit-content-wrapper">
+														<div class="pbmit-meta-wraper d-flex align-items-center">
+															<div class="pbmit-meta-category pbmit-meta-line">
+																<a href="<?= website_url('blog' . $q_param) ?>" rel="category tag">Hair Trimming</a>				
+															</div>
+															<div class="pbmit-meta-author pbmit-meta-line">
+																Alex Joy				
+															</div>
+														</div>
+														<h3 class="pbmit-post-title">
+															<a href="<?= website_url('blog/regular-haircuts-secret-growth' . $q_param) ?>">Regular haircuts are the secret to hair growth</a>
+														</h3>
+													</div>
+												</div>
+											</div>
+											<a class="pbmit-link" href="<?= website_url('blog/regular-haircuts-secret-growth' . $q_param) ?>" title="Go to Regular haircuts are the secret to hair growth"></a>
+										</article>
+									<?php endif; ?>
 								</div>
 							</div>
 						</div>
@@ -1558,14 +1487,14 @@ $site_fav = $site_fav_url;
 							<aside class="pbmit-two-column-menu widget">
 								<h2 class="widget-title">Our Services</h2>
 								<ul class="menu">
-									<li><a href="#">Hair Extensions</a></li>
-									<li><a href="#">Face Care</a></li>
-									<li><a href="#">Grooming & Styling</a></li>
-									<li><a href="#">Hair Treatments</a></li>
-									<li><a href="#">Layered Hair</a></li>
-									<li><a href="#">Hair Wash</a></li>
-									<li><a href="#">Hair Straightening</a></li>
-									<li><a href="#">Custom Hair Spa</a></li>
+									<li><a href="<?= $get_svc_url('hair-extensions') ?>">Hair Extensions</a></li>
+									<li><a href="<?= $get_svc_url('hair-styling') ?>">Hair Styling</a></li>
+									<li><a href="<?= $get_svc_url('grooming-styling') ?>">Grooming & Styling</a></li>
+									<li><a href="<?= $get_svc_url('hair-treatments') ?>">Hair Treatments</a></li>
+									<li><a href="<?= $get_svc_url('hair-texture') ?>">Hair Texture</a></li>
+									<li><a href="<?= $get_svc_url('hair-coloring') ?>">Hair Coloring</a></li>
+									<li><a href="<?= $get_svc_url('hair-straightening') ?>">Hair Straightening</a></li>
+									<li><a href="<?= $get_svc_url('custom-hair-spa') ?>">Custom Hair Spa</a></li>
 								</ul>
 							</aside>
 						</div>
@@ -1631,7 +1560,7 @@ $site_fav = $site_fav_url;
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">Glamr</a>, All Rights Reserved.</div>
+								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">codeulas</a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">
