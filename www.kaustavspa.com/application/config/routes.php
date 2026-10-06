@@ -18,6 +18,7 @@ $route['faq'] = 'home/index';
 
 $route['service/(:any)'] = 'home/service_detail/$1';
 $route['service'] = 'home/service_detail';
+$route['services/(:any)'] = 'home/service_detail/$1';
 $route['blog/(:any)'] = 'home/blog_detail/$1';
 $route['blog'] = 'home/blog_detail';
 

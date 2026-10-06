@@ -69,16 +69,17 @@ class Home extends Website_Controller {
                                    ->where('(valid_until IS NULL OR valid_until >= CURDATE())', NULL, FALSE)
                                    ->get('offers')->result();
 
-        // Template 2 dynamic showcase content
-        if ($this->template === 'template2') {
-            $data['tpl_hero_banners'] = $this->db->where('template_key', 'template2')
+        // Template 1 & Template 2 dynamic showcase content
+        if ($this->template === 'template1' || $this->template === 'template2') {
+            $tpl_key = $this->template;
+            $data['tpl_hero_banners'] = $this->db->where('template_key', $tpl_key)
                                                  ->where('layout_number', $this->home_layout)
                                                  ->where('status', 'active')
                                                  ->order_by('sort_order', 'ASC')
                                                  ->get('template_hero_banners')
                                                  ->result();
             if (empty($data['tpl_hero_banners'])) {
-                $data['tpl_hero_banners'] = $this->db->where('template_key', 'template2')
+                $data['tpl_hero_banners'] = $this->db->where('template_key', $tpl_key)
                                                      ->where('layout_number', 1)
                                                      ->where('status', 'active')
                                                      ->order_by('sort_order', 'ASC')
@@ -87,14 +88,14 @@ class Home extends Website_Controller {
             }
 
             // Layout-specific Featured Items / Works
-            $data['tpl_featured_items'] = $this->db->where('template_key', 'template2')
+            $data['tpl_featured_items'] = $this->db->where('template_key', $tpl_key)
                                                     ->where('layout_number', $this->home_layout)
                                                     ->where('status', 'active')
                                                     ->order_by('sort_order', 'ASC')
                                                     ->get('template_featured_items')
                                                     ->result();
             if (empty($data['tpl_featured_items'])) {
-                $data['tpl_featured_items'] = $this->db->where('template_key', 'template2')
+                $data['tpl_featured_items'] = $this->db->where('template_key', $tpl_key)
                                                         ->where('status', 'active')
                                                         ->order_by('sort_order', 'ASC')
                                                         ->get('template_featured_items')
@@ -102,35 +103,35 @@ class Home extends Website_Controller {
             }
 
             // Layout-specific Services
-            $data['tpl_services'] = $this->db->where('template_key', 'template2')
+            $data['tpl_services'] = $this->db->where('template_key', $tpl_key)
                                              ->where('layout_number', $this->home_layout)
                                              ->where('status', 'active')
                                              ->order_by('sort_order', 'ASC')
                                              ->get('template_services')
                                              ->result();
             if (empty($data['tpl_services'])) {
-                $data['tpl_services'] = $this->db->where('template_key', 'template2')
+                $data['tpl_services'] = $this->db->where('template_key', $tpl_key)
                                                  ->where('status', 'active')
                                                  ->order_by('sort_order', 'ASC')
                                                  ->get('template_services')
                                                  ->result();
             }
 
-            $data['tpl_testimonials'] = $this->db->where('template_key', 'template2')
+            $data['tpl_testimonials'] = $this->db->where('template_key', $tpl_key)
                                                   ->where('status', 'active')
                                                   ->order_by('sort_order', 'ASC')
                                                   ->get('template_testimonials')
                                                   ->result();
 
             // Layout-specific FAQs
-            $data['tpl_faqs'] = $this->db->where('template_key', 'template2')
+            $data['tpl_faqs'] = $this->db->where('template_key', $tpl_key)
                                          ->where('layout_number', $this->home_layout)
                                          ->where('status', 'active')
                                          ->order_by('sort_order', 'ASC')
                                          ->get('template_faqs')
                                          ->result();
             if (empty($data['tpl_faqs'])) {
-                $data['tpl_faqs'] = $this->db->where('template_key', 'template2')
+                $data['tpl_faqs'] = $this->db->where('template_key', $tpl_key)
                                              ->where('status', 'active')
                                              ->order_by('sort_order', 'ASC')
                                              ->get('template_faqs')
@@ -138,14 +139,14 @@ class Home extends Website_Controller {
             }
 
             // Layout-specific Blogs
-            $data['tpl_blogs'] = $this->db->where('template_key', 'template2')
+            $data['tpl_blogs'] = $this->db->where('template_key', $tpl_key)
                                           ->where('layout_number', $this->home_layout)
                                           ->where('status', 'active')
                                           ->order_by('sort_order', 'ASC')
                                           ->get('template_blogs')
                                           ->result();
             if (empty($data['tpl_blogs'])) {
-                $data['tpl_blogs'] = $this->db->where('template_key', 'template2')
+                $data['tpl_blogs'] = $this->db->where('template_key', $tpl_key)
                                               ->where('status', 'active')
                                               ->order_by('sort_order', 'ASC')
                                               ->get('template_blogs')
@@ -180,22 +181,21 @@ class Home extends Website_Controller {
      * Services Menu
      */
     public function services() {
-        if ($this->template === 'template2') {
-            $tpl_services = $this->db->where('template_key', 'template2')
-                                     ->where('layout_number', $this->home_layout)
+        $tpl_key = in_array($this->template, array('template1', 'template2')) ? $this->template : 'template1';
+        $tpl_services = $this->db->where('template_key', $tpl_key)
+                                 ->where('layout_number', $this->home_layout)
+                                 ->where('status', 'active')
+                                 ->order_by('sort_order', 'ASC')
+                                 ->get('template_services')
+                                 ->result();
+        if (empty($tpl_services)) {
+            $tpl_services = $this->db->where('template_key', $tpl_key)
                                      ->where('status', 'active')
                                      ->order_by('sort_order', 'ASC')
                                      ->get('template_services')
                                      ->result();
-            if (empty($tpl_services)) {
-                $tpl_services = $this->db->where('template_key', 'template2')
-                                         ->where('status', 'active')
-                                         ->order_by('sort_order', 'ASC')
-                                         ->get('template_services')
-                                         ->result();
-            }
-            $data['tpl_services'] = $tpl_services;
         }
+        $data['tpl_services'] = $tpl_services;
 
         $this->db->select('s.*, s.duration as duration_minutes, c.name as category_name, c.type as category_type')
                  ->from('services s')
@@ -305,16 +305,24 @@ class Home extends Website_Controller {
             $slug_or_id = $this->input->get('slug', TRUE) ?: $this->input->get('id', TRUE);
         }
 
+        $target_tpl = in_array($this->template, array('template1', 'template2')) ? $this->template : 'template1';
+
         $service = null;
         if (is_numeric($slug_or_id)) {
-            $service = $this->db->where('id', (int)$slug_or_id)->get('template_services')->row();
+            $service = $this->db->where('id', (int)$slug_or_id)->where('template_key', $target_tpl)->get('template_services')->row();
+            if (!$service) {
+                $service = $this->db->where('id', (int)$slug_or_id)->get('template_services')->row();
+            }
         } elseif (!empty($slug_or_id)) {
-            $service = $this->db->where('slug', $slug_or_id)->get('template_services')->row();
+            $service = $this->db->where('slug', $slug_or_id)->where('template_key', $target_tpl)->get('template_services')->row();
+            if (!$service) {
+                $service = $this->db->where('slug', $slug_or_id)->get('template_services')->row();
+            }
         }
 
         // Fallback to first active service if not found
         if (!$service) {
-            $service = $this->db->where('template_key', 'template2')
+            $service = $this->db->where('template_key', $target_tpl)
                                 ->where('status', 'active')
                                 ->order_by('sort_order', 'ASC')
                                 ->limit(1)
@@ -324,28 +332,28 @@ class Home extends Website_Controller {
 
         $data['service'] = $service;
         $service_layout = ($service && !empty($service->layout_number)) ? (int)$service->layout_number : $this->home_layout;
-        $data['all_services'] = $this->db->where('template_key', 'template2')
+        $data['all_services'] = $this->db->where('template_key', $target_tpl)
                                          ->where('layout_number', $service_layout)
                                          ->where('status', 'active')
                                          ->order_by('sort_order', 'ASC')
                                          ->get('template_services')
                                          ->result();
         if (empty($data['all_services'])) {
-            $data['all_services'] = $this->db->where('template_key', 'template2')
+            $data['all_services'] = $this->db->where('template_key', $target_tpl)
                                              ->where('status', 'active')
                                              ->order_by('sort_order', 'ASC')
                                              ->get('template_services')
                                              ->result();
         }
 
-        $data['faqs'] = $this->db->where('template_key', 'template2')
+        $data['faqs'] = $this->db->where('template_key', $target_tpl)
                                  ->where('layout_number', $service_layout)
                                  ->where('status', 'active')
                                  ->order_by('sort_order', 'ASC')
                                  ->get('template_faqs')
                                  ->result();
         if (empty($data['faqs'])) {
-            $data['faqs'] = $this->db->where('template_key', 'template2')
+            $data['faqs'] = $this->db->where('template_key', $target_tpl)
                                      ->where('status', 'active')
                                      ->order_by('sort_order', 'ASC')
                                      ->get('template_faqs')

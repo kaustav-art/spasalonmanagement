@@ -9,6 +9,7 @@ $site_logo = $site_logo_url;
 
 $site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
 $site_fav = $site_fav_url;
+$business_phone = !empty($business_phone) ? $business_phone : '+1-123-456-789';
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -78,94 +79,12 @@ $site_fav = $site_fav_url;
 								<nav class="main-navigation pbmit-navbar main-menu navbar-expand-xl navbar-light" id="site-navigation">
 									<div class="pbmit-menu-wrap">
 										<ul class="navigation clearfix" id="pbmit-top-menu">
-											<li class="dropdown active">
-												<a href="#">Home</a>
-												<ul class="sub-menu">
-													<li><a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">Homepage 01</a></li>
-													<li><a href="<?= website_url('?preview_tpl=template1&preview_layout=2') ?>">Homepage 02</a></li>
-													<li class="active"><a href="<?= website_url('?preview_tpl=template1&preview_layout=3') ?>">Homepage 03</a></li>
-												</ul>
-											</li>
-											<li class="dropdown">
-												<a href="#">Pages</a>
-												<ul class="sub-menu">
-													<li><a href="<?= website_url('about') ?>">About Us</a></li>
-													<li><a href="#">Our History</a></li>
-													<li><a href="<?= website_url('team') ?>">Our Team Member</a></li>
-													<li><a href="#">Team Member Detail</a></li>
-													<li><a href="#">Faq</a></li>
-												</ul>
-											</li>
-											<li class="dropdown">
-												<a href="#">Services</a>
-												<ul class="sub-menu">
-													<li><a href="<?= website_url('services') ?>">Services</a></li>
-													<li><a href="#">Service Detail</a></li>
-												</ul>
-											</li>
-											<li class="dropdown">
-												<a href="#">Portfolio</a>
-												<ul class="sub-menu">
-													<li class="dropdown">
-														<a href="#">Masonry View</a>
-														<ul>
-															<li><a href="#">Grid Col 2</a></li>
-															<li><a href="#">Grid Col 3</a></li>
-															<li><a href="#">Grid Col 4</a></li>
-															<li><a href="#">Grid Wide</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Grid View</a>
-														<ul>
-															<li><a href="#">Grid Col 2</a></li>
-															<li><a href="#">Grid Col 3</a></li>
-															<li><a href="#">Grid Col 4</a></li>
-															<li><a href="#">Grid No Gap</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Sortable View</a>
-														<ul>
-															<li><a href="#">Grid Col 2</a></li>
-															<li><a href="#">Grid Col 3</a></li>
-															<li><a href="#">Grid Col 4</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Single Detail Style</a>
-														<ul>
-															<li><a href="#">Portfolio Detail Style 1</a></li>
-															<li><a href="#">Portfolio Detail Style 2</a></li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-											<li class="dropdown">
-												<a href="#">Blog</a>
-												<ul class="sub-menu">
-													<li class="dropdown">
-														<a href="#">Blog Masonry View</a>
-														<ul>
-															<li><a href="#">Grid Col 2</a></li>
-															<li><a href="#">Grid Col 3</a></li>
-															<li><a href="#">Grid Col 4</a></li>
-															<li><a href="#">Masonry Wide</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Blog Grid View</a>
-														<ul>
-															<li><a href="#">Grid Col 3</a></li>
-															<li><a href="#">Grid Col 4</a></li>
-															<li><a href="#">Sortable Grid View</a></li>
-														</ul>
-													</li>
-													<li><a href="#">Blog Classic</a></li>
-													<li><a href="#">Blog Single Details</a></li>
-												</ul>
-											</li>
-											<li><a href="<?= website_url('contact') ?>">Contact Us</a></li>
+											<li class="active"><a href="#page">Home</a></li>
+											<li><a href="#about">About</a></li>
+											<li><a href="#services">Services</a></li>
+											<li><a href="#faq">FAQ</a></li>
+											<li><a href="#blog">Blog</a></li>
+											<li><a href="#booking">Contact</a></li>
 										</ul>
 									</div>
 								</nav>
@@ -174,14 +93,14 @@ $site_fav = $site_fav_url;
 						<div class="pbmit-right-box d-flex align-items-center">
 							<div class="pbmit-button-box">
 								<div class="pbmit-header-button">
-									<a href="tel:+1(212)-255-511">															
-										<span class="pbmit-header-button-text">+1-123-456-789</span>			
+									<a href="tel:<?= htmlspecialchars($business_phone) ?>">															
+										<span class="pbmit-header-button-text"><?= htmlspecialchars($business_phone) ?></span>			
 									</a>
 								</div>
 							</div>
 							<div class="pbmit-button-box-second">
-								<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-									<span class="pbmit-button-text">Get in touch</span>
+								<a href="#booking" class="pbmit-btn">
+									<span class="pbmit-button-text">Book Now</span>
 								</a>
 							</div>
 							<div class="pbmit-burger-menu-wrapper">
@@ -229,8 +148,8 @@ $site_fav = $site_fav_url;
 								<div class="pbmit-desc">Our expert stylists are dedicated to transforming your hair into a  <br> masterpiece that reflects your unique personality and style.</div>
 							</div>
 							<div>
-								<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-									<span class="pbmit-button-text">Contact us</span>
+								<a href="#booking" class="pbmit-btn">
+									<span class="pbmit-button-text">Book Now</span>
 								</a>
 							</div>
 						</div>
@@ -239,72 +158,12 @@ $site_fav = $site_fav_url;
 			</section>
 			<!-- Banner End -->
 
-			<!-- About Start --> 
-            <section class="about-section-three">
-				<div class="container position-relative">
-					<div class="pbmit-heading-subheading">
-						<h4 class="pbmit-subtitle">Every Person Is An Individual</h4>
-						<h2 class="pbmit-title">We are more than a beauty salon, <br> we are a place where you can  <br> enjoy and relax</h2>
-					</div>
-					<div class="effect-img" data-aos="fade-left" data-aos-duration="850">
-						<img src="<?= $asset_url ?>images/effect.png" alt="">
-					</div>
-					<div class="row g-0 pt-xl-4">
-						<div class="col-md-3 full-width-1024"></div>
-						<div class="col-md-9 ps-xl-7 full-width-1024">
-							<div class="row">
-								<div class="col-md-6 full-width-1024">
-									<div class="mb-xl-0 mb-4">Tired of spending endless hours searching for the right stylists? We understand the challenges hair salon owners face. Our personalized hiring and onboarding solutions make your dream salon team effortless.</div>
-								</div>
-								<div class="col-md-6 full-width-1024">
-									<div class="mb-xl-0 mb-5">Finding right hair professionals shouldn’t be stressful. We specialize in sourcing skilled stylists. Let us help you build a team that truly reflects your salon brand. Because great service starts with the perfect team.</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row pt-xl-5">
-						<div class="col-md-3 full-width-1024">
-							<div class="fid-style-2-area">
-								<div class="pbminfotech-ele-fid-style-2">
-									<div class="pbmit-fld-contents">
-										<div class="pbmit-fld-wrap">
-											<span class="pbmit-fid-title">Haircuts per week</span>
-											<h4 class="pbmit-fid-inner">
-												<span class="pbmit-fid-before"></span>
-												<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="438" data-interval="50" data-before="" data-before-style="" data-after="" data-after-style="">438</span>
-												<span class="pbmit-fid"><span>+</span></span>
-											</h4>
-										</div>
-									</div>		
-								</div>
-								<div class="pbminfotech-ele-fid-style-2">
-									<div class="pbmit-fld-contents">
-										<div class="pbmit-fld-wrap">
-											<span class="pbmit-fid-title">Stylization per week</span>
-											<h4 class="pbmit-fid-inner">
-												<span class="pbmit-fid-before"></span>
-												<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="334" data-interval="50" data-before="" data-before-style="" data-after="" data-after-style="">334</span>
-												<span class="pbmit-fid"><span>+</span></span>
-											</h4>
-										</div>
-									</div>		
-								</div>
-							</div>
-						</div>
-						<div class="col-md-9 ps-xl-7 full-width-1024">
-							<div class="about-img animation animated fade"></div>
-						</div>
-					</div>
-				</div>
-            </section>
-            <!-- About End -->
-
 			<!-- Service Start --> 
-            <section class="section-xlt pbmit-bg-color-blackish service-three">
+            <section class="section-xlt pbmit-bg-color-blackish service-three" id="services">
 				<div class="container">
 					<div class="pbmit-heading-subheading text-center">
-						<h4 class="pbmit-subtitle">our services</h4>
-						<h2 class="pbmit-title">Exclusive Hair Service</h2>
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 3, 'services_header', 'tagline', 'our services')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'services_header', 'title', 'Exclusive Hair Service')) ?></h2>
 					</div>
 				</div>
 				<div class="container-fluid p-0">
@@ -497,16 +356,21 @@ $site_fav = $site_fav_url;
 							</article>
 						</div>
 					</div>
+					<div class="text-center pt-5">
+						<a href="<?= website_url('services?preview_layout=3') ?>" class="pbmit-btn">
+							<span class="pbmit-button-text">Go to all services</span>
+						</a>
+					</div>
 				</div>
             </section>
             <!-- Service End -->
 
 			<!--About Us Start -->
-			<section class="section-xxl about-us-sec-three">
+			<section class="section-xxl about-us-sec-three" id="about">
 				<div class="container">
 					<div class="pbmit-heading-subheading text-center">
-						<h4 class="pbmit-subtitle">who we are</h4>
-						<h2 class="pbmit-title">Complete relaxation at our <br> beauty salon.</h2>
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 3, 'about', 'about_tagline', 'about us')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'about', 'about_title', "Complete relaxation at our <br> beauty salon.")) ?></h2>
 					</div>
 					<div class="row g-0 pt-xl-4 align-items-center">
 						<div class="col-md-4 left-column full-width-1200">
@@ -540,7 +404,8 @@ $site_fav = $site_fav_url;
 						</div>
 						<div class="col-md-4 center-column full-width-1200 animation animated fade">
 							<div class="hairdresser-img-wrap">
-								<img src="<?= $asset_url ?>images/demo-3/hairdresser-img.jpg" alt="" class="img-fluid">
+								<?php $about_img1 = get_tpl_setting('template1', 3, 'about', 'about_image_1', 'assets/template1/images/demo-3/hairdresser-img.jpg'); ?>
+								<img src="<?= (strpos($about_img1, 'http') === 0) ? $about_img1 : base_url(ltrim($about_img1, '/')) ?>" alt="" class="img-fluid">
 							</div>
 						</div>
 						<div class="col-md-4 right-column full-width-1200">
@@ -569,6 +434,11 @@ $site_fav = $site_fav_url;
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="text-center pt-5">
+						<a href="<?= website_url('about') ?>" class="pbmit-btn">
+							<span class="pbmit-button-text">Read More</span>
+						</a>
 					</div>
 				</div>
 			</section>
@@ -838,174 +708,386 @@ $site_fav = $site_fav_url;
 			</section>
 			<!-- Client End -->
 
+			<!-- Testimonial start -->
+			<section class="testimonial-section-one" id="testimonials">
+				<div class="container">
+					<div class="pbmit-heading-subheading text-center">
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 3, 'testimonials_header', 'tagline', 'Our clients')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'testimonials_header', 'title', 'Reviews')) ?></h2>
+					</div>
+					<div class="swiper-slider" data-autoplay="true" data-allow-touch="true" data-loop="true" data-dots="false" data-arrows="true" data-columns="1" data-margin="30" data-effect="slide">
+						<div class="swiper-wrapper">
+							<?php if (!empty($tpl_testimonials)): ?>
+								<?php foreach ($tpl_testimonials as $t_item): 
+									$t_avatar = !empty($t_item->avatar) ? ((strpos($t_item->avatar, 'http') === 0) ? $t_item->avatar : base_url(ltrim($t_item->avatar, '/'))) : ($asset_url . 'images/demo-1/testimonial/tesimonial-01.jpg');
+									$t_rating = max(1, min(5, (int)($t_item->rating ?: 5)));
+								?>
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<?php for ($r = 0; $r < $t_rating; $r++): ?>
+													<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<?php endfor; ?>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“<?= htmlspecialchars($t_item->review) ?>”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= htmlspecialchars($t_avatar) ?>" class="img-fluid" alt="<?= htmlspecialchars($t_item->client_name) ?>">
+														</div>
+													</div>
+												</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title"><?= htmlspecialchars($t_item->client_name) ?></h3>
+													<div class="pbminfotech-testimonial-detail"><?= htmlspecialchars($t_item->designation ?: 'Client') ?></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<!-- Slide1 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“I’ve always wanted a salon that really <em data-start="220" data-end="226">gets</em> my style. Every time I tried to explain what I wanted, it came out wrong—until I came to Glamr. They nailed the look I was going for, and I walked out feeling like a new person. Thank You”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-01.jpg" class="img-fluid" alt="">
+														</div>
+													</div>
+												</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Lauren Walsh</h3>
+													<div class="pbminfotech-testimonial-detail">Lead Supervisor</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+								<!-- Slide2 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“My hair was feeling rough &amp; dry from all the heat styling. I tried a treatment at Glamr and the difference was amazing. My hair feels healthier, looks shinier, and I’m getting compliments left and right. I’m definitely coming back for regular.”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-02.jpg" class="img-fluid" alt="">
+														</div>
+													</div>
+												</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Jennifer Taylor</h3>
+													<div class="pbminfotech-testimonial-detail">Manager</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Testimonial End -->
+
+			<!-- Faq Start -->
+			<section class="section-lg faq-section" id="faq">
+				<div class="container">
+					<div class="pbmit-heading-subheading text-center">
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 3, 'faq_header', 'tagline', 'Frequently Asked Questions')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'faq_header', 'title', 'Find Answers to Common Questions')) ?></h2>
+					</div>
+					<div class="row justify-content-center pt-3">
+						<div class="col-lg-10">
+							<div class="accordion" id="accordionExample">
+								<?php if (!empty($tpl_faqs)): ?>
+									<?php $f_idx = 0; foreach ($tpl_faqs as $f_item): $f_idx++; ?>
+										<div class="accordion-item <?= $f_idx === 1 ? 'active' : '' ?>">
+											<h2 class="accordion-header" id="heading_faq_<?= $f_idx ?>">
+												<button class="accordion-button <?= $f_idx === 1 ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faq_<?= $f_idx ?>" aria-expanded="<?= $f_idx === 1 ? 'true' : 'false' ?>" aria-controls="collapse_faq_<?= $f_idx ?>">
+													<span class="pbmit-accordion-title">
+														<span>Q<?= $f_idx ?> :</span><?= htmlspecialchars($f_item->question) ?>
+													</span>
+													<span class="pbmit-accordion-icon">
+														<span class="pbmit-accordion-icon-opened">
+															<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+														</span>
+														<span class="pbmit-accordion-icon-closed">
+															<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+														</span>
+													</span>
+												</button>
+											</h2> 
+											<div id="collapse_faq_<?= $f_idx ?>" class="accordion-collapse collapse <?= $f_idx === 1 ? 'show' : '' ?>" role="region" aria-labelledby="heading_faq_<?= $f_idx ?>" data-bs-parent="#accordionExample">
+												<div class="accordion-body">
+													<p><?= nl2br(htmlspecialchars($f_item->answer)) ?></p>
+												</div>
+											</div>                         
+										</div>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<div class="accordion-item active">
+										<h2 class="accordion-header" id="headingOne">
+											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												<span class="pbmit-accordion-title">
+													<span>Q1 :</span>How do I choose the right salon service for my hair or skin?
+												</span>
+												<span class="pbmit-accordion-icon">
+													<span class="pbmit-accordion-icon-opened">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+													<span class="pbmit-accordion-icon-closed">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+												</span>
+											</button>
+										</h2> 
+										<div id="collapseOne" class="accordion-collapse collapse show" role="region" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+											<div class="accordion-body">
+												<p>We recommend a consultation where our specialists assess your hair or skin type, discuss your goals, and recommend the best treatment tailored just for you.</p>
+											</div>
+										</div>                         
+									</div>        
+								<?php endif; ?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Faq End -->
+
 			<!-- Blog start -->
-			<section class="section-xl">
+			<section class="section-xl" id="blog">
 				<div class="container">
 					<div class="pbmit-heading-subheading pb-lg-1">
-						<h4 class="pbmit-subtitle">Latest News</h4>
-						<h2 class="pbmit-title">Explore our articles</h2>
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 3, 'blog_header', 'tagline', 'Latest News')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 3, 'blog_header', 'title', 'Explore our articles')) ?></h2>
 					</div>
 					<div class="row pbminfotech-gap-35px">
-						<article class="pbmit-blog-style-3 col-md-12">
-							<div class="post-item">
-								<div class="pbminfotech-box-content d-flex">
-									<div class="pbmit-meta-date-wrapper">
-										<div class="pbmit-post-date">
-											<span class="pbmit-date-number">20</span>
-											<span class="pbmit-month-text">Apr</span>
+						<?php if (!empty($tpl_blogs)): ?>
+							<?php foreach ($tpl_blogs as $b_item): 
+								$b_thumb = !empty($b_item->thumbnail) ? ((strpos($b_item->thumbnail, 'http') === 0) ? $b_item->thumbnail : base_url(ltrim($b_item->thumbnail, '/'))) : ($asset_url . 'images/demo-3/blog/blog-img-01.jpg');
+								$b_ts = !empty($b_item->published_date) ? strtotime($b_item->published_date) : time();
+								$b_day = date('d', $b_ts);
+								$b_mon = date('M', $b_ts);
+							?>
+							<article class="pbmit-blog-style-3 col-md-12">
+								<div class="post-item">
+									<div class="pbminfotech-box-content d-flex">
+										<div class="pbmit-meta-date-wrapper">
+											<div class="pbmit-post-date">
+												<span class="pbmit-date-number"><?= $b_day ?></span>
+												<span class="pbmit-month-text"><?= $b_mon ?></span>
+											</div>
 										</div>
-									</div>
-									<div class="pbmit-content-wrapper">
-										<div class="pbmit-meta-wraper d-flex align-items-center">
-											<div class="pbmit-meta-category-wrapper pbmit-meta-line">
-												<div class="pbmit-meta-category">
-													<a href="#" rel="category tag">Hair Style</a>
+										<div class="pbmit-content-wrapper">
+											<div class="pbmit-meta-wraper d-flex align-items-center">
+												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
+													<div class="pbmit-meta-category">
+														<a href="<?= website_url('blog') ?>" rel="category tag"><?= htmlspecialchars(!empty($b_item->tags) ? explode(',', $b_item->tags)[0] : 'Hair Style') ?></a>
+													</div>
+												</div>
+												<div class="pbmit-meta-author pbmit-meta-line">
+													<span class="pbmit-post-author"><?= htmlspecialchars($b_item->author_name ?: 'Alex Joy') ?></span>
 												</div>
 											</div>
-											<div class="pbmit-meta-author pbmit-meta-line">
-												<span class="pbmit-post-author">Alex Joy</span>
-											</div>
+											<h3 class="pbmit-post-title">
+												<a href="<?= website_url('blog/' . ($b_item->slug ?: $b_item->id)) ?>"><?= htmlspecialchars($b_item->title) ?></a>
+											</h3>
 										</div>
-										<h3 class="pbmit-post-title">
-											<a href="#">The most effective anti-losing hair care products</a>
-										</h3>
-									</div>
-									<div class="pbmit-featured-container">
-										<div class="pbmit-featured-img-wrapper">
-											<div class="pbmit-featured-wrapper">
-												<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-01.jpg" class="img-fluid" alt="blog-img-01">
-											</div>
-										</div>
-									</div>
-									<div class="pbmit-blog-button">
-										<a class="pbmit-button-inner" href="#" title="Go to The most effective anti-losing hair care products">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-							</div>
-						</article>
-						<article class="pbmit-blog-style-3 col-md-12">
-							<div class="post-item">
-								<div class="pbminfotech-box-content d-flex">
-									<div class="pbmit-meta-date-wrapper">
-										<div class="pbmit-post-date">
-											<span class="pbmit-date-number">18</span>
-											<span class="pbmit-month-text">Apr</span>
-										</div>
-									</div>
-									<div class="pbmit-content-wrapper">
-										<div class="pbmit-meta-wraper d-flex align-items-center">
-											<div class="pbmit-meta-category-wrapper pbmit-meta-line">
-												<div class="pbmit-meta-category">
-													<a href="#" rel="category tag">Hair Spa</a>
+										<div class="pbmit-featured-container">
+											<div class="pbmit-featured-img-wrapper">
+												<div class="pbmit-featured-wrapper">
+													<img src="<?= htmlspecialchars($b_thumb) ?>" class="img-fluid" alt="<?= htmlspecialchars($b_item->title) ?>">
 												</div>
 											</div>
-											<div class="pbmit-meta-author pbmit-meta-line">
-												<span class="pbmit-post-author">Alex Joy</span>
-											</div>
 										</div>
-										<h3 class="pbmit-post-title">
-											<a href="#">What’s the main challenge for bleached hair?</a>
-										</h3>
-									</div>
-									<div class="pbmit-featured-container">
-										<div class="pbmit-featured-img-wrapper">
-											<div class="pbmit-featured-wrapper">
-												<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-02.jpg" class="img-fluid" alt="blog-img-02">
-											</div>
+										<div class="pbmit-blog-button">
+											<a class="pbmit-button-inner" href="<?= website_url('blog/' . ($b_item->slug ?: $b_item->id)) ?>" title="<?= htmlspecialchars($b_item->title) ?>">
+												<span class="pbmit-button-icon"></span>
+											</a>
 										</div>
-									</div>
-									<div class="pbmit-blog-button">
-										<a class="pbmit-button-inner" href="#" title="Go to What’s the main challenge for bleached hair?">
-											<span class="pbmit-button-icon"></span>
-										</a>
 									</div>
 								</div>
-							</div>
-						</article>
-						<article class="pbmit-blog-style-3 col-md-12">
-							<div class="post-item">
-								<div class="pbminfotech-box-content d-flex">
-									<div class="pbmit-meta-date-wrapper">
-										<div class="pbmit-post-date">
-											<span class="pbmit-date-number">15</span>
-											<span class="pbmit-month-text">Apr</span>
+							</article>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<article class="pbmit-blog-style-3 col-md-12">
+								<div class="post-item">
+									<div class="pbminfotech-box-content d-flex">
+										<div class="pbmit-meta-date-wrapper">
+											<div class="pbmit-post-date">
+												<span class="pbmit-date-number">20</span>
+												<span class="pbmit-month-text">Apr</span>
+											</div>
 										</div>
-									</div>
-									<div class="pbmit-content-wrapper">
-										<div class="pbmit-meta-wraper d-flex align-items-center">
-											<div class="pbmit-meta-category-wrapper pbmit-meta-line">
-												<div class="pbmit-meta-category">
-													<a href="#" rel="category tag">Hair Trimming</a>
+										<div class="pbmit-content-wrapper">
+											<div class="pbmit-meta-wraper d-flex align-items-center">
+												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
+													<div class="pbmit-meta-category">
+														<a href="#" rel="category tag">Hair Style</a>
+													</div>
+												</div>
+												<div class="pbmit-meta-author pbmit-meta-line">
+													<span class="pbmit-post-author">Alex Joy</span>
 												</div>
 											</div>
-											<div class="pbmit-meta-author pbmit-meta-line">
-												<span class="pbmit-post-author">Alex Joy</span>
-											</div>
+											<h3 class="pbmit-post-title">
+												<a href="#">The most effective anti-losing hair care products</a>
+											</h3>
 										</div>
-										<h3 class="pbmit-post-title">
-											<a href="#">Regular haircuts are the secret to hair growth</a>
-										</h3>
-									</div>
-									<div class="pbmit-featured-container">
-										<div class="pbmit-featured-img-wrapper">
-											<div class="pbmit-featured-wrapper">
-												<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-03.jpg" class="img-fluid" alt="blog-img-01">
-											</div>
-										</div>
-									</div>
-									<div class="pbmit-blog-button">
-										<a class="pbmit-button-inner" href="#" title="Go to Regular haircuts are the secret to hair growth">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-							</div>
-						</article>
-						<article class="pbmit-blog-style-3 col-md-12">
-							<div class="post-item">
-								<div class="pbminfotech-box-content d-flex">
-									<div class="pbmit-meta-date-wrapper">
-										<div class="pbmit-post-date">
-											<span class="pbmit-date-number">12</span>
-											<span class="pbmit-month-text">Apr</span>
-										</div>
-									</div>
-									<div class="pbmit-content-wrapper">
-										<div class="pbmit-meta-wraper d-flex align-items-center">
-											<div class="pbmit-meta-category-wrapper pbmit-meta-line">
-												<div class="pbmit-meta-category">
-													<a href="#" rel="category tag">Hair Color</a>
+										<div class="pbmit-featured-container">
+											<div class="pbmit-featured-img-wrapper">
+												<div class="pbmit-featured-wrapper">
+													<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-01.jpg" class="img-fluid" alt="blog-img-01">
 												</div>
 											</div>
-											<div class="pbmit-meta-author pbmit-meta-line">
-												<span class="pbmit-post-author">Alex Joy</span>
-											</div>
 										</div>
-										<h3 class="pbmit-post-title">
-											<a href="#">Natural products: why we swear by clean beauty</a>
-										</h3>
-									</div>
-									<div class="pbmit-featured-container">
-										<div class="pbmit-featured-img-wrapper">
-											<div class="pbmit-featured-wrapper">
-												<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-04.jpg" class="img-fluid" alt="blog-img-01">
-											</div>
+										<div class="pbmit-blog-button">
+											<a class="pbmit-button-inner" href="#" title="Go to The most effective anti-losing hair care products">
+												<span class="pbmit-button-icon"></span>
+											</a>
 										</div>
-									</div>
-									<div class="pbmit-blog-button">
-										<a class="pbmit-button-inner" href="#" title="Go to Natural products: why we swear by clean beauty">
-											<span class="pbmit-button-icon"></span>
-										</a>
 									</div>
 								</div>
-							</div>
-						</article>
+							</article>
+							<article class="pbmit-blog-style-3 col-md-12">
+								<div class="post-item">
+									<div class="pbminfotech-box-content d-flex">
+										<div class="pbmit-meta-date-wrapper">
+											<div class="pbmit-post-date">
+												<span class="pbmit-date-number">18</span>
+												<span class="pbmit-month-text">Apr</span>
+											</div>
+										</div>
+										<div class="pbmit-content-wrapper">
+											<div class="pbmit-meta-wraper d-flex align-items-center">
+												<div class="pbmit-meta-category-wrapper pbmit-meta-line">
+													<div class="pbmit-meta-category">
+														<a href="#" rel="category tag">Hair Spa</a>
+													</div>
+												</div>
+												<div class="pbmit-meta-author pbmit-meta-line">
+													<span class="pbmit-post-author">Alex Joy</span>
+												</div>
+											</div>
+											<h3 class="pbmit-post-title">
+												<a href="#">What’s the main challenge for bleached hair?</a>
+											</h3>
+										</div>
+										<div class="pbmit-featured-container">
+											<div class="pbmit-featured-img-wrapper">
+												<div class="pbmit-featured-wrapper">
+													<img src="<?= $asset_url ?>images/demo-3/blog/blog-img-02.jpg" class="img-fluid" alt="blog-img-02">
+												</div>
+											</div>
+										</div>
+										<div class="pbmit-blog-button">
+											<a class="pbmit-button-inner" href="#" title="Go to What’s the main challenge for bleached hair?">
+												<span class="pbmit-button-icon"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</article>
+						<?php endif; ?>
 					</div>
 				</div>
 			</section>
 			<!-- Blog End -->
+
+			<!-- Appointment start -->
+			<section class="appointment-section-two section-lgt" id="booking">
+				<div class="container">
+					<div class="row g-0">
+						<div class="col-md-12 col-xl-5 appointment-two-left-col" data-aos="fade-up" data-aos-duration="800">
+							<div class="pbmit-heading-subheading">
+								<h4 class="pbmit-subtitle">What makes us different</h4>
+								<h2 class="pbmit-title">Choose your perfect service</h2>
+							</div>
+						</div>
+						<div class="col-md-12 col-xl-7 appointment-two-right-col" data-aos="fade-zoom-in" data-aos-duration="800" data-aos-easing="ease-in-back" data-aos-offset="0">
+							<form class="contact-form-validated appointment-one__form" action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<input type="text" class="form-control" placeholder="Full Name *" name="name" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+									</div>
+									<div class="col-md-6 mb-3">
+										<input type="email" class="form-control" placeholder="Your Email *" name="email" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+									</div>
+									<div class="col-md-6 mb-3">
+										<input type="tel" class="form-control" placeholder="Phone Number *" name="phone" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+									</div>
+									<div class="col-md-6 mb-3">
+										<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control hasDatepicker" required onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+									</div>
+									<div class="col-md-12 mb-3">
+										<select class="form-select" name="service" required style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											<option value="">Select Service *</option>
+											<?php if (!empty($tpl_services)): ?>
+												<?php foreach ($tpl_services as $s): ?>
+													<option value="<?= htmlspecialchars($s->title) ?>" style="background: #111; color: #fff;"><?= htmlspecialchars($s->title) ?></option>
+												<?php endforeach; ?>
+											<?php else: ?>
+												<option value="Hair Styling" style="background: #111; color: #fff;">Hair Styling</option>
+												<option value="Hair Extensions" style="background: #111; color: #fff;">Hair Extensions</option>
+												<option value="Custom Hair Spa" style="background: #111; color: #fff;">Custom Hair Spa</option>
+												<option value="Hair Treatments" style="background: #111; color: #fff;">Hair Treatments</option>
+												<option value="Hair Straightening" style="background: #111; color: #fff;">Hair Straightening</option>
+											<?php endif; ?>
+										</select>
+									</div>
+									<div class="col-md-12 mb-3">
+										<textarea name="message" cols="40" rows="4" class="form-control" placeholder="Write your message *" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;"></textarea>
+									</div>
+									<div class="col-md-12">
+										<button type="submit" class="pbmit-btn">
+											<span class="pbmit-button-text">Book Now</span>
+											<span class="fas fa-arrow-right ms-2"></span>
+										</button>
+										<div class="result mt-3"></div>
+									</div>	
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Appointment End -->
 
         </div>
         <!-- Page Content End -->

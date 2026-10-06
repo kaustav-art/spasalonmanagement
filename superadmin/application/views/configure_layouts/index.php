@@ -2,15 +2,24 @@
 $curr_tab = isset($active_tab) ? $active_tab : 'multi-theme';
 $curr_layout = isset($active_layout) ? (int)$active_layout : 1;
 $curr_sec = isset($active_section) ? $active_section : 'hero';
+$curr_target_tpl = in_array($curr_tab, array('template1', 'template2')) ? $curr_tab : 'template2';
 $root_url = rtrim(main_site_url(), '/') . '/';
 $website_url_base = rtrim(tenant_site_url(), '/') . '/';
 
-// Layout names for Template 2
-$layout_names = array(
-    1 => 'Layout 1',
-    2 => 'Layout 2',
-    3 => 'Layout 3'
-);
+// Layout names for Template 1 and Template 2
+if ($curr_target_tpl === 'template1') {
+    $layout_names = array(
+        1 => 'Home 1 (Classic)',
+        2 => 'Home 2 (Split Hero)',
+        3 => 'Home 3 (Hair Rituals)'
+    );
+} else {
+    $layout_names = array(
+        1 => 'Layout 1',
+        2 => 'Layout 2',
+        3 => 'Layout 3'
+    );
+}
 ?>
 <!-- Summernote Lite CSS for Rich Text Editors -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
@@ -655,17 +664,17 @@ $layout_names = array(
                 <span class="badge bg-success-subtle text-success border border-success-subtle">LIVE CUSTOMIZER</span>
             </div>
             <h3 class="fw-bold text-white mb-0 font-serif">Configure Layouts &amp; Template Customizer</h3>
-            <p class="text-muted small mb-0">Fine-tune Template 2 (Layouts 1, 2, and 3) dynamic sections, services, blogs, testimonials, and manage multi-theme layouts.</p>
+            <p class="text-muted small mb-0">Fine-tune <?= $curr_target_tpl === 'template1' ? 'Template 1' : 'Template 2' ?> (Layouts 1, 2, and 3) dynamic sections, services, blogs, testimonials, and manage multi-theme layouts.</p>
         </div>
         <div class="d-flex flex-wrap align-items-center gap-2">
             <div class="btn-group shadow-sm">
-                <a href="<?= tenant_site_url('?preview_tpl=template2&preview_layout=1') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
+                <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=1') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
                     <i class="fa-solid fa-eye me-1"></i> Preview Layout 1
                 </a>
-                <a href="<?= tenant_site_url('?preview_tpl=template2&preview_layout=2') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
+                <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=2') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
                     <i class="fa-solid fa-eye me-1"></i> Layout 2
                 </a>
-                <a href="<?= tenant_site_url('?preview_tpl=template2&preview_layout=3') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
+                <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=3') ?>" target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
                     <i class="fa-solid fa-eye me-1"></i> Layout 3
                 </a>
             </div>
@@ -691,7 +700,12 @@ $layout_names = array(
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= $curr_tab === 'template2' ? 'active' : '' ?>" href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout) ?>">
+            <a class="nav-link <?= $curr_tab === 'template1' ? 'active' : '' ?>" href="<?= superadmin_url('layouts?tab=template1&layout=' . ($curr_tab === 'template1' ? $curr_layout : 1)) ?>">
+                <i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i> Template 1 Customizer (Layouts 1, 2, 3)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= $curr_tab === 'template2' ? 'active' : '' ?>" href="<?= superadmin_url('layouts?tab=template2&layout=' . ($curr_tab === 'template2' ? $curr_layout : 1)) ?>">
                 <i class="fa-solid fa-palette text-warning me-1"></i> Template 2 Customizer (Layouts 1, 2, 3)
             </a>
         </li>
@@ -888,9 +902,9 @@ $layout_names = array(
 
 
     <!-- ======================================================== -->
-    <!-- TAB 2: TEMPLATE 2 CUSTOMIZER (LAYOUTS 1, 2, 3)            -->
+    <!-- TAB 2: TEMPLATE CUSTOMIZER (TEMPLATE 1 & TEMPLATE 2)   -->
     <!-- ======================================================== -->
-    <?php if ($curr_tab === 'template2'): ?>
+    <?php if ($curr_tab === 'template1' || $curr_tab === 'template2'): ?>
 
         <!-- Layout Selector Pills -->
         <div class="card border-0 rounded-4 shadow-sm mb-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.25) !important;">
@@ -900,7 +914,7 @@ $layout_names = array(
                         <span class="text-white-50 small text-uppercase fw-bold"><i class="fa-solid fa-sliders text-warning me-1"></i> Active Layout:</span>
                         <div class="btn-group">
                             <?php foreach ($layout_names as $l_num => $l_title): ?>
-                                <a href="<?= superadmin_url('layouts?tab=template2&layout=' . $l_num . '&section=' . $curr_sec) ?>" 
+                                <a href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $l_num . '&section=' . $curr_sec) ?>" 
                                    class="btn btn-sm <?= $curr_layout === $l_num ? 'btn-warning fw-bold text-dark' : 'btn-outline-secondary text-light' ?>">
                                     <?= htmlspecialchars($l_title) ?>
                                 </a>
@@ -909,9 +923,9 @@ $layout_names = array(
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-dark border border-secondary text-warning">
-                            Currently Editing: <?= htmlspecialchars($layout_names[$curr_layout]) ?>
+                            Currently Editing: <?= htmlspecialchars($layout_names[$curr_layout]) ?> (<?= strtoupper($curr_target_tpl) ?>)
                         </span>
-                        <a href="<?= tenant_site_url('?preview_tpl=template2&preview_layout=' . $curr_layout) ?>" target="_blank" class="btn btn-sm btn-outline-info">
+                        <a href="<?= tenant_site_url('?preview_tpl=' . $curr_target_tpl . '&preview_layout=' . $curr_layout) ?>" target="_blank" class="btn btn-sm btn-outline-info">
                             <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Live View Layout <?= $curr_layout ?>
                         </a>
                     </div>
@@ -923,43 +937,43 @@ $layout_names = array(
         <ul class="nav nav-tabs border-secondary border-opacity-25 mb-4">
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'hero' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=hero') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=hero') ?>">
                     <i class="fa-solid fa-bullhorn me-1"></i> Hero Banner
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'skincare' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=skincare') ?>">
-                    <i class="fa-solid fa-sparkles me-1"></i> <?= $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Features') ?>
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=skincare') ?>">
+                    <i class="fa-solid fa-sparkles me-1"></i> <?= $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Highlights' : 'Features') ?>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'about' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=about') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=about') ?>">
                     <i class="fa-solid fa-address-card me-1"></i> About Us
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'services' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=services') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=services') ?>">
                     <i class="fa-solid fa-hand-holding-heart me-1"></i> Services
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'testimonials' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=testimonials') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=testimonials') ?>">
                     <i class="fa-solid fa-comments me-1"></i> Testimonials
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'faqs' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=faqs') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=faqs') ?>">
                     <i class="fa-solid fa-circle-question me-1"></i> FAQ's
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= $curr_sec === 'blogs' ? 'active text-warning fw-bold border-warning' : 'text-light' ?>" 
-                   href="<?= superadmin_url('layouts?tab=template2&layout=' . $curr_layout . '&section=blogs') ?>">
+                   href="<?= superadmin_url('layouts?tab=' . $curr_target_tpl . '&layout=' . $curr_layout . '&section=blogs') ?>">
                     <i class="fa-solid fa-newspaper me-1"></i> Blog
                 </a>
             </li>
@@ -1078,13 +1092,13 @@ $layout_names = array(
             $feat_section_name = $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Features');
             $feat_def_tagline = $curr_layout === 2 ? 'Our Works' : ($curr_layout === 1 ? 'Featured Skincare' : 'Special Highlights');
             $feat_def_title = $curr_layout === 2 ? 'Glow Transformation Gallery' : ($curr_layout === 1 ? 'Beauty and Glow Skin Solutions' : 'Exclusive Treatments & Skincare Highlights');
-            $feat_tagline = get_tpl_setting('template2', $curr_layout, 'featured_skincare', 'tagline', $feat_def_tagline);
-            $feat_title = get_tpl_setting('template2', $curr_layout, 'featured_skincare', 'title', $feat_def_title);
+            $feat_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'featured_skincare', 'tagline', $feat_def_tagline);
+            $feat_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'featured_skincare', 'title', $feat_def_title);
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_featured_skincare_headers">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="skincare">
 
@@ -1169,20 +1183,20 @@ $layout_names = array(
         <!-- 3. ABOUT US SECTION                            -->
         <!-- ============================================== -->
         <?php if ($curr_sec === 'about'): 
-            $about_tagline = get_tpl_setting('template2', $curr_layout, 'about', 'about_tagline', 'About Us');
-            $about_title = get_tpl_setting('template2', $curr_layout, 'about', 'about_title', 'Explore Our Dedication to Healthy Skin');
-            $about_desc = get_tpl_setting('template2', $curr_layout, 'about', 'about_desc', 'We are passionate about helping you achieve healthy, glowing skin.');
-            $about_exp = get_tpl_setting('template2', $curr_layout, 'about', 'about_experience', '27');
-            $about_author = get_tpl_setting('template2', $curr_layout, 'about', 'about_author_name', 'Emma Watson');
-            $about_role = get_tpl_setting('template2', $curr_layout, 'about', 'about_author_role', 'Founder & Master Esthetician');
-            $about_img1 = get_tpl_setting('template2', $curr_layout, 'about', 'about_image_1', 'assets/template2/images/resources/about-one-img-1.jpg');
-            $about_img2 = get_tpl_setting('template2', $curr_layout, 'about', 'about_image_2', 'assets/template2/images/resources/about-one-img-2.jpg');
+            $about_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_tagline', 'About Us');
+            $about_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_title', 'Explore Our Dedication to Beauty and Care');
+            $about_desc = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_desc', 'We are passionate about helping you achieve your best look and relaxation.');
+            $about_exp = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_experience', '25');
+            $about_author = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_author_name', 'Emma Watson');
+            $about_role = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_author_role', 'Founder & Master Stylist');
+            $about_img1 = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_image_1', ($curr_target_tpl === 'template1' ? 'assets/template1/images/demo-1/about-img.jpg' : 'assets/template2/images/resources/about-one-img-1.jpg'));
+            $about_img2 = get_tpl_setting($curr_target_tpl, $curr_layout, 'about', 'about_image_2', ($curr_target_tpl === 'template1' ? 'assets/template1/images/demo-2/about-img-2.jpg' : 'assets/template2/images/resources/about-one-img-2.jpg'));
             $img1_full = strpos($about_img1, 'http') === 0 ? $about_img1 : $root_url . ltrim($about_img1, '/');
             $img2_full = strpos($about_img2, 'http') === 0 ? $about_img2 : $root_url . ltrim($about_img2, '/');
         ?>
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_about_us">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="about">
 
@@ -1261,14 +1275,14 @@ $layout_names = array(
         <!-- 4. WE OFFER (SERVICES) SECTION                 -->
         <!-- ============================================== -->
         <?php if ($curr_sec === 'services'): 
-            $svc_tagline = get_tpl_setting('template2', $curr_layout, 'services_header', 'tagline', 'We Offer');
-            $svc_title = get_tpl_setting('template2', $curr_layout, 'services_header', 'title', 'Beauty and Skin Care Services');
-            $svc_desc = get_tpl_setting('template2', $curr_layout, 'services_header', 'desc', 'Our skin care services are designed to nourish, protect, and enhance your natural beauty.');
+            $svc_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'services_header', 'tagline', 'We Offer');
+            $svc_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'services_header', 'title', 'Beauty and Salon Services');
+            $svc_desc = get_tpl_setting($curr_target_tpl, $curr_layout, 'services_header', 'desc', 'Our salon and spa services are designed to nourish, protect, and enhance your natural beauty.');
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_services_headers">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="services">
 
@@ -1289,7 +1303,7 @@ $layout_names = array(
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label text-white small fw-bold">Section Title Heading</label>
-                                <input type="text" name="services_title" class="form-control" value="<?= htmlspecialchars($svc_title) ?>" placeholder="Beauty and Skin Care Services">
+                                <input type="text" name="services_title" class="form-control" value="<?= htmlspecialchars($svc_title) ?>" placeholder="Beauty and Salon Services">
                             </div>
                             <div class="col-12">
                                 <label class="form-label text-white small fw-bold">Section Lead Description</label>
@@ -1331,7 +1345,7 @@ $layout_names = array(
                                 <?php if (!empty($services_list)): ?>
                                     <?php foreach ($services_list as $svc): 
                                         $svc_thumb = strpos($svc->thumbnail, 'http') === 0 ? $svc->thumbnail : $root_url . ltrim($svc->thumbnail, '/');
-                                        $detail_url = tenant_site_url('service/' . $svc->slug . '?preview_tpl=template2&preview_layout=' . $curr_layout);
+                                        $detail_url = tenant_site_url('service/' . $svc->slug . '?preview_tpl=' . $curr_target_tpl . '&preview_layout=' . $curr_layout);
                                     ?>
                                         <tr>
                                             <td>
@@ -1391,13 +1405,13 @@ $layout_names = array(
         <!-- 5. TESTIMONIALS SECTION                        -->
         <!-- ============================================== -->
         <?php if ($curr_sec === 'testimonials'): 
-            $testi_tagline = get_tpl_setting('template2', $curr_layout, 'testimonials_header', 'tagline', 'Testimonial');
-            $testi_title = get_tpl_setting('template2', $curr_layout, 'testimonials_header', 'title', 'Radiant Reviews from Our Happy Clients');
+            $testi_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'testimonials_header', 'tagline', 'Testimonial');
+            $testi_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'testimonials_header', 'title', 'Radiant Reviews from Our Happy Clients');
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_testimonials_headers">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="testimonials">
 
@@ -1493,13 +1507,13 @@ $layout_names = array(
         <!-- 6. FAQS SECTION (LAYOUT 1)                     -->
         <!-- ============================================== -->
         <?php if ($curr_sec === 'faqs'): 
-            $faq_tagline = get_tpl_setting('template2', $curr_layout, 'faq_header', 'tagline', 'Frequently Asked Questions');
-            $faq_title = get_tpl_setting('template2', $curr_layout, 'faq_header', 'title', 'Clear Answers About Your Treatment');
+            $faq_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'faq_header', 'tagline', 'Frequently Asked Questions');
+            $faq_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'faq_header', 'title', 'Clear Answers About Your Treatment');
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_faqs_headers">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="faqs">
 
@@ -1585,14 +1599,14 @@ $layout_names = array(
         <!-- 7. LATEST NEWS (BLOG) SECTION                  -->
         <!-- ============================================== -->
         <?php if ($curr_sec === 'blogs'): 
-            $blog_tagline = get_tpl_setting('template2', $curr_layout, 'blog_header', 'tagline', 'Latest News');
-            $blog_title = get_tpl_setting('template2', $curr_layout, 'blog_header', 'title', 'Latest News & Articles From Our Experts');
-            $blog_desc = get_tpl_setting('template2', $curr_layout, 'blog_header', 'desc', 'Beautiful skin doesn\'t happen overnight. It requires patience and consistency.');
+            $blog_tagline = get_tpl_setting($curr_target_tpl, $curr_layout, 'blog_header', 'tagline', 'Latest News');
+            $blog_title = get_tpl_setting($curr_target_tpl, $curr_layout, 'blog_header', 'title', 'Latest News & Articles From Our Experts');
+            $blog_desc = get_tpl_setting($curr_target_tpl, $curr_layout, 'blog_header', 'desc', 'Beautiful skin doesn\'t happen overnight. It requires patience and consistency.');
         ?>
             <!-- Header Settings Card -->
             <form action="<?= superadmin_url('layouts') ?>" method="post" class="mb-4">
                 <input type="hidden" name="action" value="save_blogs_headers">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="blogs">
 
@@ -1656,7 +1670,7 @@ $layout_names = array(
                                 <?php if (!empty($blogs_list)): ?>
                                     <?php foreach ($blogs_list as $blg): 
                                         $blg_thumb = strpos($blg->thumbnail, 'http') === 0 ? $blg->thumbnail : $root_url . ltrim($blg->thumbnail, '/');
-                                        $detail_url = tenant_site_url('blog/' . $blg->slug . '?preview_tpl=template2&preview_layout=' . $curr_layout);
+                                        $detail_url = tenant_site_url('blog/' . $blg->slug . '?preview_tpl=' . $curr_target_tpl . '&preview_layout=' . $curr_layout);
                                     ?>
                                         <tr>
                                             <td>
@@ -1727,7 +1741,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_hero_slide">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="hero">
                 <input type="hidden" name="slide_id" id="heroSlideId" value="0">
@@ -1805,7 +1819,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_featured_item">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="skincare">
                 <input type="hidden" name="item_id" id="featItemId" value="0">
@@ -1858,7 +1872,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_service">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="services">
                 <input type="hidden" name="service_id" id="svcId" value="0">
@@ -1936,7 +1950,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_testimonial">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="testimonials">
                 <input type="hidden" name="testimonial_id" id="testiId" value="0">
@@ -2001,7 +2015,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post">
                 <input type="hidden" name="action" value="save_faq">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="faqs">
                 <input type="hidden" name="faq_id" id="faqId" value="0">
@@ -2049,7 +2063,7 @@ $layout_names = array(
         <div class="modal-content border-0 rounded-4" style="background: #111a2e; border: 1px solid rgba(194, 153, 88, 0.4) !important;">
             <form action="<?= superadmin_url('layouts') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="save_blog">
-                <input type="hidden" name="active_tab" value="template2">
+                <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
                 <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
                 <input type="hidden" name="active_section" value="blogs">
                 <input type="hidden" name="blog_id" id="blogId" value="0">
@@ -2827,7 +2841,7 @@ function deleteHeroSlide(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_hero_slide">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="hero">
             <input type="hidden" name="slide_id" value="${id}">
@@ -2875,7 +2889,7 @@ function deleteFeaturedItem(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_featured_item">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="skincare">
             <input type="hidden" name="item_id" value="${id}">
@@ -2966,7 +2980,7 @@ function deleteService(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_service">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="services">
             <input type="hidden" name="service_id" value="${id}">
@@ -3012,7 +3026,7 @@ function deleteTestimonial(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_testimonial">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="testimonials">
             <input type="hidden" name="testimonial_id" value="${id}">
@@ -3054,7 +3068,7 @@ function deleteFaq(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_faq">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="faqs">
             <input type="hidden" name="faq_id" value="${id}">
@@ -3155,7 +3169,7 @@ function deleteBlog(id) {
         form.action = baseSuperUrl + 'layouts';
         form.innerHTML = `
             <input type="hidden" name="action" value="delete_blog">
-            <input type="hidden" name="active_tab" value="template2">
+            <input type="hidden" name="active_tab" value="<?= htmlspecialchars($curr_target_tpl) ?>">
             <input type="hidden" name="active_layout" value="<?= $curr_layout ?>">
             <input type="hidden" name="active_section" value="blogs">
             <input type="hidden" name="blog_id" value="${id}">

@@ -13,11 +13,16 @@ class Layouts extends Superadmin_Controller {
 
     public function index() {
         $root_dir = realpath(FCPATH . '../') ? realpath(FCPATH . '../') . DIRECTORY_SEPARATOR : dirname(FCPATH) . DIRECTORY_SEPARATOR;
+        $root_dir = realpath(FCPATH . '../') ? realpath(FCPATH . '../') . DIRECTORY_SEPARATOR : dirname(FCPATH) . DIRECTORY_SEPARATOR;
         $tpl_upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+        $tpl1_upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'template1' . DIRECTORY_SEPARATOR;
         $tpl2_upload_dir = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . 'template2' . DIRECTORY_SEPARATOR;
 
         if (!is_dir($tpl_upload_dir)) {
             @mkdir($tpl_upload_dir, 0755, true);
+        }
+        if (!is_dir($tpl1_upload_dir)) {
+            @mkdir($tpl1_upload_dir, 0755, true);
         }
         if (!is_dir($tpl2_upload_dir)) {
             @mkdir($tpl2_upload_dir, 0755, true);
@@ -26,19 +31,24 @@ class Layouts extends Superadmin_Controller {
         if ($this->input->method() === 'post') {
             $action = $this->input->post('action', TRUE);
             $active_tab = $this->input->post('active_tab', TRUE) ?: 'multi-theme';
+            $target_tpl = in_array($active_tab, array('template1', 'template2')) ? $active_tab : 'template2';
             $active_layout = (int)$this->input->post('active_layout') ?: 1;
             $active_section = $this->input->post('active_section', TRUE) ?: 'hero';
 
-            // Helper to handle single file upload into uploads/template2/
-            $handle_file_upload = function($field_name, $prefix) use ($tpl2_upload_dir) {
+            // Helper to handle single file upload into uploads/{target_tpl}/
+            $handle_file_upload = function($field_name, $prefix) use ($root_dir, $target_tpl) {
                 if (!empty($_FILES[$field_name]['name']) && $_FILES[$field_name]['error'] === UPLOAD_ERR_OK) {
                     $ext = strtolower(pathinfo($_FILES[$field_name]['name'], PATHINFO_EXTENSION));
                     $allowed = array('jpg', 'jpeg', 'png', 'gif', 'svg', 'webp');
                     if (in_array($ext, $allowed)) {
+                        $target_folder = $root_dir . 'uploads' . DIRECTORY_SEPARATOR . $target_tpl . DIRECTORY_SEPARATOR;
+                        if (!is_dir($target_folder)) {
+                            @mkdir($target_folder, 0755, true);
+                        }
                         $new_name = $prefix . '_' . time() . '_' . rand(100, 999) . '.' . $ext;
-                        $target_path = $tpl2_upload_dir . $new_name;
+                        $target_path = $target_folder . $new_name;
                         if (move_uploaded_file($_FILES[$field_name]['tmp_name'], $target_path)) {
-                            return 'uploads/template2/' . $new_name;
+                            return 'uploads/' . $target_tpl . '/' . $new_name;
                         }
                     }
                 }
@@ -182,10 +192,10 @@ class Layouts extends Superadmin_Controller {
             }
 
             // ==========================================
-            // 2. TEMPLATE 2 CUSTOMIZATION ACTIONS
+            // 2. TEMPLATE CUSTOMIZATION ACTIONS (TEMPLATE 1 & TEMPLATE 2)
             // ==========================================
-            $redirect_tpl2 = function($sec = 'hero') use ($active_layout) {
-                redirect(superadmin_url('layouts?tab=template2&layout=' . $active_layout . '&section=' . $sec));
+            $redirect_tpl = function($sec = 'hero') use ($target_tpl, $active_layout) {
+                redirect(superadmin_url('layouts?tab=' . $target_tpl . '&layout=' . $active_layout . '&section=' . $sec));
                 exit;
             };
 
@@ -197,24 +207,24 @@ class Layouts extends Superadmin_Controller {
                 $btn_text = trim($this->input->post('hero_btn_text'));
                 $btn_url = trim($this->input->post('hero_btn_url'));
 
-                set_tpl_setting('template2', $active_layout, 'hero', 'hero_badge', $badge);
-                set_tpl_setting('template2', $active_layout, 'hero', 'hero_title', $title);
-                set_tpl_setting('template2', $active_layout, 'hero', 'hero_desc', $desc);
-                set_tpl_setting('template2', $active_layout, 'hero', 'hero_btn_text', $btn_text);
-                set_tpl_setting('template2', $active_layout, 'hero', 'hero_btn_url', $btn_url);
+                set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_badge', $badge);
+                set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_desc', $desc);
+                set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_btn_text', $btn_text);
+                set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_btn_url', $btn_url);
 
-                $uploaded_img = $handle_file_upload('hero_image_file', 't2_hero_l' . $active_layout);
+                $uploaded_img = $handle_file_upload('hero_image_file', $target_tpl . '_hero_l' . $active_layout);
                 if ($uploaded_img) {
-                    set_tpl_setting('template2', $active_layout, 'hero', 'hero_image', $uploaded_img);
+                    set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_image', $uploaded_img);
                 } elseif ($this->input->post('hero_image_url') !== NULL) {
                     $url_val = trim($this->input->post('hero_image_url'));
                     if ($url_val !== '') {
-                        set_tpl_setting('template2', $active_layout, 'hero', 'hero_image', $url_val);
+                        set_tpl_setting($target_tpl, $active_layout, 'hero', 'hero_image', $url_val);
                     }
                 }
 
                 $this->session->set_flashdata('success', 'Layout ' . $active_layout . ' Hero Banner updated successfully!');
-                $redirect_tpl2('hero');
+                $redirect_tpl('hero');
             }
 
             if ($action === 'save_hero_slide') {
@@ -229,22 +239,22 @@ class Layouts extends Superadmin_Controller {
                 $status = $this->input->post('status') === 'inactive' ? 'inactive' : 'active';
 
                 $image = trim($this->input->post('image_url'));
-                $uploaded_img = $handle_file_upload('image_file', 't2_hero_slide_' . time());
+                $uploaded_img = $handle_file_upload('image_file', $target_tpl . '_hero_slide_' . time());
                 if ($uploaded_img) {
                     $image = $uploaded_img;
                 }
                 if (empty($image)) {
-                    $image = 'assets/template2/images/resources/main-slider-img-1-1.png';
+                    $image = ($target_tpl === 'template1') ? 'assets/template1/images/slider-01.jpg' : 'assets/template2/images/resources/main-slider-img-1-1.png';
                 }
 
                 $bg_image = trim($this->input->post('background_image_url'));
-                $uploaded_bg = $handle_file_upload('background_image_file', 't2_hero_bg_' . time());
+                $uploaded_bg = $handle_file_upload('background_image_file', $target_tpl . '_hero_bg_' . time());
                 if ($uploaded_bg) {
                     $bg_image = $uploaded_bg;
                 }
 
                 $slide_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_num,
                     'badge' => $badge,
                     'title' => $title,
@@ -266,16 +276,16 @@ class Layouts extends Superadmin_Controller {
                 }
 
                 // Sync first slide to template_layout_settings as well
-                set_tpl_setting('template2', $layout_num, 'hero', 'hero_badge', $badge);
-                set_tpl_setting('template2', $layout_num, 'hero', 'hero_title', $title);
-                set_tpl_setting('template2', $layout_num, 'hero', 'hero_desc', $desc);
-                set_tpl_setting('template2', $layout_num, 'hero', 'hero_btn_text', $btn_text);
-                set_tpl_setting('template2', $layout_num, 'hero', 'hero_btn_url', $btn_url);
+                set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_badge', $badge);
+                set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_title', $title);
+                set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_desc', $desc);
+                set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_btn_text', $btn_text);
+                set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_btn_url', $btn_url);
                 if (!empty($image)) {
-                    set_tpl_setting('template2', $layout_num, 'hero', 'hero_image', $image);
+                    set_tpl_setting($target_tpl, $layout_num, 'hero', 'hero_image', $image);
                 }
 
-                $redirect_tpl2('hero');
+                $redirect_tpl('hero');
             }
 
             if ($action === 'delete_hero_slide') {
@@ -284,7 +294,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $slide_id)->delete('template_hero_banners');
                     $this->session->set_flashdata('success', 'Hero Banner slide deleted successfully.');
                 }
-                $redirect_tpl2('hero');
+                $redirect_tpl('hero');
             }
 
             // Featured Skincare / Works Section
@@ -292,11 +302,11 @@ class Layouts extends Superadmin_Controller {
                 $tagline = trim($this->input->post('featured_tagline'));
                 $title = trim($this->input->post('featured_title'));
                 $target_layout = (int)$this->input->post('active_layout') ?: $active_layout;
-                set_tpl_setting('template2', $target_layout, 'featured_skincare', 'tagline', $tagline);
-                set_tpl_setting('template2', $target_layout, 'featured_skincare', 'title', $title);
+                set_tpl_setting($target_tpl, $target_layout, 'featured_skincare', 'tagline', $tagline);
+                set_tpl_setting($target_tpl, $target_layout, 'featured_skincare', 'title', $title);
 
                 $this->session->set_flashdata('success', 'Section headers updated!');
-                $redirect_tpl2('skincare');
+                $redirect_tpl('skincare');
             }
 
             if ($action === 'save_featured_item') {
@@ -310,16 +320,16 @@ class Layouts extends Superadmin_Controller {
                 $button_link = trim($this->input->post('button_link')) ?: 'booking';
 
                 $thumbnail = trim($this->input->post('thumbnail_url'));
-                $uploaded = $handle_file_upload('thumbnail_file', 't2_feat_' . time());
+                $uploaded = $handle_file_upload('thumbnail_file', $target_tpl . '_feat_' . time());
                 if ($uploaded) {
                     $thumbnail = $uploaded;
                 }
                 if (empty($thumbnail)) {
-                    $thumbnail = ($layout_num === 2) ? 'assets/template2/images/work/work-1-1.jpg' : 'assets/template2/images/resources/feature-1-1.jpg';
+                    $thumbnail = ($target_tpl === 'template1') ? 'assets/template1/images/demo-1/service/service-img-01.jpg' : (($layout_num === 2) ? 'assets/template2/images/work/work-1-1.jpg' : 'assets/template2/images/resources/feature-1-1.jpg');
                 }
 
                 $item_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_num,
                     'title' => $title,
                     'short_desc' => $short_desc,
@@ -337,7 +347,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->insert('template_featured_items', $item_data);
                     $this->session->set_flashdata('success', 'Item added successfully!');
                 }
-                $redirect_tpl2('skincare');
+                $redirect_tpl('skincare');
             }
 
             if ($action === 'delete_featured_item') {
@@ -346,7 +356,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $item_id)->delete('template_featured_items');
                     $this->session->set_flashdata('success', 'Featured Skincare item deleted.');
                 }
-                $redirect_tpl2('skincare');
+                $redirect_tpl('skincare');
             }
 
             // About Us
@@ -355,35 +365,35 @@ class Layouts extends Superadmin_Controller {
                 $title = trim($this->input->post('about_title'));
                 $desc = trim($this->input->post('about_desc'));
                 $exp = trim($this->input->post('about_experience'));
-                set_tpl_setting('template2', $active_layout, 'about', 'about_tagline', $tagline);
-                set_tpl_setting('template2', $active_layout, 'about', 'about_title', $title);
-                set_tpl_setting('template2', $active_layout, 'about', 'about_desc', $desc);
-                set_tpl_setting('template2', $active_layout, 'about', 'about_experience', $exp);
+                set_tpl_setting($target_tpl, $active_layout, 'about', 'about_tagline', $tagline);
+                set_tpl_setting($target_tpl, $active_layout, 'about', 'about_title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'about', 'about_desc', $desc);
+                set_tpl_setting($target_tpl, $active_layout, 'about', 'about_experience', $exp);
                 if ($this->input->post('about_author_name') !== NULL) {
                     $author = trim($this->input->post('about_author_name'));
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_author_name', $author);
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_author_name', $author);
                 }
                 if ($this->input->post('about_author_role') !== NULL) {
                     $role = trim($this->input->post('about_author_role'));
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_author_role', $role);
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_author_role', $role);
                 }
 
-                $img1 = $handle_file_upload('about_image_1_file', 't2_about1_l' . $active_layout);
+                $img1 = $handle_file_upload('about_image_1_file', $target_tpl . '_about1_l' . $active_layout);
                 if ($img1) {
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_image_1', $img1);
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_image_1', $img1);
                 } elseif ($this->input->post('about_image_1_url') !== NULL && trim($this->input->post('about_image_1_url')) !== '') {
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_image_1', trim($this->input->post('about_image_1_url')));
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_image_1', trim($this->input->post('about_image_1_url')));
                 }
 
-                $img2 = $handle_file_upload('about_image_2_file', 't2_about2_l' . $active_layout);
+                $img2 = $handle_file_upload('about_image_2_file', $target_tpl . '_about2_l' . $active_layout);
                 if ($img2) {
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_image_2', $img2);
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_image_2', $img2);
                 } elseif ($this->input->post('about_image_2_url') !== NULL && trim($this->input->post('about_image_2_url')) !== '') {
-                    set_tpl_setting('template2', $active_layout, 'about', 'about_image_2', trim($this->input->post('about_image_2_url')));
+                    set_tpl_setting($target_tpl, $active_layout, 'about', 'about_image_2', trim($this->input->post('about_image_2_url')));
                 }
 
                 $this->session->set_flashdata('success', 'Layout ' . $active_layout . ' About Us section updated!');
-                $redirect_tpl2('about');
+                $redirect_tpl('about');
             }
 
             // Services (We Offer)
@@ -391,12 +401,12 @@ class Layouts extends Superadmin_Controller {
                 $tagline = trim($this->input->post('services_tagline'));
                 $title = trim($this->input->post('services_title'));
                 $desc = trim($this->input->post('services_desc'));
-                set_tpl_setting('template2', $active_layout, 'services_header', 'tagline', $tagline);
-                set_tpl_setting('template2', $active_layout, 'services_header', 'title', $title);
-                set_tpl_setting('template2', $active_layout, 'services_header', 'desc', $desc);
+                set_tpl_setting($target_tpl, $active_layout, 'services_header', 'tagline', $tagline);
+                set_tpl_setting($target_tpl, $active_layout, 'services_header', 'title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'services_header', 'desc', $desc);
 
                 $this->session->set_flashdata('success', 'Services section headers updated!');
-                $redirect_tpl2('services');
+                $redirect_tpl('services');
             }
 
             if ($action === 'save_service') {
@@ -416,25 +426,25 @@ class Layouts extends Superadmin_Controller {
                 $layout_scope = (int)$this->input->post('layout_number') ?: (int)$this->input->post('active_layout') ?: $active_layout;
 
                 $thumbnail = trim($this->input->post('thumbnail_url'));
-                $uploaded_thumb = $handle_file_upload('thumbnail_file', 't2_svc_thumb_' . time());
+                $uploaded_thumb = $handle_file_upload('thumbnail_file', $target_tpl . '_svc_thumb_' . time());
                 if ($uploaded_thumb) {
                     $thumbnail = $uploaded_thumb;
                 }
                 if (empty($thumbnail)) {
-                    $thumbnail = 'assets/template2/images/services/services-1-1.jpg';
+                    $thumbnail = ($target_tpl === 'template1') ? 'assets/template1/images/demo-1/service/service-img-01.jpg' : 'assets/template2/images/services/services-1-1.jpg';
                 }
 
                 $banner_img = trim($this->input->post('banner_image_url'));
-                $uploaded_banner = $handle_file_upload('banner_image_file', 't2_svc_banner_' . time());
+                $uploaded_banner = $handle_file_upload('banner_image_file', $target_tpl . '_svc_banner_' . time());
                 if ($uploaded_banner) {
                     $banner_img = $uploaded_banner;
                 }
                 if (empty($banner_img)) {
-                    $banner_img = 'assets/template2/images/services/service-details-img4.jpg';
+                    $banner_img = ($target_tpl === 'template1') ? 'assets/template1/images/demo-1/about-img.jpg' : 'assets/template2/images/services/service-details-img4.jpg';
                 }
 
                 $service_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_scope,
                     'title' => $title,
                     'slug' => $slug,
@@ -456,7 +466,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->insert('template_services', $service_data);
                     $this->session->set_flashdata('success', 'Service created successfully!');
                 }
-                $redirect_tpl2('services');
+                $redirect_tpl('services');
             }
 
             if ($action === 'delete_service') {
@@ -465,18 +475,18 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $service_id)->delete('template_services');
                     $this->session->set_flashdata('success', 'Service deleted successfully.');
                 }
-                $redirect_tpl2('services');
+                $redirect_tpl('services');
             }
 
             // Testimonials
             if ($action === 'save_testimonials_headers') {
                 $tagline = trim($this->input->post('testimonials_tagline'));
                 $title = trim($this->input->post('testimonials_title'));
-                set_tpl_setting('template2', $active_layout, 'testimonials_header', 'tagline', $tagline);
-                set_tpl_setting('template2', $active_layout, 'testimonials_header', 'title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'testimonials_header', 'tagline', $tagline);
+                set_tpl_setting($target_tpl, $active_layout, 'testimonials_header', 'title', $title);
 
                 $this->session->set_flashdata('success', 'Testimonials section headers updated!');
-                $redirect_tpl2('testimonials');
+                $redirect_tpl('testimonials');
             }
 
             if ($action === 'save_testimonial') {
@@ -490,16 +500,16 @@ class Layouts extends Superadmin_Controller {
                 $layout_scope = (int)$this->input->post('layout_number');
 
                 $avatar = trim($this->input->post('avatar_url'));
-                $uploaded_avatar = $handle_file_upload('avatar_file', 't2_testi_' . time());
+                $uploaded_avatar = $handle_file_upload('avatar_file', $target_tpl . '_testi_' . time());
                 if ($uploaded_avatar) {
                     $avatar = $uploaded_avatar;
                 }
                 if (empty($avatar)) {
-                    $avatar = 'assets/template2/images/testimonial/testimonial-v1-img1.jpg';
+                    $avatar = ($target_tpl === 'template1') ? 'assets/template1/images/demo-1/testimonial/tesimonial-01.jpg' : 'assets/template2/images/testimonial/testimonial-v1-img1.jpg';
                 }
 
                 $testimonial_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_scope,
                     'client_name' => $client_name,
                     'designation' => $designation,
@@ -517,7 +527,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->insert('template_testimonials', $testimonial_data);
                     $this->session->set_flashdata('success', 'Testimonial added successfully!');
                 }
-                $redirect_tpl2('testimonials');
+                $redirect_tpl('testimonials');
             }
 
             if ($action === 'delete_testimonial') {
@@ -526,18 +536,18 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $testimonial_id)->delete('template_testimonials');
                     $this->session->set_flashdata('success', 'Testimonial deleted successfully.');
                 }
-                $redirect_tpl2('testimonials');
+                $redirect_tpl('testimonials');
             }
 
             // FAQs
             if ($action === 'save_faqs_headers') {
                 $tagline = trim($this->input->post('faq_tagline'));
                 $title = trim($this->input->post('faq_title'));
-                set_tpl_setting('template2', $active_layout, 'faq_header', 'tagline', $tagline);
-                set_tpl_setting('template2', $active_layout, 'faq_header', 'title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'faq_header', 'tagline', $tagline);
+                set_tpl_setting($target_tpl, $active_layout, 'faq_header', 'title', $title);
 
                 $this->session->set_flashdata('success', 'FAQ section headers updated!');
-                $redirect_tpl2('faqs');
+                $redirect_tpl('faqs');
             }
 
             if ($action === 'save_faq') {
@@ -549,7 +559,7 @@ class Layouts extends Superadmin_Controller {
                 $layout_scope = (int)$this->input->post('layout_number') ?: (int)$this->input->post('active_layout') ?: $active_layout;
 
                 $faq_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_scope,
                     'question' => $question,
                     'answer' => $answer,
@@ -564,7 +574,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->insert('template_faqs', $faq_data);
                     $this->session->set_flashdata('success', 'FAQ added successfully!');
                 }
-                $redirect_tpl2('faqs');
+                $redirect_tpl('faqs');
             }
 
             if ($action === 'delete_faq') {
@@ -573,7 +583,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $faq_id)->delete('template_faqs');
                     $this->session->set_flashdata('success', 'FAQ deleted successfully.');
                 }
-                $redirect_tpl2('faqs');
+                $redirect_tpl('faqs');
             }
 
             // Blogs / Latest News
@@ -581,12 +591,12 @@ class Layouts extends Superadmin_Controller {
                 $tagline = trim($this->input->post('blog_tagline'));
                 $title = trim($this->input->post('blog_title'));
                 $desc = trim($this->input->post('blog_desc'));
-                set_tpl_setting('template2', $active_layout, 'blog_header', 'tagline', $tagline);
-                set_tpl_setting('template2', $active_layout, 'blog_header', 'title', $title);
-                set_tpl_setting('template2', $active_layout, 'blog_header', 'desc', $desc);
+                set_tpl_setting($target_tpl, $active_layout, 'blog_header', 'tagline', $tagline);
+                set_tpl_setting($target_tpl, $active_layout, 'blog_header', 'title', $title);
+                set_tpl_setting($target_tpl, $active_layout, 'blog_header', 'desc', $desc);
 
                 $this->session->set_flashdata('success', 'Blog section headers updated!');
-                $redirect_tpl2('blogs');
+                $redirect_tpl('blogs');
             }
 
             if ($action === 'save_blog') {
@@ -609,16 +619,16 @@ class Layouts extends Superadmin_Controller {
                 }
 
                 $thumbnail = trim($this->input->post('thumbnail_url'));
-                $uploaded_thumb = $handle_file_upload('thumbnail_file', 't2_blog_' . time());
+                $uploaded_thumb = $handle_file_upload('thumbnail_file', $target_tpl . '_blog_' . time());
                 if ($uploaded_thumb) {
                     $thumbnail = $uploaded_thumb;
                 }
                 if (empty($thumbnail)) {
-                    $thumbnail = 'assets/template2/images/blog/blog-v1-img1.jpg';
+                    $thumbnail = ($target_tpl === 'template1') ? 'assets/template1/images/demo-1/blog/blog-img-01.jpg' : 'assets/template2/images/blog/blog-v1-img1.jpg';
                 }
 
                 $blog_data = array(
-                    'template_key' => 'template2',
+                    'template_key' => $target_tpl,
                     'layout_number' => $layout_scope,
                     'title' => $title,
                     'slug' => $slug,
@@ -639,7 +649,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->insert('template_blogs', $blog_data);
                     $this->session->set_flashdata('success', 'Blog article published successfully!');
                 }
-                $redirect_tpl2('blogs');
+                $redirect_tpl('blogs');
             }
 
             if ($action === 'delete_blog') {
@@ -648,7 +658,7 @@ class Layouts extends Superadmin_Controller {
                     $this->db->where('id', $blog_id)->delete('template_blogs');
                     $this->session->set_flashdata('success', 'Blog article deleted successfully.');
                 }
-                $redirect_tpl2('blogs');
+                $redirect_tpl('blogs');
             }
         }
 
@@ -657,7 +667,8 @@ class Layouts extends Superadmin_Controller {
         // ==========================================
         $data = array();
         $tab_param = $this->input->get('tab', TRUE);
-        $data['active_tab'] = (!empty($tab_param) && $tab_param === 'template2') ? 'template2' : 'multi-theme';
+        $data['active_tab'] = (!empty($tab_param) && in_array($tab_param, array('template1', 'template2'))) ? $tab_param : 'multi-theme';
+        $curr_target_tpl = in_array($data['active_tab'], array('template1', 'template2')) ? $data['active_tab'] : 'template2';
         $data['active_layout'] = (int)$this->input->get('layout') ?: 1;
         if (!in_array($data['active_layout'], array(1, 2, 3))) {
             $data['active_layout'] = 1;
@@ -674,56 +685,60 @@ class Layouts extends Superadmin_Controller {
         }
         $data['templates'] = $templates;
 
-        // Load Template 2 Customizer data
-        $data['hero_slides'] = $this->db->where('template_key', 'template2')
+        // Load Template Customizer data (for active template)
+        $data['hero_slides'] = $this->db->where('template_key', $curr_target_tpl)
                                         ->where('layout_number', $data['active_layout'])
                                         ->order_by('sort_order', 'ASC')
                                         ->get('template_hero_banners')
                                         ->result();
-        $data['featured_items'] = $this->db->where('template_key', 'template2')
+        $data['featured_items'] = $this->db->where('template_key', $curr_target_tpl)
                                            ->where('layout_number', $data['active_layout'])
                                            ->order_by('sort_order', 'ASC')
                                            ->get('template_featured_items')
                                            ->result();
         if (empty($data['featured_items'])) {
-            $data['featured_items'] = $this->db->where('template_key', 'template2')
+            $data['featured_items'] = $this->db->where('template_key', $curr_target_tpl)
                                                ->order_by('sort_order', 'ASC')
                                                ->get('template_featured_items')
                                                ->result();
         }
 
-        $data['services_list'] = $this->db->where('template_key', 'template2')
+        $data['services_list'] = $this->db->where('template_key', $curr_target_tpl)
                                           ->where('layout_number', $data['active_layout'])
                                           ->order_by('sort_order', 'ASC')
                                           ->get('template_services')
                                           ->result();
         if (empty($data['services_list'])) {
-            $data['services_list'] = $this->db->where('template_key', 'template2')
+            $data['services_list'] = $this->db->where('template_key', $curr_target_tpl)
                                               ->order_by('sort_order', 'ASC')
                                               ->get('template_services')
                                               ->result();
         }
 
-        $data['testimonials_list'] = $this->db->where('template_key', 'template2')->order_by('sort_order', 'ASC')->get('template_testimonials')->result();
+        $data['testimonials_list'] = $this->db->where('template_key', $curr_target_tpl)->order_by('sort_order', 'ASC')->get('template_testimonials')->result();
 
-        $data['faqs_list'] = $this->db->where('template_key', 'template2')
+        $data['faqs_list'] = $this->db->where('template_key', $curr_target_tpl)
                                       ->where('layout_number', $data['active_layout'])
                                       ->order_by('sort_order', 'ASC')
                                       ->get('template_faqs')
                                       ->result();
         if (empty($data['faqs_list'])) {
-            $data['faqs_list'] = $this->db->where('template_key', 'template2')
+            $data['faqs_list'] = $this->db->where('template_key', $curr_target_tpl)
                                           ->order_by('sort_order', 'ASC')
                                           ->get('template_faqs')
                                           ->result();
         }
 
-        $data['blogs_list'] = $this->db->where('template_key', 'template2')
+        $data['blogs_list'] = $this->db->where('template_key', $curr_target_tpl)
                                        ->where('layout_number', $data['active_layout'])
                                        ->order_by('sort_order', 'ASC')
                                        ->get('template_blogs')
                                        ->result();
 
-        $this->render('configure_layouts/index', $data, 'Configure Layouts & Template 2 Customizer');
+        $page_title = ($curr_target_tpl === 'template1') ? 'Template 1 Customizer' : 'Template 2 Customizer';
+        if ($data['active_tab'] === 'multi-theme') {
+            $page_title = 'Configure Layouts & Multi-Theme Architecture';
+        }
+        $this->render('configure_layouts/index', $data, $page_title);
     }
 }

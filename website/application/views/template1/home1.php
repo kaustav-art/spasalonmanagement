@@ -79,94 +79,12 @@ $site_fav = $site_fav_url;
 										<nav class="main-navigation pbmit-navbar main-menu navbar-expand-xl navbar-light" id="site-navigation">
 											<div class="pbmit-menu-wrap">
 												<ul class="navigation clearfix" id="pbmit-top-menu">
-													<li class="dropdown active">
-														<a href="#">Home</a>
-														<ul class="sub-menu">
-															<li class="active"><a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">Homepage 01</a></li>
-															<li><a href="<?= website_url('?preview_tpl=template1&preview_layout=2') ?>">Homepage 02</a></li>
-															<li><a href="<?= website_url('?preview_tpl=template1&preview_layout=3') ?>">Homepage 03</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Pages</a>
-														<ul class="sub-menu">
-															<li><a href="<?= website_url('about') ?>">About Us</a></li>
-															<li><a href="#">Our History</a></li>
-															<li><a href="<?= website_url('team') ?>">Our Team Member</a></li>
-															<li><a href="#">Team Member Detail</a></li>
-															<li><a href="#">Faq</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Services</a>
-														<ul class="sub-menu">
-															<li><a href="<?= website_url('services') ?>">Services</a></li>
-															<li><a href="#">Service Detail</a></li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Portfolio</a>
-														<ul class="sub-menu">
-															<li class="dropdown">
-																<a href="#">Masonry View</a>
-																<ul>
-																	<li><a href="#">Grid Col 2</a></li>
-																	<li><a href="#">Grid Col 3</a></li>
-																	<li><a href="#">Grid Col 4</a></li>
-																	<li><a href="#">Grid Wide</a></li>
-																</ul>
-															</li>
-															<li class="dropdown">
-																<a href="#">Grid View</a>
-																<ul>
-																	<li><a href="#">Grid Col 2</a></li>
-																	<li><a href="#">Grid Col 3</a></li>
-																	<li><a href="#">Grid Col 4</a></li>
-																	<li><a href="#">Grid No Gap</a></li>
-																</ul>
-															</li>
-															<li class="dropdown">
-																<a href="#">Sortable View</a>
-																<ul>
-																	<li><a href="#">Grid Col 2</a></li>
-																	<li><a href="#">Grid Col 3</a></li>
-																	<li><a href="#">Grid Col 4</a></li>
-																</ul>
-															</li>
-															<li class="dropdown">
-																<a href="#">Single Detail Style</a>
-																<ul>
-																	<li><a href="#">Portfolio Detail Style 1</a></li>
-																	<li><a href="#">Portfolio Detail Style 2</a></li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-													<li class="dropdown">
-														<a href="#">Blog</a>
-														<ul class="sub-menu">
-															<li class="dropdown">
-																<a href="#">Blog Masonry View</a>
-																<ul>
-																	<li><a href="#">Grid Col 2</a></li>
-																	<li><a href="#">Grid Col 3</a></li>
-																	<li><a href="#">Grid Col 4</a></li>
-																	<li><a href="#">Masonry Wide</a></li>
-																</ul>
-															</li>
-															<li class="dropdown">
-																<a href="#">Blog Grid View</a>
-																<ul>
-																	<li><a href="#">Grid Col 3</a></li>
-																	<li><a href="#">Grid Col 4</a></li>
-																	<li><a href="#">Sortable Grid View</a></li>
-																</ul>
-															</li>
-															<li><a href="#">Blog Classic</a></li>
-															<li><a href="#">Blog Single Details</a></li>
-														</ul>
-													</li>
-													<li><a href="<?= website_url('contact') ?>">Contact Us</a></li>
+													<li class="active"><a href="#page">Home</a></li>
+													<li><a href="#about">About</a></li>
+													<li><a href="#services">Services</a></li>
+													<li><a href="#faq">FAQ</a></li>
+													<li><a href="#blog">Blog</a></li>
+													<li><a href="#booking">Contact</a></li>
 												</ul>
 											</div>
 										</nav>
@@ -176,14 +94,14 @@ $site_fav = $site_fav_url;
 							<div class="pbmit-right-box d-flex align-items-center">
 								<div class="pbmit-button-box">
 									<div class="pbmit-header-button">
-										<a href="tel:+1(212)-255-511">															
-											<span class="pbmit-header-button-text">+1-123-456-789</span>			
+										<a href="tel:<?= htmlspecialchars($business_phone) ?>">															
+											<span class="pbmit-header-button-text"><?= htmlspecialchars($business_phone) ?></span>			
 										</a>
 									</div>
 								</div>
 								<div class="pbmit-button-box-second">
-									<a href="<?= website_url('contact') ?>" class="pbmit-btn">
-										<span class="pbmit-button-text">Get in touch</span>
+									<a href="#booking" class="pbmit-btn">
+										<span class="pbmit-button-text">Book Now</span>
 									</a>
 								</div>
 								<div class="pbmit-burger-menu-wrapper">
@@ -367,13 +285,14 @@ $site_fav = $site_fav_url;
 			<!-- Ihbox End --> 
 
 			<!-- About Start --> 
-            <section class="section-lg">
+            <section class="section-lg" id="about">
 				<div class="container">
 					<div class="row align-items-center">
 						<div class="col-md-6 full-width-1200">
 							<div class="about-one-left-box animation animated fade">
 								<div class="about-img-wrap">
-									<img src="<?= $asset_url ?>images/demo-1/about-img.jpg" class="img-fluid" alt="">
+									<?php $about_img1 = get_tpl_setting('template1', 1, 'about', 'about_image_1', 'assets/template1/images/demo-1/about-img.jpg'); ?>
+									<img src="<?= (strpos($about_img1, 'http') === 0) ? $about_img1 : base_url(ltrim($about_img1, '/')) ?>" class="img-fluid" alt="About Us">
 								</div>
 								<div class="fid-style-wrap">
 									<div class="pbminfotech-ele-fid-style-3">
@@ -381,7 +300,8 @@ $site_fav = $site_fav_url;
 											<div class="pbmit-fld-wrap">
 												<h4 class="pbmit-fid-inner">
 													<span class="pbmit-fid-before"></span>
-													<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="25" data-interval="5" data-before="" data-before-style="" data-after="" data-after-style="">25</span>
+													<?php $about_exp = (int)get_tpl_setting('template1', 1, 'about', 'about_experience', 25); ?>
+													<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="<?= $about_exp ?>" data-interval="5" data-before="" data-before-style="" data-after="" data-after-style=""><?= $about_exp ?></span>
 													<span class="pbmit-fid"><span>+</span></span>
 												</h4>
 												<span class="pbmit-fid-title">Years of  experience</span>
@@ -394,52 +314,16 @@ $site_fav = $site_fav_url;
 						<div class="col-md-6 full-width-1200">
 							<div class="about-one-content">
 								<div class="pbmit-heading-subheading">
-									<h4 class="pbmit-subtitle">who we are</h4>
-									<h2 class="pbmit-title">Team will help you achieve best result</h2>
+									<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'about', 'about_tagline', 'about us')) ?></h4>
+									<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'about', 'about_title', 'Team will help you achieve best result')) ?></h2>
 									<div class="pbmit-heading-desc">
-										We started as a small hair salon, Glamr, in New York. Our main idea was to create the best hair salon in the world. Can there be compromises in the best salon in the world? Our answer is always no. We care about the best quality, hire specialists, and provide customer service.
-										<br>
-										<br>
-										Whether you're here for a quick refresh or a total transformation. We’re dedicated to delivering high-end services tailored to you.
+										<?= nl2br(get_tpl_setting('template1', 1, 'about', 'about_desc', "We started as a small hair salon, Glamr, in New York. Our main idea was to create the best hair salon in the world. Can there be compromises in the best salon in the world? Our answer is always no. We care about the best quality, hire specialists, and provide customer service.\n\nWhether you're here for a quick refresh or a total transformation. We’re dedicated to delivering high-end services tailored to you.")) ?>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="pbminfotech-ele-fid-style-1">
-											<div class="pbmit-fld-contents d-flex align-items-center">
-												<div class="pbmit-circle-outer" data-digit="87" data-fill="#c6ac73" data-emptyfill="" data-before="" data-before-type="sup" data-after="&lt;span&gt;%&lt;/span&gt;" data-after-type="span" data-thickness="2" data-size="107">
-													<div class="pbmit-circle">
-														<div class="pbmit-fid-inner">
-															<span class="pbmit-fid-before"></span>
-															<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="87" data-interval="5" data-before="" data-before-style="" data-after="" data-after-style="">87</span>
-															<span class="pbmit-fid"><span>%</span></span>
-														</div>
-													</div>
-												</div>
-												<div class="pbmit-fid-sub">
-													<h3 class="pbmit-fid-title">Styling &  Grooming </h3>
-												</div>
-											</div>			
-										</div>
-									</div>
-									<div class="col-md-6 mt-md-0 mt-4">
-										<div class="pbminfotech-ele-fid-style-1">
-											<div class="pbmit-fld-contents d-flex align-items-center">
-												<div class="pbmit-circle-outer" data-digit="80" data-fill="#c6ac73" data-emptyfill="" data-before="" data-before-type="sup" data-after="&lt;span&gt;%&lt;/span&gt;" data-after-type="span" data-thickness="2" data-size="107">
-													<div class="pbmit-circle">
-														<div class="pbmit-fid-inner">
-															<span class="pbmit-fid-before"></span>
-															<span class="pbmit-number-rotate numinate" data-appear-animation="animateDigits" data-from="0" data-to="80" data-interval="5" data-before="" data-before-style="" data-after="" data-after-style="">80</span>
-															<span class="pbmit-fid"><span>%</span></span>
-														</div>
-													</div>
-												</div>
-												<div class="pbmit-fid-sub">
-													<h3 class="pbmit-fid-title">Cutting &  Coloring </h3>
-												</div>
-											</div>			
-										</div>
-									</div>
+								<div class="pt-4">
+									<a href="<?= website_url('about') ?>" class="pbmit-btn">
+										<span class="pbmit-button-text">Read More</span>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -532,12 +416,12 @@ $site_fav = $site_fav_url;
 			<!-- Client End --> 
 
 			<!-- Service Start --> 
-			<section class="section-xl service-one-slider animation animated fade">
+			<section class="section-xl service-one-slider animation animated fade loaded" id="services">
 				<div class="container">
 					<div class="swiper-slider" data-autoplay="false" data-allow-touch="true" data-loop="false" data-dots="false" data-arrows="true" data-columns="3" data-margin="50" data-effect="slide">
 						<div class="pbmit-heading-subheading">
-							<h4 class="pbmit-subtitle">our services</h4>
-							<h2 class="pbmit-title">Exclusive Hair Service</h2>
+							<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'services_header', 'tagline', 'our services')) ?></h4>
+							<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'services_header', 'title', 'Exclusive Hair Service')) ?></h2>
 						</div>
 						<div class="swiper-wrapper">
 							<!-- Slide1 -->
@@ -858,6 +742,11 @@ $site_fav = $site_fav_url;
 							</article>
 						</div>
 					</div>
+					<div class="text-center pt-5">
+						<a href="<?= website_url('services?preview_layout=1') ?>" class="pbmit-btn">
+							<span class="pbmit-button-text">Go to all services</span>
+						</a>
+					</div>
 					<div class="effect-img" data-aos="fade-right" data-aos-duration="900">
 						<img src="<?= $asset_url ?>images/effect.png" alt="">
 					</div>
@@ -1097,142 +986,179 @@ $site_fav = $site_fav_url;
 			<!-- Marquee Start -->
 
 			<!-- Testimonial start -->
-			<section class="testimonial-section-one">
+			<section class="testimonial-section-one" id="testimonials">
 				<div class="container">
 					<div class="pbmit-heading-subheading text-center">
-						<h4 class="pbmit-subtitle">Our clients</h4>
-						<h2 class="pbmit-title">Reviews</h2>
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'testimonials_header', 'tagline', 'Our clients')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'testimonials_header', 'title', 'Reviews')) ?></h2>
 					</div>
 					<div class="swiper-slider" data-autoplay="true" data-allow-touch="true" data-loop="true" data-dots="false" data-arrows="true" data-columns="1" data-margin="30" data-effect="slide">
 						<div class="swiper-wrapper">
-							<!-- Slide1 -->
-							<article class="pbmit-testimonial-style-2 swiper-slide">
-								<div class="pbminfotech-post-item">
-									<div class="pbmit-box-content-wrap">
-										<div class="pbminfotech-box-star-ratings">
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-										</div>
-										<div class="pbminfotech-box-desc">
-											<blockquote class="pbminfotech-testimonial-text">
-												<p>“I’ve always wanted a salon that really <em data-start="220" data-end="226">gets</em> my style. Every time I tried to explain what I wanted, it came out wrong—until I came to Glamr. They nailed the look I was going for, and I walked out feeling like a new person. Thank You”</p>
-											</blockquote>
-										</div>
-										<div class="pbminfotech-box-author">
-											<div class="pbminfotech-box-img">
-												<div class="pbmit-featured-img-wrapper">
-													<div class="pbmit-featured-wrapper">
-														<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-01.jpg" class="img-fluid" alt="">
+							<?php if (!empty($tpl_testimonials)): ?>
+								<?php foreach ($tpl_testimonials as $t_item): 
+									$t_avatar = !empty($t_item->avatar) ? ((strpos($t_item->avatar, 'http') === 0) ? $t_item->avatar : base_url(ltrim($t_item->avatar, '/'))) : ($asset_url . 'images/demo-1/testimonial/tesimonial-01.jpg');
+									$t_rating = max(1, min(5, (int)($t_item->rating ?: 5)));
+								?>
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<?php for ($r = 0; $r < $t_rating; $r++): ?>
+													<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<?php endfor; ?>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“<?= htmlspecialchars($t_item->review) ?>”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= htmlspecialchars($t_avatar) ?>" class="img-fluid" alt="<?= htmlspecialchars($t_item->client_name) ?>">
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="pbmit-auther-content">
-												<h3 class="pbminfotech-box-title">Lauren Walsh</h3>
-												<div class="pbminfotech-testimonial-detail">Lead Supervisor</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title"><?= htmlspecialchars($t_item->client_name) ?></h3>
+													<div class="pbminfotech-testimonial-detail"><?= htmlspecialchars($t_item->designation ?: 'Client') ?></div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</article>
-							<!-- Slide2 -->
-							<article class="pbmit-testimonial-style-2 swiper-slide">
-								<div class="pbminfotech-post-item">
-									<div class="pbmit-box-content-wrap">
-										<div class="pbminfotech-box-star-ratings">
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-										</div>
-										<div class="pbminfotech-box-desc">
-											<blockquote class="pbminfotech-testimonial-text">
-												<p>“My hair was feeling rough &amp; dry from all the heat styling. I tried a treatment at Glamr and the difference was amazing. My hair feels healthier, looks shinier, and I’m getting compliments left and right. I’m definitely coming back for regular.”</p>
-											</blockquote>
-										</div>
-										<div class="pbminfotech-box-author">
-											<div class="pbminfotech-box-img">
-												<div class="pbmit-featured-img-wrapper">
-													<div class="pbmit-featured-wrapper">
-														<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-02.jpg" class="img-fluid" alt="">
+								</article>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<!-- Slide1 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“I’ve always wanted a salon that really <em data-start="220" data-end="226">gets</em> my style. Every time I tried to explain what I wanted, it came out wrong—until I came to Glamr. They nailed the look I was going for, and I walked out feeling like a new person. Thank You”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-01.jpg" class="img-fluid" alt="">
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="pbmit-auther-content">
-												<h3 class="pbminfotech-box-title">Jennifer Taylor</h3>
-												<div class="pbminfotech-testimonial-detail">Manager</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Lauren Walsh</h3>
+													<div class="pbminfotech-testimonial-detail">Lead Supervisor</div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</article>
-							<!-- Slide3 -->
-							<article class="pbmit-testimonial-style-2 swiper-slide">
-								<div class="pbminfotech-post-item">
-									<div class="pbmit-box-content-wrap">
-										<div class="pbminfotech-box-star-ratings">
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-										</div>
-										<div class="pbminfotech-box-desc">
-											<blockquote class="pbminfotech-testimonial-text">
-												<p>“Finding someone who knows how to cut hair <em data-start="429" data-end="435">well</em> is harder than it should be. Glamr took the time to really understand what I wanted, and the result was precise, flattering, and super easy to maintain. I’m loving my fresh cut every day.”</p>
-											</blockquote>
-										</div>
-										<div class="pbminfotech-box-author">
-											<div class="pbminfotech-box-img">
-												<div class="pbmit-featured-img-wrapper">
-													<div class="pbmit-featured-wrapper">
-														<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-03.jpg" class="img-fluid" alt="">
+								</article>
+								<!-- Slide2 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“My hair was feeling rough &amp; dry from all the heat styling. I tried a treatment at Glamr and the difference was amazing. My hair feels healthier, looks shinier, and I’m getting compliments left and right. I’m definitely coming back for regular.”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-02.jpg" class="img-fluid" alt="">
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="pbmit-auther-content">
-												<h3 class="pbminfotech-box-title">Amelia Brown</h3>
-												<div class="pbminfotech-testimonial-detail">Lead Supervisor</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Jennifer Taylor</h3>
+													<div class="pbminfotech-testimonial-detail">Manager</div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</article>
-							<!-- Slide4 -->
-							<article class="pbmit-testimonial-style-2 swiper-slide">
-								<div class="pbminfotech-post-item">
-									<div class="pbmit-box-content-wrap">
-										<div class="pbminfotech-box-star-ratings">
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-											<i class="pbmit-base-icon-star-1 pbmit-active"></i>
-										</div>
-										<div class="pbminfotech-box-desc">
-											<blockquote class="pbminfotech-testimonial-text">
-												<p>“I came in with a color that just didn’t work for me, and they fixed it beautifully. The tone is spot-on, the application was seamless, and my hair still feels great. Couldn’t be happier with how it turned out—definitely exceeded my expectations.”</p>
-											</blockquote>
-										</div>
-										<div class="pbminfotech-box-author">
-											<div class="pbminfotech-box-img">
-												<div class="pbmit-featured-img-wrapper">
-													<div class="pbmit-featured-wrapper">
-														<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-04.jpg" class="img-fluid" alt="">
+								</article>
+								<!-- Slide3 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“Finding someone who knows how to cut hair <em data-start="429" data-end="435">well</em> is harder than it should be. Glamr took the time to really understand what I wanted, and the result was precise, flattering, and super easy to maintain. I’m loving my fresh cut every day.”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-03.jpg" class="img-fluid" alt="">
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="pbmit-auther-content">
-												<h3 class="pbminfotech-box-title">Ronald Benson</h3>
-												<div class="pbminfotech-testimonial-detail">Manager</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Amelia Brown</h3>
+													<div class="pbminfotech-testimonial-detail">Lead Supervisor</div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</article>
+								</article>
+								<!-- Slide4 -->
+								<article class="pbmit-testimonial-style-2 swiper-slide">
+									<div class="pbminfotech-post-item">
+										<div class="pbmit-box-content-wrap">
+											<div class="pbminfotech-box-star-ratings">
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+												<i class="pbmit-base-icon-star-1 pbmit-active"></i>
+											</div>
+											<div class="pbminfotech-box-desc">
+												<blockquote class="pbminfotech-testimonial-text">
+													<p>“I came in with a color that just didn’t work for me, and they fixed it beautifully. The tone is spot-on, the application was seamless, and my hair still feels great. Couldn’t be happier with how it turned out—definitely exceeded my expectations.”</p>
+												</blockquote>
+											</div>
+											<div class="pbminfotech-box-author">
+												<div class="pbminfotech-box-img">
+													<div class="pbmit-featured-img-wrapper">
+														<div class="pbmit-featured-wrapper">
+															<img src="<?= $asset_url ?>images/demo-1/testimonial/tesimonial-04.jpg" class="img-fluid" alt="">
+														</div>
+													</div>
+												</div>
+												<div class="pbmit-auther-content">
+													<h3 class="pbminfotech-box-title">Ronald Benson</h3>
+													<div class="pbminfotech-testimonial-detail">Manager</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>
@@ -1304,8 +1230,118 @@ $site_fav = $site_fav_url;
 			</section>
 			<!-- Fid End -->
 
+			<!-- Faq Start -->
+			<section class="section-lg faq-section" id="faq">
+				<div class="container">
+					<div class="pbmit-heading-subheading text-center">
+						<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'faq_header', 'tagline', 'Frequently Asked Questions')) ?></h4>
+						<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'faq_header', 'title', 'Find Answers to Common Questions')) ?></h2>
+					</div>
+					<div class="row justify-content-center pt-3">
+						<div class="col-lg-10">
+							<div class="accordion" id="accordionExample">
+								<?php if (!empty($tpl_faqs)): ?>
+									<?php $f_idx = 0; foreach ($tpl_faqs as $f_item): $f_idx++; ?>
+										<div class="accordion-item <?= $f_idx === 1 ? 'active' : '' ?>">
+											<h2 class="accordion-header" id="heading_faq_<?= $f_idx ?>">
+												<button class="accordion-button <?= $f_idx === 1 ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_faq_<?= $f_idx ?>" aria-expanded="<?= $f_idx === 1 ? 'true' : 'false' ?>" aria-controls="collapse_faq_<?= $f_idx ?>">
+													<span class="pbmit-accordion-title">
+														<span>Q<?= $f_idx ?> :</span><?= htmlspecialchars($f_item->question) ?>
+													</span>
+													<span class="pbmit-accordion-icon">
+														<span class="pbmit-accordion-icon-opened">
+															<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+														</span>
+														<span class="pbmit-accordion-icon-closed">
+															<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+														</span>
+													</span>
+												</button>
+											</h2> 
+											<div id="collapse_faq_<?= $f_idx ?>" class="accordion-collapse collapse <?= $f_idx === 1 ? 'show' : '' ?>" role="region" aria-labelledby="heading_faq_<?= $f_idx ?>" data-bs-parent="#accordionExample">
+												<div class="accordion-body">
+													<p><?= nl2br(htmlspecialchars($f_item->answer)) ?></p>
+												</div>
+											</div>                         
+										</div>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<div class="accordion-item active">
+										<h2 class="accordion-header" id="headingOne">
+											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												<span class="pbmit-accordion-title">
+													<span>Q1 :</span>How do I choose the right salon service for my hair or skin?
+												</span>
+												<span class="pbmit-accordion-icon">
+													<span class="pbmit-accordion-icon-opened">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+													<span class="pbmit-accordion-icon-closed">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+												</span>
+											</button>
+										</h2> 
+										<div id="collapseOne" class="accordion-collapse collapse show" role="region" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+											<div class="accordion-body">
+												<p>We recommend a consultation where our specialists assess your hair or skin type, discuss your goals, and recommend the best treatment tailored just for you.</p>
+											</div>
+										</div>                         
+									</div>        
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingTwo">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												<span class="pbmit-accordion-title">
+													<span>Q2 :</span>Do you offer consultations before hair coloring or major styling?
+												</span>
+												<span class="pbmit-accordion-icon">
+													<span class="pbmit-accordion-icon-opened">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+													<span class="pbmit-accordion-icon-closed">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+												</span>
+											</button>
+										</h2> 
+										<div id="collapseTwo" class="accordion-collapse collapse" role="region" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+											<div class="accordion-body">
+												<p>Salon tasks include hairstyling, cutting, and coloring, as well as providing skincare treatments, makeup services, manicures, and pedicures. Team members also assist in setting up beauty stations for you.</p>
+											</div>
+										</div>                         
+									</div> 
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingThree">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+												<span class="pbmit-accordion-title">
+													<span>Q3 :</span>Do I need to book an appointment in advance?
+												</span>
+												<span class="pbmit-accordion-icon">
+													<span class="pbmit-accordion-icon-opened">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-minus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+													<span class="pbmit-accordion-icon-closed">
+														<svg aria-hidden="true" class="e-font-icon-svg e-fas-plus" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+													</span>
+												</span>
+											</button>
+										</h2> 
+										<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" role="region" data-bs-parent="#accordionExample">
+											<div class="accordion-body">
+												<p>Salon tasks include hairstyling, cutting, and coloring, as well as providing skincare treatments, makeup services, manicures, and pedicures. Team members also assist in setting up beauty stations for you.</p>
+											</div>
+										</div>                         
+									</div>        
+								<?php endif; ?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Faq End -->
+
 			<!-- Appointment start -->
-			<section class="section-lgt">
+			<section class="section-lgt" id="booking">
 				<div class="container-fluid p-0">
 					<div class="row g-0">
 						<div class="col-md-5 appointment-one-left-col"></div>
@@ -1315,52 +1351,64 @@ $site_fav = $site_fav_url;
 									<h4 class="pbmit-subtitle">Book your visit</h4>
 									<h2 class="pbmit-title">find available <br> date for appointment</h2>
 								</div>
-								<form class="contact-form" method="post" id="contact-form" action="#">
+								<form class="contact-form-validated appointment-one__form" action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
 									<div class="row">
-										<div class="col-md-12 col-lg-6">
-											<label>Service Category</label>
-											<select class="form-select" name="select-category" required>
-												<option value="">— Any —</option>
-												<option value="uncategorized">Uncategorized</option>
-											</select>
+										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
+											<div class="appointment-one__input-box">
+												<input type="text" name="name" class="form-control" placeholder="Full Name *" required="" aria-required="true" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											</div>
 										</div>
-										<div class="col-md-12 col-lg-6">
-											<label>Service <strong><abbr title="Required">*</abbr></strong></label>
-											<select class="form-select" name="select-service" required>
-												<option value="">— Select —</option>
-												<option value="hair-color">Hair Color</option>
-												<option value="hair-cutting">Hair Cutting</option>
-												<option value="hair-treatments">Hair Treatments</option>
-												<option value="massages">Massages</option>
-												<option value="hair-styling">Hair Styling</option>
-											</select>
+										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
+											<div class="appointment-one__input-box">
+												<input type="email" name="email" class="form-control" placeholder="Your Email *" required="" aria-required="true" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											</div>
 										</div>
-										<div class="col-md-12 col-lg-6">
-											<label>Location</label>
-											<select class="form-select" name="select-location" required>
-												<option value="">— Any —</option>
-												<option value="helly">Helly 123 Main St Anytown, CA 91234 USA</option>
-												<option value="charlie">Charlie 224 Main St Anytown, CA 51234 USA</option>
-												<option value="emily">Emily 314 Main St Anytown, CA 32143 USA</option>
-												<option value="tracy">Tracy 231 Main St Anytown, CA 23341 USA</option>
-												<option value="mason">Mason 225 Main St Anytown, CA 421341 USA</option>
-											</select>
+										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
+											<div class="appointment-one__input-box">
+												<input type="text" name="phone" class="form-control" placeholder="Phone Number *" required="" aria-required="true" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											</div>
 										</div>
-										<div class="col-md-12 col-lg-6">
-											<label>Employee</label>
-											<select class="form-select" name="select-employee" required>
-												<option value="">— Any —</option>
-												<option value="charlie">Charlie</option>
-											</select>
+										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
+											<div class="appointment-one__input-box">
+												<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control hasDatepicker" required="" aria-required="true" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											</div>
+										</div>
+										<div class="col-xl-12 mb-3">
+											<div class="appointment-one__input-box">
+												<div class="select-box">
+													<select class="form-select selectmenu wide" name="service" required="" aria-required="true" style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+														<option value="" disabled="" selected="selected">Select Service *</option>
+														<?php if (!empty($tpl_services)): ?>
+															<?php foreach ($tpl_services as $s): ?>
+																<option value="<?= htmlspecialchars($s->title) ?>" style="background: #111; color: #fff;"><?= htmlspecialchars($s->title) ?></option>
+															<?php endforeach; ?>
+														<?php else: ?>
+															<option value="Deep Cleansing Facial" style="background: #111; color: #fff;">Deep Cleansing Facial</option>
+															<option value="Skin Brightening Ritual" style="background: #111; color: #fff;">Skin Brightening Ritual</option>
+															<option value="Acne &amp; Blemish Treatment" style="background: #111; color: #fff;">Acne &amp; Blemish Treatment</option>
+															<option value="Hydrating Glow Therapy" style="background: #111; color: #fff;">Hydrating Glow Therapy</option>
+															<option value="Detox &amp; Lymphatic Drainage" style="background: #111; color: #fff;">Detox &amp; Lymphatic Drainage</option>
+															<option value="Sensitive Skin Calming Care" style="background: #111; color: #fff;">Sensitive Skin Calming Care</option>
+														<?php endif; ?>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-xl-12 mb-3">
+											<div class="appointment-one__input-box text-message-box">
+												<textarea name="message" class="form-control" placeholder="Your Message *" required="" aria-required="true" rows="4" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;"></textarea>
+											</div>
+										</div>
+										<div class="col-xl-12">
+											<div class="appointment-one__btn-box">
+												<button type="submit" class="pbmit-btn thm-btn">
+													<span class="pbmit-button-text">Book Now</span>
+													<span class="fas fa-arrow-right ms-2"></span>
+												</button>
+											</div>
 										</div>
 									</div>
-									<button class="pbmit-btn">
-										<span class="pbmit-button-text">Next</span>
-										<span class="form-btn-loader d-none">
-											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><circle fill="#fff" stroke="#fff" stroke-width="15" r="15" cx="40" cy="50"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#fff" stroke="#fff" stroke-width="15" r="15" cx="100" cy="50"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#fff" stroke="#fff" stroke-width="15" r="15" cx="160" cy="50"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>
-										</span>
-									</button>
-									<div class="col-md-12 col-lg-12 message-status"></div>
+									<div class="result mt-3"></div>
 								</form>
 								<div class="effect-img" data-aos="fade-left" data-aos-duration="800">
 									<img src="<?= $asset_url ?>images/effect.png" alt="">
@@ -1370,10 +1418,10 @@ $site_fav = $site_fav_url;
 					</div>
 				</div>
 			</section>
-			<!-- Appointment start -->
+			<!-- Appointment End -->
 
 			<!-- Blog Start -->
-			<section class="blog-section-one animation animated fade">
+			<section class="blog-section-one animation animated fade" id="blog">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12 col-lg-4">
