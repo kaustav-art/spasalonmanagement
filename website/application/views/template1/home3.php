@@ -532,127 +532,6 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 			</section>
 			<!-- Marquee Start -->
 
-			<!-- Portfolio Start --> 
-            <section class="section-xxl" data-aos="fade-up" data-aos-duration="900">
-				<div class="container">
-					<div class="row pbmit-column-two">
-						<article class="pbmit-portfolio-style-2 col-md-6">
-							<div class="pbminfotech-post-content">
-								<div class="pbmit-image-wrapper">
-									<div class="pbmit-featured-img-wrapper">
-										<div class="pbmit-featured-wrapper">
-											<img src="<?= $asset_url ?>images/demo-3/portfolio/portfolio-01.jpg" class="img-fluid" alt="">
-										</div>
-									</div>
-								</div>
-								<div class="pbminfotech-box-content">
-									<div class="pbminfotech-titlebox">
-										<div class="pbmit-port-cat">
-											<a href="#" rel="tag">Coloring</a>
-										</div>
-										<h3 class="pbmit-portfolio-title">
-											<a href="#">Color & Style</a>
-										</h3>
-									</div>
-									<div class="pbmit-portfolio-button">
-										<a class="pbmit-portfolio-btn" href="#" title="Color & Style">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-								<a class="pbmit-link" href="#" title="Go to Color & Style"></a>
-							</div>
-						</article>
-						<article class="pbmit-portfolio-style-2 col-md-6">
-							<div class="pbminfotech-post-content">
-								<div class="pbmit-image-wrapper">
-									<div class="pbmit-featured-img-wrapper">
-										<div class="pbmit-featured-wrapper">
-											<img src="<?= $asset_url ?>images/demo-3/portfolio/portfolio-02.jpg" class="img-fluid" alt="">
-										</div>
-									</div>
-								</div>
-								<div class="pbminfotech-box-content">
-									<div class="pbminfotech-titlebox">
-										<div class="pbmit-port-cat">
-											<a href="#" rel="tag">Hair Spa</a>
-										</div>
-										<h3 class="pbmit-portfolio-title">
-											<a href="#">Deep Cleansing</a>
-										</h3>
-									</div>
-									<div class="pbmit-portfolio-button">
-										<a class="pbmit-portfolio-btn" href="#" title="Deep Cleansing">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-								<a class="pbmit-link" href="#" title="Go to Deep Cleansing"></a>
-							</div>
-						</article>
-						<article class="pbmit-portfolio-style-2 col-md-6">
-							<div class="pbminfotech-post-content">
-								<div class="pbmit-image-wrapper">
-									<div class="pbmit-featured-img-wrapper">
-										<div class="pbmit-featured-wrapper">
-											<img src="<?= $asset_url ?>images/demo-3/portfolio/portfolio-03.jpg" class="img-fluid" alt="">
-										</div>
-									</div>
-								</div>
-								<div class="pbminfotech-box-content">
-									<div class="pbminfotech-titlebox">
-										<div class="pbmit-port-cat">
-											<a href="#" rel="tag">Treatment</a>
-										</div>
-										<h3 class="pbmit-portfolio-title">
-											<a href="#">Scalp Treatments</a>
-										</h3>
-									</div>
-									<div class="pbmit-portfolio-button">
-										<a class="pbmit-portfolio-btn" href="#" title="Scalp Treatments">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-								<a class="pbmit-link" href="#" title="Go to Scalp Treatments"></a>
-							</div>
-						</article>
-						<article class="pbmit-portfolio-style-2 col-md-6">
-							<div class="pbminfotech-post-content">
-								<div class="pbmit-image-wrapper">
-									<div class="pbmit-featured-img-wrapper">
-										<div class="pbmit-featured-wrapper">
-											<img src="<?= $asset_url ?>images/demo-3/portfolio/portfolio-04.jpg" class="img-fluid" alt="">
-										</div>
-									</div>
-								</div>
-								<div class="pbminfotech-box-content">
-									<div class="pbminfotech-titlebox">
-										<div class="pbmit-port-cat">
-											<a href="#" rel="tag">Highlights</a>
-										</div>
-										<h3 class="pbmit-portfolio-title">
-											<a href="#">Face Framing</a>
-										</h3>
-									</div>
-									<div class="pbmit-portfolio-button">
-										<a class="pbmit-portfolio-btn" href="#" title="Face Framing">
-											<span class="pbmit-button-icon"></span>
-										</a>
-									</div>
-								</div>
-								<a class="pbmit-link" href="#" title="Go to Face Framing"></a>
-							</div>
-						</article>						
-					</div>
-					<div class="text-center mt-md-5">
-						<a href="#" class="pbmit-btn">
-							<span class="pbmit-button-text">View All work</span>
-						</a>
-					</div>
-				</div>
-            </section>
-            <!-- Portfolio End -->
 
 			<!-- Client Start --> 
 			<section class="animation animated fade">
@@ -976,7 +855,6 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 										</div>
 									</div>
 								</div>
-								<a class="pbmit-link" href="<?= $b_url ?>" title="<?= htmlspecialchars($b_item->title) ?>"></a>
 							</article>
 							<?php endforeach; ?>
 						<?php else: ?>
@@ -1018,7 +896,6 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 										</div>
 									</div>
 								</div>
-								<a class="pbmit-link" href="<?= website_url('blog/anti-losing-hair-care-products' . $q_blog_param) ?>" title="Go to The most effective anti-losing hair care products"></a>
 							</article>
 							<article class="pbmit-blog-style-3 col-md-12">
 								<div class="post-item">
@@ -1058,7 +935,6 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 										</div>
 									</div>
 								</div>
-								<a class="pbmit-link" href="<?= website_url('blog/main-challenge-bleached-hair' . $q_blog_param) ?>" title="Go to What’s the main challenge for bleached hair?"></a>
 							</article>
 						<?php endif; ?>
 					</div>
