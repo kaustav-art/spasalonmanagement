@@ -1362,13 +1362,10 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                             </div>
                         </div>
 
-                        <!-- Source Code Download & Return -->
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
-                            <a id="hubDownloadLink" href="#" class="btn btn-outline-custom">
-                                <i class="fa-solid fa-download me-2"></i> Download Clean Source Package (.zip)
-                            </a>
+                        <!-- Return to Home -->
+                        <div class="d-flex justify-content-end align-items-center flex-wrap gap-2 pt-2">
                             <a href="index.php" class="btn btn-gold px-4 fw-bold">
-                                <i class="fa fa-home me-2"></i> Return to Marketplace
+                                <i class="fa fa-home me-2"></i> Return to Home
                             </a>
                         </div>
                     </div>
@@ -2359,7 +2356,8 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
                     document.getElementById('hubDbName').textContent = data.db_name;
                 }
                 if (data.download_url) {
-                    document.getElementById('hubDownloadLink').href = data.download_url;
+                    const dl = document.getElementById('hubDownloadLink');
+                    if (dl) dl.href = data.download_url;
                 }
 
                 // Mark all wizard nodes as completed
@@ -2488,8 +2486,8 @@ if (isset($_GET['stripe_success']) && !empty($_GET['session_id'])) {
 
                         document.getElementById('hubAdminEmail').textContent = data.admin_email;
                         document.getElementById('hubAdminPass').textContent = data.admin_password;
-                        document.getElementById('hubDbName').textContent = data.db_name;
-                        document.getElementById('hubDownloadLink').href = data.download_url;
+                        const dl2 = document.getElementById('hubDownloadLink');
+                        if (dl2 && data.download_url) dl2.href = data.download_url;
 
                         // Mark all steps as complete
                         for (let i = 1; i <= 5; i++) {
