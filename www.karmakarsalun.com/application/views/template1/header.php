@@ -53,6 +53,50 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
     <link rel="stylesheet" href="<?= $asset_url ?>css/base.css">
     <link rel="stylesheet" href="<?= $asset_url ?>css/style.css">
     <link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.min.css">
+    <link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.dark.min.css">
+    <style>
+    .flatpickr-calendar.dark {
+        background: #1c1c1c !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8) !important;
+        border-radius: 8px !important;
+        z-index: 99999 !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-months {
+        background: #151515 !important;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 6px 0;
+    }
+    .flatpickr-calendar.dark .flatpickr-current-month input.cur-year {
+        color: #d4af37 !important;
+        font-weight: 700 !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-weekday {
+        color: #d4af37 !important;
+        font-weight: 600 !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-day.today {
+        border-color: #d4af37 !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-day.selected,
+    .flatpickr-calendar.dark .flatpickr-day.selected:hover {
+        background: #d4af37 !important;
+        border-color: #d4af37 !important;
+        color: #111 !important;
+        font-weight: bold !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
+        background: rgba(212, 175, 55, 0.2) !important;
+        color: #fff !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-prev-month svg,
+    .flatpickr-calendar.dark .flatpickr-next-month svg {
+        fill: #d4af37 !important;
+    }
+    </style>
 
     <?php if ($curr_layout == 2): ?>
     <style>

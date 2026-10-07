@@ -54,6 +54,50 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 		<link rel="stylesheet" href="<?= $asset_url ?>css/style.css">
 		<!-- Responsive CSS -->
 		<link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css">
+		<!-- Flatpickr CSS -->
+		<link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.min.css">
+		<link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.dark.min.css">
+		<style>
+		.flatpickr-calendar.dark {
+			background: #1c1c1c !important;
+			border: 1px solid rgba(255, 255, 255, 0.15) !important;
+			box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8) !important;
+			border-radius: 8px !important;
+			z-index: 99999 !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-months {
+			background: #151515 !important;
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+			padding: 6px 0;
+		}
+		.flatpickr-calendar.dark .flatpickr-current-month input.cur-year {
+			color: #d4af37 !important;
+			font-weight: 700 !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-weekday {
+			color: #d4af37 !important;
+			font-weight: 600 !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-day.today {
+			border-color: #d4af37 !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-day.selected,
+		.flatpickr-calendar.dark .flatpickr-day.selected:hover {
+			background: #d4af37 !important;
+			border-color: #d4af37 !important;
+			color: #111 !important;
+			font-weight: bold !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
+			background: rgba(212, 175, 55, 0.2) !important;
+			color: #fff !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-prev-month svg,
+		.flatpickr-calendar.dark .flatpickr-next-month svg {
+			fill: #d4af37 !important;
+		}
+		</style>
 	</head>
 	<body>
 
@@ -1234,6 +1278,21 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 									<h4 class="pbmit-subtitle">Book your visit</h4>
 									<h2 class="pbmit-title">find available <br> date for appointment</h2>
 								</div>
+								<?php if ($this->session->flashdata('success')): ?>
+									<div class="alert alert-success d-flex align-items-start gap-3 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+										<i class="fas fa-check-circle fs-3 text-success mt-1"></i>
+										<div>
+											<h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
+											<p class="mb-0 text-white fs-14px"><?= $this->session->flashdata('success') ?></p>
+										</div>
+									</div>
+								<?php endif; ?>
+								<?php if ($this->session->flashdata('error')): ?>
+									<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+										<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+										<div class="text-white fs-14px"><?= $this->session->flashdata('error') ?></div>
+									</div>
+								<?php endif; ?>
 								<form class="contact-form-validated appointment-one__form" action="<?= website_url('booking/quick_submit') ?>" method="post" novalidate="novalidate">
 									<div class="row">
 										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
@@ -1252,8 +1311,9 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 											</div>
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
-											<div class="appointment-one__input-box">
-												<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control hasDatepicker" required="" aria-required="true" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+											<div class="appointment-one__input-box position-relative">
+												<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required="" aria-required="true" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
+												<i class="far fa-calendar-alt position-absolute" style="right: 18px; top: 50%; transform: translateY(-50%); color: #d4af37; pointer-events: none; font-size: 16px;"></i>
 											</div>
 										</div>
 										<div class="col-xl-12 mb-3">
@@ -1662,6 +1722,111 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 	<script src="<?= $asset_url ?>js/jquery-validate/jquery.validate.min.js"></script>
 	<!-- Scripts JS -->
 	<script src="<?= $asset_url ?>js/scripts.js"></script>
+	<!-- Flatpickr JS -->
+	<script src="<?= $asset_url ?>js/flatpickr.min.js"></script>
+
+	<!-- Online Booking Form AJAX Handler & Datepicker Initialization -->
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Initialize Flatpickr Dark Datepicker
+		if (typeof flatpickr !== 'undefined') {
+			flatpickr("#datepicker, .datepicker", {
+				theme: "dark",
+				minDate: "today",
+				dateFormat: "Y-m-d",
+				altInput: true,
+				altFormat: "F j, Y",
+				defaultDate: "today",
+				disableMobile: true,
+				allowInput: false
+			});
+		}
+
+		var bookingForm = document.querySelector('.appointment-one__form');
+		if (bookingForm) {
+			bookingForm.addEventListener('submit', function(e) {
+				e.preventDefault();
+				var resultBox = bookingForm.querySelector('.result');
+				var submitBtn = bookingForm.querySelector('button[type="submit"]');
+				var origBtnHtml = submitBtn.innerHTML;
+
+				if (resultBox) resultBox.innerHTML = '';
+				submitBtn.disabled = true;
+				submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Booking Your Visit...';
+
+				var formData = new FormData(bookingForm);
+				formData.append('is_ajax', '1');
+
+				fetch(bookingForm.action, {
+					method: 'POST',
+					body: formData,
+					headers: {
+						'X-Requested-With': 'XMLHttpRequest'
+					}
+				})
+				.then(function(res) {
+					return res.json().then(function(data) {
+						return { ok: res.ok, data: data };
+					}).catch(function() {
+						return res.text().then(function(text) {
+							return { ok: res.ok, data: { message: text } };
+						});
+					});
+				})
+				.then(function(res) {
+					submitBtn.disabled = false;
+					submitBtn.innerHTML = origBtnHtml;
+
+					if (res.ok && res.data.status !== 'error') {
+						if (resultBox) {
+							resultBox.innerHTML = `
+								<div class="alert alert-success d-flex align-items-start gap-3 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+									<i class="fas fa-check-circle fs-3 text-success mt-1"></i>
+									<div>
+										<h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
+										<p class="mb-0 text-white fs-14px">${res.data.message}</p>
+									</div>
+								</div>`;
+							resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+						}
+						bookingForm.reset();
+						var fpElem = document.querySelector('#datepicker');
+						if (fpElem && fpElem._flatpickr) {
+							fpElem._flatpickr.setDate(new Date());
+						}
+					} else {
+						var errText = (res.data && res.data.message) ? res.data.message : 'Something went wrong. Please check your information and try again.';
+						if (resultBox) {
+							resultBox.innerHTML = `
+								<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+									<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+									<div class="text-white fs-14px">${errText}</div>
+								</div>`;
+						}
+					}
+				})
+				.catch(function(err) {
+					submitBtn.disabled = false;
+					submitBtn.innerHTML = origBtnHtml;
+					if (resultBox) {
+						resultBox.innerHTML = `
+							<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+								<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+								<div class="text-white fs-14px">Network connection error. Please try again.</div>
+							</div>`;
+					}
+				});
+			});
+		}
+
+		<?php if ($this->session->flashdata('success') || $this->session->flashdata('error')): ?>
+		var bookingSection = document.querySelector('.appointment-one-right-box') || document.querySelector('.appointment-one__form');
+		if (bookingSection) {
+			bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+		<?php endif; ?>
+	});
+	</script>
 	
 	</body>
 

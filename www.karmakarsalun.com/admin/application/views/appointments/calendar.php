@@ -418,7 +418,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Links
             document.getElementById('modalViewDetailsBtn').href = props.view_url || '#';
-            document.getElementById('modalPosCheckoutBtn').href = props.pos_url || '#';
+            var posBtn = document.getElementById('modalPosCheckoutBtn');
+            if (posBtn) {
+                if (props.status === 'completed' || props.status === 'cancelled') {
+                    posBtn.style.display = 'none';
+                } else {
+                    posBtn.style.display = 'inline-block';
+                    posBtn.href = props.pos_url || '#';
+                }
+            }
 
             // Show Modal
             detailModal.show();

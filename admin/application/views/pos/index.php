@@ -104,7 +104,7 @@
                 </div>
 
                 <?php if ($linked_appointment): ?>
-                    <div class="mt-3 p-2 bg-label-primary rounded-3 fz-12px d-flex align-items-center justify-content-between">
+                    <div id="linkedAppointmentBanner" class="mt-3 p-2 bg-label-primary rounded-3 fz-12px d-flex align-items-center justify-content-between">
                         <span><i class="fa-solid fa-link me-1"></i> Linked Appointment: <strong><?= $linked_appointment->appointment_number ?></strong></span>
                         <input type="hidden" id="linkedAppointmentId" value="<?= $linked_appointment->id ?>">
                     </div>
@@ -339,6 +339,17 @@ function removeFromCart(index) {
 function clearCart() {
     cart = [];
     renderCart();
+    var cust = document.getElementById('posCustomer');
+    if (cust) cust.value = '';
+    var linkedApt = document.getElementById('linkedAppointmentId');
+    if (linkedApt) linkedApt.value = '';
+    var banner = document.getElementById('linkedAppointmentBanner');
+    if (banner) banner.remove();
+    var discInput = document.getElementById('discountInput');
+    if (discInput) discInput.value = 0;
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, "<?= admin_url('pos') ?>");
+    }
 }
 
 function renderCart() {
@@ -489,6 +500,9 @@ function processCheckout() {
     .then(res => res.json())
     .then(data => {
         if (data.status) {
+            if (window.history && window.history.replaceState) {
+                window.history.replaceState({}, document.title, "<?= admin_url('pos') ?>");
+            }
             Swal.fire({
                 icon: 'success',
                 title: 'Sale Completed!',
@@ -500,9 +514,7 @@ function processCheckout() {
                 if (result.isConfirmed) {
                     window.open(data.receipt_url, '_blank');
                 }
-                clearCart();
-                bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
-                document.getElementById('btnSubmitPayment').disabled = false;
+                window.location.href = "<?= admin_url('pos') ?>";
             });
         } else {
             Swal.fire('Error', data.message, 'error');

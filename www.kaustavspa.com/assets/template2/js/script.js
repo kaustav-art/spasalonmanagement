@@ -28,7 +28,15 @@
 
   // ===Datepicker===
   if ($("#datepicker").length) {
-    $("#datepicker").datepicker();
+    $("#datepicker").datepicker({
+      minDate: 0,
+      dateFormat: "yy-mm-dd",
+      changeMonth: true,
+      changeYear: true
+    });
+    $("#datepicker").on("click", function() {
+      $(this).datepicker("show");
+    });
   }
 
 

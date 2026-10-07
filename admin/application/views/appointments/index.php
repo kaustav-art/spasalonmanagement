@@ -137,12 +137,14 @@
                                                     </a>
                                                 </li>
                                             <?php endif; ?>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="<?= admin_url('appointments/change_status/' . $apt->id . '/cancelled') ?>" onclick="return confirm('Cancel this appointment?');">
-                                                    <i class="fa-solid fa-ban me-1"></i> Cancel Booking
-                                                </a>
-                                            </li>
+                                            <?php if (!in_array($apt->status, array('completed', 'cancelled'))): ?>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="<?= admin_url('appointments/change_status/' . $apt->id . '/cancelled') ?>" onclick="return confirm('Cancel this appointment?');">
+                                                        <i class="fa-solid fa-ban me-1"></i> Cancel Booking
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
                                         </ul>
                                     </div>
                                 </td>

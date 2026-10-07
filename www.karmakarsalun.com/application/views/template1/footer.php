@@ -202,6 +202,29 @@ if (isset($CI->db)) {
 	<script src='<?= $asset_url ?>js/theia-sticky-sidebar.js'></script>
 	<script src='<?= $asset_url ?>js/gsap-animation.js'></script>
 	<script src="<?= $asset_url ?>js/scripts.js"></script>
+	<!-- Flatpickr JS -->
+	<script src="<?= $asset_url ?>js/flatpickr.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		if (typeof flatpickr !== 'undefined') {
+			flatpickr("#datepicker, .datepicker, #booking_date", {
+				theme: "dark",
+				minDate: "today",
+				dateFormat: "Y-m-d",
+				altInput: true,
+				altFormat: "F j, Y",
+				defaultDate: "today",
+				disableMobile: true,
+				allowInput: false,
+				onChange: function(selectedDates, dateStr, instance) {
+					if (typeof loadTimeSlots === 'function') {
+						loadTimeSlots();
+					}
+				}
+			});
+		}
+	});
+	</script>
 
 </body>
 </html>

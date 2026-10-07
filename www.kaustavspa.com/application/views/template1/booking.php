@@ -23,6 +23,8 @@
 
                     <div class="card-body p-4 p-md-5">
 
+                        <div id="bookingSuccessAlert" class="d-none"></div>
+
                         <!-- Booking Form -->
                         <form id="bookingForm" onsubmit="submitBooking(event)">
 
@@ -56,7 +58,7 @@
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label text-muted small">Date of Visit <span class="text-warning">*</span></label>
-                                        <input type="date" name="booking_date" id="booking_date" class="form-control bg-black text-white border-secondary" value="<?= isset($_GET['date']) ? htmlspecialchars($_GET['date']) : date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>" required onchange="loadTimeSlots()">
+                                        <input type="date" name="booking_date" id="booking_date" class="form-control bg-black text-white border-secondary" value="<?= isset($_GET['date']) ? htmlspecialchars($_GET['date']) : date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>" required onchange="loadTimeSlots()" onclick="if(this.showPicker){this.showPicker();}" style="color-scheme: dark; cursor: pointer;">
                                     </div>
                                     <div class="col-md-6 d-flex align-items-end">
                                         <button type="button" class="btn btn-outline-secondary text-white w-100" onclick="loadTimeSlots()">
@@ -250,8 +252,34 @@ function submitBooking(e) {
             document.getElementById('modalTime').innerText = data.time;
             document.getElementById('modalTotal').innerText = data.total;
 
-            var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-            modal.show();
+            var alertBox = document.getElementById('bookingSuccessAlert');
+            if (alertBox) {
+                alertBox.innerHTML = `
+                    <div class="alert alert-success d-flex align-items-start gap-3 p-4 mb-4 rounded-3 shadow" style="background: rgba(34, 197, 94, 0.2); border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+                        <i class="fas fa-check-circle fs-2 text-success mt-1"></i>
+                        <div>
+                            <h4 class="fw-bold mb-1 text-white">Booking Confirmed! (Code: #${data.booking_code})</h4>
+                            <p class="mb-1 text-white fs-15px">${data.message}</p>
+                            <div class="mt-2 text-white-50 small">
+                                <strong>${data.service_name}</strong> on <strong>${data.date}</strong> at <strong>${data.time}</strong> (Estimated Total: <strong>${data.total}</strong>)
+                            </div>
+                        </div>
+                    </div>`;
+                alertBox.classList.remove('d-none');
+                alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            try {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                    modal.show();
+                } else if (typeof $ !== 'undefined' && typeof $.fn.modal === 'function') {
+                    $('#confirmationModal').modal('show');
+                }
+            } catch(e) {
+                console.log('Modal trigger fallback:', e);
+            }
+
             form.reset();
             document.getElementById('selected_start_time').value = '';
             loadTimeSlots();

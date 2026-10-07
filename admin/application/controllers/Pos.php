@@ -18,6 +18,15 @@ class Pos extends Admin_Controller {
         if ($appointment_id) {
             $apt = $this->db->get_where('appointments', array('id' => (int)$appointment_id))->row();
             if ($apt) {
+                // Check if appointment is already completed or invoiced
+                $existing_invoice = $this->db->get_where('invoices', array('appointment_id' => $apt->id))->row();
+                if ($apt->status === 'completed' || $existing_invoice) {
+                    $inv_info = $existing_invoice ? ' (Invoice #' . $existing_invoice->invoice_number . ')' : '';
+                    $this->session->set_flashdata('error', 'Appointment #' . $apt->appointment_number . ' has already been billed' . $inv_info . ' and completed.');
+                    redirect(admin_url('pos'));
+                    return;
+                }
+
                 $data['linked_appointment'] = $apt;
                 $data['preset_customer_id'] = $apt->customer_id;
                 $data['appointment_services'] = $this->db->get_where('appointment_services', array('appointment_id' => $apt->id))->result();
@@ -69,6 +78,16 @@ class Pos extends Admin_Controller {
             return;
         }
         $appointment_id = !empty($payload['appointment_id']) ? (int)$payload['appointment_id'] : NULL;
+        if ($appointment_id) {
+            $existing_invoice = $this->db->get_where('invoices', array('appointment_id' => $appointment_id))->row();
+            if ($existing_invoice) {
+                $this->json_response(array(
+                    'status' => false,
+                    'message' => 'This appointment has already been billed under invoice #' . $existing_invoice->invoice_number . '.'
+                ), 400);
+                return;
+            }
+        }
         $subtotal = (float)$payload['subtotal'];
         $discount_type = !empty($payload['discount_type']) ? $payload['discount_type'] : 'fixed';
         $discount_amount = (float)$payload['discount_amount'];

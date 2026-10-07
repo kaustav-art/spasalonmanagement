@@ -343,6 +343,28 @@ class Appointments extends Admin_Controller {
     public function change_status($id, $status) {
         $valid = array('pending', 'confirmed', 'in_service', 'completed', 'cancelled', 'no_show');
         if (in_array($status, $valid)) {
+            $appointment = $this->db->get_where('appointments', array('id' => (int)$id))->row();
+            if (!$appointment) {
+                $this->session->set_flashdata('error', 'Appointment not found.');
+                redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : admin_url('appointments'));
+                return;
+            }
+
+            // Completed booking cannot be cancelled or modified
+            if ($appointment->status === 'completed') {
+                $this->session->set_flashdata('error', 'Completed bookings cannot be cancelled or modified.');
+                redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : admin_url('appointments'));
+                return;
+            }
+
+            // Check if already invoiced
+            $has_invoice = $this->db->get_where('invoices', array('appointment_id' => $appointment->id))->row();
+            if ($has_invoice && $status === 'cancelled') {
+                $this->session->set_flashdata('error', 'Cannot cancel booking #' . $appointment->appointment_number . ' because it has already been invoiced.');
+                redirect($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : admin_url('appointments'));
+                return;
+            }
+
             $this->db->where('id', (int)$id)->update('appointments', array('status' => $status));
             $this->session->set_flashdata('success', 'Appointment status updated to ' . ucfirst(str_replace('_', ' ', $status)));
         }

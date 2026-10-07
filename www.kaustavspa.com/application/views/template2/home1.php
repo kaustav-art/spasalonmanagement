@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 if (!isset($asset_url)) {
     $asset_url = base_url('assets/template2/');
@@ -433,8 +433,8 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="appointment-one__input-box">
-                                                <input type="text" placeholder="Select Date *" name="date" id="datepicker" class="hasDatepicker" required="" aria-required="true">
-                                                <div class="appointment-one__input-box-icon">
+                                                <input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control" required="" aria-required="true" autocomplete="off" readonly="readonly" style="cursor: pointer; background: #fff;" onclick="if(window.jQuery&&$(this).datepicker){$(this).datepicker('show');}">
+                                                <div class="appointment-one__input-box-icon" style="pointer-events: none; cursor: pointer;">
                                                     <span class="icon-calendar"></span>
                                                 </div>
                                             </div>

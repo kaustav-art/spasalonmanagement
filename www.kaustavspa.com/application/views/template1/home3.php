@@ -81,6 +81,50 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
       <link rel="stylesheet" href="<?= $asset_url ?>css/style.css">
       <!-- Responsive CSS -->
       <link rel="stylesheet" href="<?= $asset_url ?>css/responsive.css">
+      <!-- Flatpickr CSS -->
+      <link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.min.css">
+      <link rel="stylesheet" href="<?= $asset_url ?>css/flatpickr.dark.min.css">
+      <style>
+      .flatpickr-calendar.dark {
+          background: #1c1c1c !important;
+          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8) !important;
+          border-radius: 8px !important;
+          z-index: 99999 !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-months {
+          background: #151515 !important;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          padding: 6px 0;
+      }
+      .flatpickr-calendar.dark .flatpickr-current-month input.cur-year {
+          color: #d4af37 !important;
+          font-weight: 700 !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-weekday {
+          color: #d4af37 !important;
+          font-weight: 600 !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-day.today {
+          border-color: #d4af37 !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-day.selected,
+      .flatpickr-calendar.dark .flatpickr-day.selected:hover {
+          background: #d4af37 !important;
+          border-color: #d4af37 !important;
+          color: #111 !important;
+          font-weight: bold !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
+          background: rgba(212, 175, 55, 0.2) !important;
+          color: #fff !important;
+      }
+      .flatpickr-calendar.dark .flatpickr-prev-month svg,
+      .flatpickr-calendar.dark .flatpickr-next-month svg {
+          fill: #d4af37 !important;
+      }
+      </style>
 
    </head>
    <body>
@@ -964,8 +1008,9 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 									<div class="col-md-6 mb-3">
 										<input type="tel" class="form-control" placeholder="Phone Number *" name="phone" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
 									</div>
-									<div class="col-md-6 mb-3">
-										<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control hasDatepicker" required onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
+									<div class="col-md-6 mb-3 position-relative">
+										<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
+										<i class="far fa-calendar-alt position-absolute" style="right: 25px; top: 50%; transform: translateY(-50%); color: #d4af37; pointer-events: none; font-size: 16px;"></i>
 									</div>
 									<div class="col-md-12 mb-3">
 										<select class="form-select" name="service" required style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
@@ -1182,6 +1227,24 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 	<script src='<?= $asset_url ?>js/gsap-animation.js'></script>
 	<!-- Scripts JS -->
 	<script src="<?= $asset_url ?>js/scripts.js"></script>
+	<!-- Flatpickr JS -->
+	<script src="<?= $asset_url ?>js/flatpickr.min.js"></script>
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		if (typeof flatpickr !== 'undefined') {
+			flatpickr("#datepicker, .datepicker", {
+				theme: "dark",
+				minDate: "today",
+				dateFormat: "Y-m-d",
+				altInput: true,
+				altFormat: "F j, Y",
+				defaultDate: "today",
+				disableMobile: true,
+				allowInput: false
+			});
+		}
+	});
+	</script>
 
    </body>
 

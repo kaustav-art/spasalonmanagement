@@ -124,6 +124,14 @@ $phone_cleaned = isset($business_phone) ? preg_replace('/[^0-9+]/', '', $busines
             border: 1px solid #e2e8f0;
             padding: 10px 14px;
         }
+
+        /* Datepicker overlay z-index and pointer events */
+        #ui-datepicker-div, .ui-datepicker {
+            z-index: 99999 !important;
+        }
+        .appointment-one__input-box-icon {
+            pointer-events: none !important;
+        }
     </style>
 </head>
 

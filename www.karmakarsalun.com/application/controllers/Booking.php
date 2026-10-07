@@ -321,9 +321,15 @@ class Booking extends Website_Controller {
 
         if (!empty($errors)) {
             $msg = implode(' ', $errors);
-            if ($this->input->is_ajax_request()) {
-                http_response_code(400);
-                echo $msg; exit;
+            if ($this->input->is_ajax_request() || $this->input->post('is_ajax')) {
+                $this->output
+                    ->set_status_header(400)
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(array(
+                        'status' => 'error',
+                        'message' => $msg
+                    )));
+                return;
             }
             $this->session->set_flashdata('error', $msg);
             redirect($_SERVER['HTTP_REFERER'] ?: website_url());
@@ -434,9 +440,18 @@ class Booking extends Website_Controller {
 
         $success_msg = "Thank you {$name}! Your appointment booking for {$service_name} on {$booking_date} has been received successfully. Booking Code: #{$appointment_number}. Our concierge will contact you shortly to confirm.";
 
-        if ($this->input->is_ajax_request()) {
-            echo $success_msg;
-            exit;
+        if ($this->input->is_ajax_request() || $this->input->post('is_ajax')) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array(
+                    'status' => 'success',
+                    'message' => $success_msg,
+                    'booking_code' => $appointment_number,
+                    'customer_name' => $name,
+                    'service_name' => $service_name,
+                    'booking_date' => $booking_date
+                )));
+            return;
         }
 
         $this->session->set_flashdata('success', $success_msg);

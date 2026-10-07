@@ -76,10 +76,10 @@
                                 <td><?= payment_status_badge($inv->payment_status) ?></td>
                                 <td class="text-end pe-4">
                                     <a href="<?= admin_url('sales/invoice/' . $inv->id) ?>" class="btn btn-xs btn-outline-primary me-1" title="View Printable A4 Invoice">
-                                        <i class="fa-solid fa-file-invoice"></i> A4
+                                        <i class="fa-solid fa-file-invoice me-1"></i> A4
                                     </a>
                                     <a href="<?= admin_url('sales/receipt/' . $inv->id) ?>" target="_blank" class="btn btn-xs btn-outline-dark" title="Print Thermal POS Receipt">
-                                        <i class="fa-solid fa-receipt"></i> Slip
+                                        <i class="fa-solid fa-receipt me-1"></i> Slip
                                     </a>
                                 </td>
                             </tr>
