@@ -5,6 +5,8 @@ class Staff extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
+        redirect(admin_url('appointments'));
+        exit;
     }
 
     /**

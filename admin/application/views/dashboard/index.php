@@ -367,10 +367,6 @@
                         <th class="ps-6">Appointment #</th>
                         <th>Time Slot</th>
                         <th>Customer</th>
-                        <th>Assigned Specialist</th>
-                        <?php if (is_spa_enabled()): ?>
-                            <th>Spa Room</th>
-                        <?php endif; ?>
                         <th>Amount</th>
                         <th>Status</th>
                         <th class="text-end pe-6">Actions</th>
@@ -407,26 +403,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <?php if ($apt->staff_name): ?>
-                                        <span class="badge badge-label-secondary rounded-pill px-3 py-1">
-                                            <i class="fa-regular fa-user me-1"></i> <?= html_escape($apt->staff_name) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="text-muted fz-13px">Any Specialist</span>
-                                    <?php endif; ?>
-                                </td>
-                                <?php if (is_spa_enabled()): ?>
-                                    <td>
-                                        <?php if ($apt->room_name): ?>
-                                            <span class="badge badge-label-info rounded-pill px-3 py-1">
-                                                <i class="fa-solid fa-door-open me-1"></i> <?= html_escape($apt->room_name) ?>
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="text-muted fz-13px">-</span>
-                                        <?php endif; ?>
-                                    </td>
-                                <?php endif; ?>
+
                                 <td>
                                     <span class="fw-bold text-dark fz-14px"><?= format_currency($apt->final_amount) ?></span>
                                 </td>
@@ -480,7 +457,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="<?= is_spa_enabled() ? '8' : '7' ?>" class="text-center py-6 text-muted">
+                            <td colspan="6" class="text-center py-6 text-muted">
                                 <div class="btn-icon bg-label-primary rounded-pill btn-lg mb-3 mx-auto">
                                     <i class="fa-regular fa-calendar-check fs-4"></i>
                                 </div>
@@ -634,42 +611,7 @@
             </div>
         </div>
 
-        <!-- Top Staff Specialists Card -->
-        <?php if (!empty($top_staff)): ?>
-            <div class="pure-card rounded-custom card-bg shadow-custom">
-                <div class="pure-card-header d-flex align-items-center justify-content-between gap-4">
-                    <h3 class="pure-card-title d-flex align-items-center gap-2 m-0">
-                        <span class="text-primary d-flex align-items-center">
-                            <i class="fa-solid fa-star text-warning"></i>
-                        </span>
-                        <span>Top Specialists</span>
-                    </h3>
-                    <a href="<?= admin_url('staff') ?>" class="btn btn-xs btn-outline-secondary rounded-pill">Team</a>
-                </div>
-                <div class="pure-card-body px-6 py-4">
-                    <div class="d-flex flex-column gap-3">
-                        <?php foreach ($top_staff as $st): ?>
-                            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 hover-bg-light">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="avatar avatar-md rounded-pill bg-label-primary d-flex align-items-center justify-content-center text-primary fw-bold" style="width: 40px; height: 40px;">
-                                        <?= strtoupper(substr($st->name, 0, 1)) ?>
-                                    </div>
-                                    <div>
-                                        <h5 class="h6 mb-0 fz-14px fw-semibold text-dark"><?= html_escape($st->name) ?></h5>
-                                        <span class="fz-12px text-muted"><?= html_escape(ucfirst($st->role_type ?: 'Specialist')) ?></span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span class="badge badge-label-primary rounded-pill px-3 py-1 fz-12px">
-                                        <?= $st->total_bookings ?> Bookings
-                                    </span>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
+
     </div>
 </div>
 

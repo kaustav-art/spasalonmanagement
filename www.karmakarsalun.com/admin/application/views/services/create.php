@@ -1,7 +1,7 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-7">
         <h4 class="fw-bold mb-1"><i class="fa-solid fa-plus text-primary me-2"></i> Add New Service</h4>
-        <p class="text-muted mb-0">Configure service pricing, session duration, tax, and room requirements.</p>
+        <p class="text-muted mb-0">Configure service pricing, session duration, and tax.</p>
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
         <a href="<?= admin_url('services') ?>" class="btn btn-outline-secondary">
@@ -52,22 +52,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6 d-flex align-items-center mt-4">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="requires_room" id="reqRoom" value="1">
-                                <label class="form-check-label fw-semibold" for="reqRoom">Requires Private Spa Treatment Room</label>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label fw-semibold">Assign Staff Qualified for this Service</label>
-                            <select name="staff_ids[]" class="form-select" multiple style="height: 110px;">
-                                <?php foreach ($staff_members as $st): ?>
-                                    <option value="<?= $st->id ?>"><?= html_escape($st->name) ?> (<?= ucfirst($st->role_type) ?>)</option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small class="text-muted fs-12px">Hold Ctrl (Cmd) to select multiple specialists.</small>
-                        </div>
+                        <input type="hidden" name="requires_room" value="0">
 
                         <div class="col-12">
                             <label class="form-label fw-semibold">Description / What's Included</label>

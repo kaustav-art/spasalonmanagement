@@ -1,7 +1,7 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-6">
         <h4 class="fw-bold mb-1"><i class="fas fa-calendar-check text-primary me-2"></i>Appointments & Booking Analytics</h4>
-        <p class="text-muted mb-0">Monitor online vs walk-in appointments, completion rates, and staff utilization.</p>
+        <p class="text-muted mb-0">Monitor online vs walk-in appointments, completion rates, and service revenue.</p>
     </div>
     <div class="col-md-6 text-md-end mt-3 mt-md-0">
         <button onclick="window.print()" class="btn btn-outline-secondary">
@@ -124,7 +124,7 @@
             <div class="avatar-md bg-primary-subtle text-primary rounded-circle mx-auto d-flex align-items-center justify-content-center mb-2" style="width: 48px; height: 48px;">
                 <i class="fas fa-user-shield fs-5"></i>
             </div>
-            <h6 class="text-muted small mb-1">Staff / Phone Bookings</h6>
+            <h6 class="text-muted small mb-1">Direct / In-store Bookings</h6>
             <h3 class="fw-bold text-dark mb-0"><?= $source_counts['admin'] ?></h3>
         </div>
     </div>
@@ -143,10 +143,6 @@
                         <th class="ps-3">Code</th>
                         <th>Date & Time</th>
                         <th>Client</th>
-                        <th>Assigned Staff</th>
-                        <?php if (is_spa_enabled()): ?>
-                            <th>Room</th>
-                        <?php endif; ?>
                         <th>Source</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -154,7 +150,7 @@
                 </thead>
                 <tbody>
                     <?php if (empty($appointments)): ?>
-                        <tr><td colspan="8" class="text-center py-4 text-muted">No appointments found for this period.</td></tr>
+                        <tr><td colspan="6" class="text-center py-4 text-muted">No appointments found for this period.</td></tr>
                     <?php else: ?>
                         <?php foreach ($appointments as $a): ?>
                         <tr>
@@ -164,10 +160,6 @@
                                 <small class="text-muted"><?= date('g:i A', strtotime($a->start_time)) ?> - <?= date('g:i A', strtotime($a->end_time)) ?></small>
                             </td>
                             <td><?= htmlspecialchars($a->customer_name ? $a->customer_name : 'Walk-in Guest') ?></td>
-                            <td><?= htmlspecialchars($a->staff_name ? $a->staff_name : 'Unassigned') ?></td>
-                            <?php if (is_spa_enabled()): ?>
-                                <td><?= htmlspecialchars($a->room_name ? $a->room_name : '—') ?></td>
-                            <?php endif; ?>
                             <td>
                                 <span class="badge bg-light text-dark border text-capitalize"><?= htmlspecialchars($a->booking_source) ?></span>
                             </td>

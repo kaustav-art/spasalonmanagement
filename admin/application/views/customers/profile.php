@@ -71,7 +71,6 @@
                             <tr>
                                 <th class="ps-4">Appt #</th>
                                 <th>Date & Time</th>
-                                <th>Specialist</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th class="text-end pe-4">Action</th>
@@ -83,7 +82,6 @@
                                     <tr>
                                         <td class="ps-4 fw-bold text-primary"><?= html_escape($apt->appointment_number) ?></td>
                                         <td><?= date('d M Y, h:i A', strtotime($apt->booking_date . ' ' . $apt->start_time)) ?></td>
-                                        <td><?= $apt->staff_name ? html_escape($apt->staff_name) : 'Any' ?></td>
                                         <td class="fw-bold"><?= format_currency($apt->final_amount) ?></td>
                                         <td><?= appointment_status_badge($apt->status) ?></td>
                                         <td class="text-end pe-4">
@@ -92,7 +90,7 @@
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="6" class="text-center py-4 text-muted">No appointments recorded yet.</td></tr>
+                                <tr><td colspan="5" class="text-center py-4 text-muted">No appointments recorded yet.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>

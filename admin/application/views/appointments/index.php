@@ -19,7 +19,7 @@
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body p-3">
         <form action="<?= admin_url('appointments') ?>" method="GET" class="row g-2 align-items-end">
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-4 col-sm-6">
                 <label class="form-label fs-13px fw-semibold mb-1">Status Filter</label>
                 <select name="status" class="form-select form-select-sm">
                     <option value="">All Statuses</option>
@@ -30,20 +30,11 @@
                     <option value="cancelled" <?= ($current_status === 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
                 </select>
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-4 col-sm-6">
                 <label class="form-label fs-13px fw-semibold mb-1">Date</label>
                 <input type="date" name="date" class="form-control form-control-sm" value="<?= html_escape($current_date) ?>">
             </div>
-            <div class="col-md-3 col-sm-6">
-                <label class="form-label fs-13px fw-semibold mb-1">Assigned Specialist</label>
-                <select name="staff_id" class="form-select form-select-sm">
-                    <option value="">All Staff</option>
-                    <?php foreach ($staff_members as $s): ?>
-                        <option value="<?= $s->id ?>" <?= ($current_staff == $s->id) ? 'selected' : '' ?>><?= html_escape($s->name) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-3 col-sm-6 d-flex gap-2">
+            <div class="col-md-4 col-sm-12 d-flex gap-2">
                 <button type="submit" class="btn btn-sm btn-primary w-100">
                     <i class="fa-solid fa-filter me-1"></i> Filter
                 </button>
@@ -63,10 +54,6 @@
                         <th class="ps-4">Appt #</th>
                         <th>Date & Time</th>
                         <th>Customer</th>
-                        <th>Specialist</th>
-                        <?php if (is_spa_enabled()): ?>
-                            <th>Room</th>
-                        <?php endif; ?>
                         <th>Source</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -90,14 +77,6 @@
                                     <div class="fw-semibold text-dark"><?= html_escape($apt->customer_name) ?></div>
                                     <small class="text-muted"><?= html_escape($apt->customer_phone) ?></small>
                                 </td>
-                                <td>
-                                    <?= $apt->staff_name ? '<span class="badge bg-light text-dark border">' . html_escape($apt->staff_name) . '</span>' : '<span class="text-muted">Any Specialist</span>' ?>
-                                </td>
-                                <?php if (is_spa_enabled()): ?>
-                                    <td>
-                                        <?= $apt->room_name ? '<span class="badge bg-info bg-opacity-10 text-info">' . html_escape($apt->room_name) . '</span>' : '<span class="text-muted">-</span>' ?>
-                                    </td>
-                                <?php endif; ?>
                                 <td>
                                     <span class="badge <?= ($apt->booking_source === 'online') ? 'bg-info' : 'bg-secondary' ?>">
                                         <?= ucfirst($apt->booking_source) ?>
@@ -150,7 +129,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="<?= is_spa_enabled() ? '9' : '8' ?>" class="text-center py-5 text-muted">
+                            <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="fa-regular fa-calendar-xmark fs-2 d-block mb-2 text-secondary"></i>
                                 <span class="fw-semibold">No appointments found.</span>
                                 <div class="mt-2">

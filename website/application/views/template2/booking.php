@@ -15,12 +15,12 @@
 
                     <form id="pureglowBookingForm" onsubmit="submitBooking(event)">
 
-                        <!-- Step 1: Service & Specialist -->
+                        <!-- Step 1: Service -->
                         <div class="mb-4">
-                            <h5 class="fw-bold mb-3" style="color: #b8865f;">1. Select Ritual & Practitioner</h5>
+                            <h5 class="fw-bold mb-3" style="color: #b8865f;">1. Select Ritual / Service</h5>
                             <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small">Choose Ritual <span class="text-danger">*</span></label>
+                                <div class="col-12">
+                                    <label class="form-label text-muted small">Choose Ritual / Service <span class="text-danger">*</span></label>
                                     <select name="service_id" id="service_id" class="form-select" required onchange="loadTimeSlots()">
                                         <option value="">Select a treatment...</option>
                                         <?php foreach ($services as $s): ?>
@@ -30,28 +30,8 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small">Specialist / Practitioner</label>
-                                    <select name="staff_id" id="staff_id" class="form-select" onchange="loadTimeSlots()">
-                                        <option value="0">Any Available Specialist</option>
-                                        <?php foreach ($staff as $st): ?>
-                                            <option value="<?= $st->id ?>" <?= (isset($_GET['staff_id']) && $_GET['staff_id'] == $st->id) ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($st->name) ?> (<?= ucfirst($st->role_type) ?> &bull; <?= $st->rating ?>★)
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <?php if (!empty($rooms)): ?>
-                                <div class="col-12">
-                                    <label class="form-label text-muted small">Treatment Suite</label>
-                                    <select name="room_id" id="room_id" class="form-select">
-                                        <option value="0">Concierge Assigned Suite</option>
-                                        <?php foreach ($rooms as $rm): ?>
-                                            <option value="<?= $rm->id ?>"><?= htmlspecialchars($rm->room_name) ?> (<?= htmlspecialchars($rm->room_type) ?>)</option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <?php endif; ?>
+                                <input type="hidden" name="staff_id" id="staff_id" value="0">
+                                <input type="hidden" name="room_id" id="room_id" value="0">
                             </div>
                         </div>
 
@@ -187,7 +167,7 @@ function loadTimeSlots() {
                 });
 
                 if (!hasAvailable) {
-                    html = '<span class="text-warning small"><i class="fas fa-exclamation-triangle me-1"></i>All slots are booked for this date and specialist. Please try another date or therapist.</span>';
+                    html = '<span class="text-warning small"><i class="fas fa-exclamation-triangle me-1"></i>All slots are booked for this date. Please try another date.</span>';
                 }
                 container.innerHTML = html;
             } else {

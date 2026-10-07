@@ -197,12 +197,11 @@ $spa_price = isset($plans['SPA']) ? (float)$plans['SPA']->price : 49.00;
 $spa_orig = isset($plans['SPA']) ? (float)$plans['SPA']->original_price : 79.00;
 $spa_badge = isset($plans['SPA']) ? $plans['SPA']->badge : 'HOLISTIC';
 $spa_features = isset($plans['SPA']) && $plans['SPA']->features ? json_decode($plans['SPA']->features, true) : array(
-    'Licensed Therapist & Masseur Roster',
-    'Private Spa Suite / Treatment Room Management',
-    'Visual Room Occupancy Timeline & Schedule',
-    'Automated Double-Booking Conflict Prevention',
+    'Licensed Wellness & Therapy Roster',
     'Multi-Session Treatment Packages & Passes',
     'POS Checkout & Detailed Customer Invoices',
+    'Inventory & Consumables Tracking',
+    'Customer CRM & VIP Loyalty Tiers',
     'Template 1 & Template 2 Included',
     '3 Homepage Layouts with Instant Switcher',
     'Full Source Code & Self-Hosted License'
@@ -213,8 +212,8 @@ $unified_orig = isset($plans['SALON_SPA']) ? (float)$plans['SALON_SPA']->origina
 $unified_badge = isset($plans['SALON_SPA']) ? $plans['SALON_SPA']->badge : 'BEST VALUE • ALL IN ONE';
 $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features ? json_decode($plans['SALON_SPA']->features, true) : array(
     'All Salon Features (Stylists, Hair, Nails, Queue, Chairs)',
-    'All Spa Features (Rooms, Therapists, Conflict Calendar)',
-    'Unified Stylist + Therapist Single Roster',
+    'All Spa Features (Wellness Menus, Holistic Therapies)',
+    'Unified Single Staff Roster',
     'Combo Packages (Hair + Facial + Massage)',
     'POS with Multi-Payment (Cash, Card, UPI, ACH)',
     'Financial P&L Statement & Expense Drawer',
@@ -238,7 +237,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
     <?php endif; ?>
 
     <!-- Dynamic SEO Meta Tags -->
-    <meta name="description" content="<?php echo htmlspecialchars(site_setting('landing_seo_meta_desc', 'Premium commercial salon and spa management platform with stylist/therapist rosters, room conflict engine, multi-template booking wizard, POS billing, and Super Admin control.')); ?>">
+    <meta name="description" content="<?php echo htmlspecialchars(site_setting('landing_seo_meta_desc', 'Premium commercial salon and spa management platform with multi-template booking wizard, POS billing, inventory tracking, and Super Admin control.')); ?>">
     <meta name="keywords" content="<?php echo htmlspecialchars(site_setting('landing_seo_meta_keywords', 'salon software, spa management script, appointment booking, hair stylist pos, massage therapist scheduler, salon codeigniter')); ?>">
     <link rel="canonical" href="<?php echo htmlspecialchars(site_setting('landing_seo_canonical_url', 'http://localhost/spasalonmanagement/')); ?>">
 
@@ -1345,10 +1344,10 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                                     <i class="fa-solid fa-spa me-1 text-warning"></i> LUXURY SPA & WELLNESS RETREAT
                                 </span>
                                 <h1 class="hero-title">
-                                    Treatment Rooms & <span>Conflict-Free Booking Engine</span>
+                                    Wellness &amp; <span>Conflict-Free Booking Engine</span>
                                 </h1>
                                 <p class="hero-lead">
-                                    Dedicated room conflict detection prevents overlapping appointments for massage therapy, sauna, hydrotherapy suites, and specialist staff schedules.
+                                    Intelligent scheduling detection prevents overlapping appointments for massage therapy, sauna, wellness treatments, and staff schedules.
                                 </p>
                                 <div class="d-flex flex-wrap align-items-center gap-3">
                                     <a href="#pricing" class="btn btn-gold btn-lg px-4 rounded-pill">
@@ -1432,7 +1431,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                         <h4 class="fw-bold mb-2 font-serif">Smart Booking Engine</h4>
                         <p class="text-muted small mb-3">Eliminate missed calls and double-bookings with 24/7 client online scheduling and real-time calendar synchronization.</p>
                         <ul class="feature-checklist">
-                            <li><i class="fa-solid fa-check"></i> <span>Automated room &amp; stylist conflict detection</span></li>
+                            <li><i class="fa-solid fa-check"></i> <span>Automated schedule &amp; stylist conflict detection</span></li>
                             <li><i class="fa-solid fa-check"></i> <span>Buffer times between chemical treatments &amp; massages</span></li>
                             <li><i class="fa-solid fa-check"></i> <span>Automated SMS &amp; Email confirmations</span></li>
                             <li><i class="fa-solid fa-check"></i> <span>Multi-service selection in single booking flow</span></li>
@@ -1867,7 +1866,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             <i class="fa-solid fa-star"></i>
                         </div>
                         <p class="testimonial-quote">
-                            "The double-booking room prevention engine in Template 2 is a lifesaver for our 6 therapy suites. It paid for itself in the first week by saving us from booking clashes."
+                            "The double-booking prevention engine in Template 2 is a lifesaver for our therapy suites. It paid for itself in the first week by saving us from booking clashes."
                         </p>
                         <div class="d-flex align-items-center mt-auto">
                             <div class="testimonial-author-avatar" style="color: #10b981;">ER</div>
@@ -2014,7 +2013,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
                             </h4>
                         <?php endif; ?>
                     </div>
-                    <p class="footer-desc mb-4"><?php echo htmlspecialchars(site_setting('landing_footer_desc', 'A premium self-hosted commercial management script for CodeIgniter 3. Complete with multi-template frontend, stylist/therapist appointments, POS checkout, room conflict engine, and Super Admin panel.')); ?></p>
+                    <p class="footer-desc mb-4"><?php echo htmlspecialchars(site_setting('landing_footer_desc', 'A premium self-hosted commercial management script for CodeIgniter 3. Complete with multi-template frontend, staff appointments, POS checkout, inventory management, and Super Admin panel.')); ?></p>
                     
                     <!-- Dynamic Social Media Channel Links -->
                     <div class="d-flex flex-wrap gap-2">

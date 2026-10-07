@@ -26,13 +26,13 @@
                         <!-- Booking Form -->
                         <form id="bookingForm" onsubmit="submitBooking(event)">
 
-                            <!-- Section 1: Choose Service & Staff -->
+                            <!-- Section 1: Choose Service -->
                             <div class="mb-4">
                                 <h5 class="fw-bold text-warning border-bottom border-secondary border-opacity-25 pb-2 mb-3">
-                                    <i class="fas fa-magic me-2"></i>1. Select Treatment & Specialist
+                                    <i class="fas fa-magic me-2"></i>1. Select Treatment / Service
                                 </h5>
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <div class="col-12">
                                         <label class="form-label text-muted small">Choose Treatment / Service <span class="text-warning">*</span></label>
                                         <select name="service_id" id="service_id" class="form-select bg-black text-white border-secondary" required onchange="loadTimeSlots()">
                                             <option value="">Select a treatment...</option>
@@ -43,28 +43,8 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-muted small">Select Preferred Specialist</label>
-                                        <select name="staff_id" id="staff_id" class="form-select bg-black text-white border-secondary" onchange="loadTimeSlots()">
-                                            <option value="0">Any Available Specialist</option>
-                                            <?php foreach ($staff as $st): ?>
-                                                <option value="<?= $st->id ?>" <?= (isset($_GET['staff_id']) && $_GET['staff_id'] == $st->id) ? 'selected' : '' ?>>
-                                                    <?= htmlspecialchars($st->name) ?> (<?= ucfirst($st->role_type) ?> &bull; <?= $st->rating ?>★)
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <?php if (!empty($rooms)): ?>
-                                    <div class="col-md-12">
-                                        <label class="form-label text-muted small">Spa Treatment Suite (Optional)</label>
-                                        <select name="room_id" id="room_id" class="form-select bg-black text-white border-secondary">
-                                            <option value="0">Front Desk Assigned Suite</option>
-                                            <?php foreach ($rooms as $rm): ?>
-                                                <option value="<?= $rm->id ?>"><?= htmlspecialchars($rm->room_name) ?> (<?= htmlspecialchars($rm->room_type) ?>)</option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <?php endif; ?>
+                                    <input type="hidden" name="staff_id" id="staff_id" value="0">
+                                    <input type="hidden" name="room_id" id="room_id" value="0">
                                 </div>
                             </div>
 
@@ -213,7 +193,7 @@ function loadTimeSlots() {
                 });
 
                 if (!hasAvailable) {
-                    html = '<span class="text-warning small"><i class="fas fa-exclamation-triangle me-1"></i>All slots are booked for this date and specialist. Please try another date or therapist.</span>';
+                    html = '<span class="text-warning small"><i class="fas fa-exclamation-triangle me-1"></i>All slots are booked for this date. Please try another date.</span>';
                 }
                 container.innerHTML = html;
             } else {

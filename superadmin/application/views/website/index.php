@@ -262,7 +262,7 @@ $hero_bg_preview = !empty($hero_bg_val) ? (strpos($hero_bg_val, 'http') === 0 ? 
                                 <?= htmlspecialchars($s('landing_seo_meta_title', 'Luxe Salon & Spa Management Software | Multi-Edition & Multi-Theme System')) ?>
                             </h5>
                             <p class="text-muted small mb-0" style="font-size: 13px; line-height: 1.4;" id="seoPreviewDesc">
-                                <?= htmlspecialchars($s('landing_seo_meta_desc', 'Premium commercial salon and spa management platform with stylist/therapist rosters, room conflict engine, multi-template booking wizard, POS billing, and Super Admin control.')) ?>
+                                <?= htmlspecialchars($s('landing_seo_meta_desc', 'Premium commercial salon and spa management platform with multi-template booking wizard, POS billing, inventory tracking, and Super Admin control.')) ?>
                             </p>
                         </div>
 

@@ -1,7 +1,7 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-7">
         <h4 class="fw-bold mb-1"><i class="fa-regular fa-clock text-primary me-2"></i> Weekly Work Schedules</h4>
-        <p class="text-muted mb-0">Define shift start/end hours and days off for specialists to prevent booking overlaps.</p>
+        <p class="text-muted mb-0">Define shift start/end hours and days off for staff members to prevent booking overlaps.</p>
     </div>
 </div>
 
@@ -10,7 +10,7 @@
     <div class="col-md-4">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-white py-3 border-bottom">
-                <h6 class="fw-bold mb-0">Select Specialist</h6>
+                <h6 class="fw-bold mb-0">Select Staff Member</h6>
             </div>
             <div class="list-group list-group-flush">
                 <?php foreach ($all_staff as $s): ?>

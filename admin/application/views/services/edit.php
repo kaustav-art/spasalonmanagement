@@ -51,12 +51,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6 d-flex align-items-center mt-4">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="requires_room" id="reqRoom" value="1" <?= $service->requires_room ? 'checked' : '' ?>>
-                                <label class="form-check-label fw-semibold" for="reqRoom">Requires Treatment Room</label>
-                            </div>
-                        </div>
+                        <input type="hidden" name="requires_room" value="0">
 
                         <div class="col-12">
                             <label class="form-label fw-semibold">Description</label>

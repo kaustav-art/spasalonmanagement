@@ -1,7 +1,7 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-8">
         <h4 class="fw-bold mb-1"><i class="fa-solid fa-calendar-plus text-primary me-2"></i> Schedule New Appointment</h4>
-        <p class="text-muted mb-0">Book a service session with real-time overlap prevention for specialists and spa treatment rooms.</p>
+        <p class="text-muted mb-0">Book a customer service session with instant scheduling and checkout workflow.</p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
         <a href="<?= admin_url('appointments') ?>" class="btn btn-outline-secondary">
@@ -49,16 +49,16 @@
 
                     <hr class="my-4">
 
-                    <!-- Service & Staff Section -->
+                    <!-- Service Selection Section -->
                     <div class="mb-4">
-                        <label class="form-label fw-bold text-dark fs-15px">2. Service & Specialist Assignment</label>
+                        <label class="form-label fw-bold text-dark fs-15px">2. Service Selection</label>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Select Service <span class="text-danger">*</span></label>
                                 <select name="service_id" id="service_id" class="form-select" required>
                                     <option value="">-- Choose Service --</option>
                                     <?php foreach ($services as $srv): ?>
-                                        <option value="<?= $srv->id ?>" data-price="<?= $srv->price ?>" data-duration="<?= $srv->duration ?>" data-room="<?= $srv->requires_room ?>">
+                                        <option value="<?= $srv->id ?>" data-price="<?= $srv->price ?>" data-duration="<?= $srv->duration ?>">
                                             <?= html_escape($srv->name) ?> - <?= format_currency($srv->price) ?> (<?= $srv->duration ?> mins)
                                         </option>
                                     <?php endforeach; ?>
@@ -66,29 +66,6 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold"><?= (get_business_type() === 'SPA') ? 'Assigned Therapist' : 'Assigned Stylist / Specialist' ?></label>
-                                <select name="staff_id" id="staff_id" class="form-select">
-                                    <option value="">-- Any Available Specialist --</option>
-                                    <?php foreach ($staff_members as $sm): ?>
-                                        <option value="<?= $sm->id ?>"><?= html_escape($sm->name) ?> (<?= ucfirst($sm->role_type) ?>)</option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <?php if (is_spa_enabled()): ?>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold"><i class="fa-solid fa-door-open text-info me-1"></i> Spa Treatment Room</label>
-                                    <select name="room_id" id="room_id" class="form-select">
-                                        <option value="">-- No Room Required (Or Select Room) --</option>
-                                        <?php foreach ($rooms as $r): ?>
-                                            <option value="<?= $r->id ?>"><?= html_escape($r->room_name) ?> (<?= html_escape($r->room_number) ?>)</option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <small class="text-muted fs-12px">Room conflict checker automatically protects against room double-booking.</small>
-                                </div>
-                            <?php endif; ?>
-
-                            <div class="col-md-<?= is_spa_enabled() ? '6' : '12' ?>">
                                 <label class="form-label fw-semibold">Booking Channel / Source</label>
                                 <select name="booking_source" class="form-select">
                                     <option value="admin" selected>Front Desk / Admin</option>

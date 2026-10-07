@@ -655,7 +655,7 @@ $currency_symbol = isset($settings['currency_symbol']) ? $settings['currency_sym
                                             </div>
                                             <span class="badge bg-success">Live &amp; Active</span>
                                         </div>
-                                        <p class="text-muted small mb-3">Public-facing responsive website with online booking, service menus, packages, and specialist rosters.</p>
+                                        <p class="text-muted small mb-3">Public-facing responsive website with online booking, service menus, packages, and staff rosters.</p>
                                         <div class="p-2 bg-dark rounded border border-secondary font-monospace small text-info mb-3 text-break" id="resWebsiteUrl">
                                             http://localhost/spasalonmanagement/www.example.com/
                                         </div>

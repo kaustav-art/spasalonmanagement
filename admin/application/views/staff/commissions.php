@@ -10,9 +10,9 @@
     <div class="card-body p-3">
         <form action="<?= admin_url('staff/commissions') ?>" method="GET" class="row g-2 align-items-end">
             <div class="col-md-5">
-                <label class="form-label fs-13px fw-semibold mb-1">Filter by Specialist</label>
+                <label class="form-label fs-13px fw-semibold mb-1">Filter by Staff Member</label>
                 <select name="staff_id" class="form-select form-select-sm">
-                    <option value="">All Specialists</option>
+                    <option value="">All Staff</option>
                     <?php foreach ($all_staff as $s): ?>
                         <option value="<?= $s->id ?>" <?= ($current_staff == $s->id) ? 'selected' : '' ?>><?= html_escape($s->name) ?> (<?= ucfirst($s->role_type) ?>)</option>
                     <?php endforeach; ?>
@@ -32,7 +32,7 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th class="ps-4">Specialist</th>
+                        <th class="ps-4">Staff Member</th>
                         <th>Invoice #</th>
                         <th>Service Rendered</th>
                         <th>Service Value</th>

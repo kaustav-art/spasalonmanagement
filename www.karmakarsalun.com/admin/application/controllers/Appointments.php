@@ -86,7 +86,7 @@ class Appointments extends Admin_Controller {
 
             $events[] = array(
                 'id' => $apt->id,
-                'title' => ($apt->customer_name ?: 'Walk-in') . ' - ' . ($apt->staff_name ?: 'Any Specialist'),
+                'title' => ($apt->customer_name ?: 'Walk-in') . ' (' . format_currency($apt->final_amount) . ')',
                 'start' => $apt->booking_date . 'T' . $apt->start_time,
                 'end' => $apt->booking_date . 'T' . $apt->end_time,
                 'backgroundColor' => $color,
@@ -96,8 +96,6 @@ class Appointments extends Admin_Controller {
                     'appointment_number' => $apt->appointment_number,
                     'customer_name' => $apt->customer_name ?: 'Walk-in Customer',
                     'customer_phone' => $apt->customer_phone ?: 'N/A',
-                    'staff_name' => $apt->staff_name ?: 'Any Specialist',
-                    'room_name' => $apt->room_name ?: 'Standard Station',
                     'time_slot' => date('h:i A', strtotime($apt->start_time)) . ' - ' . date('h:i A', strtotime($apt->end_time)),
                     'date_formatted' => date('l, d M Y', strtotime($apt->booking_date)),
                     'amount' => format_currency($apt->final_amount),

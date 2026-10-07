@@ -106,7 +106,7 @@
             </ol>
         </nav>
         <h2 class="fw-semibold fs-7 mb-1 text-dark">Schedule & Sessions Calendar</h2>
-        <p class="text-custom-paragraph fz-13px mb-0">Visual monthly, weekly, and daily timeline across specialists and stations.</p>
+        <p class="text-custom-paragraph fz-13px mb-0">Visual monthly, weekly, and daily timeline for all bookings and reservations.</p>
     </div>
     <div class="d-flex flex-wrap align-items-center gap-2">
         <a href="<?= admin_url('appointments/create') ?>" class="btn btn-primary rounded-pill shadow-custom d-inline-flex align-items-center gap-2">
@@ -126,7 +126,7 @@
 
 <!-- Schedule KPI Metrics Strip -->
 <div class="row g-3 mb-6">
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-6">
         <div class="card shadow-custom rounded-custom h-100">
             <div class="card-body p-5 d-flex align-items-center gap-3">
                 <div class="btn-icon bg-label-primary rounded-pill btn-lg flex-shrink-0">
@@ -139,7 +139,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-6">
         <div class="card shadow-custom rounded-custom h-100">
             <div class="card-body p-5 d-flex align-items-center gap-3">
                 <div class="btn-icon bg-label-success rounded-pill btn-lg flex-shrink-0">
@@ -152,7 +152,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6">
+    <div class="col-xl-4 col-sm-12">
         <div class="card shadow-custom rounded-custom h-100">
             <div class="card-body p-5 d-flex align-items-center gap-3">
                 <div class="btn-icon bg-label-warning rounded-pill btn-lg flex-shrink-0">
@@ -161,19 +161,6 @@
                 <div>
                     <span class="fz-12px text-muted fw-medium d-block">Pending Action</span>
                     <h3 class="fs-9 h6 mb-0 fw-bold text-dark"><?= $pending_count ?></h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card shadow-custom rounded-custom h-100">
-            <div class="card-body p-5 d-flex align-items-center gap-3">
-                <div class="btn-icon bg-label-info rounded-pill btn-lg flex-shrink-0">
-                    <i class="fa-solid fa-user-tie fs-5"></i>
-                </div>
-                <div>
-                    <span class="fz-12px text-muted fw-medium d-block">Active Specialists</span>
-                    <h3 class="fs-9 h6 mb-0 fw-bold text-dark"><?= $active_staff_count ?></h3>
                 </div>
             </div>
         </div>
@@ -192,19 +179,6 @@
                     <span>Schedule Filters</span>
                 </h5>
                 <form action="<?= admin_url('appointments/calendar') ?>" method="GET">
-                    <!-- Specialist Filter -->
-                    <div class="mb-3">
-                        <label class="form-label fz-12px fw-medium text-muted mb-1">Specialist / Staff</label>
-                        <select name="staff_id" class="form-select form-select-sm rounded-3">
-                            <option value="">All Specialists</option>
-                            <?php foreach ($staff_members as $sm): ?>
-                                <option value="<?= $sm->id ?>" <?= ($selected_staff == $sm->id) ? 'selected' : '' ?>>
-                                    <?= html_escape($sm->name) ?> (<?= html_escape(ucfirst($sm->role_type)) ?>)
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
                     <!-- Status Filter -->
                     <div class="mb-3">
                         <label class="form-label fz-12px fw-medium text-muted mb-1">Booking Status</label>
@@ -217,21 +191,6 @@
                             <option value="cancelled" <?= ($selected_status === 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
                         </select>
                     </div>
-
-                    <!-- Room Filter (if spa enabled) -->
-                    <?php if (is_spa_enabled() && !empty($rooms)): ?>
-                        <div class="mb-3">
-                            <label class="form-label fz-12px fw-medium text-muted mb-1">Treatment Room</label>
-                            <select name="room_id" class="form-select form-select-sm rounded-3">
-                                <option value="">All Rooms</option>
-                                <?php foreach ($rooms as $rm): ?>
-                                    <option value="<?= $rm->id ?>" <?= ($selected_room == $rm->id) ? 'selected' : '' ?>>
-                                        <?= html_escape($rm->room_name) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    <?php endif; ?>
 
                     <div class="d-flex gap-2 mt-4">
                         <button type="submit" class="btn btn-sm btn-primary rounded-pill flex-grow-1">
@@ -314,7 +273,7 @@
                                     </span>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between text-muted fz-12px">
-                                    <span><i class="fa-regular fa-user me-1"></i> <?= html_escape($ts->staff_name ?: 'Specialist') ?></span>
+                                    <span><i class="fa-solid fa-receipt me-1"></i> <?= format_currency($ts->final_amount) ?></span>
                                     <?= appointment_status_badge($ts->status) ?>
                                 </div>
                             </a>
@@ -373,11 +332,7 @@
                             <span class="text-muted d-block fz-11px">DATE</span>
                             <span class="fw-semibold text-dark" id="modalDateFormatted">Today</span>
                         </div>
-                        <div class="col-6 mt-2">
-                            <span class="text-muted d-block fz-11px">ASSIGNED SPECIALIST</span>
-                            <span class="fw-semibold text-dark" id="modalStaffName">Specialist</span>
-                        </div>
-                        <div class="col-6 mt-2">
+                        <div class="col-12 mt-2">
                             <span class="text-muted d-block fz-11px">TOTAL AMOUNT</span>
                             <span class="fw-bold text-primary" id="modalAmount">$0.00</span>
                         </div>
@@ -450,7 +405,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalAvatarInit').innerText = (props.customer_name ? props.customer_name.charAt(0).toUpperCase() : 'C');
             document.getElementById('modalTimeSlot').innerText = props.time_slot || '';
             document.getElementById('modalDateFormatted').innerText = props.date_formatted || '';
-            document.getElementById('modalStaffName').innerText = props.staff_name || 'Any Specialist';
             document.getElementById('modalAmount').innerText = props.amount || '$0.00';
 
             // Status Badge

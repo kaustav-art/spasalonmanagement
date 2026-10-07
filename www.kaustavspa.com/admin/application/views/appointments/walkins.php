@@ -26,10 +26,6 @@
                                 <th class="ps-4">Ticket / Appt #</th>
                                 <th>Client Name</th>
                                 <th>Contact</th>
-                                <th>Specialist</th>
-                                <?php if (is_spa_enabled()): ?>
-                                    <th>Spa Suite</th>
-                                <?php endif; ?>
                                 <th>Time</th>
                                 <th>Status</th>
                                 <th class="text-end pe-4">Actions</th>
@@ -42,10 +38,6 @@
                                         <td class="ps-4 fw-bold text-primary"><?= html_escape($q->appointment_number) ?></td>
                                         <td class="fw-semibold text-dark"><?= html_escape($q->customer_name) ?></td>
                                         <td><?= html_escape($q->customer_phone) ?></td>
-                                        <td><?= $q->staff_name ? html_escape($q->staff_name) : '<span class="text-muted">First Available</span>' ?></td>
-                                        <?php if (is_spa_enabled()): ?>
-                                            <td><?= $q->room_name ? '<span class="badge bg-info bg-opacity-10 text-info">' . html_escape($q->room_name) . '</span>' : '-' ?></td>
-                                        <?php endif; ?>
                                         <td><?= date('h:i A', strtotime($q->start_time)) ?></td>
                                         <td><?= appointment_status_badge($q->status) ?></td>
                                         <td class="text-end pe-4">
@@ -63,7 +55,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="<?= is_spa_enabled() ? '8' : '7' ?>" class="text-center py-5 text-muted">
+                                    <td colspan="6" class="text-center py-5 text-muted">
                                         <i class="fa-solid fa-mug-hot fs-2 d-block mb-2"></i> The queue is currently empty.
                                     </td>
                                 </tr>
@@ -104,15 +96,6 @@
                             <option value="">-- Select Service --</option>
                             <?php foreach ($services as $srv): ?>
                                 <option value="<?= $srv->id ?>"><?= html_escape($srv->name) ?> - <?= format_currency($srv->price) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Assign Specialist</label>
-                        <select name="staff_id" class="form-select">
-                            <option value="">-- Any Available Specialist --</option>
-                            <?php foreach ($staff_members as $sm): ?>
-                                <option value="<?= $sm->id ?>"><?= html_escape($sm->name) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

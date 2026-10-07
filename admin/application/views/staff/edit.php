@@ -1,6 +1,6 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-7">
-        <h4 class="fw-bold mb-1"><i class="fa-solid fa-pen-to-square text-primary me-2"></i> Edit Specialist</h4>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-pen-to-square text-primary me-2"></i> Edit Staff Member</h4>
         <p class="text-muted mb-0">Update credentials and commission settings for <?= html_escape($staff->name) ?>.</p>
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
@@ -17,7 +17,7 @@
                 <form action="<?= admin_url('staff/edit/' . $staff->id) ?>" method="POST">
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Specialist Full Name <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Staff Full Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" value="<?= html_escape($staff->name) ?>" required>
                         </div>
                         <div class="col-md-6">

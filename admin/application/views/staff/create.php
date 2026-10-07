@@ -1,6 +1,6 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-7">
-        <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-plus text-primary me-2"></i> Add Specialist / Staff</h4>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-plus text-primary me-2"></i> Add Staff Member</h4>
         <p class="text-muted mb-0">Register stylists, therapists, beauticians, and set service commission rates.</p>
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
@@ -17,7 +17,7 @@
                 <form action="<?= admin_url('staff/create') ?>" method="POST">
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Specialist Full Name <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Staff Full Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" required placeholder="e.g. Isabella Rossi">
                         </div>
                         <div class="col-md-6">
@@ -50,7 +50,7 @@
 
                     <div class="d-flex justify-content-between pt-3 border-top">
                         <a href="<?= admin_url('staff') ?>" class="btn btn-light border">Cancel</a>
-                        <button type="submit" class="btn btn-primary px-4 fw-semibold">Save Specialist</button>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">Save Staff Member</button>
                     </div>
                 </form>
             </div>

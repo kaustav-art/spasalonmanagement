@@ -34,7 +34,6 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4">Service</th>
-                                <th>Specialist</th>
                                 <th>Duration</th>
                                 <th>Tax</th>
                                 <th class="text-end pe-4">Price</th>
@@ -44,9 +43,6 @@
                             <?php foreach ($services as $srv): ?>
                                 <tr>
                                     <td class="ps-4 fw-semibold text-dark"><?= html_escape($srv->service_name) ?></td>
-                                    <td>
-                                        <?= $srv->staff_name ? '<span class="badge bg-light text-dark border">' . html_escape($srv->staff_name) . '</span>' : '<span class="text-muted">Unassigned</span>' ?>
-                                    </td>
                                     <td><i class="fa-regular fa-clock me-1 text-muted"></i> <?= $srv->duration ?> mins</td>
                                     <td class="text-muted"><?= format_currency($srv->tax) ?></td>
                                     <td class="text-end pe-4 fw-bold"><?= format_currency($srv->price) ?></td>
@@ -55,15 +51,15 @@
                         </tbody>
                         <tfoot class="table-light border-top">
                             <tr>
-                                <th colspan="4" class="text-end">Subtotal:</th>
+                                <th colspan="3" class="text-end">Subtotal:</th>
                                 <th class="text-end pe-4"><?= format_currency($appointment->subtotal) ?></th>
                             </tr>
                             <tr>
-                                <th colspan="4" class="text-end">Tax (VAT/Sales):</th>
+                                <th colspan="3" class="text-end">Tax (VAT/Sales):</th>
                                 <th class="text-end pe-4"><?= format_currency($appointment->tax_amount) ?></th>
                             </tr>
                             <tr class="fs-15px">
-                                <th colspan="4" class="text-end text-primary">Final Total:</th>
+                                <th colspan="3" class="text-end text-primary">Final Total:</th>
                                 <th class="text-end pe-4 text-primary fw-bold"><?= format_currency($appointment->final_amount) ?></th>
                             </tr>
                         </tfoot>
@@ -109,12 +105,6 @@
                         <li class="py-2 border-bottom d-flex justify-content-between">
                             <span class="text-muted"><i class="fa-regular fa-envelope me-1"></i> Email:</span>
                             <span class="fw-semibold"><?= html_escape($appointment->customer_email) ?></span>
-                        </li>
-                    <?php endif; ?>
-                    <?php if (is_spa_enabled() && $appointment->room_name): ?>
-                        <li class="py-2 border-bottom d-flex justify-content-between">
-                            <span class="text-muted"><i class="fa-solid fa-door-open me-1"></i> Spa Room:</span>
-                            <span class="badge bg-info text-white"><?= html_escape($appointment->room_name) ?></span>
                         </li>
                     <?php endif; ?>
                     <li class="py-2 d-flex justify-content-between">

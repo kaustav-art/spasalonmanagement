@@ -1,6 +1,6 @@
 <div class="row align-items-center mb-4">
     <div class="col-md-7">
-        <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-tie text-primary me-2"></i> Specialists & Staff Team</h4>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-user-tie text-primary me-2"></i> Staff Team</h4>
         <p class="text-muted mb-0">Manage hair stylists, massage therapists, beauticians, and front-desk personnel.</p>
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0">
@@ -11,7 +11,7 @@
             <i class="fa-solid fa-hand-holding-dollar me-1"></i> Commissions
         </a>
         <a href="<?= admin_url('staff/create') ?>" class="btn btn-primary shadow-sm">
-            <i class="fa-solid fa-plus me-1"></i> Add Specialist
+            <i class="fa-solid fa-plus me-1"></i> Add Staff
         </a>
     </div>
 </div>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <p class="text-muted fs-13px flex-grow-1 mb-3"><?= html_escape($st->bio ? $st->bio : 'Master specialist dedicated to premium beauty and wellness.') ?></p>
+                    <p class="text-muted fs-13px flex-grow-1 mb-3"><?= html_escape($st->bio ? $st->bio : 'Professional dedicated to premium beauty and wellness.') ?></p>
 
                     <div class="p-3 bg-light rounded-3 mb-3 fs-13px">
                         <div class="d-flex justify-content-between mb-1">

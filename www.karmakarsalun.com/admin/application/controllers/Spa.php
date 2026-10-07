@@ -5,12 +5,8 @@ class Spa extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
-        // Restrict if SPA module is not enabled
-        if (!is_spa_enabled()) {
-            $this->session->set_flashdata('error', 'Spa modules are disabled in your current license edition. Enable Spa or Salon + Spa in Business Settings.');
-            redirect(admin_url('dashboard'));
-            exit;
-        }
+        redirect(admin_url('appointments'));
+        exit;
     }
 
     /**

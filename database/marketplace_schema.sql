@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `marketplace_template_layouts` (
 
 INSERT INTO `marketplace_templates` (`id`, `template_key`, `name`, `badge`, `icon`, `short_desc`, `features`, `demo_url`, `sort_order`, `status`) VALUES
 (1, 'template1', 'Template 1', 'Glamr', 'fa-solid fa-crown', 'Complete luxury salon experience. Toggle between high-fashion dark/gold palettes, modern hair studio, or chic boutique storefronts.', '["Stylist Portfolios", "Salon Pricing Menus", "Booking Wizard"]', 'website/?preview_tpl=template1&preview_layout=1', 1, 'active'),
-(2, 'template2', 'Template 2', 'Pureglow', 'fa-solid fa-leaf', 'Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.', '["Private Room Showcase", "Therapist Rosters", "Multi-Session Passes"]', 'website/?preview_tpl=template2&preview_layout=1', 2, 'active')
+(2, 'template2', 'Template 2', 'Pureglow', 'fa-solid fa-leaf', 'Serene organic wellness aesthetic. Select botanical sanctuary, minimalist zen therapy, or clinical massage treatment center.', '["Luxury Wellness Showcase", "Therapy Team Rosters", "Multi-Session Passes"]', 'website/?preview_tpl=template2&preview_layout=1', 2, 'active')
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `short_desc`=VALUES(`short_desc`);
 
 INSERT INTO `marketplace_template_layouts` (`id`, `template_id`, `template_key`, `layout_number`, `layout_name`, `preview_image`, `demo_url`, `sort_order`, `status`) VALUES
