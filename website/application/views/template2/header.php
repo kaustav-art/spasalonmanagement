@@ -220,7 +220,7 @@ $phone_cleaned = isset($business_phone) ? preg_replace('/[^0-9+]/', '', $busines
                     <ul class="list-unstyled main-menu-two__contact-list">
                         <li>
                             <div class="icon">
-                                <i class="fal fa-phone"></i>
+                                <i class="fa-solid fa-phone"></i>
                             </div>
                             <div class="text">
                                 <p><a href="tel:<?= $phone_cleaned ?>"><?= htmlspecialchars($business_phone ?? '+1 (555) 345-6789') ?></a></p>

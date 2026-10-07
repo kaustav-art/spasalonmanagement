@@ -97,8 +97,8 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 							<div class="pbmit-right-box d-flex align-items-center">
 								<div class="pbmit-button-box">
 									<div class="pbmit-header-button">
-										<a href="tel:<?= htmlspecialchars($business_phone) ?>">															
-											<span class="pbmit-header-button-text"><?= htmlspecialchars($business_phone) ?></span>			
+										<a href="tel:<?= htmlspecialchars($business_phone) ?>" class="d-inline-flex align-items-center">															
+											<i class="fa-solid fa-phone me-2"></i><span class="pbmit-header-button-text"><?= htmlspecialchars($business_phone) ?></span>			
 										</a>
 									</div>
 								</div>

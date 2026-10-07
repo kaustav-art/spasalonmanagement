@@ -118,8 +118,8 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
                             <?php if (!empty($biz_phone)): ?>
                             <div class="pbmit-button-box">
                                 <div class="pbmit-header-button">
-                                    <a href="tel:<?= htmlspecialchars($biz_phone) ?>">															
-                                        <span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
+                                    <a href="tel:<?= htmlspecialchars($biz_phone) ?>" class="d-inline-flex align-items-center">															
+                                        <i class="fa-solid fa-phone me-2"></i><span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
                                     </a>
                                 </div>
                             </div>
@@ -185,8 +185,8 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
                             <?php if (!empty($biz_phone)): ?>
                             <div class="pbmit-button-box">
                                 <div class="pbmit-header-button">
-                                    <a href="tel:<?= htmlspecialchars($biz_phone) ?>">															
-                                        <span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
+                                    <a href="tel:<?= htmlspecialchars($biz_phone) ?>" class="d-inline-flex align-items-center">															
+                                        <i class="fa-solid fa-phone me-2"></i><span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
                                     </a>
                                 </div>
                             </div>
@@ -249,8 +249,8 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
                         <?php if (!empty($biz_phone)): ?>
                         <div class="pbmit-button-box">
                             <div class="pbmit-header-button">
-                                <a href="tel:<?= htmlspecialchars($biz_phone) ?>">															
-                                    <span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
+                                <a href="tel:<?= htmlspecialchars($biz_phone) ?>" class="d-inline-flex align-items-center">															
+                                    <i class="fa-solid fa-phone me-2"></i><span class="pbmit-header-button-text"><?= htmlspecialchars($biz_phone) ?></span>			
                                 </a>
                             </div>
                         </div>
