@@ -199,8 +199,51 @@ if (isset($CI->db)) {
 	<script src='<?= $asset_url ?>js/gsap-animation.js'></script>
 	<script src="<?= $asset_url ?>js/scripts.js"></script>
 	<!-- Flatpickr JS -->
-	<script src="<?= $asset_url ?>js/flatpickr.min.js"></script>
+	<script src="<?= $asset_url ?>js/flatpickr.min.js?v=2.1"></script>
 	<script>
+	function initYearDropdown(instance) {
+		if (!instance || !instance.calendarContainer) return;
+		var container = instance.calendarContainer.querySelector('.flatpickr-current-month');
+		if (!container) return;
+		var existingSelect = container.querySelector('.flatpickr-yearDropdown-years');
+		if (existingSelect) {
+			existingSelect.value = (instance.currentYear || new Date().getFullYear()).toString();
+			return;
+		}
+		var numWrapper = container.querySelector('.numInputWrapper');
+		if (numWrapper) numWrapper.style.display = 'none';
+
+		var yearSelect = document.createElement('select');
+		yearSelect.className = 'flatpickr-monthDropdown-months flatpickr-yearDropdown-years';
+		yearSelect.setAttribute('aria-label', 'Year');
+		yearSelect.tabIndex = -1;
+
+		var curY = new Date().getFullYear();
+		var minYr = instance.config.minDate ? instance.config.minDate.getFullYear() : (curY - 10);
+		var maxYr = instance.config.maxDate ? instance.config.maxDate.getFullYear() : (curY + 15);
+		if (minYr > maxYr) maxYr = minYr + 15;
+		if (instance.currentYear && instance.currentYear < minYr) minYr = instance.currentYear;
+		if (instance.currentYear && instance.currentYear > maxYr) maxYr = instance.currentYear;
+
+		for (var y = minYr; y <= maxYr; y++) {
+			var opt = document.createElement('option');
+			opt.value = y.toString();
+			opt.textContent = y.toString();
+			opt.className = 'flatpickr-monthDropdown-month';
+			if (y === instance.currentYear) opt.selected = true;
+			yearSelect.appendChild(opt);
+		}
+		yearSelect.value = (instance.currentYear || curY).toString();
+
+		yearSelect.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+		yearSelect.addEventListener('click', function(e) { e.stopPropagation(); });
+		yearSelect.addEventListener('change', function(e) {
+			var val = parseInt(this.value, 10);
+			if (!isNaN(val)) instance.changeYear(val);
+		});
+		container.appendChild(yearSelect);
+	}
+
 	$(document).ready(function() {
 		if (typeof flatpickr !== 'undefined') {
 			flatpickr("#datepicker, .datepicker, #booking_date", {
@@ -212,6 +255,11 @@ if (isset($CI->db)) {
 				defaultDate: "today",
 				disableMobile: true,
 				allowInput: false,
+				yearSelectorType: "dropdown",
+				onReady: function(d, s, fp) { initYearDropdown(fp); },
+				onMonthChange: function(d, s, fp) { initYearDropdown(fp); },
+				onYearChange: function(d, s, fp) { initYearDropdown(fp); },
+				onOpen: function(d, s, fp) { initYearDropdown(fp); },
 				onChange: function(selectedDates, dateStr, instance) {
 					if (typeof loadTimeSlots === 'function') {
 						loadTimeSlots();

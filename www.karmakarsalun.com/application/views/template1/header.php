@@ -70,6 +70,47 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
         border-top-right-radius: 8px;
         padding: 6px 0;
     }
+    .flatpickr-calendar.dark .flatpickr-current-month {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 4px 0 !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years,
+    .flatpickr-calendar.dark .flatpickr-current-month select {
+        background: #1f2227 !important;
+        color: #d4af37 !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+        border: 1px solid rgba(212, 175, 55, 0.4) !important;
+        border-radius: 6px !important;
+        padding: 3px 8px !important;
+        cursor: pointer !important;
+        outline: none !important;
+        appearance: menulist !important;
+        -webkit-appearance: menulist !important;
+        -moz-appearance: menulist !important;
+        line-height: normal !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years:hover,
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months:focus,
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years:focus {
+        border-color: #d4af37 !important;
+        box-shadow: 0 0 6px rgba(212, 175, 55, 0.3) !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months option,
+    .flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years option {
+        background-color: #1f2227 !important;
+        color: #ffffff !important;
+        font-weight: 500 !important;
+        padding: 4px 8px !important;
+    }
+    .flatpickr-calendar.dark .flatpickr-current-month .numInputWrapper {
+        display: none !important;
+    }
     .flatpickr-calendar.dark .flatpickr-current-month input.cur-year {
         color: #d4af37 !important;
         font-weight: 700 !important;

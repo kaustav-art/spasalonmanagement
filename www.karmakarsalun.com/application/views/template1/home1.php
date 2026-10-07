@@ -71,6 +71,47 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 			border-top-right-radius: 8px;
 			padding: 6px 0;
 		}
+		.flatpickr-calendar.dark .flatpickr-current-month {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			gap: 6px !important;
+			padding: 4px 0 !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months,
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years,
+		.flatpickr-calendar.dark .flatpickr-current-month select {
+			background: #1f2227 !important;
+			color: #d4af37 !important;
+			font-weight: 700 !important;
+			font-size: 14px !important;
+			border: 1px solid rgba(212, 175, 55, 0.4) !important;
+			border-radius: 6px !important;
+			padding: 3px 8px !important;
+			cursor: pointer !important;
+			outline: none !important;
+			appearance: menulist !important;
+			-webkit-appearance: menulist !important;
+			-moz-appearance: menulist !important;
+			line-height: normal !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years:hover,
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months:focus,
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years:focus {
+			border-color: #d4af37 !important;
+			box-shadow: 0 0 6px rgba(212, 175, 55, 0.3) !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-monthDropdown-months option,
+		.flatpickr-calendar.dark .flatpickr-current-month .flatpickr-yearDropdown-years option {
+			background-color: #1f2227 !important;
+			color: #ffffff !important;
+			font-weight: 500 !important;
+			padding: 4px 8px !important;
+		}
+		.flatpickr-calendar.dark .flatpickr-current-month .numInputWrapper {
+			display: none !important;
+		}
 		.flatpickr-calendar.dark .flatpickr-current-month input.cur-year {
 			color: #d4af37 !important;
 			font-weight: 700 !important;
@@ -1743,12 +1784,55 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 	<!-- Scripts JS -->
 	<script src="<?= $asset_url ?>js/scripts.js"></script>
 	<!-- Flatpickr JS -->
-	<script src="<?= $asset_url ?>js/flatpickr.min.js"></script>
+	<script src="<?= $asset_url ?>js/flatpickr.min.js?v=2.1"></script>
 
 	<!-- Online Booking Form AJAX Handler & Datepicker Initialization -->
 	<script>
+	function initYearDropdown(instance) {
+		if (!instance || !instance.calendarContainer) return;
+		var container = instance.calendarContainer.querySelector('.flatpickr-current-month');
+		if (!container) return;
+		var existingSelect = container.querySelector('.flatpickr-yearDropdown-years');
+		if (existingSelect) {
+			existingSelect.value = (instance.currentYear || new Date().getFullYear()).toString();
+			return;
+		}
+		var numWrapper = container.querySelector('.numInputWrapper');
+		if (numWrapper) numWrapper.style.display = 'none';
+
+		var yearSelect = document.createElement('select');
+		yearSelect.className = 'flatpickr-monthDropdown-months flatpickr-yearDropdown-years';
+		yearSelect.setAttribute('aria-label', 'Year');
+		yearSelect.tabIndex = -1;
+
+		var curY = new Date().getFullYear();
+		var minYr = instance.config.minDate ? instance.config.minDate.getFullYear() : (curY - 10);
+		var maxYr = instance.config.maxDate ? instance.config.maxDate.getFullYear() : (curY + 15);
+		if (minYr > maxYr) maxYr = minYr + 15;
+		if (instance.currentYear && instance.currentYear < minYr) minYr = instance.currentYear;
+		if (instance.currentYear && instance.currentYear > maxYr) maxYr = instance.currentYear;
+
+		for (var y = minYr; y <= maxYr; y++) {
+			var opt = document.createElement('option');
+			opt.value = y.toString();
+			opt.textContent = y.toString();
+			opt.className = 'flatpickr-monthDropdown-month';
+			if (y === instance.currentYear) opt.selected = true;
+			yearSelect.appendChild(opt);
+		}
+		yearSelect.value = (instance.currentYear || curY).toString();
+
+		yearSelect.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+		yearSelect.addEventListener('click', function(e) { e.stopPropagation(); });
+		yearSelect.addEventListener('change', function(e) {
+			var val = parseInt(this.value, 10);
+			if (!isNaN(val)) instance.changeYear(val);
+		});
+		container.appendChild(yearSelect);
+	}
+
 	document.addEventListener('DOMContentLoaded', function() {
-		// Initialize Flatpickr Dark Datepicker
+		// Initialize Flatpickr Dark Datepicker with Year Dropdown
 		if (typeof flatpickr !== 'undefined') {
 			flatpickr("#datepicker, .datepicker", {
 				theme: "dark",
@@ -1758,7 +1842,12 @@ $biz_name = isset($business_name) && !empty($business_name) ? $business_name : '
 				altFormat: "F j, Y",
 				defaultDate: "today",
 				disableMobile: true,
-				allowInput: false
+				allowInput: false,
+				yearSelectorType: "dropdown",
+				onReady: function(d, s, fp) { initYearDropdown(fp); },
+				onMonthChange: function(d, s, fp) { initYearDropdown(fp); },
+				onYearChange: function(d, s, fp) { initYearDropdown(fp); },
+				onOpen: function(d, s, fp) { initYearDropdown(fp); }
 			});
 		}
 
