@@ -86,12 +86,16 @@
                 <div class="d-flex align-items-center justify-content-between gap-2">
                     <div class="flex-grow-1">
                         <select id="posCustomer" class="form-select form-select-sm rounded-3">
-                            <option value="1">Sophia Montgomery (Walk-in / Default)</option>
-                            <?php foreach ($customers as $c): ?>
-                                <option value="<?= $c->id ?>" <?= ($preset_customer_id == $c->id) ? 'selected' : '' ?>>
-                                    <?= html_escape($c->name) ?> (<?= html_escape($c->phone) ?>)
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if (empty($customers)): ?>
+                                <option value="">No registered customers</option>
+                            <?php else: ?>
+                                <option value="" <?= empty($preset_customer_id) ? 'selected' : '' ?>>Select Customer</option>
+                                <?php foreach ($customers as $c): ?>
+                                    <option value="<?= $c->id ?>" <?= ($preset_customer_id == $c->id) ? 'selected' : '' ?>>
+                                        <?= html_escape($c->name) ?> <?= $c->phone ? '(' . html_escape($c->phone) . ')' : '' ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0" data-bs-toggle="modal" data-bs-target="#newCustomerModal">
@@ -177,64 +181,152 @@
     </div>
 </div>
 
+<style>
+/* Modern POS Payment Modal Styling */
+#paymentModal .modal-content {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.payment-due-card {
+    background: linear-gradient(135deg, rgba(95, 74, 254, 0.05) 0%, rgba(95, 74, 254, 0.12) 100%);
+    border: 1px solid rgba(95, 74, 254, 0.18);
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+.payment-tile {
+    cursor: pointer;
+    border: 1.5px solid #e2e8f0;
+    background-color: #ffffff;
+    border-radius: 0.85rem;
+    padding: 0.85rem 0.5rem;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+}
+.payment-tile:hover {
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+    transform: translateY(-2px);
+}
+.btn-check:checked + .payment-tile {
+    border-color: var(--bs-primary, #5F4AFE) !important;
+    background: #fbfaff !important;
+    box-shadow: 0 4px 12px rgba(95, 74, 254, 0.15) !important;
+}
+.btn-check:checked + .payment-tile .payment-tile-title {
+    color: var(--bs-primary, #5F4AFE) !important;
+    font-weight: 700 !important;
+}
+.tendered-input-wrap {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.85rem;
+    transition: all 0.2s ease;
+}
+.tendered-input-wrap:focus-within {
+    border-color: var(--bs-primary, #5F4AFE);
+    box-shadow: 0 0 0 3px rgba(95, 74, 254, 0.15);
+}
+.change-return-card {
+    border-radius: 0.85rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 0.85rem 1.25rem;
+}
+</style>
+
 <!-- Payment Tender Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-custom">
-            <div class="modal-header bg-primary text-white py-3 px-4">
-                <h5 class="modal-title fw-bold text-white"><i class="fa-solid fa-cash-register me-1"></i> Complete Payment</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 490px;">
+        <div class="modal-content border-0">
+            <!-- Modal Header -->
+            <div class="modal-header border-0 pb-0 pt-4 px-4 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(95, 74, 254, 0.1); color: var(--bs-primary, #5F4AFE);">
+                        <i class="fa-solid fa-receipt fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold text-dark mb-0">Complete Payment</h5>
+                        <span class="text-muted fs-12px">Choose method & collect amount</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <div class="text-center p-4 bg-light rounded-3 mb-4">
-                    <div class="text-muted fs-13px">TOTAL PAYABLE AMOUNT</div>
-                    <h2 class="fw-bold text-primary mb-0 fs-2" id="modalDueAmount">$0.00</h2>
+
+            <div class="modal-body px-4 py-3">
+                <!-- Amount Due Card -->
+                <div class="payment-due-card text-center mb-3">
+                    <span class="text-uppercase tracking-wider fw-semibold text-muted fs-11px d-block mb-1">Total Payable Amount</span>
+                    <h2 class="display-6 fw-bold mb-0 text-dark" id="modalDueAmount">$0.00</h2>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold text-dark fz-13px">Select Payment Method</label>
+                <!-- Payment Methods Grid -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-dark fs-13px mb-2">Payment Method</label>
                     <div class="row g-2">
                         <div class="col-3">
-                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_cash" value="cash" checked>
-                            <label class="btn btn-outline-primary rounded-3 w-100 py-2 fs-13px" for="pm_cash">
-                                <i class="fa-solid fa-money-bill-wave d-block mb-1 fs-5"></i> Cash
+                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_cash" value="cash" checked onchange="onPaymentMethodChange('cash')">
+                            <label class="payment-tile" for="pm_cash">
+                                <i class="fa-solid fa-money-bill-wave text-success fs-4 d-block mb-1"></i>
+                                <span class="payment-tile-title text-dark fs-12px d-block fw-semibold">Cash</span>
                             </label>
                         </div>
                         <div class="col-3">
-                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_card" value="card">
-                            <label class="btn btn-outline-primary rounded-3 w-100 py-2 fs-13px" for="pm_card">
-                                <i class="fa-solid fa-credit-card d-block mb-1 fs-5"></i> Card
+                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_card" value="card" onchange="onPaymentMethodChange('card')">
+                            <label class="payment-tile" for="pm_card">
+                                <i class="fa-solid fa-credit-card text-primary fs-4 d-block mb-1"></i>
+                                <span class="payment-tile-title text-dark fs-12px d-block fw-semibold">Card</span>
                             </label>
                         </div>
                         <div class="col-3">
-                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_upi" value="upi">
-                            <label class="btn btn-outline-primary rounded-3 w-100 py-2 fs-13px" for="pm_upi">
-                                <i class="fa-solid fa-qrcode d-block mb-1 fs-5"></i> UPI
+                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_upi" value="upi" onchange="onPaymentMethodChange('upi')">
+                            <label class="payment-tile" for="pm_upi">
+                                <i class="fa-solid fa-qrcode text-warning fs-4 d-block mb-1"></i>
+                                <span class="payment-tile-title text-dark fs-12px d-block fw-semibold">UPI / QR</span>
                             </label>
                         </div>
                         <div class="col-3">
-                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_gift" value="gift_card">
-                            <label class="btn btn-outline-primary rounded-3 w-100 py-2 fs-13px" for="pm_gift">
-                                <i class="fa-solid fa-gift d-block mb-1 fs-5"></i> Gift Card
+                            <input type="radio" class="btn-check" name="paymentMethod" id="pm_gift" value="gift_card" onchange="onPaymentMethodChange('gift_card')">
+                            <label class="payment-tile" for="pm_gift">
+                                <i class="fa-solid fa-gift text-danger fs-4 d-block mb-1"></i>
+                                <span class="payment-tile-title text-dark fs-12px d-block fw-semibold">Gift Card</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
+                <!-- Amount Tendered Input -->
                 <div class="mb-3">
-                    <label class="form-label fw-semibold text-dark fz-13px">Amount Tendered</label>
-                    <input type="number" id="tenderedAmount" class="form-control form-control-lg text-center fw-bold fs-20px rounded-3" step="any" oninput="calculateChange()">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label fw-semibold text-dark fs-13px mb-0">Amount Tendered</label>
+                        <button type="button" class="btn btn-link btn-sm text-primary text-decoration-none p-0 fs-12px fw-semibold" onclick="setExactTendered()">
+                            <i class="fa-solid fa-arrows-rotate me-1"></i> Exact Amount
+                        </button>
+                    </div>
+                    <div class="input-group input-group-lg tendered-input-wrap overflow-hidden">
+                        <span class="input-group-text bg-white border-0 fw-bold text-muted px-3 fs-5"><?= html_escape(get_setting('currency_symbol', '₹')) ?></span>
+                        <input type="number" id="tenderedAmount" class="form-control form-control-lg border-0 bg-white text-center fw-bold fs-3 text-dark px-1 shadow-none" step="any" oninput="calculateChange()">
+                    </div>
                 </div>
 
-                <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
-                    <span class="fw-semibold text-dark fz-14px">Change Returned:</span>
-                    <span class="fw-bold text-primary fs-18px" id="lblChangeAmount">$0.00</span>
+                <!-- Change Return Card -->
+                <div class="change-return-card d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-white shadow-xs d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; border: 1px solid #e2e8f0;">
+                            <i class="fa-solid fa-hand-holding-dollar text-muted fs-13px"></i>
+                        </div>
+                        <span class="fw-semibold text-secondary fs-13px">Change to Return</span>
+                    </div>
+                    <span class="fw-bold fs-5 text-dark" id="lblChangeAmount">$0.00</span>
                 </div>
             </div>
-            <div class="modal-footer border-top py-3 px-4">
-                <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-custom" id="btnSubmitPayment" onclick="processCheckout()">
-                    <i class="fa-solid fa-check-double me-1"></i> Confirm & Print Receipt
+
+            <!-- Modal Footer -->
+            <div class="modal-footer border-0 bg-light-subtle pt-2 pb-4 px-4 d-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm flex-grow-1" id="btnSubmitPayment" onclick="processCheckout()">
+                    <i class="fa-solid fa-circle-check me-1"></i> Confirm & Print Receipt
                 </button>
             </div>
         </div>
@@ -419,10 +511,39 @@ function calculateChange() {
     var due = currentGrandTotal || 0;
     var tendered = parseFloat(document.getElementById('tenderedAmount').value) || 0;
     var change = Math.max(0, tendered - due);
-    document.getElementById('lblChangeAmount').innerText = currencySymbol + change.toFixed(2);
+    var el = document.getElementById('lblChangeAmount');
+    if (el) {
+        el.innerText = currencySymbol + change.toFixed(2);
+        if (change > 0) {
+            el.className = 'fw-bolder fs-5 text-success';
+        } else {
+            el.className = 'fw-bold fs-5 text-dark';
+        }
+    }
+}
+
+function setExactTendered() {
+    document.getElementById('tenderedAmount').value = currentGrandTotal.toFixed(2);
+    calculateChange();
+}
+
+function onPaymentMethodChange(method) {
+    if (method !== 'cash') {
+        setExactTendered();
+    }
 }
 
 function openPaymentModal() {
+    var customerId = document.getElementById('posCustomer').value;
+    if (!customerId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Customer Required',
+            text: 'Please select a customer before proceeding to checkout.'
+        });
+        document.getElementById('posCustomer').focus();
+        return;
+    }
     calculateTotals();
     var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
     myModal.show();
@@ -440,6 +561,14 @@ function processCheckout() {
     var grandTotal = taxable + taxAmount;
 
     var customerId = document.getElementById('posCustomer').value;
+    if (!customerId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Customer Required',
+            text: 'Please select a customer before completing payment.'
+        });
+        return;
+    }
     var appointmentId = document.getElementById('linkedAppointmentId').value;
     var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
     var tendered = parseFloat(document.getElementById('tenderedAmount').value) || grandTotal;

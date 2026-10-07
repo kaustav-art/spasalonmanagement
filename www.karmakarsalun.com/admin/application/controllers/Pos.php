@@ -63,7 +63,11 @@ class Pos extends Admin_Controller {
             return;
         }
 
-        $customer_id = !empty($payload['customer_id']) ? (int)$payload['customer_id'] : 1;
+        $customer_id = !empty($payload['customer_id']) ? (int)$payload['customer_id'] : null;
+        if (!$customer_id) {
+            $this->json_response(array('status' => false, 'message' => 'Please select a customer.'), 400);
+            return;
+        }
         $appointment_id = !empty($payload['appointment_id']) ? (int)$payload['appointment_id'] : NULL;
         $subtotal = (float)$payload['subtotal'];
         $discount_type = !empty($payload['discount_type']) ? $payload['discount_type'] : 'fixed';

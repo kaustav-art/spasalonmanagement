@@ -86,12 +86,16 @@
                 <div class="d-flex align-items-center justify-content-between gap-2">
                     <div class="flex-grow-1">
                         <select id="posCustomer" class="form-select form-select-sm rounded-3">
-                            <option value="1">Sophia Montgomery (Walk-in / Default)</option>
-                            <?php foreach ($customers as $c): ?>
-                                <option value="<?= $c->id ?>" <?= ($preset_customer_id == $c->id) ? 'selected' : '' ?>>
-                                    <?= html_escape($c->name) ?> (<?= html_escape($c->phone) ?>)
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if (empty($customers)): ?>
+                                <option value="">No registered customers</option>
+                            <?php else: ?>
+                                <option value="" <?= empty($preset_customer_id) ? 'selected' : '' ?>>Select Customer</option>
+                                <?php foreach ($customers as $c): ?>
+                                    <option value="<?= $c->id ?>" <?= ($preset_customer_id == $c->id) ? 'selected' : '' ?>>
+                                        <?= html_escape($c->name) ?> <?= $c->phone ? '(' . html_escape($c->phone) . ')' : '' ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0" data-bs-toggle="modal" data-bs-target="#newCustomerModal">
@@ -423,6 +427,16 @@ function calculateChange() {
 }
 
 function openPaymentModal() {
+    var customerId = document.getElementById('posCustomer').value;
+    if (!customerId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Customer Required',
+            text: 'Please select a customer before proceeding to checkout.'
+        });
+        document.getElementById('posCustomer').focus();
+        return;
+    }
     calculateTotals();
     var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
     myModal.show();
@@ -440,6 +454,14 @@ function processCheckout() {
     var grandTotal = taxable + taxAmount;
 
     var customerId = document.getElementById('posCustomer').value;
+    if (!customerId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Customer Required',
+            text: 'Please select a customer before completing payment.'
+        });
+        return;
+    }
     var appointmentId = document.getElementById('linkedAppointmentId').value;
     var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
     var tendered = parseFloat(document.getElementById('tenderedAmount').value) || grandTotal;
