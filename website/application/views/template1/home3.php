@@ -38,6 +38,8 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
     $q = !empty($params) ? ('?' . http_build_query($params)) : '';
     return website_url('service/' . $slug . $q);
 };
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
+$demo_suffix = !empty($_GET['preview_layout']) ? ' [3rd Demo]' : '';
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -45,7 +47,7 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 <head>
       <meta charset="utf-8">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>Glamr [3rd Demo] – Hairdressers and Hair Salons HTML Template</title>
+      <title><?= htmlspecialchars($biz_name . $demo_suffix) ?> – Hairdressers and Hair Salons HTML Template</title>
       <meta name="robots" content="noindex, follow">
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1029,7 +1031,7 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 								<div class="pbmit-footer-logo">
 									<img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" class="img-fluid" style="max-height: 48px; width: auto; object-fit: contain;">
 								</div>
-								<p>The Glamr is a full-service barber shop that provides specialized Beard trimming and maintenance</p>
+								<p>The <?= htmlspecialchars($biz_name) ?> is a full-service salon and wellness sanctuary that provides specialized rituals and care</p>
 								<ul class="pbmit-social-links">
 									<li class="pbmit-social-li pbmit-social-facebook">
 										<a title="Facebook" href="https://www.facebook.com/" target="_blank">
@@ -1086,7 +1088,11 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=3') ?>">codeulas</a>, All Rights Reserved.</div>
+								<?php
+								$is_prev_ft3 = !empty($_GET['preview_layout']) || !empty($_GET['preview_tpl']);
+								$ft_url3 = website_url($is_prev_ft3 ? '?preview_tpl=template1&preview_layout=3' : '');
+								?>
+								<div class="pbmit-footer-copyright-text-area"> Copyright &copy; <?= date('Y') ?> <a href="<?= $ft_url3 ?>"><?= htmlspecialchars($biz_name) ?></a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">

@@ -9,6 +9,8 @@ $site_logo = $site_logo_url;
 
 $site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
 $site_fav = $site_fav_url;
+
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -16,7 +18,7 @@ $site_fav = $site_fav_url;
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Glamr – Hairdressers and Hair Salons HTML Template</title>
+		<title><?= htmlspecialchars($biz_name) ?> – Hairdressers and Hair Salons HTML Template</title>
 		<meta name="robots" content="noindex, follow">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -318,7 +320,7 @@ $site_fav = $site_fav_url;
 									<h4 class="pbmit-subtitle"><?= htmlspecialchars(get_tpl_setting('template1', 1, 'about', 'about_tagline', 'about us')) ?></h4>
 									<h2 class="pbmit-title"><?= nl2br(get_tpl_setting('template1', 1, 'about', 'about_title', 'Team will help you achieve best result')) ?></h2>
 									<div class="pbmit-heading-desc">
-										<?= nl2br(get_tpl_setting('template1', 1, 'about', 'about_desc', "We started as a small hair salon, Glamr, in New York. Our main idea was to create the best hair salon in the world. Can there be compromises in the best salon in the world? Our answer is always no. We care about the best quality, hire specialists, and provide customer service.\n\nWhether you're here for a quick refresh or a total transformation. We’re dedicated to delivering high-end services tailored to you.")) ?>
+										<?= nl2br(get_tpl_setting('template1', 1, 'about', 'about_desc', "We started as a small hair salon, " . $biz_name . ", in New York. Our main idea was to create the best hair salon in the world. Can there be compromises in the best salon in the world? Our answer is always no. We care about the best quality, hire specialists, and provide customer service.\n\nWhether you're here for a quick refresh or a total transformation. We’re dedicated to delivering high-end services tailored to you.")) ?>
 									</div>
 								</div>
 								<div class="pt-4">
@@ -1503,7 +1505,7 @@ $site_fav = $site_fav_url;
 								<div class="pbmit-footer-logo">
 									<img src="<?= htmlspecialchars($site_logo_url) ?>?v=<?= time() ?>" alt="Logo" class="img-fluid" style="max-height: 48px; width: auto; object-fit: contain;">
 								</div>
-								<p>The Glamr is a full-service barber shop that provides specialized Beard trimming and maintenance</p>
+								<p>The <?= htmlspecialchars($biz_name) ?> is a full-service salon and wellness sanctuary that provides specialized rituals and care</p>
 								<ul class="pbmit-social-links">
 									<li class="pbmit-social-li pbmit-social-facebook">
 										<a title="Facebook" href="https://www.facebook.com/" target="_blank">
@@ -1560,7 +1562,11 @@ $site_fav = $site_fav_url;
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">codeulas</a>, All Rights Reserved.</div>
+								<?php
+								$is_prev_ft1 = !empty($_GET['preview_layout']) || !empty($_GET['preview_tpl']);
+								$ft_url1 = website_url($is_prev_ft1 ? '?preview_tpl=template1&preview_layout=1' : '');
+								?>
+								<div class="pbmit-footer-copyright-text-area"> Copyright &copy; <?= date('Y') ?> <a href="<?= $ft_url1 ?>"><?= htmlspecialchars($biz_name) ?></a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">

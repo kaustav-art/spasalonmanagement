@@ -9,6 +9,8 @@ $site_logo = $site_logo_url;
 
 $site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
 $site_fav = $site_fav_url;
+
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -16,7 +18,7 @@ $site_fav = $site_fav_url;
 <head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Glamr – Hairdressers and Hair Salons HTML Template</title>
+		<title><?= htmlspecialchars($biz_name) ?> – Hairdressers and Hair Salons HTML Template</title>
 		<meta name="robots" content="noindex, follow">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1560,7 +1562,11 @@ $site_fav = $site_fav_url;
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=1') ?>">codeulas</a>, All Rights Reserved.</div>
+								<?php
+								$is_prev_ft1 = !empty($_GET['preview_layout']) || !empty($_GET['preview_tpl']);
+								$ft_url1 = website_url($is_prev_ft1 ? '?preview_tpl=template1&preview_layout=1' : '');
+								?>
+								<div class="pbmit-footer-copyright-text-area"> Copyright &copy; <?= date('Y') ?> <a href="<?= $ft_url1 ?>"><?= htmlspecialchars($biz_name) ?></a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">

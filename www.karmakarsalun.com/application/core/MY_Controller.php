@@ -34,8 +34,9 @@ class Website_Controller extends CI_Controller {
     protected function render($view, $data = array(), $page_title = '') {
         $data['active_template'] = $this->template;
         $data['active_home_layout'] = $this->home_layout;
-        $data['page_title'] = $page_title ? $page_title : get_setting('business_name', 'Luxe Salon & Spa');
-        $data['business_name'] = get_setting('business_name', 'Luxe Salon & Serenity Spa');
+        $biz_name = get_setting('business_name', 'Codeulas');
+        $data['business_name'] = $biz_name;
+        $data['page_title'] = $page_title ? $page_title : $biz_name;
         $data['business_tagline'] = get_setting('business_tagline', 'Premium Beauty Care & Rejuvenating Spa Treatments');
         $data['business_phone'] = get_setting('business_phone', '+1 (555) 345-6789');
         $data['business_email'] = get_setting('business_email', 'contact@luxesalonspa.com');

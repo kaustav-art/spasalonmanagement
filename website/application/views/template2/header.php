@@ -8,7 +8,8 @@ $site_logo_url = function_exists('site_logo_url') ? site_logo_url() : base_url('
 $site_fav_url = function_exists('site_favicon_url') ? site_favicon_url() : base_url('uploads/branding/codeulas_logo_small.webp');
 
 $is_home = isset($is_home) ? (bool)$is_home : (empty($this->uri->segment(1)) || ($this->uri->segment(1) === 'home' && empty($this->uri->segment(2))));
-$page_title_display = isset($page_title) && !empty($page_title) ? $page_title : (isset($business_name) ? $business_name : 'Pureglow');
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
+$page_title_display = isset($page_title) && !empty($page_title) ? $page_title : $biz_name;
 $phone_cleaned = isset($business_phone) ? preg_replace('/[^0-9+]/', '', $business_phone) : '+15553456789';
 ?>
 <!DOCTYPE html>
@@ -16,7 +17,7 @@ $phone_cleaned = isset($business_phone) ? preg_replace('/[^0-9+]/', '', $busines
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?= htmlspecialchars($page_title_display) ?> - <?= htmlspecialchars($business_name ?? 'Pureglow') ?></title>
+    <title><?= htmlspecialchars($page_title_display) ?> - <?= htmlspecialchars($biz_name) ?></title>
     
     <!-- favicons Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="<?= htmlspecialchars($site_fav_url) ?>?v=<?= time() ?>" />

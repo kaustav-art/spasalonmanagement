@@ -10,9 +10,9 @@ if (!in_array($curr_layout, array(1, 2, 3))) {
     $curr_layout = 1;
 }
 
-$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Glamr';
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
 $biz_address = isset($business_address) && !empty($business_address) ? $business_address : '0665 Broadway NY, New York 10001<br> United States of America';
-$biz_tagline = isset($business_tagline) && !empty($business_tagline) ? $business_tagline : 'The Glamr is a full-service beauty and hair salon that provides specialized rituals and care';
+$biz_tagline = isset($business_tagline) && !empty($business_tagline) ? $business_tagline : ('The ' . $biz_name . ' is a full-service beauty and hair salon that provides specialized rituals and care');
 
 // Query services dynamically for footer column 1 matching current layout
 $CI =& get_instance();
@@ -124,7 +124,11 @@ if (isset($CI->db)) {
 					<div class="pbmit-footer-text-inner">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="pbmit-footer-copyright-text-area"> Copyright © 2025 <a href="<?= website_url('?preview_tpl=template1&preview_layout=' . $curr_layout) ?>">codeulas</a>, All Rights Reserved.</div>
+								<?php
+								$is_prev_ft = !empty($_GET['preview_layout']) || !empty($_GET['preview_tpl']);
+								$ft_url = website_url($is_prev_ft ? ('?preview_tpl=template1&preview_layout=' . $curr_layout) : '');
+								?>
+								<div class="pbmit-footer-copyright-text-area"> Copyright &copy; <?= date('Y') ?> <a href="<?= $ft_url ?>"><?= htmlspecialchars($biz_name) ?></a>, All Rights Reserved.</div>
 							</div>
 							<div class="col-md-6">
 								<div class="pbmit-footer-menu-area">

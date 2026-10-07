@@ -127,7 +127,7 @@ CREATE TABLE `business_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `business_settings` (`setting_key`, `setting_value`, `setting_group`) VALUES
-('business_name', 'Luxe Salon & Serenity Spa', 'general'),
+('business_name', 'Codeulas', 'general'),
 ('business_tagline', 'Premium Beauty Care & Rejuvenating Spa Treatments', 'general'),
 ('business_type', 'SALON_SPA', 'general'), -- Options: SALON, SPA, SALON_SPA
 ('active_template', 'template1', 'website'),  -- Options: template1, template2

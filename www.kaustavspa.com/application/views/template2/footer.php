@@ -126,7 +126,7 @@ $phone_cleaned = isset($business_phone) ? preg_replace('/[^0-9+]/', '', $busines
                         <div class="col-xl-12">
                             <div class="site-footer__bottom-inner">
                                 <div class="site-footer__copyright">
-                                    <p class="site-footer__copyright-text">&copy; <?= date('Y') ?> <a href="<?= website_url() ?>"><?= htmlspecialchars($business_name ?? 'Pureglow') ?></a>. All Rights Reserved.</p>
+                                    <p class="site-footer__copyright-text">&copy; <?= date('Y') ?> <a href="<?= website_url() ?>"><?= htmlspecialchars($business_name ?? 'Codeulas') ?></a>. All Rights Reserved.</p>
                                 </div>
                                 <div class="site-footer__bottom-payment-box">
                                     <ul class="list-unstyled site-footer__bottom-payment">

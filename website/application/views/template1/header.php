@@ -22,7 +22,7 @@ $contact_url = website_url('?preview_tpl=template1&preview_layout=' . $curr_layo
 $booking_url = website_url('?preview_tpl=template1&preview_layout=' . $curr_layout . '#booking');
 
 $page_title_str = isset($page_title) && !empty($page_title) ? $page_title : 'Our Services';
-$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Glamr';
+$biz_name = isset($business_name) && !empty($business_name) ? $business_name : 'Codeulas';
 $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone : '+1 (555) 345-6789';
 ?>
 <!doctype html>
