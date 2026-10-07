@@ -404,6 +404,21 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                     </div>
                                     <h2 class="section-title__title title-animation">Make an Appointment Today !</h2>
                                 </div>
+                                <?php if ($this->session->flashdata('success')): ?>
+                                    <div class="alert alert-success d-flex align-items-start gap-3 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); background-color: #1a3826; border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+                                        <i class="fas fa-check-circle fs-3 text-success mt-1"></i>
+                                        <div>
+                                            <h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
+                                            <p class="mb-0 text-white fs-14px"><?= $this->session->flashdata('success') ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($this->session->flashdata('error')): ?>
+                                    <div class="alert alert-danger d-flex align-items-center gap-2 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+                                        <i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+                                        <div class="text-white fs-14px"><?= $this->session->flashdata('error') ?></div>
+                                    </div>
+                                <?php endif; ?>
                                 <form class="contact-form-validated appointment-one__form"
                                     action="<?= website_url('booking/quick_submit') ?>" method="post">
                                     <div class="row">
@@ -480,7 +495,7 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="result"></div>
+                                    <div class="result mt-3"></div>
                                 </form>
                             </div>
                         </div>
@@ -736,3 +751,96 @@ $blog_desc = get_tpl_setting('template2', 1, 'blog_header', 'desc', 'Beautiful s
             </div>
         </section>
         <!--Blog One End-->
+
+        <!-- Online Booking Form AJAX Handler & Feedback Messages -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var bookingForm = document.querySelector('.appointment-one__form');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var resultBox = bookingForm.querySelector('.result');
+                    var submitBtn = bookingForm.querySelector('button[type="submit"]');
+                    var origBtnHtml = submitBtn.innerHTML;
+
+                    if (resultBox) resultBox.innerHTML = '';
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Booking Your Visit...';
+
+                    var formData = new FormData(bookingForm);
+                    formData.append('is_ajax', '1');
+
+                    fetch(bookingForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(function(res) {
+                        return res.json().then(function(data) {
+                            return { ok: res.ok, data: data };
+                        }).catch(function() {
+                            return res.text().then(function(text) {
+                                return { ok: res.ok, data: { message: text } };
+                            });
+                        });
+                    })
+                    .then(function(res) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = origBtnHtml;
+
+                        if (res.ok && res.data.status !== 'error') {
+                            if (resultBox) {
+                                resultBox.innerHTML = `
+                                    <div class="alert alert-success d-flex align-items-start gap-3 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); background-color: #1a3826; border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+                                        <i class="fas fa-check-circle fs-3 text-success mt-1"></i>
+                                        <div>
+                                            <h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
+                                            <p class="mb-0 text-white fs-14px">${res.data.message}</p>
+                                        </div>
+                                    </div>`;
+                                resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                            bookingForm.reset();
+                            var fpElem = document.querySelector('#datepicker');
+                            if (fpElem) {
+                                if (fpElem._flatpickr) {
+                                    fpElem._flatpickr.setDate(new Date());
+                                } else if (window.jQuery && $(fpElem).datepicker) {
+                                    $(fpElem).datepicker('setDate', new Date());
+                                }
+                            }
+                        } else {
+                            var errText = (res.data && res.data.message) ? res.data.message : 'Something went wrong. Please check your information and try again.';
+                            if (resultBox) {
+                                resultBox.innerHTML = `
+                                    <div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+                                        <i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+                                        <div class="text-white fs-14px">${errText}</div>
+                                    </div>`;
+                            }
+                        }
+                    })
+                    .catch(function(err) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = origBtnHtml;
+                        if (resultBox) {
+                            resultBox.innerHTML = `
+                                <div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+                                    <i class="fas fa-circle-exclamation fs-4 text-danger"></i>
+                                    <div class="text-white fs-14px">Network connection error. Please try again.</div>
+                                </div>`;
+                        }
+                    });
+                });
+            }
+
+            <?php if ($this->session->flashdata('success') || $this->session->flashdata('error')): ?>
+            var bookingSection = document.querySelector('.appointment-one__form-box') || document.querySelector('.appointment-one__form');
+            if (bookingSection) {
+                bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            <?php endif; ?>
+        });
+        </script>

@@ -95,6 +95,22 @@ $site_fav = $site_fav_url;
 		.flatpickr-calendar.dark .flatpickr-next-month svg {
 			fill: #d4af37 !important;
 		}
+
+		/* Flatpickr Datepicker Input */
+		input.form-control.datepicker.input,
+		input.form-control.datepicker.input.active,
+		input.form-control.datepicker[readonly],
+		.appointment-one__input-box input.form-control.datepicker {
+			background-color: #1f2227 !important;
+			opacity: 1 !important;
+			color: #ffffff !important;
+		}
+		input.form-control.datepicker.input:focus,
+		input.form-control.datepicker.input:hover {
+			background-color: #1f2227 !important;
+			opacity: 1 !important;
+			color: #ffffff !important;
+		}
 		</style>
 	</head>
 	<body>
@@ -1277,7 +1293,7 @@ $site_fav = $site_fav_url;
 									<h2 class="pbmit-title">find available <br> date for appointment</h2>
 								</div>
 								<?php if ($this->session->flashdata('success')): ?>
-									<div class="alert alert-success d-flex align-items-start gap-3 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+									<div class="alert alert-success d-flex align-items-start gap-3 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); background-color: #1a3826; border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
 										<i class="fas fa-check-circle fs-3 text-success mt-1"></i>
 										<div>
 											<h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
@@ -1286,7 +1302,7 @@ $site_fav = $site_fav_url;
 									</div>
 								<?php endif; ?>
 								<?php if ($this->session->flashdata('error')): ?>
-									<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+									<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mb-4 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
 										<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
 										<div class="text-white fs-14px"><?= $this->session->flashdata('error') ?></div>
 									</div>
@@ -1310,7 +1326,7 @@ $site_fav = $site_fav_url;
 										</div>
 										<div class="col-xl-6 col-lg-6 col-md-6 mb-3">
 											<div class="appointment-one__input-box position-relative">
-												<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required="" aria-required="true" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
+												<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required="" aria-required="true" style="background-color: #1f2227 !important; opacity: 1 !important; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
 												<i class="far fa-calendar-alt position-absolute" style="right: 18px; top: 50%; transform: translateY(-50%); color: #d4af37; pointer-events: none; font-size: 16px;"></i>
 											</div>
 										</div>
@@ -1774,7 +1790,7 @@ $site_fav = $site_fav_url;
 					if (res.ok && res.data.status !== 'error') {
 						if (resultBox) {
 							resultBox.innerHTML = `
-								<div class="alert alert-success d-flex align-items-start gap-3 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
+								<div class="alert alert-success d-flex align-items-start gap-3 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(34, 197, 94, 0.2); background-color: #1a3826; border: 1.5px solid #22c55e; color: #ffffff;" role="alert">
 									<i class="fas fa-check-circle fs-3 text-success mt-1"></i>
 									<div>
 										<h5 class="fw-bold mb-1 text-white">Booking Confirmed!</h5>
@@ -1792,7 +1808,7 @@ $site_fav = $site_fav_url;
 						var errText = (res.data && res.data.message) ? res.data.message : 'Something went wrong. Please check your information and try again.';
 						if (resultBox) {
 							resultBox.innerHTML = `
-								<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+								<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
 									<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
 									<div class="text-white fs-14px">${errText}</div>
 								</div>`;
@@ -1804,7 +1820,7 @@ $site_fav = $site_fav_url;
 					submitBtn.innerHTML = origBtnHtml;
 					if (resultBox) {
 						resultBox.innerHTML = `
-							<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
+							<div class="alert alert-danger d-flex align-items-center gap-2 p-3 mt-3 rounded-3 shadow text-start" style="background: rgba(239, 68, 68, 0.2); background-color: #3b1818; border: 1.5px solid #ef4444; color: #ffffff;" role="alert">
 								<i class="fas fa-circle-exclamation fs-4 text-danger"></i>
 								<div class="text-white fs-14px">Network connection error. Please try again.</div>
 							</div>`;

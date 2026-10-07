@@ -124,6 +124,26 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
       .flatpickr-calendar.dark .flatpickr-next-month svg {
           fill: #d4af37 !important;
       }
+
+      /* Flatpickr Datepicker Input */
+      input.form-control.datepicker.input,
+      input.form-control.datepicker.input.active,
+      input.form-control.datepicker[readonly],
+      .appointment-one__input-box input.form-control.datepicker,
+      .appointment-one__input-box input.form-control.datepicker.input,
+      .appointment-one__input-box input.form-control.datepicker.input.active,
+      .appointment-one__input-box input.form-control[readonly] {
+          background-color: #1f2227 !important;
+          opacity: 1 !important;
+          color: #ffffff !important;
+      }
+      input.form-control.datepicker.input:focus,
+      input.form-control.datepicker.input:hover,
+      input.form-control.datepicker.input.active {
+          background-color: #1f2227 !important;
+          opacity: 1 !important;
+          color: #ffffff !important;
+      }
       </style>
 
    </head>
@@ -1009,7 +1029,7 @@ $get_svc_url = function($slug_or_title) use ($tpl_services) {
 										<input type="tel" class="form-control" placeholder="Phone Number *" name="phone" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 18px; border-radius: 6px;">
 									</div>
 									<div class="col-md-6 mb-3 position-relative">
-										<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
+										<input type="text" placeholder="Select Date *" name="date" id="datepicker" class="form-control datepicker" required style="background-color: #1f2227 !important; opacity: 1 !important; border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 12px 45px 12px 18px; border-radius: 6px; cursor: pointer;">
 										<i class="far fa-calendar-alt position-absolute" style="right: 25px; top: 50%; transform: translateY(-50%); color: #d4af37; pointer-events: none; font-size: 16px;"></i>
 									</div>
 									<div class="col-md-12 mb-3">

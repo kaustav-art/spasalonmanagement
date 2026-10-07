@@ -96,6 +96,26 @@ $biz_phone = isset($business_phone) && !empty($business_phone) ? $business_phone
     .flatpickr-calendar.dark .flatpickr-next-month svg {
         fill: #d4af37 !important;
     }
+
+    /* Flatpickr Datepicker Input */
+    input.form-control.datepicker.input,
+    input.form-control.datepicker.input.active,
+    input.form-control.datepicker[readonly],
+    .appointment-one__input-box input.form-control.datepicker,
+    .appointment-one__input-box input.form-control.datepicker.input,
+    .appointment-one__input-box input.form-control.datepicker.input.active,
+    .appointment-one__input-box input.form-control[readonly] {
+        background-color: #1f2227 !important;
+        opacity: 1 !important;
+        color: #ffffff !important;
+    }
+    input.form-control.datepicker.input:focus,
+    input.form-control.datepicker.input:hover,
+    input.form-control.datepicker.input.active {
+        background-color: #1f2227 !important;
+        opacity: 1 !important;
+        color: #ffffff !important;
+    }
     </style>
 
     <?php if ($curr_layout == 2): ?>
