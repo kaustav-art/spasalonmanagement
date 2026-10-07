@@ -44,10 +44,31 @@
     </div>
 </div>
 
+<style>
+/* Prevent Manage dropdown menu from being trapped or clipped inside the table container */
+.card-appointments-wrap {
+    overflow: visible !important;
+}
+.card-appointments-wrap .card-body {
+    overflow: visible !important;
+}
+.table-responsive-visible {
+    overflow: visible !important;
+}
+@media (max-width: 991.98px) {
+    .table-responsive-visible {
+        overflow-x: auto !important;
+    }
+}
+.table td .dropdown-menu {
+    z-index: 1065 !important;
+}
+</style>
+
 <!-- Appointments Table -->
-<div class="card shadow-sm border-0">
-    <div class="card-body p-0">
-        <div class="table-responsive">
+<div class="card shadow-sm border-0 card-appointments-wrap">
+    <div class="card-body p-0" style="overflow: visible;">
+        <div class="table-responsive table-responsive-visible">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
@@ -86,7 +107,7 @@
                                 <td><?= appointment_status_badge($apt->status) ?></td>
                                 <td class="text-end pe-4">
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-boundary="body" data-bs-popper-config='{"strategy":"fixed"}' aria-expanded="false">
                                             Manage
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end shadow-sm">

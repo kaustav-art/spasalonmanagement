@@ -145,10 +145,10 @@
                 
                 <div class="d-flex align-items-center justify-content-between mb-2 fs-14px">
                     <span class="text-muted">Discount:</span>
-                    <div class="d-flex align-items-center gap-1" style="max-width: 140px;">
-                        <input type="number" id="discountInput" class="form-control form-control-sm text-end rounded-2" value="0" min="0" step="any" oninput="calculateTotals()">
-                        <select id="discountType" class="form-select form-select-sm rounded-2" onchange="calculateTotals()" style="width: 55px;">
-                            <option value="fixed"><?= html_escape(get_setting('currency_symbol', '$')) ?></option>
+                    <div class="d-flex align-items-center gap-1" style="max-width: 180px;">
+                        <input type="number" id="discountInput" class="form-control form-control-sm text-end rounded-2" value="0" min="0" step="any" oninput="calculateTotals()" style="">
+                        <select id="discountType" class="form-select form-select-sm rounded-2" onchange="calculateTotals()" style="width: 120px;color: #000;padding: 8px 12px;">
+                            <option value="fixed"><?= html_escape(get_setting('currency_symbol', '₹')) ?></option>
                             <option value="percentage">%</option>
                         </select>
                     </div>
