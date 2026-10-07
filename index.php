@@ -666,14 +666,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
             transform: translateY(-2px);
         }
 
-        /* Super Admin Banner */
-        .super-admin-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-radius: 20px;
-            padding: 3rem;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+
 
         /* Modal Styles */
         .modal-header {
@@ -1830,74 +1823,7 @@ $unified_features = isset($plans['SALON_SPA']) && $plans['SALON_SPA']->features 
         </div>
     </section>
 
-    <!-- Super Admin Hub Spotlight -->
-    <section class="py-5">
-        <div class="container">
-            <div class="super-admin-banner">
-                <div class="row align-items-center">
-                    <div class="col-lg-8">
-                        <span class="badge bg-warning text-dark fw-bold px-3 py-1 mb-3"><?php echo htmlspecialchars(site_setting('landing_spotlight_badge', 'SUPER ADMIN CONTROL')); ?></span>
-                        <h2 class="display-6 fw-bold font-serif text-white mb-3"><?php echo htmlspecialchars(site_setting('landing_spotlight_title', 'Built-in Marketplace & License Server')); ?></h2>
-                        <p class="text-light mb-4 lead" style="font-size: 1.05rem;">
-                            <?php echo htmlspecialchars(site_setting('landing_spotlight_lead', 'As the script owner, you have full governance over customer purchases, commercial license generations, pricing card customizations, and download quotas.')); ?>
-                        </p>
-                        <div class="row g-3 text-start mb-4">
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-chart-line text-warning fa-lg me-2"></i>
-                                    <span><?php echo htmlspecialchars(site_setting('landing_spotlight_f1', 'Real-time Revenue & Order Analytics')); ?></span>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-edit text-warning fa-lg me-2"></i>
-                                    <span><?php echo htmlspecialchars(site_setting('landing_spotlight_f2', 'Live Purchase Card Price & Feature Editor')); ?></span>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-key text-warning fa-lg me-2"></i>
-                                    <span><?php echo htmlspecialchars(site_setting('landing_spotlight_f3', 'Instant Commercial License Key Issuer')); ?></span>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-download text-warning fa-lg me-2"></i>
-                                    <span><?php echo htmlspecialchars(site_setting('landing_spotlight_f4', 'Secure Download Tokens & Quotas')); ?></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="superadmin/" target="_blank" class="btn btn-gold fw-bold">
-                                <i class="fa fa-tachometer-alt me-1"></i> Open Super Admin Dashboard
-                            </a>
-                            <a href="superadmin/?page=orders" target="_blank" class="btn btn-outline-light fw-bold">
-                                <i class="fa fa-list me-1"></i> View Script Orders
-                            </a>
-                            <a href="superadmin/?page=licenses" target="_blank" class="btn btn-outline-light fw-bold">
-                                <i class="fa fa-key me-1"></i> Manage License Keys
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 text-center mt-4 mt-lg-0">
-                        <div class="p-3 bg-dark rounded-4 border border-secondary">
-                            <i class="fa-solid fa-shield-halved fa-3x text-warning mb-2"></i>
-                            <div class="fw-bold text-white">Super Admin Access</div>
-                            <div class="small text-muted mb-3">Dedicated Software Vendor Portal</div>
-                            <div class="bg-black p-2 rounded text-start font-monospace small mb-3">
-                                <div class="text-light"><span class="text-muted">URL:</span> <?php echo htmlspecialchars(site_setting('landing_spotlight_demo_url', '/superadmin/')); ?></div>
-                                <div class="text-light"><span class="text-muted">User:</span> <?php echo htmlspecialchars(site_setting('landing_spotlight_demo_user', 'superadmin@spasalon.com')); ?></div>
-                                <div class="text-light"><span class="text-muted">Pass:</span> <?php echo htmlspecialchars(site_setting('landing_spotlight_demo_pass', 'admin123')); ?></div>
-                            </div>
-                            <a href="superadmin/" target="_blank" class="btn btn-sm btn-outline-warning w-100">
-                                <i class="fa fa-sign-in-alt me-1"></i> Super Admin Login
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Testimonials / Client Stories -->
     <section id="reviews" class="py-5 bg-light border-top">
